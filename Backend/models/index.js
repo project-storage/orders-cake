@@ -35,6 +35,8 @@ db.user = require('./userModels')(sequelize, DataTypes)
 db.oders = require('./orderModels')(sequelize, DataTypes)
 db.student = require('./studentModels')(sequelize, DataTypes)
 db.teacher = require('./teacherModels')(sequelize, DataTypes)
+db.department = require('./DepartmentModels')(sequelize,DataTypes)
+db.yearlavel = require('./YearLavellModels')(sequelize,DataTypes)
 
 db.sequelize.sync({ alter: true })
     .then(() => {

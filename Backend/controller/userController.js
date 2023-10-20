@@ -10,6 +10,31 @@ const Teacher = db.teacher
 require('dotenv').config({ path: './configt.env' })
 const axios = require('axios')
 
+// create super admin
+const createSuperAdminUser = async (req, res) => {
+  const { name, surname, username, password } = req.body
+
+  // hash the password
+  const hashedPassword = await bcrypt.hash(password, saltRounds)
+
+  // create the admin user
+  const newAdminUser = new User({
+    name,
+    surname,
+    username,
+    password: hashedPassword,
+    role: 'superAdmin'
+  })
+
+  try {
+    await newAdminUser.save()
+    return res.json({ message: 'สร้างซุปเปอร์แอดมินสำเร็จ' })
+  } catch (error) {
+    console.error(error)
+    return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการสร้างแอดมิน' })
+  }
+}
+
 // create admin
 const createAdminUser = async (req, res) => {
   const { name, surname, username, password } = req.body
@@ -371,6 +396,7 @@ const createTeacher = async (req, res) => {
 }
 
 module.exports = {
+  createSuperAdminUser,
   createAdminUser,
   registerUser,
   loginUser,
