@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: true
         },
         role: {
-            type: DataTypes.ENUM('admin', 'DepatMoney', 'DepatCake'),
+            type: DataTypes.ENUM('superAdmin','admin', 'DepatMoney', 'DepatCake'),
             allowNull: true
         }
     })
