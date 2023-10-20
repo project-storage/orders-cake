@@ -77,7 +77,7 @@ const registerUser = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, saltRounds)
 
-    if (req.user.role === 'admin') {
+    if (req.user.role === 'admin' || req.user.role === 'superAdmin') {
       if (role === 'DepatMoney' || role === 'DepatCake') {
         const newUser = new User({
           name,
@@ -198,10 +198,9 @@ const getUserInfo = async (req, res) => {
 // get all user
 const getAllUser = async (req, res) => {
   try {
-    if (req.user.role !== 'admin') {
+    if (req.user.role === 'admin' || req.user.role === 'superAdmin') {
       return res.status(401).json({ message: 'Unauthorized' })
     }
-
     // ค้นหาผู้ใช้ทั้งหมดจากฐานข้อมูล
     const users = await User.findAll()
 
@@ -217,7 +216,7 @@ const getAllUser = async (req, res) => {
 // search users
 const getUserWithAllParams = async (req, res) => {
   try {
-    if (req.user.role !== 'admin') {
+    if (req.user.role === 'admin' || req.user.role === 'superAdmin') {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
@@ -259,11 +258,12 @@ const updateUser = async (req, res) => {
     const { name, surname, username, email, password, telephone } = req.body
     let user
 
-    if (req.user.role !== 'admin') {
+    if (req.user.role === 'admin' || req.user.role === 'superAdmin') {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
     if (
+      req.user.role === 'superAdmin' ||
       req.user.role === 'admin' ||
       req.user.role === 'DepatMoney' ||
       req.user.role === 'DepatCake'
@@ -323,7 +323,7 @@ const updateUser = async (req, res) => {
 // delete user
 const deleteUser = async (req, res) => {
   try {
-    if (req.user.role !== 'admin') {
+    if (req.user.role === 'admin' || req.user.role === 'superAdmin') {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
