@@ -5,23 +5,25 @@ require('./auth/passport')
 
 const app = express()
 
-var corsOption = {
+const corsOptions = {
   origin: '*',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE'
 }
 
-// middleware
-app.use(cors(corsOption))
+// Middleware
+app.use(cors(corsOptions))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-// routers
+// Routers
 const userRouter = require('./routers/userRoutes')
+const departmentRouter = require('./routers/DepartmentRoutes')
 
-// api
+// API Routes
 app.use('/api/user', userRouter)
+app.use('/api/department',departmentRouter)
 
-// test api
+// Test Routes
 app.get('/api', (req, res) => {
   res.send('Hello from backend')
 })
@@ -30,9 +32,9 @@ app.get('/api/user-test', (req, res) => {
   res.send('Hello User')
 })
 
-// port
+// Port
 const PORT = process.env.PORT || 8080
 
 app.listen(PORT, () => {
-  console.log(`server is running on port ${PORT}`)
+  console.log(`Server is running on port ${PORT}`)
 })

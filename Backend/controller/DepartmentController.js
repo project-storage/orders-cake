@@ -1,10 +1,11 @@
-const db = require('./models')
+const db = require('../models')
 const Department = db.department
 
 // create department
 const createDepartment = async (req, res) => {
   try {
-    if (req.user.role === 'admin' || req.user.role === 'superAdmin') {
+    // ตรวจสอบบทบาทของผู้ใช้
+    if (req.user.role !== 'admin' && req.user.role !== 'superAdmin') {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
@@ -15,24 +16,19 @@ const createDepartment = async (req, res) => {
     }
 
     const alreadyExistsDepartment = await Department.findOne({
-      where: { depart_name }
-    }).catch(error => {
-      console.error('Error', error)
+      where: { department_name: depart_name }
     })
 
     if (alreadyExistsDepartment) {
-      return res.status(402).json({ message: 'มีแผนกอยู่แล้ว' })
+      return res.status(409).json({ message: 'มีแผนกอยู่แล้ว' })
     }
 
-    const newDepartment = new Department({ depart_name })
-    const saveDepartment = await newDepartment.save().catch(error => {
-      console.error('Error', error)
-      res.status(403).json({ message: 'ไม่สามารถสร้าง แผนก ได้ในขณะนี้!' })
-    })
+    const newDepartment = new Department({ department_name: depart_name })
+    const savedDepartment = await newDepartment.save()
 
-    if (saveDepartment) {
-      return res.status(200).json({ message: 'สร้างแผนกสำเร็จ' })
-    }
+    return res
+      .status(200)
+      .json({ message: 'สร้างแผนกสำเร็จ', แผนก: savedDepartment })
   } catch (error) {
     console.error(error)
     return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการสร้างแผนก' })
@@ -42,7 +38,8 @@ const createDepartment = async (req, res) => {
 // info department
 const getInfoDepartment = async (req, res) => {
   try {
-    if (req.user.role === 'admin' || req.user.role === 'superAdmin') {
+    // ตรวจสอบบทบาทของผู้ใช้
+    if (req.user.role !== 'admin' && req.user.role !== 'superAdmin') {
       return res.status(401).json({ message: 'Unauthorized' })
     }
   } catch (error) {}
@@ -50,22 +47,24 @@ const getInfoDepartment = async (req, res) => {
 
 // all department
 const getAllDepartment = async (req, res) => {
-    try {
-        if (req.user.role === 'admin' || req.user.role === 'superAdmin') {
-            return res.status(401).json({ message: 'Unauthorized' })
-        }
-
-        const department = await Department.findAll()
-        return res.json(department)
-    } catch (error) {
-        return res.status(500).json({ message: "เกิดข้อผิดพลาดในการดึงข้อมูลแผนก" })
+  try {
+    // ตรวจสอบบทบาทของผู้ใช้
+    if (req.user.role !== 'admin' && req.user.role !== 'superAdmin') {
+      return res.status(401).json({ message: 'Unauthorized' })
     }
+
+    const department = await Department.findAll()
+    return res.json(department)
+  } catch (error) {
+    return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการดึงข้อมูลแผนก' })
+  }
 }
 
 // search department
 const getDepartmentWithAllParams = async (req, res) => {
   try {
-    if (req.user.role === 'admin' || req.user.role === 'superAdmin') {
+    // ตรวจสอบบทบาทของผู้ใช้
+    if (req.user.role !== 'admin' && req.user.role !== 'superAdmin') {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
@@ -98,7 +97,8 @@ const updateDepartment = async (req, res) => {
       return res.status(404).json({ message: 'ไม่พบข้อมูลแผนก' })
     }
 
-    if (req.user.role === 'admin' || req.user.role === 'superAdmin') {
+    // ตรวจสอบบทบาทของผู้ใช้
+    if (req.user.role !== 'admin' && req.user.role !== 'superAdmin') {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
@@ -122,7 +122,8 @@ const updateDepartment = async (req, res) => {
 // delete department
 const deleteDepartment = async (req, res) => {
   try {
-    if (req.user.role === 'admin' || req.user.role === 'superAdmin') {
+    // ตรวจสอบบทบาทของผู้ใช้
+    if (req.user.role !== 'admin' && req.user.role !== 'superAdmin') {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
