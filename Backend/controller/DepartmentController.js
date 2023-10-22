@@ -9,21 +9,21 @@ const createDepartment = async (req, res) => {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
-    const { depart_name } = req.body
+    const { department_name } = req.body
 
-    if (!depart_name) {
+    if (!department_name) {
       return res.status(400).json({ message: 'กรุณากรอกข้อมูลในช่องแผนก' })
     }
 
     const alreadyExistsDepartment = await Department.findOne({
-      where: { department_name: depart_name }
+      where: { department_name: department_name }
     })
 
     if (alreadyExistsDepartment) {
       return res.status(409).json({ message: 'มีแผนกอยู่แล้ว' })
     }
 
-    const newDepartment = new Department({ department_name: depart_name })
+    const newDepartment = new Department({ department_name: department_name })
     const savedDepartment = await newDepartment.save()
 
     return res
@@ -42,6 +42,11 @@ const getInfoDepartment = async (req, res) => {
     if (req.user.role !== 'admin' && req.user.role !== 'superAdmin') {
       return res.status(401).json({ message: 'Unauthorized' })
     }
+
+    const department = await Department.findAll({
+      where: { id: req.params.id }
+    })
+    return res.status(200).json({ department })
   } catch (error) {}
 }
 
@@ -68,14 +73,14 @@ const getDepartmentWithAllParams = async (req, res) => {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
-    const { id, depart_name } = req.query
+    const { id, department_name } = req.query
 
     const whereClause = {}
     if (id) {
       whereClause.id = id
     }
-    if (depart_name) {
-      whereClause.depart_name = depart_name
+    if (department_name) {
+      whereClause.department_name = department_name
     }
 
     const department = await Department.findAll({ where: whereClause })
@@ -88,30 +93,33 @@ const getDepartmentWithAllParams = async (req, res) => {
 // update department
 const updateDepartment = async (req, res) => {
   try {
-    const { depart_name } = req.body
-    const department = await Department.findOne({
-      where: { id: req.params.id }
-    })
-
-    if (!department) {
-      return res.status(404).json({ message: 'ไม่พบข้อมูลแผนก' })
-    }
-
     // ตรวจสอบบทบาทของผู้ใช้
     if (req.user.role !== 'admin' && req.user.role !== 'superAdmin') {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
-    department.depart_name = depart_name || department.depart_name
+    const { id, department_name } = req.body
 
-    updatedDepartment = await department.save()
-    if (!updatedDepartment) {
-      return res
-        .status(400)
-        .json({ message: 'เกิดข้อผิดพลาดในการอัปเดตข้อมูลแผนก' })
+    const department = await Department.findOne({
+      where: { id: req.params.id }
+    })
+
+    if (!department) {
+      return res.status(404).json({ message: 'ไม่พบแผนก' })
     }
 
-    return res.status(200).json({ message: 'อัปเดตข้อมูลแผนกเรียบร้อยแล้ว' })
+    department.department_name = department_name || department.department_name
+
+    const updatedDepartment = await department.save()
+
+    if (!updatedDepartment) {
+      return res.status(400).json({ message: 'ข้อผิดพลาดในการอัปเดตแผนก' })
+    }
+    console.log(updatedDepartment)
+    return res.status(200).json({
+      message: 'แผนกอัปเดตเรียบร้อยแล้ว!',
+      updatedDepartment: updatedDepartment
+    })
   } catch (error) {
     return res
       .status(500)
@@ -135,12 +143,15 @@ const deleteDepartment = async (req, res) => {
       return res.status(404).json({ message: 'ไม่พบแผนก' })
     }
 
-    const deleteDepartment = await Department.destroy()
+    const deleteDepartment = await Department.destroy({
+      where: { id: req.params.id }
+    })
+
     if (!deleteDepartment) {
       return res.status(400).json({ message: 'เกิดข้อผิดพลาดในการลบแผนก' })
     }
 
-    return res.json(200).json({ message: 'ลบแผนกสำเร็จ' })
+    return res.status(200).json({ message: 'ลบแผนกสำเร็จ' })
   } catch (error) {
     console.error(error)
     return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการลบแผนก' })
