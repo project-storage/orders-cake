@@ -4,6 +4,7 @@ const passport = require('passport')
 
 // method post
 userRouter.post('/create-admin', userController.createAdminUser)
+userRouter.post('/create-superAdmin', userController.createSuperAdminUser)
 userRouter.post('/login', userController.loginUser)
 userRouter.post(
   '/register',
@@ -28,6 +29,11 @@ userRouter.get(
   '/all-user',
   passport.authenticate('jwt', { session: false }),
   userController.getAllUser
+)
+userRouter.get(
+  '/user-info',
+  passport.authenticate('jwt', { session: false }),
+  userController.getUserInfo
 )
 
 // method delete

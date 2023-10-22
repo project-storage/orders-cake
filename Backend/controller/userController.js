@@ -141,15 +141,13 @@ const loginUser = async (req, res) => {
         username: userWithIdentifier.username,
         role: userWithIdentifier.role
       },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: '1h' // ตั้งเวลาในการหมดอายุของโทเคน
-      }
+      process.env.JWT_SECRET
     )
 
     return res.json({
       message: 'ยินดีต้อนรับ',
       username: username,
+      role: userWithIdentifier.role,
       token: jwtToken
     })
   } catch (error) {
@@ -161,32 +159,14 @@ const loginUser = async (req, res) => {
 // get user info
 const getUserInfo = async (req, res) => {
   try {
-    // ตรวจสอบการตรวจสอบของผู้ใช้จากการยืนยัน Token
-    const token = req.headers.authorization
-    if (token) {
-      return res.status(401).json({ message: 'ไม่พบ Token' })
+    // ตรวจสอบบทบาทของผู้ใช้
+    if (req.user.role !== 'admin' && req.user.role !== 'superAdmin') {
+      return res.status(401).json({ message: 'Unauthorized' })
     }
 
-    jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
-      if (err) {
-        return res.status(401).json({ message: 'Token ไม่ถูกต้อง' })
-      }
+    const user = await User.findOne({ where: { id: req.user.id } })
 
-      const user = await User.findByPk(decoded.id)
-      if (!user) {
-        return res.status(404).json({ message: 'ไม่พบข้อมูลผู้ใช้งาน' })
-      }
-
-      // ส่งข้อมูลผู้ใช้งานกลับ
-      res.json({
-        id: user.id,
-        name: user.name,
-        surname: user.surname,
-        username: user.username,
-        email: user.email,
-        role: user.role
-      })
-    })
+    return res.json({ user })
   } catch (error) {
     console.error(error)
     return res
@@ -198,9 +178,11 @@ const getUserInfo = async (req, res) => {
 // get all user
 const getAllUser = async (req, res) => {
   try {
-    if (req.user.role === 'admin' || req.user.role === 'superAdmin') {
+    // ตรวจสอบบทบาทของผู้ใช้
+    if (req.user.role !== 'admin' && req.user.role !== 'superAdmin') {
       return res.status(401).json({ message: 'Unauthorized' })
     }
+
     // ค้นหาผู้ใช้ทั้งหมดจากฐานข้อมูล
     const users = await User.findAll()
 
@@ -216,7 +198,8 @@ const getAllUser = async (req, res) => {
 // search users
 const getUserWithAllParams = async (req, res) => {
   try {
-    if (req.user.role === 'admin' || req.user.role === 'superAdmin') {
+    // ตรวจสอบบทบาทของผู้ใช้
+    if (req.user.role !== 'admin' && req.user.role !== 'superAdmin') {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
@@ -243,6 +226,9 @@ const getUserWithAllParams = async (req, res) => {
 
     // ทำคำสั่งค้นหาในฐานข้อมูล
     const users = await User.findAll({ where: whereClause })
+    if (users.length === 0) {
+      return res.status(405).json({ message: 'ไม่พบข้อมูลผู้ใช้งาน' })
+    }
     return res.json(users)
   } catch (error) {
     console.error(error)
@@ -258,7 +244,8 @@ const updateUser = async (req, res) => {
     const { name, surname, username, email, password, telephone } = req.body
     let user
 
-    if (req.user.role === 'admin' || req.user.role === 'superAdmin') {
+    // ตรวจสอบบทบาทของผู้ใช้
+    if (req.user.role !== 'admin' && req.user.role !== 'superAdmin') {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
@@ -323,7 +310,8 @@ const updateUser = async (req, res) => {
 // delete user
 const deleteUser = async (req, res) => {
   try {
-    if (req.user.role === 'admin' || req.user.role === 'superAdmin') {
+    // ตรวจสอบบทบาทของผู้ใช้
+    if (req.user.role !== 'admin' && req.user.role !== 'superAdmin') {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
