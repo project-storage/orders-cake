@@ -47,7 +47,9 @@ const getInfoDepartment = async (req, res) => {
       where: { id: req.params.id }
     })
     return res.status(200).json({ department })
-  } catch (error) {}
+  } catch (error) {
+    return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการดึงข้อมูลแผนก' })
+  }
 }
 
 // all department
