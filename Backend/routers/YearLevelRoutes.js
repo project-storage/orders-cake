@@ -59,3 +59,5 @@ YearlevelRouter.put(
     YearlevelController.deleteYearlevel
   )
 )
+
+module.exports = YearlevelRouter
