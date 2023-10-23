@@ -86,7 +86,11 @@ const getDepartmentWithAllParams = async (req, res) => {
     }
 
     const department = await Department.findAll({ where: whereClause })
-    return res.json(department)
+    if (department.length === 0) {
+      return res.status(404).json({ message: 'ไม่พบข้อมูล' })
+    }
+
+    return res.status(200).json(department)
   } catch (error) {
     return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการดึงข้อมูลแผนก' })
   }
