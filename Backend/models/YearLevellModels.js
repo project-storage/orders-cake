@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-    const YearLavel = sequelize.define("yearlavel", {
-        lavel_name: {
+    const Yearlevel = sequelize.define("yearlevel", {
+        level_name: {
             type: DataTypes.STRING(100),
             allowNull: false
         },
@@ -10,5 +10,5 @@ module.exports = (sequelize, DataTypes) => {
         },
     })
 
-    return YearLavel
+    return Yearlevel
 }

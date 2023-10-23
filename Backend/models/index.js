@@ -34,14 +34,14 @@ db.oders = require('./orderModels')(sequelize, DataTypes)
 db.student = require('./studentModels')(sequelize, DataTypes)
 db.teacher = require('./teacherModels')(sequelize, DataTypes)
 db.department = require('./DepartmentModels')(sequelize, DataTypes)
-db.yearlavel = require('./YearLavellModels')(sequelize, DataTypes)
+db.yearlevel = require('./YearLevellModels')(sequelize, DataTypes)
 
 // one to many
-db.department.hasMany(db.yearlavel, {
+db.department.hasMany(db.yearlevel, {
   foreignKey: 'depart_id',
-  as: 'yearlavels'
+  as: 'yearlevels'
 })
-db.yearlavel.belongsTo(db.department, {
+db.yearlevel.belongsTo(db.department, {
   foreignKey: 'depart_id',
   as: 'departments'
 })

@@ -18,10 +18,12 @@ app.use(express.urlencoded({ extended: true }))
 // Routers
 const userRouter = require('./routers/userRoutes')
 const departmentRouter = require('./routers/DepartmentRoutes')
+const YearlevelRouter = require('./routers/YearLevelRoutes')
 
 // API Routes
 app.use('/api/user', userRouter)
-app.use('/api/department',departmentRouter)
+app.use('/api/department', departmentRouter)
+app.use('/api/yearlevel', YearlevelRouter)
 
 // Test Routes
 app.get('/api', (req, res) => {
