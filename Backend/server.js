@@ -23,7 +23,7 @@ const YearlevelRouter = require('./routers/YearLevelRoutes')
 // API Routes
 app.use('/api/user', userRouter)
 app.use('/api/department', departmentRouter)
-app.use('/api/yearlevel', YearlevelRouter)
+app.use('/api/year-level', YearlevelRouter)
 
 // Test Routes
 app.get('/api', (req, res) => {

@@ -95,16 +95,16 @@ const getAllYearlevelWithAllParans = async (req, res) => {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
-    const { id, level_name, depart_id } = req.body
+    const { id, level_name, depart_id } = req.query // เปลี่ยนจาก req.body เป็น req.query
 
     const whereClause = {}
-    if (!id) {
+    if (id) {
       whereClause.id = id
     }
-    if (!level_name) {
+    if (level_name) {
       whereClause.level_name = level_name
     }
-    if (!id) {
+    if (depart_id) {
       whereClause.depart_id = depart_id
     }
 
@@ -112,6 +112,7 @@ const getAllYearlevelWithAllParans = async (req, res) => {
       where: whereClause,
       include: { model: Department, as: 'departments' }
     })
+
     if (yearlevel.length === 0) {
       return res.status(404).json({ message: 'ไม่พบข้อมูล' })
     }
@@ -144,14 +145,14 @@ const updateYearlevel = async (req, res) => {
     yearlevel.level_name = level_name || yearlevel.level_name
     yearlevel.depart_id = depart_id || yearlevel.depart_id
 
-    const updatedYearlevel = await Yearlevel.save()
+    const updatedYearlevel = await yearlevel.save()
     if (!updatedYearlevel) {
       return res.status(400).json({ message: 'ข้อผิดพลาดในการอัปเดตแผนก' })
     }
 
     return res.status(200).json({
       message: 'ระดับการศึกษาอัปเดตเรียบร้อยแล้ว',
-      ระดับการศึกษา: updateYearlevel
+      ระดับการศึกษา: updatedYearlevel
     })
   } catch (error) {
     return res
@@ -172,7 +173,7 @@ const deleteYearlevel = async (req, res) => {
       return res.status(404).json({ message: 'ไม่พบระดับการศึกษา' })
     }
 
-    const deleteYearlevel = await Yearlevel.destroy()
+    const deleteYearlevel = await yearlevel.destroy()
     if (!deleteYearlevel) {
       return res
         .status(400)
