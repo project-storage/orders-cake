@@ -25,7 +25,7 @@ const TeacherRouter = require('./routers/teacherRoutes')
 app.use('/api/user', userRouter)
 app.use('/api/department', departmentRouter)
 app.use('/api/year-level', YearlevelRouter)
-app.use('/api/teahcer',TeacherRouter)
+app.use('/api/teahcer', TeacherRouter)
 
 // Test Routes
 app.get('/api', (req, res) => {

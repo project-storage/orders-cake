@@ -5,7 +5,6 @@ const bcrypt = require('bcrypt')
 const saltRounds = 10
 
 const User = db.user
-const Teacher = db.teacher
 
 require('dotenv').config({ path: './configt.env' })
 const axios = require('axios')
@@ -332,57 +331,6 @@ const deleteUser = async (req, res) => {
   }
 }
 
-// create teacher
-const createTeacher = async (req, res) => {
-  const {
-    teac_name,
-    teac_surname,
-    teac_telephone,
-    teac_email,
-    teac_username,
-    teac_password,
-    role
-  } = req.body
-
-  try {
-    const alreadyExistsEmail = await Teacher.findOne({ where: { teac_email } })
-    const alreadyExistsUsername = await Teacher.findOne({
-      where: { teac_username }
-    })
-
-    if (alreadyExistsEmail) {
-      return res.json({ message: 'มีอีเมลล์นี้อยู่แล้ว' })
-    }
-    if (alreadyExistsUsername) {
-      return res.json({ message: 'มีชื่อผู้ใช้งานนี้อยู่แล้ว' })
-    }
-
-    const hashedPassword = await bcrypt.hash(teac_password, saltRounds)
-
-    if (req.user.role === 'admin') {
-      if (role === 'teacher') {
-        const newTeacher = new Teac({
-          name: teac_name,
-          surname: teac_surname,
-          telephone: teac_telephone,
-          email: teac_email,
-          username: teac_username,
-          password: hashedPassword,
-          role
-        })
-
-        await newTeacher.save()
-        return res.json({ message: 'สร้างผู้ใช้งานสำเร็จ' })
-      }
-    } else {
-      return res.json({ message: 'คุณไม่มีสิทธิ์สร้างผู้ใช้งาน' })
-    }
-  } catch (error) {
-    console.error(error)
-    return res.json({ message: 'เกิดข้อผิดพลาดในการสร้างผู้ใช้งาน' })
-  }
-}
-
 module.exports = {
   createSuperAdminUser,
   createAdminUser,
@@ -392,6 +340,5 @@ module.exports = {
   getAllUser,
   getUserWithAllParams,
   updateUser,
-  deleteUser,
-  createTeacher
+  deleteUser
 }

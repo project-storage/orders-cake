@@ -47,13 +47,13 @@ db.yearlevel.belongsTo(db.department, {
 })
 
 // one to many teacher and year level
-db.yearlevel.hasMany(db.teacher,{
+db.yearlevel.hasMany(db.teacher, {
   foreignKey: 'yearlevel_id',
-  as:'teachers'
+  as: 'teachers'
 })
-db.teacher.belongsTo(db.yearlevel,{
-  foreignKey:'yearlevel_id',
-  as:'yearlevels'
+db.teacher.belongsTo(db.yearlevel, {
+  foreignKey: 'yearlevel_id',
+  as: 'yearlevels'
 })
 
 db.sequelize.sync({ alter: true }).then(() => {

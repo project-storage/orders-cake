@@ -6,4 +6,4 @@ const passport = require('passport')
 TeacherRouter.post('/create-teacher', TeacherController.createTeacher)
 TeacherRouter.post('/login-teacher', TeacherController.loginTeacher)
 
-module.exports = TeacherRouter;
+module.exports = TeacherRouter
