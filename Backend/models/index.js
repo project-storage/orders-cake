@@ -36,7 +36,7 @@ db.teacher = require('./teacherModels')(sequelize, DataTypes)
 db.department = require('./DepartmentModels')(sequelize, DataTypes)
 db.yearlevel = require('./YearLevellModels')(sequelize, DataTypes)
 
-// one to many
+// one to many year level and department
 db.department.hasMany(db.yearlevel, {
   foreignKey: 'depart_id',
   as: 'yearlevels'
@@ -44,6 +44,16 @@ db.department.hasMany(db.yearlevel, {
 db.yearlevel.belongsTo(db.department, {
   foreignKey: 'depart_id',
   as: 'departments'
+})
+
+// one to many teacher and year level
+db.yearlevel.hasMany(db.teacher,{
+  foreignKey: 'yearlevel_id',
+  as:'teachers'
+})
+db.teacher.belongsTo(db.yearlevel,{
+  foreignKey:'yearlevel_id',
+  as:'yearlevels'
 })
 
 db.sequelize.sync({ alter: true }).then(() => {
