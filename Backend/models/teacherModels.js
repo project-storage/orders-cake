@@ -31,6 +31,14 @@ module.exports = (sequelize, DataTypes) => {
         yearlevel_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
+        },
+        yearlevel_id2: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        yearlevel_id3: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
         }
     })
 
