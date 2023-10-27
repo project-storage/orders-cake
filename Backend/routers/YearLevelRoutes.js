@@ -8,24 +8,15 @@ YearlevelRouter.get(
   passport.authenticate('jwt', { session: false }),
   YearlevelController.getAllYearlevel
 )
-
 YearlevelRouter.get(
   '/info-yearlevel/:id',
   passport.authenticate('jwt', { session: false }),
   YearlevelController.getInfoYearlevel
 )
-
 YearlevelRouter.get(
   '/search-yearlevel',
   passport.authenticate('jwt', { session: false }),
   YearlevelController.getAllYearlevelWithAllParans
-)
-
-// method post
-YearlevelRouter.post(
-  '/create-yearlevel',
-  passport.authenticate('jwt', { session: false }),
-  YearlevelController.createYearlevel
 )
 
 // method put
@@ -33,6 +24,13 @@ YearlevelRouter.put(
   '/update-yearlevel/:id',
   passport.authenticate('jwt', { session: false }),
   YearlevelController.updateYearlevel
+)
+
+// method post
+YearlevelRouter.post(
+  '/create-yearlevel',
+  passport.authenticate('jwt', { session: false }),
+  YearlevelController.createYearlevel
 )
 
 // method delete

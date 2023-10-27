@@ -2,23 +2,6 @@ const userController = require('../controller/userController')
 const userRouter = require('express').Router()
 const passport = require('passport')
 
-// method post
-userRouter.post('/create-admin', userController.createAdminUser)
-userRouter.post('/create-superAdmin', userController.createSuperAdminUser)
-userRouter.post('/login', userController.loginUser)
-userRouter.post(
-  '/register',
-  passport.authenticate('jwt', { session: false }),
-  userController.registerUser
-)
-
-// method put
-userRouter.put(
-  '/update-users/:id',
-  passport.authenticate('jwt', { session: false }),
-  userController.updateUser
-)
-
 // method get
 userRouter.get(
   '/search-users',
@@ -34,6 +17,23 @@ userRouter.get(
   '/user-info',
   passport.authenticate('jwt', { session: false }),
   userController.getUserInfo
+)
+
+// method put
+userRouter.put(
+  '/update-users/:id',
+  passport.authenticate('jwt', { session: false }),
+  userController.updateUser
+)
+
+// method post
+userRouter.post('/create-admin', userController.createAdminUser)
+userRouter.post('/create-superAdmin', userController.createSuperAdminUser)
+userRouter.post('/login', userController.loginUser)
+userRouter.post(
+  '/register',
+  passport.authenticate('jwt', { session: false }),
+  userController.registerUser
 )
 
 // method delete
