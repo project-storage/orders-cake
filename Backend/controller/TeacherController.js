@@ -307,7 +307,7 @@ const deleteTeacher = async (req, res) => {
     console.error(error)
     return res
       .status(500)
-      .json({ message: 'เกิดข้อผิดพลาดในการลบครูที่ปรึกษา' })
+      .json({ message: 'เกิดข้อผิดพลาดในการลบครูที่ปรึษา' })
   }
 }
 
