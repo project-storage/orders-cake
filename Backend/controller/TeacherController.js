@@ -8,7 +8,7 @@ const YearLevel = db.yearlevel
 
 require('dotenv').config({ path: './config.env' })
 
-// create teahcer
+// register teahcer
 const createTeahcer = async (req, res) => {
   const {
     teac_name,
@@ -22,8 +22,19 @@ const createTeahcer = async (req, res) => {
     yearlevel_id3
   } = req.body
 
-  const hashedPassword = await bcrypt.hash(teac_password, saltRounds)
   try {
+    const alreadyExistsEmail = await Teacher.findOne({ where: { teac_email } })
+    const alreadyExistsUsername = await Teacher.findOne({ where: { teac_username } })
+
+    if (alreadyExistsEmail) {
+      return res.json({ message: 'มีอีเมลล์นี้อยู่แล้ว' })
+    }
+    if (alreadyExistsUsername) {
+      return res.json({ message: 'มีชื่อผู้ใช้งานนี้อยู่แล้ว' })
+    }
+
+    const hashedPassword = await bcrypt.hash(teac_password, saltRounds)
+
     const newTeacher = new Teacher({
       teac_name,
       teac_surname,
@@ -45,4 +56,11 @@ const createTeahcer = async (req, res) => {
       .status(500)
       .json({ message: 'เกิดข้อผิดพลาดในการสร้างครูที่ปรึกษาสำเร็จ' })
   }
+}
+
+// login teacher
+const loginTeacher = async (req, res) => {}
+
+module.exports={
+    createTeahcer
 }
