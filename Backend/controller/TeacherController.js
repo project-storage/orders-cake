@@ -120,7 +120,6 @@ module.exports = {
 // All Teacher
 const getAllTeacher = async (req, res) => {
   try {
-    // ตรวจสอบบทบาทของผู้ใช้
     if (req.user.role !== 'admin' && req.user.role !== 'superAdmin') {
       return res.status(401).json({ message: 'Unauthorized' })
     }
@@ -140,18 +139,23 @@ const getAllTeacher = async (req, res) => {
 // info teacher
 const getInfoTeacher = async (req, res) => {
   try {
-    // ตรวจสอบบทบาทของผู้ใช้
-    if (req.user.role !== 'admin' && req.user.role !== 'superAdmin') {
+    if (req.teacher && req.teacher.role !== 'teacher') {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
-    const teacher = await Teacher.findAll({
-      where: { id: req.params.id },
+    // ใช้ req.teacher.id เพื่อดึงค่า id ของ teacher
+    const teacher = await Teacher.findOne({
+      where: { id: req.teacher.id },
       include: { model: YearLevel, as: 'yearlevels' }
     })
 
+    if (!teacher) {
+      return res.status(404).json({ message: 'ไม่พบข้อมูลครูที่ปรึกษา' })
+    }
+
     return res.status(200).json(teacher)
   } catch (error) {
+    console.error(error)
     return res
       .status(500)
       .json({ message: 'เกิดข้อผิดพลาดในการดึงข้อมูลครูที่ปรึกษา' })

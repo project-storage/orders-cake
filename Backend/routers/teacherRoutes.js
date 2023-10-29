@@ -4,17 +4,17 @@ const passport = require('passport')
 
 // method get
 TeacherRouter.get(
-  '/all-teahcer',
+  '/all-teachcer',
   passport.authenticate('jwt', { session: false }),
   TeacherController.getAllTeacher
 )
 TeacherRouter.get(
-  '/searhc-teahcer',
+  '/searhc-teachcer',
   passport.authenticate('jwt', { session: false }),
   TeacherController.getAllTeacherWithAllParams
 )
 TeacherRouter.get(
-  '/info-teahcer',
+  '/teacher-info',
   passport.authenticate('jwt', { session: false }),
   TeacherController.getInfoTeacher
 )

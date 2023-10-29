@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     role: {
       type: DataTypes.ENUM('teacher'),
-      allowNull: true
+      allowNull: false
     },
     yearlevel_id: {
       type: DataTypes.INTEGER,

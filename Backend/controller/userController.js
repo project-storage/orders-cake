@@ -158,11 +158,6 @@ const loginUser = async (req, res) => {
 // get user info
 const getUserInfo = async (req, res) => {
   try {
-    // ตรวจสอบบทบาทของผู้ใช้
-    if (req.user.role !== 'admin' && req.user.role !== 'superAdmin') {
-      return res.status(401).json({ message: 'Unauthorized' })
-    }
-
     const user = await User.findOne({ where: { id: req.user.id } })
 
     return res.json({ user })
