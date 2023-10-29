@@ -30,7 +30,9 @@ const createSuperAdminUser = async (req, res) => {
     return res.json({ message: 'สร้างซุปเปอร์แอดมินสำเร็จ' })
   } catch (error) {
     console.error(error)
-    return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการสร้างแอดมิน' })
+    return res
+      .status(500)
+      .json({ message: 'เกิดข้อผิดพลาดในการสร้างซุปเปอร์แอดมิน' })
   }
 }
 
