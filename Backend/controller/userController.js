@@ -6,7 +6,7 @@ const saltRounds = 10
 
 const User = db.user
 
-require('dotenv').config({ path: './configt.env' })
+require('dotenv').config({ path: './config.env' })
 const axios = require('axios')
 
 // create super admin
