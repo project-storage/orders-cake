@@ -131,7 +131,7 @@ const getAllTeacher = async (req, res) => {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
-    const teacher = await Teacher.findAll()
+    const teacher = await Teacher.findAll({include:{model:YearLevel,as:'yearlevels'}})
     if (!teacher) {
       return res.status(404).json({ message: 'ไม่พบข้อมูลครูที่ปรึกษา' })
     }
@@ -173,7 +173,7 @@ const getTeacherWithAllParams = async (req, res) => {
       whereClause.role = role
     }
 
-    const teacher = await Teacher.findAll({ where: whereClause })
+    const teacher = await Teacher.findAll({ where: whereClause ,include:{model:YearLevel,as:'yearlevels'}})
     if (teacher.length === 0) {
       return res.status(405).json({ message: "ไม่พบข้อมูลครูที่ปรึกษา" })
     }
