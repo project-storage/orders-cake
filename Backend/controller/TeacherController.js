@@ -143,9 +143,54 @@ const getAllTeacher = async (req, res) => {
   }
 }
 
+// search teacher
+const getTeacherWithAllParams = async (req, res) => {
+  try {
+    // ตรวจสอบบทบาทของผู้ใช้
+    if (req.user.role !== 'admin' && req.user.role !== 'superAdmin') {
+      return res.status(401).json({ message: 'Unauthorized' })
+    }
+
+    const { id, teac_name, teac_surname, teac_email, teac_username, role } = req.query
+
+    const whereClause = {}
+    if (id) {
+      whereClause.id = id
+    }
+    if (teac_name) {
+      whereClause.teac_name = teac_name
+    }
+    if (teac_surname) {
+      whereClause.teac_surname = teac_surname
+    }
+    if (teac_email) {
+      whereClause.teac_email = teac_email
+    }
+    if (teac_username) {
+      whereClause.teac_username = teac_username
+    }
+    if (role) {
+      whereClause.role = role
+    }
+
+    const teacher = await Teacher.findAll({ where: whereClause })
+    if (teacher.length === 0) {
+      return res.status(405).json({ message: "ไม่พบข้อมูลครูที่ปรึกษา" })
+    }
+
+    return res.status(200).json(teacher)
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ message: 'เกิดข้อผิดพลาดในการดึงข้อมูลครูที่ปรึกษา' })
+  }
+}
+
 module.exports = {
   createTeahcer,
   loginTeacher,
   getinfoTeacher,
-  getAllTeacher
+  getAllTeacher,
+  getTeacherWithAllParams
 }
