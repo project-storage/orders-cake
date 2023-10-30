@@ -124,16 +124,28 @@ const getinfoTeacher = async (req, res) => {
 }
 
 // get all teacher 
-const getAllTeacher  = async(req,res)=>{
+const getAllTeacher = async (req, res) => {
   try {
-    
+    // ตรวจสอบบทบาทของผู้ใช้
+    if (req.user.role !== 'admin' && req.user.role !== 'superAdmin') {
+      return res.status(401).json({ message: 'Unauthorized' })
+    }
+
+    const teacher = await Teacher.findAll()
+    if (!teacher) {
+      return res.status(404).json({ message: 'ไม่พบข้อมูลครูที่ปรึกษา' })
+    }
+
+    return res.status(200).json({ teacher })
   } catch (error) {
-    
+    console.error(error);
+    return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการดึงข้อมูลครูที่ปรึกษาทั้งหมด' })
   }
 }
 
 module.exports = {
   createTeahcer,
   loginTeacher,
-  getinfoTeacher
+  getinfoTeacher,
+  getAllTeacher
 }
