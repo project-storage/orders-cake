@@ -60,7 +60,7 @@ const createTeahcer = async (req, res) => {
 
 // login teacher
 const loginTeacher = async (req, res) => {
-  const {teac_username,teac_password}=req.body
+  const { teac_username, teac_password } = req.body
   let whereClause
   try {
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(teac_username)) {
@@ -70,44 +70,44 @@ const loginTeacher = async (req, res) => {
     }
 
     const teacherWithIdentifier = await Teacher.findOne({
-      where:whereClause
+      where: whereClause
     })
 
-    if(!teacherWithIdentifier){
+    if (!teacherWithIdentifier) {
       return res.status(401).json({ message: 'ชื่อผู้ใช้งาน หรือ อีเมลล์ ไม่ถูกต้อง' })
     }
 
-   const passwordMatch  = await bcrypt.compare(
-    teac_password,
-    teacherWithIdentifier.teac_password
-   )
-   if(!passwordMatch){
-    return res.status(401).json({ message: 'รหัสผ่านไม่ถูกต้อง' })
-   }
+    const passwordMatch = await bcrypt.compare(
+      teac_password,
+      teacherWithIdentifier.teac_password
+    )
+    if (!passwordMatch) {
+      return res.status(401).json({ message: 'รหัสผ่านไม่ถูกต้อง' })
+    }
 
-   const jwtToken = jwt.sign({
-    id:teacherWithIdentifier.id,
-    teac_email:teacherWithIdentifier.teac_email,
-    teac_username:teacherWithIdentifier.teac_username,
-    role:teacherWithIdentifier.role
-   },
-   process.env.JWT_SECRET
-   )
+    const jwtToken = jwt.sign({
+      id: teacherWithIdentifier.id,
+      teac_email: teacherWithIdentifier.teac_email,
+      teac_username: teacherWithIdentifier.teac_username,
+      role: teacherWithIdentifier.role
+    },
+      process.env.JWT_SECRET
+    )
 
-   return res.json({
-    message:'ยินดีต้อนรับ',
-    email:teacherWithIdentifier.teac_email,
-    username:teac_username,
-    role:teacherWithIdentifier.role,
-    token: jwtToken
-   })
+    return res.json({
+      message: 'ยินดีต้อนรับ',
+      email: teacherWithIdentifier.teac_email,
+      username: teac_username,
+      role: teacherWithIdentifier.role,
+      token: jwtToken
+    })
   } catch (error) {
     console.error('Error: ', error)
     return res.status(500).json({ message: 'มีข้อผิดพลาดในการล็อกอิน' })
-  }  
+  }
 }
 
-module.exports={
-    createTeahcer,
-    loginTeacher,
+module.exports = {
+  createTeahcer,
+  loginTeacher,
 }
