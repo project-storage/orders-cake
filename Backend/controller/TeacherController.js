@@ -107,7 +107,33 @@ const loginTeacher = async (req, res) => {
   }
 }
 
+// info teacher 
+const getinfoTeacher = async (req, res) => {
+  try {
+    const teacher = await Teacher.findOne({ where: { id: req.user.id }, include: { model: YearLevel, as: 'yearlevels' } })
+
+    if (!teacher) {
+      return res.status(401).json({ message: "ไม่พบข้อมูลผู้ใช้งาน" })
+    }
+
+    return res.status(200).json({ teacher })
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการดึงข้อมูลผู้ใช้' })
+  }
+}
+
+// get all teacher 
+const getAllTeacher  = async(req,res)=>{
+  try {
+    
+  } catch (error) {
+    
+  }
+}
+
 module.exports = {
   createTeahcer,
   loginTeacher,
+  getinfoTeacher
 }
