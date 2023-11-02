@@ -10,4 +10,7 @@ TeacherRouter.post('/login-teacher', TeacherController.loginTeacher)
 TeacherRouter.get('/info-teacher', passport.authenticate('jwt', { session: false }), TeacherController.getinfoTeacher)
 TeacherRouter.get('/all-teacher', passport.authenticate('jwt', { session: false }), TeacherController.getAllTeacher)
 TeacherRouter.get('/search-teacher', passport.authenticate('jwt', { session: false }), TeacherController.getTeacherWithAllParams)
+
+// method put 
+TeacherRouter.put('/update-teacher/:id',passport.authenticate('jwt',{session:false}),TeacherController.updateTeacher)
 module.exports = TeacherRouter

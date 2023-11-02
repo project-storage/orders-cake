@@ -131,7 +131,7 @@ const getAllTeacher = async (req, res) => {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
-    const teacher = await Teacher.findAll({include:{model:YearLevel,as:'yearlevels'}})
+    const teacher = await Teacher.findAll({ include: { model: YearLevel, as: 'yearlevels' } })
     if (!teacher) {
       return res.status(404).json({ message: 'ไม่พบข้อมูลครูที่ปรึกษา' })
     }
@@ -173,7 +173,7 @@ const getTeacherWithAllParams = async (req, res) => {
       whereClause.role = role
     }
 
-    const teacher = await Teacher.findAll({ where: whereClause ,include:{model:YearLevel,as:'yearlevels'}})
+    const teacher = await Teacher.findAll({ where: whereClause, include: { model: YearLevel, as: 'yearlevels' } })
     if (teacher.length === 0) {
       return res.status(405).json({ message: "ไม่พบข้อมูลครูที่ปรึกษา" })
     }
@@ -187,10 +187,86 @@ const getTeacherWithAllParams = async (req, res) => {
   }
 }
 
+// update teacher 
+const updateTeacher = async (req, res) => {
+  const { teac_name,
+    teac_surname,
+    teac_telephone,
+    teac_email,
+    teac_username,
+    teac_password,
+    yearlevel_id,
+    yearlevel_id2,
+    yearlevel_id3 } = req.body
+  let teacher
+  try {
+    // ตรวจสอบบทบาทของผู้ใช้
+    if (req.user.role !== 'admin' &&
+      req.user.role !== 'superAdmin' &&
+      req.user.role !== 'teacher') {
+      return res.status(401).json({ message: 'Unauthorized' })
+    }
+    if (!req.params.id) {
+      return res.status(404).json({ message: 'อัปเดตครูที่ปรึกษาต้องระบบ id' })
+    }
+    teacher = await Teacher.findOne({
+      where: { id: req.params.id },
+      include: { model: YearLevel, as: 'yearlevels' }
+    })
+
+    if (!teacher) {
+      return res.status(404).json({ message: 'ไม่พบครูที่ปรึกษา' })
+    }
+    
+    if (teac_username !== teacher.teac_username) {
+      const alreadyExistsUser = await Teacher.findOne({ where: { teac_username: teac_username } })
+
+      if (alreadyExistsUser) {
+        return res.status(400).json({ message: 'ชื่อผู้ใช้มีอยู่แล้ว' })
+      }
+    }
+
+    if (teac_email !== teacher.teac_email) {
+      const alreadyExistsEmail = await Teacher.findOne({ where: { teac_email: teac_email } })
+
+      if (alreadyExistsEmail) {
+        return res.status(400).json({ message: 'อีเมลล์ผู้ใช้มีอยู่แล้ว' })
+      }
+    }
+
+    teacher.teac_name = teac_name || teacher.teac_name
+    teacher.teac_surname = teac_surname || teacher.teac_surname
+    teacher.teac_telephone = teac_telephone || teacher.teac_telephone
+    teacher.teac_email = teac_email || teacher.teac_email
+    teacher.teac_username = teac_username || teacher.teac_username
+    teacher.yearlevel_id = yearlevel_id || teacher.yearlevel_id
+    teacher.yearlevel_id2 = yearlevel_id2 || teacher.yearlevel_id2
+    teacher.yearlevel_id3 = yearlevel_id3 || teacher.yearlevel_id3
+
+    if (teac_password) {
+      const hashedPassword = await bcrypt.hash(teac_password, saltRounds)
+      teacher.teac_password = hashedPassword
+    }
+
+    const updatedTeacher = await teacher.save()
+
+    if (!updatedTeacher) {
+      return res.status(400).json({ message: 'ข้อผิดพลาดในการอัปเดตครูที่ปรึกษา' })
+    }
+
+    return res.status(200).json({ message: 'ครูที่ปรึกษาอัปเดตเรียบร้อยแล้ว' })
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ message: 'เกิดข้อผิดพลาดในการอัปเดตข้อมูลครูที่ปรึกษา' })
+  }
+}
 module.exports = {
   createTeahcer,
   loginTeacher,
   getinfoTeacher,
   getAllTeacher,
-  getTeacherWithAllParams
+  getTeacherWithAllParams,
+  updateTeacher
 }
