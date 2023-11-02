@@ -217,7 +217,7 @@ const updateTeacher = async (req, res) => {
     if (!teacher) {
       return res.status(404).json({ message: 'ไม่พบครูที่ปรึกษา' })
     }
-    
+
     if (teac_username !== teacher.teac_username) {
       const alreadyExistsUser = await Teacher.findOne({ where: { teac_username: teac_username } })
 
@@ -262,11 +262,38 @@ const updateTeacher = async (req, res) => {
       .json({ message: 'เกิดข้อผิดพลาดในการอัปเดตข้อมูลครูที่ปรึกษา' })
   }
 }
+
+// delete teacher
+const deleteTeacher = async (req, res) => {
+  try {
+    // ตรวจสอบบทบาทของผู้ใช้
+    if (req.user.role !== 'admin' && req.user.role !== 'superAdmin') {
+      return res.status(401).json({ message: 'Unauthorized' })
+    }
+
+    const teacher = await Teacher.findOne({ where: { id: req.params.id } })
+    if (!teacher) {
+      return res.stat
+      us(404).json({ message: 'ไม่พบครูที่ปรึกษา' })
+    }
+
+    const deletedTeacher = await teacher.destroy()
+    if (!deletedTeacher) {
+      return res.status(400).json({ message: 'เกิดข้อผิดพลาดในการลบครูที่ปรึกษา' })
+    }
+
+    return res.status(200).json({ message: "ลบข้อมูลสำเร็จ" })
+  } catch (error) {
+    console.error(error)
+    return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการลบครูที่ปรึกษา' })
+  }
+}
 module.exports = {
   createTeahcer,
   loginTeacher,
   getinfoTeacher,
   getAllTeacher,
   getTeacherWithAllParams,
-  updateTeacher
+  updateTeacher,
+  deleteTeacher
 }

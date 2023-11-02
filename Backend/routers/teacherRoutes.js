@@ -12,5 +12,8 @@ TeacherRouter.get('/all-teacher', passport.authenticate('jwt', { session: false 
 TeacherRouter.get('/search-teacher', passport.authenticate('jwt', { session: false }), TeacherController.getTeacherWithAllParams)
 
 // method put 
-TeacherRouter.put('/update-teacher/:id',passport.authenticate('jwt',{session:false}),TeacherController.updateTeacher)
+TeacherRouter.put('/update-teacher/:id', passport.authenticate('jwt', { session: false }), TeacherController.updateTeacher)
+    /
+    // method delete
+    TeacherRouter.delete('/delete-teacher/:id', passport.authenticate('jwt', { session: false }), TeacherController.deleteTeacher)
 module.exports = TeacherRouter
