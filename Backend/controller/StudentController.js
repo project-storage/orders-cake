@@ -74,8 +74,61 @@ const createStudent = async (req, res) => {
     }
 }
 
+const loginStudnet = async (req, res) => {
+    try {
+        const { stu_username, stu_password } = req.body;
+        let whereClause;
+
+        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(stu_username)) {
+            whereClause = { stu_username: stu_username };
+        } 
+
+        console.error(whereClause)
+
+        const studnetWithIdentifier = await Student.findOne({
+            where: whereClause
+        }).catch((error) => {
+            console.log("Error", error)
+        })
+
+        if (!studnetWithIdentifier) {
+            return res.status(401).json({ message: "ชื่อผู้ใช้งาน หรือ อีเมลล์ ไม่ถูกต้อง" })
+        }
+
+        const passwordMatch = await bcrypt.compare(
+            stu_password,
+            studnetWithIdentifier.stu_password
+        )
+
+        if (!passwordMatch) {
+            return res.status(401).json({ message: "รหัสผ่านไม่ถูกต้อง" })
+        }
+
+        const jwtToken = jwt.sign({
+            id: studnetWithIdentifier.id,
+            stu_email: studnetWithIdentifier.stu_email,
+            stu_username: studnetWithIdentifier.stu_username,
+            role: studnetWithIdentifier.role
+        },
+            process.env.JWT_SECRET
+        )
+
+        return res.status(200).json({
+            message: "ยินดีต้อนรับ",
+            email: studnetWithIdentifier.stu_email,
+            username: studnetWithIdentifier.stu_username,
+            role: studnetWithIdentifier.role,
+            token: jwtToken
+        })
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "มีข้อผิดพลาดในการล็อกอิน" })
+    }
+}
+
 
 
 module.exports = {
-    createStudent
+    createStudent,
+    loginStudnet
 }
