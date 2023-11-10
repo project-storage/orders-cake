@@ -82,7 +82,7 @@ const loginStudnet = async (req, res) => {
 
         if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(stu_username)) {
             whereClause = { stu_username: stu_username };
-        } 
+        }
 
         console.error(whereClause)
 
@@ -127,9 +127,33 @@ const loginStudnet = async (req, res) => {
     }
 }
 
+// info student
+const getInfoStudent = async (req, res) => {
+    try {
+        const student = await Student.findOne({
+            where: { id: req.params.id },
+            include: {
+                model: Teacher, as: 'teachers',
+                model: YearLevel, as: 'yearlevels',
+                model: Department, as: 'departments'
+            }
+        })
+
+        if (!student) {
+            return res.status(401).json({ message: "ไม่พบข้อมูลผู้ใช้งาน" })
+        }
+
+        return res.status(200).json({ student })
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({message:'เกิดข้อผิดพลาดในการดึงข้อมูลผู้ใช้'})
+    }
+}
+
 
 
 module.exports = {
     createStudent,
-    loginStudnet
+    loginStudnet,
+    
 }
