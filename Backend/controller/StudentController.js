@@ -74,6 +74,7 @@ const createStudent = async (req, res) => {
     }
 }
 
+// login student
 const loginStudnet = async (req, res) => {
     try {
         const { stu_username, stu_password } = req.body;
