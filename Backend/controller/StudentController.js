@@ -155,5 +155,5 @@ const getInfoStudent = async (req, res) => {
 module.exports = {
     createStudent,
     loginStudnet,
-    
+    getInfoStudent
 }
