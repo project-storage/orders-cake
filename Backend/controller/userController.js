@@ -11,21 +11,21 @@ const axios = require('axios')
 
 // create super admin
 const createSuperAdminUser = async (req, res) => {
-  const { name, surname, username, password } = req.body
-
-  // hash the password
-  const hashedPassword = await bcrypt.hash(password, saltRounds)
-
-  // create the admin user
-  const newAdminUser = new User({
-    name,
-    surname,
-    username,
-    password: hashedPassword,
-    role: 'superAdmin'
-  })
-
   try {
+    const { name, surname, username, password } = req.body
+
+    // hash the password
+    const hashedPassword = await bcrypt.hash(password, saltRounds)
+
+    // create the admin user
+    const newAdminUser = new User({
+      name,
+      surname,
+      username,
+      password: hashedPassword,
+      role: 'superAdmin'
+    })
+
     await newAdminUser.save()
     return res.json({ message: 'สร้างซุปเปอร์แอดมินสำเร็จ' })
   } catch (error) {
@@ -38,21 +38,21 @@ const createSuperAdminUser = async (req, res) => {
 
 // create admin
 const createAdminUser = async (req, res) => {
-  const { name, surname, username, password } = req.body
-
-  // hash the password
-  const hashedPassword = await bcrypt.hash(password, saltRounds)
-
-  // create the admin user
-  const newAdminUser = new User({
-    name,
-    surname,
-    username,
-    password: hashedPassword,
-    role: 'admin'
-  })
-
   try {
+    const { name, surname, username, password } = req.body
+
+    // hash the password
+    const hashedPassword = await bcrypt.hash(password, saltRounds)
+
+    // create the admin user
+    const newAdminUser = new User({
+      name,
+      surname,
+      username,
+      password: hashedPassword,
+      role: 'admin'
+    })
+
     await newAdminUser.save()
     return res.json({ message: 'สร้างแอดมินสำเร็จ' })
   } catch (error) {
@@ -63,9 +63,9 @@ const createAdminUser = async (req, res) => {
 
 // register
 const registerUser = async (req, res) => {
-  const { name, surname, telephone, email, username, password, role } = req.body
-
   try {
+    const { name, surname, telephone, email, username, password, role } = req.body
+
     const alreadyExistsEmail = await User.findOne({ where: { email } })
     const alreadyExistsUsername = await User.findOne({ where: { username } })
 
@@ -106,16 +106,16 @@ const registerUser = async (req, res) => {
 
 // login user
 const loginUser = async (req, res) => {
-  const { username, password } = req.body
-  let whereClause
-
-  if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(username)) {
-    whereClause = { email: username }
-  } else {
-    whereClause = { username: username }
-  }
-
   try {
+    const { username, password } = req.body
+    let whereClause
+
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(username)) {
+      whereClause = { email: username }
+    } else {
+      whereClause = { username: username }
+    }
+
     const userWithIdentifier = await User.findOne({
       where: whereClause
     })

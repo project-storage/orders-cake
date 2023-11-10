@@ -17,7 +17,7 @@ const createStudent = async (req, res) => {
         stu_IdCard,
         stu_name,
         stu_surname,
-        stu_NumPhone,
+        stu_telephone,
         stu_email,
         stu_username,
         stu_password,
@@ -30,7 +30,7 @@ const createStudent = async (req, res) => {
         const alreadyExistsIdCard = await Student.findOne({ where: { stu_IdCard } })
         const alreadyExistsEmail = await Student.findOne({ where: { stu_email } })
         const alreadyExistsUsername = await Student.findOne({ where: { stu_username } })
-        const alreadyExistsNumberPhone = await Student.findOne({ where: { stu_NumPhone } })
+        const alreadyExistsTelephone = await Student.findOne({ where: { stu_telephone } })
 
         if (alreadyExistsNumber) {
             return res.json({ message: 'มีเลขประจำตัวนักศึกษาอยู่แล้ว' })
@@ -44,7 +44,7 @@ const createStudent = async (req, res) => {
         if (alreadyExistsUsername) {
             return res.json({ message: 'มีชื่่อผู้ใช้งานอยู่แล้ว' })
         }
-        if (alreadyExistsNumberPhone) {
+        if (alreadyExistsTelephone) {
             return res.json({ message: 'มีหมายเลขโทรศัพท์อยู่แล้ว' })
         }
 
@@ -55,7 +55,7 @@ const createStudent = async (req, res) => {
             stu_IdCard,
             stu_name,
             stu_surname,
-            stu_NumPhone,
+            stu_telephone,
             stu_email,
             stu_username,
             stu_password: hashedPassword,
