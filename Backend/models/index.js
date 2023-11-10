@@ -56,6 +56,14 @@ db.yearlevel.hasMany(db.teacher, {
   as: 'teachers',
 });
 
+db.student.hasOne(db.yearlevel,{
+  foreignKey:'yearlevel_id',
+  as:'yearlevels'
+})
+db.yearlevel.belongsTo(db.student,{
+  foreignKey:'yearlevel_id',
+  as:'students'
+})
 db.sequelize.sync({ alter: true }).then(() => {
   console.log('yes re-sync done!!')
 })

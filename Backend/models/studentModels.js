@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(20),
       allowNull: true
     },
-    stu_Idcard: {
+    stu_IdCard: {
       type: DataTypes.STRING(20),
       allowNull: true
     },
@@ -16,9 +16,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(100),
       allowNull: false
     },
-    stu_telephone: {
-      type: DataTypes.STRING(10),
-      allowNull: true
+    stu_NumPhone: {
+      type: DataTypes.STRING(15),
+      allowNull: false
     },
     stu_email: {
       type: DataTypes.STRING(100),
@@ -36,7 +36,19 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ENUM('student'),
       allowNull: true
     },
+    yearlevel_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    department_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
     teacher_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    teacher_id2: {
       type: DataTypes.INTEGER,
       allowNull: false
     }
