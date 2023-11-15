@@ -1,5 +1,9 @@
 module.exports = (sequelize, DataTypes) => {
   const Student = sequelize.define('students', {
+    title: {
+      type: DataTypes.STRING(5),
+      allowNull: false
+    },
     stu_number: {
       type: DataTypes.STRING(20),
       allowNull: true
@@ -9,15 +13,15 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true
     },
     stu_name: {
-      type: DataTypes.STRING(100),
+      type: DataTypes.STRING(50),
       allowNull: false
     },
     stu_surname: {
-      type: DataTypes.STRING(100),
+      type: DataTypes.STRING(50),
       allowNull: false
     },
     stu_telephone: {
-      type: DataTypes.STRING(15),
+      type: DataTypes.STRING(10),
       allowNull: false
     },
     stu_email: {
@@ -29,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true
     },
     stu_password: {
-      type: DataTypes.STRING(100),
+      type: DataTypes.STRING(50),
       allowNull: true
     },
     role: {
@@ -40,15 +44,15 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    department_id: {
+    depart_id: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    teacher_id: {
+    teach_id: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    teacher_id2: {
+    teach_id2: {
       type: DataTypes.INTEGER,
       allowNull: true
     }

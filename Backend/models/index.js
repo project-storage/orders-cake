@@ -29,12 +29,15 @@ const db = {}
 db.Sequelize = Sequelize
 db.sequelize = sequelize
 
-db.user = require('./userModels')(sequelize, DataTypes)
-db.oders = require('./orderModels')(sequelize, DataTypes)
-db.student = require('./studentModels')(sequelize, DataTypes)
-db.teacher = require('./teacherModels')(sequelize, DataTypes)
-db.department = require('./DepartmentModels')(sequelize, DataTypes)
-db.yearlevel = require('./YearLevellModels')(sequelize, DataTypes)
+db.bill = require('./BillModel')(sequelize, DataTypes)
+db.department = require('./DepartmentModel')(sequelize, DataTypes)
+db.oders = require('./orderModel')(sequelize, DataTypes)
+db.student = require('./studentModel')(sequelize, DataTypes)
+db.teacher = require('./teacherModel')(sequelize, DataTypes)
+db.teamUse = require('./teamUseModel')(sequelize, DataTypes)
+db.user = require('./userModel')(sequelize, DataTypes)
+db.yearlevel = require('./YearLevellModel')(sequelize, DataTypes)
+db.years = require('./yearsModel')(sequelize, DataTypes)
 
 // one to many year level and department
 db.department.hasMany(db.yearlevel, {

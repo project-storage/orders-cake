@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const Order = sequelize.define('orders', {
-    student_id: {
+    stu_id: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
@@ -44,13 +44,17 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    qtypound: {
+    qty_pound: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    qtymoney: {
+    qty_money: {
       type: DataTypes.INTEGER,
       allowNull: false
+    },
+    date:{
+      type:DataTypes.DATE,
+      allowNull: true
     }
   })
 

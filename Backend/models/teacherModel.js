@@ -1,11 +1,15 @@
 module.exports = (sequelize, DataTypes) => {
   const Teacher = sequelize.define('teachers', {
+    title: {
+      type: DataTypes.STRING(5),
+      allowNull: false
+    },
     teac_name: {
-      type: DataTypes.STRING(100),
+      type: DataTypes.STRING(50),
       allowNull: false
     },
     teac_surname: {
-      type: DataTypes.STRING(100),
+      type: DataTypes.STRING(50),
       allowNull: false
     },
     teac_telephone: {
@@ -21,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true
     },
     teac_password: {
-      type: DataTypes.STRING(100),
+      type: DataTypes.STRING(50),
       allowNull: true
     },
     role: {
