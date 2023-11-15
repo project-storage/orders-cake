@@ -7,6 +7,6 @@ StudentRouter.post('/register-student', StudnetController.createStudent)
 StudentRouter.post('/login-student', StudnetController.loginStudnet)
 
 // method get
-StudentRouter.get('/info-studnet', passport.authenticate('jwt', { session: false }), StudnetController.getInfoStudent)
+StudentRouter.get('/info-student', passport.authenticate('jwt', { session: false }), StudnetController.getInfoStudent)
 
 module.exports = StudentRouter

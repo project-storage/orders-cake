@@ -131,7 +131,7 @@ const loginStudnet = async (req, res) => {
 const getInfoStudent = async (req, res) => {
     try {
         const student = await Student.findOne({
-            where: { id: req.params.id },
+            where: { id: req.user.id },
             include: {
                 model: Teacher, as: 'teachers',
                 model: YearLevel, as: 'yearlevels',
@@ -142,11 +142,11 @@ const getInfoStudent = async (req, res) => {
         if (!student) {
             return res.status(401).json({ message: "ไม่พบข้อมูลผู้ใช้งาน" })
         }
-
-        return res.status(200).json({ student })
+        console.log(req.user.id)
+        // return res.status(200).json({ student })
     } catch (error) {
         console.error(error);
-        return res.status(500).json({message:'เกิดข้อผิดพลาดในการดึงข้อมูลผู้ใช้'})
+        return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการดึงข้อมูลผู้ใช้' })
     }
 }
 
