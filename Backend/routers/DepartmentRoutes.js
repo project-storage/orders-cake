@@ -1,4 +1,4 @@
-const departmentController = require('../controller/DepartmentController')
+const departmentController = require('../controllers/DepartmentController')
 const departmentRouter = require('express').Router()
 const passport = require('passport')
 

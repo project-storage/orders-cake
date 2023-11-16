@@ -1,4 +1,4 @@
-const TeacherController = require('../controller/TeacherController')
+const TeacherController = require('../controllers/TeacherController')
 const TeacherRouter = require('express').Router()
 const passport = require('passport')
 

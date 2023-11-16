@@ -1,4 +1,4 @@
-const YearlevelController = require('../controller/yearLevelController')
+const YearlevelController = require('../controllers/yearLevelController')
 const YearlevelRouter = require('express').Router()
 const passport = require('passport')
 

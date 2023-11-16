@@ -1,4 +1,4 @@
-const StudnetController = require('../controller/StudentController')
+const StudnetController = require('../controllers/StudentController')
 const StudentRouter = require('express').Router()
 const passport = require('passport')
 
