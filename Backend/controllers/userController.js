@@ -11,13 +11,18 @@ require('dotenv').config({ path: './config.env' })
 // create super admin
 const createSuperAdminUser = async (req, res) => {
   try {
-    const { name, surname, username, password } = req.body
+    const { title, name, surname, username, password } = req.body
+
+    if (!name || !surname || !username || !password) {
+      return res.status(400).status({ message: "กรุณากรอกข้อมูลให้ครบทุกช่อง" })
+    }
 
     // hash the password
     const hashedPassword = await bcrypt.hash(password, saltRounds)
 
     // create the admin user
-    const newAdminUser = new User({
+    const newsupperAdminUser = new User({
+      title,
       name,
       surname,
       username,
@@ -25,8 +30,8 @@ const createSuperAdminUser = async (req, res) => {
       role: 'superAdmin'
     })
 
-    await newAdminUser.save()
-    return res.json({ message: 'สร้างซุปเปอร์แอดมินสำเร็จ' })
+    await newsupperAdminUser.save()
+    return res.status(200).json({ message: 'สร้างซุปเปอร์แอดมินสำเร็จ' })
   } catch (error) {
     console.error(error)
     return res
@@ -38,33 +43,45 @@ const createSuperAdminUser = async (req, res) => {
 // create admin
 const createAdminUser = async (req, res) => {
   try {
-    const { name, surname, username, password } = req.body
+    const { title, name, surname, username, password } = req.body
+
+    if (!name || !surname || !username || !password) {
+      return res.status(400).status({ message: "กรุณากรอกข้อมูลให้ครบทุกช่อง" })
+    }
 
     // hash the password
     const hashedPassword = await bcrypt.hash(password, saltRounds)
 
     // create the admin user
     const newAdminUser = new User({
+      title,
       name,
       surname,
       username,
       password: hashedPassword,
-      role: 'admin'
+      role: 'Admin'
     })
 
     await newAdminUser.save()
-    return res.json({ message: 'สร้างแอดมินสำเร็จ' })
+    return res.status(200).json({ message: 'สร้างแอดมินสำเร็จ' })
   } catch (error) {
     console.error(error)
-    return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการสร้างแอดมิน' })
+    return res
+      .status(500)
+      .json({ message: 'เกิดข้อผิดพลาดในการสร้างแอดมิน' })
   }
 }
 
 // register
 const registerUser = async (req, res) => {
   try {
-    const { name, surname, telephone, email, username, password, role } = req.body
+    const { title, name, surname, telephone, email, username, password, role } = req.body
 
+    if (!title || !name || !surname || !telephone || !email || !username || !password || !role) {
+      return res.status(400).json({ message: 'กรุณากรอกข้อมูลทุกช่อง' });
+    }
+
+    // Check if email or username already exists
     const alreadyExistsEmail = await User.findOne({ where: { email } })
     const alreadyExistsUsername = await User.findOne({ where: { username } })
 
@@ -80,6 +97,7 @@ const registerUser = async (req, res) => {
     if (req.user.role === 'admin' || req.user.role === 'superAdmin') {
       if (role === 'DepatMoney' || role === 'DepatCake') {
         const newUser = new User({
+          title,
           name,
           surname,
           telephone,
@@ -90,10 +108,10 @@ const registerUser = async (req, res) => {
         })
 
         await newUser.save()
-        return res.json({ message: 'สร้างผู้ใช้งานสำเร็จ' })
+        return res.status(200).json({ message: 'สร้างผู้ใช้งานสำเร็จ', user: newUser })
       }
     } else {
-      return res.json({ message: 'คุณไม่มีสิทธิ์สร้างผู้ใช้งาน' })
+      return res.status(403).json({ message: 'คุณไม่มีสิทธิ์สร้างผู้ใช้งาน' })
     }
   } catch (error) {
     console.error(error)
@@ -107,6 +125,11 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
   try {
     const { username, password } = req.body
+
+    if (!username || !password) {
+      return res.status(400).json({ message: 'กรุณากรอกชื่อผู้ใช้งานและรหัสผ่าน' });
+    }
+
     let whereClause
 
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(username)) {
@@ -144,7 +167,7 @@ const loginUser = async (req, res) => {
       process.env.JWT_SECRET
     )
 
-    return res.json({
+    return res.status(200).json({
       message: 'ยินดีต้อนรับ',
       username: username,
       role: userWithIdentifier.role,
@@ -159,16 +182,18 @@ const loginUser = async (req, res) => {
 // get user info
 const getUserInfo = async (req, res) => {
   try {
-    const user = await User.findOne({ where: { id: req.user.id } })
+    const user = await User.findOne({ where: { id: req.user.id } });
 
-    return res.json({ user })
+    if (!user) {
+      return res.status(404).json({ message: 'ไม่พบข้อมูลผู้ใช้งาน' });
+    }
+
+    return res.status(200).json({ user });
   } catch (error) {
-    console.error(error)
-    return res
-      .status(500)
-      .json({ message: 'เกิดข้อผิดพลาดในการดึงข้อมูลผู้ใช้' })
+    console.error('Error retrieving user info:', error);
+    return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการดึงข้อมูลผู้ใช้' });
   }
-}
+};
 
 // get all user
 const getAllUser = async (req, res) => {
@@ -181,9 +206,9 @@ const getAllUser = async (req, res) => {
     // ค้นหาผู้ใช้ทั้งหมดจากฐานข้อมูล
     const users = await User.findAll()
 
-    return res.json(users)
+    return res.status(200).json(users)
   } catch (error) {
-    console.error(error)
+    console.error('Error', error)
     return res
       .status(500)
       .json({ message: 'เกิดข้อผิดพลาดในการดึงข้อมูลผู้ใช้ทั้งหมด' })
@@ -199,7 +224,7 @@ const getUserWithAllParams = async (req, res) => {
     }
 
     // ตรวจสอบค่า userId ที่รับมาจากพารามิเตอร์ของ URL
-    const { id, name, surname, telephone, role } = req.query
+    const { id, name, surname, telephone, email, username, role } = req.query
 
     // สร้างอ็อบเจ็กต์ที่ใช้เก็บเงื่อนไขในการค้นหา
     const whereClause = {}
@@ -211,6 +236,12 @@ const getUserWithAllParams = async (req, res) => {
     }
     if (surname) {
       whereClause.surname = surname
+    }
+    if (email) {
+      whereClause.email = email
+    }
+    if (username) {
+      whereClause.username = username
     }
     if (telephone) {
       whereClause.telephone = telephone
@@ -224,9 +255,9 @@ const getUserWithAllParams = async (req, res) => {
     if (users.length === 0) {
       return res.status(405).json({ message: 'ไม่พบข้อมูลผู้ใช้งาน' })
     }
-    return res.json(users)
+    return res.status(200).json(users)
   } catch (error) {
-    console.error(error)
+    console.error('Error', error)
     return res
       .status(500)
       .json({ message: 'เกิดข้อผิดพลาดในการดึงข้อมูลผู้ใช้งาน' })
@@ -236,7 +267,7 @@ const getUserWithAllParams = async (req, res) => {
 // update user
 const updateUser = async (req, res) => {
   try {
-    const { name, surname, username, email, password, telephone } = req.body
+    const { title, name, surname, username, email, password, telephone } = req.body
     let user
 
     // ตรวจสอบบทบาทของผู้ใช้
@@ -276,6 +307,7 @@ const updateUser = async (req, res) => {
       }
     }
 
+    user.title = title || user.title
     user.name = name || user.name
     user.surname = surname || user.surname
     user.email = email || user.email
@@ -293,9 +325,9 @@ const updateUser = async (req, res) => {
       return res.status(400).json({ message: 'ข้อผิดพลาดในการอัปเดตผู้ใช้' })
     }
 
-    return res.json({ message: 'ผู้ใช้อัปเดตเรียบร้อยแล้ว' })
+    return res.status(200).json({ message: 'ผู้ใช้อัปเดตเรียบร้อยแล้ว' })
   } catch (error) {
-    console.error(error)
+    console.error('Error', error)
     return res
       .status(500)
       .json({ message: 'เกิดข้อผิดพลาดในการอัปเดตข้อมูลผู้ใช้งาน' })
@@ -320,9 +352,9 @@ const deleteUser = async (req, res) => {
       return res.status(400).json({ message: 'เกิดข้อผิดพลาดในการลบผู้ใช้งาน' })
     }
 
-    return res.json({ message: 'ลบข้อผู้ใช้งานสำเร็จ' })
+    return res.status(200).json({ message: 'ลบข้อผู้ใช้งานสำเร็จ' })
   } catch (error) {
-    console.error(error)
+    console.error('Error', error)
     return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการลบผู้ใช้งาน' })
   }
 }
