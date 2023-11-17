@@ -16,6 +16,7 @@ const createYearlevel = async (req, res) => {
         .status(400)
         .json({ message: 'กรุณากรอกข้อมูลในช่องระดับการศึกษา' })
     }
+
     if (!depart_id) {
       return res.status(400).json({ message: 'กรุณาเลือกแผนก' })
     }
@@ -42,7 +43,7 @@ const createYearlevel = async (req, res) => {
       ระดับการศึกษา: saveYearlevel
     })
   } catch (error) {
-    console.error(error)
+    console.error("Error", error);
     return res
       .status(500)
       .json({ message: 'เกิดข้อผิดพลาดในการสร้างระดับการศึกษา' })
@@ -62,6 +63,7 @@ const getAllYearlevel = async (req, res) => {
 
     return res.status(200).json(yearlevel)
   } catch (error) {
+    console.error("Error", error);
     return res
       .status(500)
       .json({ message: 'เกิดข้อผิดพลาดในการดึงข้อมูลระดับการศึกษา' })
@@ -82,6 +84,7 @@ const getInfoYearlevel = async (req, res) => {
 
     return res.status(200).json(yearlevel)
   } catch (error) {
+    console.error("Error", error);
     return res
       .status(500)
       .json({ message: 'เกิดข้อผิดพลาดในการดึงข้อมูลระดับการศึกษา' })
@@ -119,6 +122,7 @@ const getAllYearlevelWithAllParans = async (req, res) => {
 
     return res.status(200).json(yearlevel)
   } catch (error) {
+    console.error("Error", error);
     return res
       .status(500)
       .json({ message: 'เกิดข้อผิดพลาดในการดึงข้อมูลระดับการศึกษา' })
@@ -155,6 +159,7 @@ const updateYearlevel = async (req, res) => {
       ระดับการศึกษา: updatedYearlevel
     })
   } catch (error) {
+    console.error("Error", error);
     return res
       .status(500)
       .json({ message: 'เกิดข้อผิดพลาดในการอัปเดตข้อมูลระดับการศึกษา' })
@@ -182,7 +187,7 @@ const deleteYearlevel = async (req, res) => {
 
     return res.status(200).json({ message: 'ลบระดับการศึกษาสำเร็จ' })
   } catch (error) {
-    console.error(error)
+    console.error("Error", error);
     return res
       .status(500)
       .json({ message: 'เกิดข้อผิดพลาดในการลบระดับการศึกษา' })
