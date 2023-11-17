@@ -30,7 +30,7 @@ const createDepartment = async (req, res) => {
       .status(200)
       .json({ message: 'สร้างแผนกสำเร็จ', แผนก: savedDepartment })
   } catch (error) {
-    console.error(error)
+    console.error("Error", error);
     return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการสร้างแผนก' })
   }
 }
@@ -48,6 +48,7 @@ const getInfoDepartment = async (req, res) => {
     })
     return res.status(200).json({ department })
   } catch (error) {
+    console.error("Error", error);
     return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการดึงข้อมูลแผนก' })
   }
 }
@@ -61,8 +62,9 @@ const getAllDepartment = async (req, res) => {
     }
 
     const department = await Department.findAll()
-    return res.json(department)
+    return res.status(200).json(department)
   } catch (error) {
+    console.error("Error", error);
     return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการดึงข้อมูลแผนก' })
   }
 }
@@ -92,6 +94,7 @@ const getDepartmentWithAllParams = async (req, res) => {
 
     return res.status(200).json(department)
   } catch (error) {
+    console.error("Error", error);
     return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการดึงข้อมูลแผนก' })
   }
 }
@@ -127,6 +130,7 @@ const updateDepartment = async (req, res) => {
       updatedDepartment: updatedDepartment
     })
   } catch (error) {
+    console.error("Error", error);
     return res
       .status(500)
       .json({ message: 'เกิดข้อผิดพลาดในการอัปเดตข้อมูลแผนก' })
@@ -159,7 +163,7 @@ const deleteDepartment = async (req, res) => {
 
     return res.status(200).json({ message: 'ลบแผนกสำเร็จ' })
   } catch (error) {
-    console.error(error)
+    console.error("Error", error);
     return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการลบแผนก' })
   }
 }
