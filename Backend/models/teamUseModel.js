@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const teamUse = sequelize.defind('team_uses', {
+    const teamUse = sequelize.define('team_uses', {
         type_team: {
             type: DataTypes.STRING(5),
             allowNull: false
