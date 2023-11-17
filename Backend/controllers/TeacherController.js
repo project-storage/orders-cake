@@ -51,7 +51,7 @@ const createTeahcer = async (req, res) => {
     await newTeacher.save()
     return res.status(200).json({ message: 'สร้างครูที่ปรึกษาสำเร็จ' })
   } catch (error) {
-    console.error(error)
+    console.error("Error", error);
     return res
       .status(500)
       .json({ message: 'เกิดข้อผิดพลาดในการสร้างครูที่ปรึกษาสำเร็จ' })
@@ -118,7 +118,7 @@ const getinfoTeacher = async (req, res) => {
 
     return res.status(200).json({ teacher })
   } catch (error) {
-    console.error(error);
+    console.error("Error", error);
     return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการดึงข้อมูลผู้ใช้' })
   }
 }
@@ -138,7 +138,7 @@ const getAllTeacher = async (req, res) => {
 
     return res.status(200).json({ teacher })
   } catch (error) {
-    console.error(error);
+    console.error("Error", error);
     return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการดึงข้อมูลครูที่ปรึกษาทั้งหมด' })
   }
 }
@@ -180,7 +180,7 @@ const getTeacherWithAllParams = async (req, res) => {
 
     return res.status(200).json(teacher)
   } catch (error) {
-    console.error(error);
+    console.error("Error", error);
     return res
       .status(500)
       .json({ message: 'เกิดข้อผิดพลาดในการดึงข้อมูลครูที่ปรึกษา' })
@@ -189,7 +189,8 @@ const getTeacherWithAllParams = async (req, res) => {
 
 // update teacher 
 const updateTeacher = async (req, res) => {
-  const { teac_name,
+  const {
+    teac_name,
     teac_surname,
     teac_telephone,
     teac_email,
@@ -197,8 +198,11 @@ const updateTeacher = async (req, res) => {
     teac_password,
     yearlevel_id,
     yearlevel_id2,
-    yearlevel_id3 } = req.body
+    yearlevel_id3
+  } = req.body
+
   let teacher
+
   try {
     // ตรวจสอบบทบาทของผู้ใช้
     if (req.user.role !== 'admin' &&
@@ -256,7 +260,7 @@ const updateTeacher = async (req, res) => {
 
     return res.status(200).json({ message: 'ครูที่ปรึกษาอัปเดตเรียบร้อยแล้ว' })
   } catch (error) {
-    console.error(error);
+    console.error("Error", error);
     return res
       .status(500)
       .json({ message: 'เกิดข้อผิดพลาดในการอัปเดตข้อมูลครูที่ปรึกษา' })
@@ -284,7 +288,7 @@ const deleteTeacher = async (req, res) => {
 
     return res.status(200).json({ message: "ลบข้อมูลสำเร็จ" })
   } catch (error) {
-    console.error(error)
+    console.error("Error", error);
     return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการลบครูที่ปรึกษา' })
   }
 }
