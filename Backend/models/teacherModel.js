@@ -4,27 +4,27 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(5),
       allowNull: false
     },
-    teac_name: {
+    teach_name: {
       type: DataTypes.STRING(50),
       allowNull: false
     },
-    teac_surname: {
+    teach_surname: {
       type: DataTypes.STRING(50),
       allowNull: false
     },
-    teac_telephone: {
+    teach_telephone: {
       type: DataTypes.STRING(10),
       allowNull: true
     },
-    teac_email: {
+    teach_email: {
       type: DataTypes.STRING(100),
       allowNull: true
     },
-    teac_username: {
+    teach_username: {
       type: DataTypes.STRING(100),
       allowNull: true
     },
-    teac_password: {
+    teach_password: {
       type: DataTypes.STRING(50),
       allowNull: true
     },
