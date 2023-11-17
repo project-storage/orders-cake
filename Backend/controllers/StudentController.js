@@ -24,7 +24,9 @@ const createStudent = async (req, res) => {
         yearlevel_id,
         department_id,
         teacher_id,
-        teacher_id2 } = req.body
+        teacher_id2 
+    } = req.body
+
     try {
         const alreadyExistsNumber = await Student.findOne({ where: { stu_number } })
         const alreadyExistsIdCard = await Student.findOne({ where: { stu_IdCard } })
@@ -69,7 +71,7 @@ const createStudent = async (req, res) => {
         await newStudnets.save()
         return res.status(200).json({ message: 'สร้างนักษศึกษาสำเร็จ' })
     } catch (error) {
-        console.error(error);
+        console.error("Error", error);
         return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการสร้างนักศึกษา' })
     }
 }
@@ -122,7 +124,7 @@ const loginStudnet = async (req, res) => {
             token: jwtToken
         })
     } catch (error) {
-        console.error(error);
+        console.error("Error", error);
         return res.status(500).json({ message: "มีข้อผิดพลาดในการล็อกอิน" })
     }
 }
@@ -145,7 +147,7 @@ const getInfoStudent = async (req, res) => {
         console.log(req.user.id)
         // return res.status(200).json({ student })
     } catch (error) {
-        console.error(error);
+        console.error("Error", error);
         return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการดึงข้อมูลผู้ใช้' })
     }
 }
