@@ -9,21 +9,21 @@ const createDepartment = async (req, res) => {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
-    const { department_name } = req.body
+    const { depart_name } = req.body
 
-    if (!department_name) {
+    if (!depart_name) {
       return res.status(400).json({ message: 'กรุณากรอกข้อมูลในช่องแผนก' })
     }
 
     const alreadyExistsDepartment = await Department.findOne({
-      where: { department_name: department_name }
+      where: { depart_name: depart_name }
     })
 
     if (alreadyExistsDepartment) {
       return res.status(409).json({ message: 'มีแผนกอยู่แล้ว' })
     }
 
-    const newDepartment = new Department({ department_name: department_name })
+    const newDepartment = new Department({ depart_name: depart_name })
     const savedDepartment = await newDepartment.save()
 
     return res
@@ -77,14 +77,14 @@ const getDepartmentWithAllParams = async (req, res) => {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
-    const { id, department_name } = req.query
+    const { id, depart_name } = req.query
 
     const whereClause = {}
     if (id) {
       whereClause.id = id
     }
-    if (department_name) {
-      whereClause.department_name = department_name
+    if (depart_name) {
+      whereClause.depart_name = depart_name
     }
 
     const department = await Department.findAll({ where: whereClause })
@@ -107,7 +107,7 @@ const updateDepartment = async (req, res) => {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
-    const { id, department_name } = req.body
+    const { id, depart_name } = req.body
 
     const department = await Department.findOne({
       where: { id: req.params.id }
@@ -117,7 +117,7 @@ const updateDepartment = async (req, res) => {
       return res.status(404).json({ message: 'ไม่พบแผนก' })
     }
 
-    department.department_name = department_name || department.department_name
+    department.depart_name = depart_name || department.depart_name
 
     const updatedDepartment = await department.save()
 

@@ -13,8 +13,9 @@ require('dotenv').config({ path: './config.env' })
 // register student
 const createStudent = async (req, res) => {
     const {
+        title,
         stu_number,
-        stu_IdCard,
+        stu_Idcard,
         stu_name,
         stu_surname,
         stu_telephone,
@@ -22,14 +23,14 @@ const createStudent = async (req, res) => {
         stu_username,
         stu_password,
         yearlevel_id,
-        department_id,
-        teacher_id,
-        teacher_id2 
+        depart_id,
+        teach_id,
+        teach_id2 
     } = req.body
 
     try {
         const alreadyExistsNumber = await Student.findOne({ where: { stu_number } })
-        const alreadyExistsIdCard = await Student.findOne({ where: { stu_IdCard } })
+        const alreadyExistsIdCard = await Student.findOne({ where: { stu_Idcard } })
         const alreadyExistsEmail = await Student.findOne({ where: { stu_email } })
         const alreadyExistsUsername = await Student.findOne({ where: { stu_username } })
         const alreadyExistsTelephone = await Student.findOne({ where: { stu_telephone } })
@@ -53,8 +54,9 @@ const createStudent = async (req, res) => {
         const hashedPassword = await bcrypt.hash(stu_password, saltRounds)
 
         const newStudnets = new Student({
+            title,
             stu_number,
-            stu_IdCard,
+            stu_Idcard,
             stu_name,
             stu_surname,
             stu_telephone,
@@ -63,9 +65,9 @@ const createStudent = async (req, res) => {
             stu_password: hashedPassword,
             role: 'Student',
             yearlevel_id,
-            department_id,
-            teacher_id,
-            teacher_id2
+            depart_id,
+            teach_id,
+            teach_id2
         })
 
         await newStudnets.save()
@@ -135,9 +137,9 @@ const getInfoStudent = async (req, res) => {
         const student = await Student.findOne({
             where: { id: req.user.id },
             include: {
-                model: Teacher, as: 'teachers',
+                // model: Teacher, as: 'teachers',
                 model: YearLevel, as: 'yearlevels',
-                model: Department, as: 'departments'
+                // model: Department, as: 'departments'
             }
         })
 
@@ -145,7 +147,7 @@ const getInfoStudent = async (req, res) => {
             return res.status(401).json({ message: "ไม่พบข้อมูลผู้ใช้งาน" })
         }
         console.log(req.user.id)
-        // return res.status(200).json({ student })
+        return res.status(200).json({ student })
     } catch (error) {
         console.error("Error", error);
         return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการดึงข้อมูลผู้ใช้' })

@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true
     },
     teach_password: {
-      type: DataTypes.STRING(50),
+      type: DataTypes.STRING(100),
       allowNull: true
     },
     role: {
@@ -38,11 +38,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     yearlevel_id2: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: true
     },
     yearlevel_id3: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: true
     }
   })
 

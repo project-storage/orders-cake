@@ -11,7 +11,7 @@ require('dotenv').config({ path: './config.env' })
 // create super admin
 const createSuperAdminUser = async (req, res) => {
   try {
-    const { title, name, surname, username, password } = req.body
+    const { title, name, surname, email, username, password } = req.body
 
     if (!name || !surname || !username || !password) {
       return res.status(400).status({ message: "กรุณากรอกข้อมูลให้ครบทุกช่อง" })
@@ -25,6 +25,7 @@ const createSuperAdminUser = async (req, res) => {
       title,
       name,
       surname,
+      email,
       username,
       password: hashedPassword,
       role: 'superAdmin'
@@ -133,13 +134,13 @@ const loginUser = async (req, res) => {
     let whereClause
 
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(username)) {
-      whereClause = { email: username }
-    } else {
       whereClause = { username: username }
     }
 
     const userWithIdentifier = await User.findOne({
       where: whereClause
+    }).catch((error) => {
+      console.error("error", error);
     })
 
     if (!userWithIdentifier) {
@@ -152,9 +153,9 @@ const loginUser = async (req, res) => {
       password,
       userWithIdentifier.password
     )
-
+    console.log(passwordMatch)
     if (!passwordMatch) {
-      return res.status(401).json({ message: 'รหัสผ่านไม่ถูกต้อง' })
+      return res.status(401).json({ message: 'รหัสผ่านไม่ถูกต้อง', passwordMatch, password })
     }
 
     const jwtToken = jwt.sign(
@@ -170,6 +171,7 @@ const loginUser = async (req, res) => {
     return res.status(200).json({
       message: 'ยินดีต้อนรับ',
       username: username,
+      email: userWithIdentifier.email,
       role: userWithIdentifier.role,
       token: jwtToken
     })
