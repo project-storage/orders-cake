@@ -156,6 +156,7 @@ const getInfoStudent = async (req, res) => {
     }
 }
 
+// all students
 const getAllStudent = async (req, res) => {
     try {
         // ตรวจสอบบทบาทของผู้ใช้
@@ -183,6 +184,7 @@ const getAllStudent = async (req, res) => {
     }
 }
 
+// search srtudent
 const getStudentWithAllParams = async (req, res) => {
     try {
         // ตรวจสอบบทบาทของผู้ใช้
@@ -224,6 +226,7 @@ const getStudentWithAllParams = async (req, res) => {
     }
 }
 
+// update student 
 const updateStudent = async (req, res) => {
     try {
         const {
@@ -313,6 +316,7 @@ const updateStudent = async (req, res) => {
     }
 }
 
+// delete student
 const deleteStudent = async (req, res) => {
     try {
         if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
