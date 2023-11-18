@@ -5,7 +5,7 @@ const Department = db.department
 // สร้างระดับการศึกษา
 const createYearlevel = async (req, res) => {
   try {
-    if (req.user.role !== 'admin' && req.user.role !== 'superAdmin') {
+    if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
@@ -53,7 +53,7 @@ const createYearlevel = async (req, res) => {
 // get all year level
 const getAllYearlevel = async (req, res) => {
   try {
-    if (req.user.role !== 'admin' && req.user.role !== 'superAdmin') {
+    if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
@@ -73,7 +73,7 @@ const getAllYearlevel = async (req, res) => {
 // info year level
 const getInfoYearlevel = async (req, res) => {
   try {
-    if (req.user.role !== 'admin' && req.user.role !== 'superAdmin') {
+    if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
@@ -94,7 +94,7 @@ const getInfoYearlevel = async (req, res) => {
 // search year level
 const getAllYearlevelWithAllParans = async (req, res) => {
   try {
-    if (req.user.role !== 'admin' && req.user.role !== 'superAdmin') {
+    if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
@@ -132,7 +132,7 @@ const getAllYearlevelWithAllParans = async (req, res) => {
 // update year level
 const updateYearlevel = async (req, res) => {
   try {
-    if (req.user.role !== 'admin' && req.user.role !== 'superAdmin') {
+    if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
       return res.status(401).json({ message: 'Unauthorized`' })
     }
 
@@ -169,7 +169,7 @@ const updateYearlevel = async (req, res) => {
 // delete year level
 const deleteYearlevel = async (req, res) => {
   try {
-    if (req.user.role !== 'admin' && req.user.role !== 'superAdmin') {
+    if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
       return res.status(401).json({ message: 'Unauthorized`' })
     }
 

@@ -130,7 +130,7 @@ const getinfoTeacher = async (req, res) => {
 const getAllTeacher = async (req, res) => {
   try {
     // ตรวจสอบบทบาทของผู้ใช้
-    if (req.user.role !== 'admin' && req.user.role !== 'superAdmin') {
+    if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
@@ -150,7 +150,7 @@ const getAllTeacher = async (req, res) => {
 const getTeacherWithAllParams = async (req, res) => {
   try {
     // ตรวจสอบบทบาทของผู้ใช้
-    if (req.user.role !== 'admin' && req.user.role !== 'superAdmin') {
+    if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
@@ -208,7 +208,7 @@ const updateTeacher = async (req, res) => {
 
   try {
     // ตรวจสอบบทบาทของผู้ใช้
-    if (req.user.role !== 'admin' &&
+    if (req.user.role !== 'Admin' &&
       req.user.role !== 'superAdmin' &&
       req.user.role !== 'teacher') {
       return res.status(401).json({ message: 'Unauthorized' })
@@ -274,14 +274,13 @@ const updateTeacher = async (req, res) => {
 const deleteTeacher = async (req, res) => {
   try {
     // ตรวจสอบบทบาทของผู้ใช้
-    if (req.user.role !== 'admin' && req.user.role !== 'superAdmin') {
+    if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
     const teacher = await Teacher.findOne({ where: { id: req.params.id } })
     if (!teacher) {
-      return res.stat
-      us(404).json({ message: 'ไม่พบครูที่ปรึกษา' })
+      return res.status(404).json({ message: 'ไม่พบครูที่ปรึกษา' })
     }
 
     const deletedTeacher = await teacher.destroy()

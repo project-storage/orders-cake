@@ -59,35 +59,37 @@ db.yearlevel.hasMany(db.teacher, {
   as: 'teachers',
 });
 
-// // one to one studnet yearlevel
-// db.student.hasOne(db.yearlevel, {
-//   foreignKey: 'yearlevel_id',
-//   as: 'yearlevels'
-// })
-// db.yearlevel.belongsTo(db.student, {
-//   foreignKey: 'yearlevel_id',
-//   as: 'students'
-// })
+// one to one studnet yearlevel
+db.student.belongsTo(db.yearlevel, {
+  foreignKey: 'yearlevel_id',
+  as: 'yearlevels'
+})
+db.yearlevel.hasOne(db.student, {
+  foreignKey: 'yearlevel_id',
+  as: 'students'
+})
 
-// // one to many student and teacher
-// db.student.hasMany(db.teacher, {
-//   foreignKey: 'teacher_id',
-//   as: 'teachers'
-// })
-// db.teacher.belongsTo(db.student, {
-//   foreignKey: 'teacher_id',
-//   as: 'students'
-// })
+// one to one student and department
+db.student.belongsTo(db.department, {
+  foreignKey: 'depart_id',
+  as: 'departments'
+})
+db.department.hasOne(db.student, {
+  foreignKey: 'depart_id',
+  as: 'students'
+})
 
-// // one to one student and department
-// db.student.hasOne(db.department, {
-//   foreignKey: 'stu_id',
-//   as: 'departments'
-// })
-// db.department.belongsTo(db.student, {
-//   foreignKey: 'stu_id',
-//   as: 'students'
-// })
+// one to many student and teacher
+db.student.belongsTo(db.teacher, {
+  foreignKey: 'teach_id',
+  as: 'teachers'
+})
+db.teacher.hasMany(db.student, {
+  foreignKey: 'teach_id',
+  as: 'students'
+})
+
+
 
 db.sequelize.sync({ alter: true }).then(() => {
   console.log('yes re-sync done!!')

@@ -5,7 +5,7 @@ const Department = db.department
 const createDepartment = async (req, res) => {
   try {
     // ตรวจสอบบทบาทของผู้ใช้
-    if (req.user.role !== 'admin' && req.user.role !== 'superAdmin') {
+    if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
@@ -39,7 +39,7 @@ const createDepartment = async (req, res) => {
 const getInfoDepartment = async (req, res) => {
   try {
     // ตรวจสอบบทบาทของผู้ใช้
-    if (req.user.role !== 'admin' && req.user.role !== 'superAdmin') {
+    if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
@@ -57,7 +57,7 @@ const getInfoDepartment = async (req, res) => {
 const getAllDepartment = async (req, res) => {
   try {
     // ตรวจสอบบทบาทของผู้ใช้
-    if (req.user.role !== 'admin' && req.user.role !== 'superAdmin') {
+    if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
@@ -73,7 +73,7 @@ const getAllDepartment = async (req, res) => {
 const getDepartmentWithAllParams = async (req, res) => {
   try {
     // ตรวจสอบบทบาทของผู้ใช้
-    if (req.user.role !== 'admin' && req.user.role !== 'superAdmin') {
+    if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
@@ -103,7 +103,7 @@ const getDepartmentWithAllParams = async (req, res) => {
 const updateDepartment = async (req, res) => {
   try {
     // ตรวจสอบบทบาทของผู้ใช้
-    if (req.user.role !== 'admin' && req.user.role !== 'superAdmin') {
+    if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
@@ -141,7 +141,7 @@ const updateDepartment = async (req, res) => {
 const deleteDepartment = async (req, res) => {
   try {
     // ตรวจสอบบทบาทของผู้ใช้
-    if (req.user.role !== 'admin' && req.user.role !== 'superAdmin') {
+    if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 

@@ -8,7 +8,7 @@ const User = db.user
 
 require('dotenv').config({ path: './config.env' })
 
-// create super admin
+// create super Admin
 const createSuperAdminUser = async (req, res) => {
   try {
     const { title, name, surname, email, username, password } = req.body
@@ -20,7 +20,7 @@ const createSuperAdminUser = async (req, res) => {
     // hash the password
     const hashedPassword = await bcrypt.hash(password, saltRounds)
 
-    // create the admin user
+    // create the Admin user
     const newsupperAdminUser = new User({
       title,
       name,
@@ -41,7 +41,7 @@ const createSuperAdminUser = async (req, res) => {
   }
 }
 
-// create admin
+// create Admin
 const createAdminUser = async (req, res) => {
   try {
     const { title, name, surname, username, password } = req.body
@@ -53,7 +53,7 @@ const createAdminUser = async (req, res) => {
     // hash the password
     const hashedPassword = await bcrypt.hash(password, saltRounds)
 
-    // create the admin user
+    // create the Admin user
     const newAdminUser = new User({
       title,
       name,
@@ -95,7 +95,7 @@ const registerUser = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, saltRounds)
 
-    if (req.user.role === 'admin' || req.user.role === 'superAdmin') {
+    if (req.user.role === 'Admin' || req.user.role === 'superAdmin') {
       if (role === 'DepatMoney' || role === 'DepatCake') {
         const newUser = new User({
           title,
@@ -134,6 +134,8 @@ const loginUser = async (req, res) => {
     let whereClause
 
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(username)) {
+      whereClause = { email: username }
+    }else{
       whereClause = { username: username }
     }
 
@@ -201,7 +203,7 @@ const getUserInfo = async (req, res) => {
 const getAllUser = async (req, res) => {
   try {
     // ตรวจสอบบทบาทของผู้ใช้
-    if (req.user.role !== 'admin' && req.user.role !== 'superAdmin') {
+    if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
@@ -221,7 +223,7 @@ const getAllUser = async (req, res) => {
 const getUserWithAllParams = async (req, res) => {
   try {
     // ตรวจสอบบทบาทของผู้ใช้
-    if (req.user.role !== 'admin' && req.user.role !== 'superAdmin') {
+    if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
@@ -273,13 +275,13 @@ const updateUser = async (req, res) => {
     let user
 
     // ตรวจสอบบทบาทของผู้ใช้
-    if (req.user.role !== 'admin' && req.user.role !== 'superAdmin') {
+    if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
     if (
       req.user.role === 'superAdmin' ||
-      req.user.role === 'admin' ||
+      req.user.role === 'Admin' ||
       req.user.role === 'DepatMoney' ||
       req.user.role === 'DepatCake'
     ) {
@@ -340,7 +342,7 @@ const updateUser = async (req, res) => {
 const deleteUser = async (req, res) => {
   try {
     // ตรวจสอบบทบาทของผู้ใช้
-    if (req.user.role !== 'admin' && req.user.role !== 'superAdmin') {
+    if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 

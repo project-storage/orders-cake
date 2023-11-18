@@ -1,16 +1,16 @@
 module.exports = (sequelize, DataTypes) => {
   const Student = sequelize.define('students', {
-    title: {
-      type: DataTypes.STRING(5),
-      allowNull: false
-    },
     stu_number: {
       type: DataTypes.STRING(20),
       allowNull: true
     },
-    stu_IdCard: {
+    stu_Idcard: {
       type: DataTypes.STRING(20),
       allowNull: true
+    },
+    title: {
+      type: DataTypes.STRING(5),
+      allowNull: false
     },
     stu_name: {
       type: DataTypes.STRING(50),
