@@ -69,6 +69,8 @@ const loginTeacher = async (req, res) => {
     let whereClause
 
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(teach_username)) {
+      whereClause = { teach_email: teach_username }
+    } else {
       whereClause = { teach_username: teach_username }
     }
 
