@@ -1,5 +1,9 @@
 module.exports = (sequelize, DataTypes) => {
     const Bill = sequelize.define('bills', {
+        years_id:{
+            type:DataTypes.INTEGER,
+            allowNull:false
+        },
         bill_number: {
             type: DataTypes.STRING(1000),
             allowNull: false
