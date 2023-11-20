@@ -21,13 +21,13 @@ const createYearlevel = async (req, res) => {
       return res.status(400).json({ message: 'กรุณาเลือกแผนก' })
     }
 
-    const alreadyExistsYearlevel = await Yearlevel.findOne({
-      where: { level_name }
-    })
+    // const alreadyExistsYearlevel = await Yearlevel.findOne({
+    //   where: { level_name }
+    // })
 
-    if (alreadyExistsYearlevel) {
-      return res.status(409).json({ message: 'มีห้องเรียนอยู่แล้ว' })
-    }
+    // if (alreadyExistsYearlevel) {
+    //   return res.status(409).json({ message: 'มีห้องเรียนอยู่แล้ว' })
+    // }
 
     if (isNaN(depart_id)) {
       return res

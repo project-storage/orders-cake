@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt')
 const saltRounds = 10
 const Teacher = db.teacher
 const YearLevel = db.yearlevel
+const Department = db.department
 
 require('dotenv').config({ path: './config.env' })
 
@@ -115,7 +116,29 @@ const loginTeacher = async (req, res) => {
 // info teacher 
 const getinfoTeacher = async (req, res) => {
   try {
-    const teacher = await Teacher.findOne({ where: { id: req.user.id }, include: { model: YearLevel, as: 'yearlevels' } })
+    const teacher = await Teacher.findOne({
+      where: { id: req.user.id }, include: [
+        {
+          model: YearLevel, as: 'yearlevel1',
+          include: [
+            {
+              model: Department, as: 'departments'
+            }]
+        },
+        {
+          model: YearLevel, as: 'yearlevel2', include: [
+            {
+              model: Department, as: 'departments'
+            }]
+        },
+        {
+          model: YearLevel, as: 'yearlevel3', include: [
+            {
+              model: Department, as: 'departments'
+            }]
+        },
+      ],
+    })
 
     if (!teacher) {
       return res.status(401).json({ message: "ไม่พบข้อมูลผู้ใช้งาน" })
@@ -136,7 +159,29 @@ const getAllTeacher = async (req, res) => {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
-    const teacher = await Teacher.findAll({ include: { model: YearLevel, as: 'yearlevels' } })
+    const teacher = await Teacher.findAll({
+      include: [
+        {
+          model: YearLevel, as: 'yearlevel1',
+          include: [
+            {
+              model: Department, as: 'departments'
+            }]
+        },
+        {
+          model: YearLevel, as: 'yearlevel2', include: [
+            {
+              model: Department, as: 'departments'
+            }]
+        },
+        {
+          model: YearLevel, as: 'yearlevel3', include: [
+            {
+              model: Department, as: 'departments'
+            }]
+        },
+      ],
+    })
     if (!teacher) {
       return res.status(404).json({ message: 'ไม่พบข้อมูลครูที่ปรึกษา' })
     }
@@ -178,7 +223,29 @@ const getTeacherWithAllParams = async (req, res) => {
       whereClause.role = role
     }
 
-    const teacher = await Teacher.findAll({ where: whereClause, include: { model: YearLevel, as: 'yearlevels' } })
+    const teacher = await Teacher.findAll({
+      where: whereClause, include: [
+        {
+          model: YearLevel, as: 'yearlevel1',
+          include: [
+            {
+              model: Department, as: 'departments'
+            }]
+        },
+        {
+          model: YearLevel, as: 'yearlevel2', include: [
+            {
+              model: Department, as: 'departments'
+            }]
+        },
+        {
+          model: YearLevel, as: 'yearlevel3', include: [
+            {
+              model: Department, as: 'departments'
+            }]
+        },
+      ],
+    })
     if (teacher.length === 0) {
       return res.status(405).json({ message: "ไม่พบข้อมูลครูที่ปรึกษา" })
     }
@@ -220,7 +287,29 @@ const updateTeacher = async (req, res) => {
     }
     teacher = await Teacher.findOne({
       where: { id: req.params.id },
-      include: { model: YearLevel, as: 'yearlevels' }
+      include: [
+        {
+          model: YearLevel, as: 'yearlevel1',
+          include: [
+            {
+              model: Department, as: 'departments'
+            }]
+        },
+        {
+          model: YearLevel, as: 'yearlevel2',
+          include: [
+            {
+              model: Department, as: 'departments'
+            }]
+        },
+        {
+          model: YearLevel, as: 'yearlevel3',
+          include: [
+            {
+              model: Department, as: 'departments'
+            }]
+        },
+      ],
     })
 
     if (!teacher) {

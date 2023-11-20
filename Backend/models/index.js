@@ -52,12 +52,34 @@ db.yearlevel.belongsTo(db.department, {
 // one to many teacher and year level
 db.teacher.belongsTo(db.yearlevel, {
   foreignKey: 'yearlevel_id',
-  as: 'yearlevels',
+  as: 'yearlevel1',
 });
+
+db.teacher.belongsTo(db.yearlevel, {
+  foreignKey: 'yearlevel_id2',
+  as: 'yearlevel2',
+});
+
+db.teacher.belongsTo(db.yearlevel, {
+  foreignKey: 'yearlevel_id3',
+  as: 'yearlevel3',
+});
+
 db.yearlevel.hasMany(db.teacher, {
   foreignKey: 'yearlevel_id',
-  as: 'teachers',
+  as: 'teachers1',
 });
+
+db.yearlevel.hasMany(db.teacher, {
+  foreignKey: 'yearlevel_id2',
+  as: 'teachers2',
+});
+
+db.yearlevel.hasMany(db.teacher, {
+  foreignKey: 'yearlevel_id3',
+  as: 'teachers3',
+});
+
 
 // one to one studnet yearlevel
 db.student.belongsTo(db.yearlevel, {
