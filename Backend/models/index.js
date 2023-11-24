@@ -54,32 +54,26 @@ db.teacher.belongsTo(db.yearlevel, {
   foreignKey: 'yearlevel_id',
   as: 'yearlevel1',
 });
-
 db.teacher.belongsTo(db.yearlevel, {
   foreignKey: 'yearlevel_id2',
   as: 'yearlevel2',
 });
-
 db.teacher.belongsTo(db.yearlevel, {
   foreignKey: 'yearlevel_id3',
   as: 'yearlevel3',
 });
-
 db.yearlevel.hasMany(db.teacher, {
   foreignKey: 'yearlevel_id',
   as: 'teachers1',
 });
-
 db.yearlevel.hasMany(db.teacher, {
   foreignKey: 'yearlevel_id2',
   as: 'teachers2',
 });
-
 db.yearlevel.hasMany(db.teacher, {
   foreignKey: 'yearlevel_id3',
   as: 'teachers3',
 });
-
 
 // one to one studnet yearlevel
 db.student.belongsTo(db.yearlevel, {
@@ -104,11 +98,19 @@ db.department.hasOne(db.student, {
 // one to many student and teacher
 db.student.belongsTo(db.teacher, {
   foreignKey: 'teach_id',
-  as: 'teachers'
+  as: 'teachers1'
+})
+db.student.belongsTo(db.teacher, {
+  foreignKey: 'teach_id2',
+  as: 'teachers2'
 })
 db.teacher.hasMany(db.student, {
   foreignKey: 'teach_id',
-  as: 'students'
+  as: 'students1'
+})
+db.teacher.hasMany(db.student, {
+  foreignKey: 'teach_id2',
+  as: 'students2'
 })
 
 

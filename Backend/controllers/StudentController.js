@@ -141,7 +141,8 @@ const getInfoStudent = async (req, res) => {
             include: [
                 { model: YearLevel, as: 'yearlevels' },
                 { model: Department, as: 'departments' },
-                { model: Teacher, as: 'teachers' }
+                { model: Teacher, as: 'teachers1' },
+                { model: Teacher, as: 'teachers2' }
             ]
         })
 
@@ -168,7 +169,8 @@ const getAllStudent = async (req, res) => {
             include: [
                 { model: YearLevel, as: 'yearlevels' },
                 { model: Department, as: 'departments' },
-                { model: Teacher, as: 'teachers' }
+                { model: Teacher, as: 'teachers1' },
+                { model: Teacher, as: "teachers2" }
             ]
         })
 
@@ -261,7 +263,8 @@ const updateStudent = async (req, res) => {
             include: [
                 { model: YearLevel, as: 'yearlevels' },
                 { model: Department, as: 'departments' },
-                { model: Teacher, as: 'teachers' }
+                { model: Teacher, as: 'teachers1' },
+                { model: Teacher, as: 'teachers2' }
             ]
         })
 
@@ -303,7 +306,7 @@ const updateStudent = async (req, res) => {
             student.stu_password = hashedPassword
         }
 
-        const updateStudent = await Student.save()
+        const updateStudent = await student.save()
 
         if (!updateStudent) {
             return res.status(400).json({ message: "เกิดข้อผิดพลาดในการอัปเดทข้อมูลนักศึกษา" })
@@ -333,7 +336,7 @@ const deleteStudent = async (req, res) => {
             return res.status(400).json({ message: "เกิดข้อผิดพลาดในการลบข้อมูลนักศึกษา" })
         }
 
-        return res.status(200).json({ message: "เกิดข้อผิดพลาดในการลบข้อมูลนักศึกษา" })
+        return res.status(200).json({ message: "ลบนักศึกษาสำเร็จ" })
     } catch (error) {
         console.error("Error", error);
         return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการลบข้อมูลนักศึกษา' })
