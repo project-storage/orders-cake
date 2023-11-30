@@ -6,7 +6,7 @@ require('./auth/passport')
 const app = express()
 
 const corsOptions = {
-  origin: '*', 
+  origin: '*',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE'
 }
 
@@ -21,6 +21,7 @@ const departmentRouter = require('./routers/DepartmentRoutes')
 const YearlevelRouter = require('./routers/YearLevelRoutes')
 const TeacherRouter = require('./routers/teacherRoutes')
 const StudentRouter = require('./routers/studentsRoutes')
+const TeamRouter = require('./routers/TeamRoutes')
 
 // API Routes
 app.use('/api/user', userRouter)
@@ -28,6 +29,7 @@ app.use('/api/department', departmentRouter)
 app.use('/api/year-level', YearlevelRouter)
 app.use('/api/teachcer', TeacherRouter)
 app.use('/api/student', StudentRouter)
+app.use('/api/team', TeamRouter)
 
 // Test Routes
 app.get('/api', (req, res) => {

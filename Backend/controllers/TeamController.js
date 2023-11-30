@@ -1,0 +1,108 @@
+const db = require('../models')
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
+
+const saltRounds = 10
+const TeamUse = db.teamUse
+
+// register team
+const createTeam = async (req, res) => {
+    try {
+        const {
+            team_type,
+            team_username,
+            team_password,
+            team_telephone,
+            member1,
+            member2,
+            member3,
+            member4,
+            member5
+        } = req.body
+
+        const alreadyExistsUsername = await TeamUse.findOne({ where: { team_username } })
+        const alreadyExistsTelephone = await TeamUse.findOne({ where: { team_telephone } })
+
+        if (alreadyExistsTelephone) {
+            return res.json({ message: 'มีเบอร์โทรอยู่แล้ว' })
+        }
+        if (alreadyExistsUsername) {
+            return res.json({ message: 'มีชื่อผู้ใช้งานนี้อยู่แล้ว' })
+        }
+
+        const hashedPassword = await bcrypt.hash(team_password, saltRounds)
+
+        const newTeame = new TeamUse({
+            team_type,
+            team_username,
+            team_password: hashedPassword,
+            team_telephone,
+            member1,
+            member2,
+            member3,
+            member4,
+            member5,
+            role: "team"
+        })
+
+        await newTeame.save()
+        return res.status(200).json({ message: 'สร้างทีมสำเร็จ' })
+    } catch (error) {
+        console.error('Error', error);
+        return res.status(500).json({ message: "เกิดข้อผิลพลาดในการสร้าง ทีม" })
+    }
+}
+
+// login 
+const loginTeam = async (req, res) => {
+    try {
+        const { team_username, team_password } = req.body
+        let whereClause
+
+        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(team_username)) {
+            whereClause = { team_username: team_username }
+        }
+
+        const TeamWithIdentifier = await TeamUse.findOne({
+            where: whereClause
+        })
+
+        if (!TeamWithIdentifier) {
+            return res.status(401).json({ message: " 'ชื่อผู้ใช้งานไม่ถูกต้อง'" })
+        }
+
+        const passwordMatch = await bcrypt.compare(
+            team_password,
+            TeamWithIdentifier.team_password
+        )
+
+        if (!passwordMatch) {
+            return res.status(401).json({ message: "รหัสผ่านไม่ถูกต้อง" })
+        }
+
+        const jwtToken = jwt.sign({
+            id: TeamWithIdentifier.id,
+            type:TeamWithIdentifier.team_type,
+            username: TeamWithIdentifier.team_username,
+            role: TeamWithIdentifier.role
+        },
+            process.env.JWT_SECRET
+        )
+
+        return res.status(200).json({
+            message: 'ยินดีต้อนรับ',
+            type:TeamWithIdentifier.team_type,
+            username: team_username,
+            role: TeamWithIdentifier.role,
+            token: jwtToken
+        })
+    } catch (error) {
+        console.error("Error", error);
+        return res.status(500).json({ message: "เกิดข้อผิดพลาดในการล็อคอิน" })
+    }
+}
+
+module.exports ={
+    createTeam,
+    loginTeam
+}

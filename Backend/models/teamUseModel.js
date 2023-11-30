@@ -1,10 +1,14 @@
 module.exports = (sequelize, DataTypes) => {
     const teamUse = sequelize.define('team_uses', {
-        type_team: {
+        team_type: {
             type: DataTypes.STRING(5),
             allowNull: false
         },
-        team_name: {
+        team_username: {
+            type: DataTypes.STRING(100),
+            allowNull: false
+        },
+        team_password: {
             type: DataTypes.STRING(100),
             allowNull: false
         },
@@ -14,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         member1: {
             type: DataTypes.STRING(100),
-            allowNull: true
+            allowNull: false
         },
         member2: {
             type: DataTypes.STRING(100),
@@ -30,6 +34,10 @@ module.exports = (sequelize, DataTypes) => {
         },
         member5: {
             type: DataTypes.STRING(100),
+            allowNull: true
+        },
+        role: {
+            type: DataTypes.ENUM("team"),
             allowNull: true
         }
     })
