@@ -52,10 +52,8 @@ const createTeahcer = async (req, res) => {
     })
 
     await newTeacher.save()
-    console.log(newTeacher)
     return res.status(200).json({ message: 'สร้างครูที่ปรึกษาสำเร็จ' })
   } catch (error) {
-    console.error("Error", error);
     return res
       .status(500)
       .json({ message: 'เกิดข้อผิดพลาดในการสร้างครูที่ปรึกษาสำเร็จ' })
