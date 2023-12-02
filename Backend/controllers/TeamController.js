@@ -10,6 +10,7 @@ const createTeam = async (req, res) => {
     try {
         const {
             team_type,
+            team_name,
             team_username,
             team_password,
             team_telephone,
@@ -20,9 +21,13 @@ const createTeam = async (req, res) => {
             member5
         } = req.body
 
+        const alreadyExistsTeamNmae = await TeamUse.findOne({ where: { team_name } })
         const alreadyExistsUsername = await TeamUse.findOne({ where: { team_username } })
         const alreadyExistsTelephone = await TeamUse.findOne({ where: { team_telephone } })
 
+        if (alreadyExistsTeamNmae) {
+            return res.json({ message: 'มีชื่อทีมนี้อยู่แล้ว' })
+        }
         if (alreadyExistsTelephone) {
             return res.json({ message: 'มีเบอร์โทรอยู่แล้ว' })
         }
@@ -34,6 +39,7 @@ const createTeam = async (req, res) => {
 
         const newTeame = new TeamUse({
             team_type,
+            team_name,
             team_username,
             team_password: hashedPassword,
             team_telephone,
@@ -82,7 +88,8 @@ const loginTeam = async (req, res) => {
 
         const jwtToken = jwt.sign({
             id: TeamWithIdentifier.id,
-            type:TeamWithIdentifier.team_type,
+            type: TeamWithIdentifier.team_type,
+            team_name: TeamWithIdentifier.team_name,
             username: TeamWithIdentifier.team_username,
             role: TeamWithIdentifier.role
         },
@@ -91,7 +98,8 @@ const loginTeam = async (req, res) => {
 
         return res.status(200).json({
             message: 'ยินดีต้อนรับ',
-            type:TeamWithIdentifier.team_type,
+            type: TeamWithIdentifier.team_type,
+            team_name:TeamWithIdentifier.team_name,
             username: team_username,
             role: TeamWithIdentifier.role,
             token: jwtToken
@@ -102,7 +110,9 @@ const loginTeam = async (req, res) => {
     }
 }
 
-module.exports ={
+// Info team
+
+module.exports = {
     createTeam,
     loginTeam
 }
