@@ -99,7 +99,7 @@ const loginTeam = async (req, res) => {
         return res.status(200).json({
             message: 'ยินดีต้อนรับ',
             type: TeamWithIdentifier.team_type,
-            team_name:TeamWithIdentifier.team_name,
+            team_name: TeamWithIdentifier.team_name,
             username: team_username,
             role: TeamWithIdentifier.role,
             token: jwtToken
@@ -111,8 +111,23 @@ const loginTeam = async (req, res) => {
 }
 
 // Info team
+const getInfoTeam = async (req, res) => {
+    try {
+        const team = await TeamUse.findOne({ where: { id: req.user.id } })
+
+        if (!team) {
+            return res.status(401).json({ message: "ไม่พบข้อมูลผู้ใช้งาน" })
+        }
+
+        return res.status(200).json({ team })
+    } catch (error) {
+        console.error("Error", error);
+        return res.status(500).json({ message: "เกิดข้อผิดพลาดในการดึงข้อมูลส่วนตัว" })
+    }
+}
 
 module.exports = {
     createTeam,
-    loginTeam
+    loginTeam,
+    getInfoTeam
 }
