@@ -126,8 +126,29 @@ const getInfoTeam = async (req, res) => {
     }
 }
 
+// all team
+const getAllTeam = async (req, res) => {
+    try {
+        // ตรวจสอบบทบาทของผู้ใช้
+        if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
+            return res.status(401).json({ message: 'Unauthorized' })
+        }
+        const team = await TeamUse.findAll()
+
+        if (!team) {
+            return res.status(404).json({ message: 'ไม่พบข้อมูลทีม' })
+        }
+
+        return res.status(200).json({ team })
+    } catch (error) {
+        console.error("Error", error);
+        return res.status(500).json({ message: "เกิดข้อผิดพลาดในการดึงข้อมูลทั้งหมด" })
+    }
+}
+
 module.exports = {
     createTeam,
     loginTeam,
-    getInfoTeam
+    getInfoTeam,
+    getAllTeam
 }
