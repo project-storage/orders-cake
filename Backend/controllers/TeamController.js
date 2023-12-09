@@ -146,9 +146,71 @@ const getAllTeam = async (req, res) => {
     }
 }
 
+// search team
+const getTeamWithAllParams = async (req, res) => {
+    try {
+        // ตรวจสอบบทบาทของผู้ใช้
+        if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
+            return res.status(401).json({ message: 'Unauthorized' })
+        }
+
+        const {
+            id,
+            team_type,
+            team_name,
+            member1,
+            member2,
+            member3,
+            member4,
+            member5
+        } = req.query
+
+        const whereClause = {}
+        if (id) {
+            whereClause.id = id
+        }
+        if (team_type) {
+            whereClause.team_type = team_type
+        }
+        if (team_name) {
+            whereClause.team_name = team_name
+        }
+        if (member1) {
+            whereClause.member1 = member1
+        }
+        if (member2) {
+            whereClause.member2 = member2
+        }
+        if (member3) {
+            whereClause.member3 = member3
+        }
+        if (member4) {
+            whereClause.member4 = member4
+        }
+        if (member5) {
+            whereClause.member5 = member5
+        }
+
+        const team = await TeamUse.findAll({
+            where: whereClause
+        })
+
+        if (team.length === 0) {
+            return res.status(405).json({ message: "ไม่พบข้อมูลทีม" })
+        }
+
+        return res.status(200).json({ team })
+
+    } catch (error) {
+        console.error("Error", error);
+        return res.status(500).json({ message: "เกิดข้อผิดพลาดในการค้นหาข้อมูล" })
+    }
+}
+
 module.exports = {
     createTeam,
     loginTeam,
     getInfoTeam,
-    getAllTeam
+    getAllTeam,
+    getTeamWithAllParams
 }
