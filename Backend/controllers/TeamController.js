@@ -21,11 +21,11 @@ const createTeam = async (req, res) => {
             member5
         } = req.body
 
-        const alreadyExistsTeamNmae = await TeamUse.findOne({ where: { team_name } })
+        const alreadyExistsTeamName = await TeamUse.findOne({ where: { team_name } })
         const alreadyExistsUsername = await TeamUse.findOne({ where: { team_username } })
         const alreadyExistsTelephone = await TeamUse.findOne({ where: { team_telephone } })
 
-        if (alreadyExistsTeamNmae) {
+        if (alreadyExistsTeamName) {
             return res.json({ message: 'มีชื่อทีมนี้อยู่แล้ว' })
         }
         if (alreadyExistsTelephone) {
@@ -37,7 +37,7 @@ const createTeam = async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(team_password, saltRounds)
 
-        const newTeame = new TeamUse({
+        const newTeam = new TeamUse({
             team_type,
             team_name,
             team_username,
@@ -51,39 +51,37 @@ const createTeam = async (req, res) => {
             role: "team"
         })
 
-        await newTeame.save()
-        return res.status(200).json({ message: 'สร้างทีมสำเร็จ' })
+        await newTeam.save()
+        return res.status(200).json({ message: 'สร้างผู้ใช้งานทีมสำเร็จ', create: newTeam })
     } catch (error) {
         console.error('Error', error);
-        return res.status(500).json({ message: "เกิดข้อผิลพลาดในการสร้าง ทีม" })
+        return res.status(500).json({ message: "เกิดข้อผิลพลาดในการสร้างผู้ใช้งานทีม" })
     }
 }
 
 // login 
 const loginTeam = async (req, res) => {
     try {
-        const { team_username, team_password } = req.body
-        let whereClause
+        const { team_username, team_password } = req.body;
 
-        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(team_username)) {
-            whereClause = { team_username: team_username }
-        }
+        const isEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(team_username);
+        const whereClause = isEmail ? { team_username } : { team_username };
 
         const TeamWithIdentifier = await TeamUse.findOne({
             where: whereClause
-        })
+        });
 
         if (!TeamWithIdentifier) {
-            return res.status(401).json({ message: " 'ชื่อผู้ใช้งานไม่ถูกต้อง'" })
+            return res.status(401).json({ message: "ชื่อผู้ใช้งานทีมไม่ถูกต้อง" });
         }
 
         const passwordMatch = await bcrypt.compare(
             team_password,
             TeamWithIdentifier.team_password
-        )
+        );
 
         if (!passwordMatch) {
-            return res.status(401).json({ message: "รหัสผ่านไม่ถูกต้อง" })
+            return res.status(401).json({ message: "รหัสผ่านไม่ถูกต้อง" });
         }
 
         const jwtToken = jwt.sign({
@@ -94,7 +92,7 @@ const loginTeam = async (req, res) => {
             role: TeamWithIdentifier.role
         },
             process.env.JWT_SECRET
-        )
+        );
 
         return res.status(200).json({
             message: 'ยินดีต้อนรับ',
@@ -103,12 +101,13 @@ const loginTeam = async (req, res) => {
             username: team_username,
             role: TeamWithIdentifier.role,
             token: jwtToken
-        })
+        });
     } catch (error) {
         console.error("Error", error);
-        return res.status(500).json({ message: "เกิดข้อผิดพลาดในการล็อคอิน" })
+        return res.status(500).json({ message: "เกิดข้อผิดพลาดในการล็อคอิน" });
     }
 }
+
 
 // Info team
 const getInfoTeam = async (req, res) => {
@@ -116,13 +115,13 @@ const getInfoTeam = async (req, res) => {
         const team = await TeamUse.findOne({ where: { id: req.user.id } })
 
         if (!team) {
-            return res.status(401).json({ message: "ไม่พบข้อมูลผู้ใช้งาน" })
+            return res.status(401).json({ message: "ไม่พบข้อมูลผู้ใช้งานทีม" })
         }
 
-        return res.status(200).json({ team })
+        return res.status(200).json({ team: team })
     } catch (error) {
         console.error("Error", error);
-        return res.status(500).json({ message: "เกิดข้อผิดพลาดในการดึงข้อมูลส่วนตัว" })
+        return res.status(500).json({ message: "เกิดข้อผิดพลาดในการดึงข้อมูลส่วนตัวผู้ใช้งานทีม" })
     }
 }
 
@@ -136,13 +135,13 @@ const getAllTeam = async (req, res) => {
         const team = await TeamUse.findAll()
 
         if (!team) {
-            return res.status(404).json({ message: 'ไม่พบข้อมูลทีม' })
+            return res.status(404).json({ message: 'ไม่พบข้อมูลผู้ใช้งานทีม' })
         }
 
-        return res.status(200).json({ team })
+        return res.status(200).json({ team: team })
     } catch (error) {
         console.error("Error", error);
-        return res.status(500).json({ message: "เกิดข้อผิดพลาดในการดึงข้อมูลทั้งหมด" })
+        return res.status(500).json({ message: "เกิดข้อผิดพลาดในการดึงข้อมูลผู้ใช้ทีมงานทั้งหมด" })
     }
 }
 
@@ -196,14 +195,14 @@ const getTeamWithAllParams = async (req, res) => {
         })
 
         if (team.length === 0) {
-            return res.status(405).json({ message: "ไม่พบข้อมูลทีม" })
+            return res.status(405).json({ message: "ไม่พบข้อมูลผู้ใช้งานทีม" })
         }
 
-        return res.status(200).json({ team })
+        return res.status(200).json({ team: team })
 
     } catch (error) {
         console.error("Error", error);
-        return res.status(500).json({ message: "เกิดข้อผิดพลาดในการค้นหาข้อมูล" })
+        return res.status(500).json({ message: "เกิดข้อผิดพลาดในการค้นหาข้อมูลผู้ใช้งาน" })
     }
 }
 
@@ -231,7 +230,7 @@ const updateTeam = async (req, res) => {
         }
 
         if (!req.params.id) {
-            return res.status(404).json({ message: 'อัปเดตครูที่ปรึกษาต้องระบบ id' })
+            return res.status(404).json({ message: 'อัปเดตคผู้ใช้งานทีมต้องระบบ id' })
         }
 
         team = await TeamUse.findOne({ where: { id: req.params.id } })
@@ -323,15 +322,15 @@ const updateTeam = async (req, res) => {
         const updateTeam = await team.save()
 
         if (!updateTeam) {
-            return res.status(400).json({ message: 'ข้อผิดพลาดในการอัปเดตข้อมูลทีม' })
+            return res.status(400).json({ message: 'ข้อผิดพลาดในการอัปเดตข้อมูลผู้ใช้งานทีม' })
         }
 
-        return res.status(200).json({ message: "ทีมอัปเดตเรียบร้อยแล้ว" })
+        return res.status(200).json({ message: "ผู้ใช้งานทีมอัปเดตเรียบร้อยแล้ว", Update: team })
     } catch (error) {
         console.error("Error", error);
         return res
             .status(500)
-            .json({ message: 'เกิดข้อผิดพลาดในการอัปเดตข้อมูลทีม' })
+            .json({ message: 'เกิดข้อผิดพลาดในการอัปเดตข้อมูลผู้ใช้งานทีม' })
     }
 }
 
@@ -345,18 +344,18 @@ const deleteTeam = async (req, res) => {
 
         const team = await TeamUse.findOne({ where: { id: req.params.id } })
         if (!team) {
-            return res.status(404).json({ message: 'ไม่พบข้อมูลผู้ใช้งาน' })
+            return res.status(404).json({ message: 'ไม่พบข้อมูลผู้ใช้งานทีม' })
         }
 
         const deletedTeam = await team.destroy()
         if (!deletedTeam) {
-            return res.status(400).json({ message: 'เกิดข้อผิดพลาดในการลบผู้ใช้งาน' })
+            return res.status(400).json({ message: 'เกิดข้อผิดพลาดในการลบผู้ใช้งานทีม' })
         }
 
         return res.status(200).json({ message: "ลบข้อมูลสำเร็จ" })
     } catch (error) {
         console.error("Error", error);
-        return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการลบผู้ใช้งาน' })
+        return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการลบผู้ใช้งานทีม' })
     }
 }
 module.exports = {
