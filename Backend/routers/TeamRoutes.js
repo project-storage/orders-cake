@@ -12,4 +12,7 @@ TeamRouter.get('/search-team', passport.authenticate('jwt', { session: false }),
 
 // methode put
 TeamRouter.put('/update-team/:id', passport.authenticate('jwt', { session: false }), TeamController.updateTeam)
+
+// method delete
+TeamRouter.delete('/delete-team/:id',passport.authenticate('jwt',{session:false}),TeamController.deleteTeam)
 module.exports = TeamRouter

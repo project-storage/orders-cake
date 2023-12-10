@@ -335,11 +335,36 @@ const updateTeam = async (req, res) => {
     }
 }
 
+// Delete team
+const deleteTeam = async (req, res) => {
+    try {
+        // ตรวจสอบบทบาทของผู้ใช้
+        if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
+            return res.status(401).json({ message: 'Unauthorized' })
+        }
+
+        const team = await TeamUse.findOne({ where: { id: req.params.id } })
+        if (!team) {
+            return res.status(404).json({ message: 'ไม่พบข้อมูลผู้ใช้งาน' })
+        }
+
+        const deletedTeam = await team.destroy()
+        if (!deletedTeam) {
+            return res.status(400).json({ message: 'เกิดข้อผิดพลาดในการลบผู้ใช้งาน' })
+        }
+
+        return res.status(200).json({ message: "ลบข้อมูลสำเร็จ" })
+    } catch (error) {
+        console.error("Error", error);
+        return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการลบผู้ใช้งาน' })
+    }
+}
 module.exports = {
     createTeam,
     loginTeam,
     getInfoTeam,
     getAllTeam,
     getTeamWithAllParams,
-    updateTeam
+    updateTeam,
+    deleteTeam
 }
