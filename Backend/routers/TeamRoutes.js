@@ -9,4 +9,7 @@ TeamRouter.post('/login-team', TeamController.loginTeam)
 TeamRouter.get('/info-team', passport.authenticate('jwt', { session: false }), TeamController.getInfoTeam)
 TeamRouter.get('/all-team', passport.authenticate('jwt', { session: false }), TeamController.getAllTeam)
 TeamRouter.get('/search-team', passport.authenticate('jwt', { session: false }), TeamController.getTeamWithAllParams)
+
+// methode put
+TeamRouter.put('/update-team/:id', passport.authenticate('jwt', { session: false }), TeamController.updateTeam)
 module.exports = TeamRouter
