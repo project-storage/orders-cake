@@ -22,6 +22,7 @@ const YearlevelRouter = require('./routers/YearLevelRoutes')
 const TeacherRouter = require('./routers/teacherRoutes')
 const StudentRouter = require('./routers/studentsRoutes')
 const TeamRouter = require('./routers/TeamRoutes')
+const CakeRouter = require('./routers/CakeRoutes')
 
 // API Routes
 app.use('/api/user', UserRouter)
@@ -30,6 +31,7 @@ app.use('/api/year-level', YearlevelRouter)
 app.use('/api/teachcer', TeacherRouter)
 app.use('/api/student', StudentRouter)
 app.use('/api/team', TeamRouter)
+app.use('/api/cake',CakeRouter)
 
 // Test Routes
 app.get('/api', (req, res) => {
@@ -39,6 +41,9 @@ app.get('/api', (req, res) => {
 app.get('/api/user-test', (req, res) => {
   res.send('Hello User')
 })
+
+// static images folder
+app.use('/Images',express.static('./Images'))
 
 // Port
 const PORT = process.env.PORT || 8080

@@ -12,9 +12,8 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.DECIMAL(10, 2),
             allowNull: false
         },
-        img: {
-            type: DataTypes.STRING,
-            allowNull: true
+        image: {
+            type: DataTypes.BLOB('long'),
         }
     })
 
