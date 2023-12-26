@@ -1,22 +1,22 @@
 module.exports = (sequelize, DataTypes) => {
-    const teamUse = sequelize.define('team_uses', {
-        team_type: {
+    const Team = sequelize.define('teams', {
+        teamType: {
             type: DataTypes.STRING(5),
             allowNull: false
         },
-        team_name: {
+        teamName: {
             type: DataTypes.STRING(100),
             allowNull: false
         },
-        team_username: {
+        username: {
             type: DataTypes.STRING(100),
             allowNull: false
         },
-        team_password: {
+        password: {
             type: DataTypes.STRING(100),
             allowNull: false
         },
-        team_telephone: {
+        teamTelephone: {
             type: DataTypes.STRING(10),
             allowNull: false
         },
@@ -45,5 +45,5 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: true
         }
     })
-    return teamUse
+    return Team
 }

@@ -1,10 +1,10 @@
 module.exports = (sequelize, DataTypes) => {
   const Student = sequelize.define('students', {
-    stu_number: {
+    stuNumber: {
       type: DataTypes.STRING(20),
       allowNull: true
     },
-    stu_Idcard: {
+    stuIdCard: {
       type: DataTypes.STRING(20),
       allowNull: true
     },
@@ -12,27 +12,27 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(5),
       allowNull: false
     },
-    stu_name: {
+    stuNane: {
       type: DataTypes.STRING(50),
       allowNull: false
     },
-    stu_surname: {
+    stuSurname: {
       type: DataTypes.STRING(50),
       allowNull: false
     },
-    stu_telephone: {
+    stuTelephone: {
       type: DataTypes.STRING(10),
       allowNull: false
     },
-    stu_email: {
+    email: {
       type: DataTypes.STRING(100),
       allowNull: true
     },
-    stu_username: {
+    username: {
       type: DataTypes.STRING(100),
       allowNull: true
     },
-    stu_password: {
+    password: {
       type: DataTypes.STRING(100),
       allowNull: true
     },
