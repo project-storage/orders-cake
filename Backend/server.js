@@ -16,16 +16,16 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 // Routers
-const userRouter = require('./routers/userRoutes')
-const departmentRouter = require('./routers/DepartmentRoutes')
+const UserRouter = require('./routers/userRoutes')
+const DepartmentRouter = require('./routers/DepartmentRoutes')
 const YearlevelRouter = require('./routers/YearLevelRoutes')
 const TeacherRouter = require('./routers/teacherRoutes')
 const StudentRouter = require('./routers/studentsRoutes')
 const TeamRouter = require('./routers/TeamRoutes')
 
 // API Routes
-app.use('/api/user', userRouter)
-app.use('/api/department', departmentRouter)
+app.use('/api/user', UserRouter)
+app.use('/api/department', DepartmentRouter)
 app.use('/api/year-level', YearlevelRouter)
 app.use('/api/teachcer', TeacherRouter)
 app.use('/api/student', StudentRouter)

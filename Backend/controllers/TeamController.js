@@ -9,11 +9,11 @@ const Team = db.team
 const createTeam = async (req, res) => {
     try {
         const {
-            team_type,
-            team_name,
-            team_username,
-            team_password,
-            team_telephone,
+            teamType,
+            teamName,
+            username,
+            password,
+            teamTelephone,
             member1,
             member2,
             member3,
@@ -21,9 +21,9 @@ const createTeam = async (req, res) => {
             member5
         } = req.body
 
-        const alreadyExistsTeamName = await Team.findOne({ where: { team_name } })
-        const alreadyExistsUsername = await Team.findOne({ where: { team_username } })
-        const alreadyExistsTelephone = await Team.findOne({ where: { team_telephone } })
+        const alreadyExistsTeamName = await Team.findOne({ where: { teamName } })
+        const alreadyExistsUsername = await Team.findOne({ where: { username } })
+        const alreadyExistsTelephone = await Team.findOne({ where: { teamTelephone } })
 
         if (alreadyExistsTeamName) {
             return res.json({ message: 'มีชื่อทีมนี้อยู่แล้ว' })
@@ -35,14 +35,14 @@ const createTeam = async (req, res) => {
             return res.json({ message: 'มีชื่อผู้ใช้งานนี้อยู่แล้ว' })
         }
 
-        const hashedPassword = await bcrypt.hash(team_password, saltRounds)
+        const hashedPassword = await bcrypt.hash(password, saltRounds)
 
         const newTeam = new Team({
-            team_type,
-            team_name,
-            team_username,
-            team_password: hashedPassword,
-            team_telephone,
+            teamType,
+            teamName,
+            username,
+            password: hashedPassword,
+            teamTelephone,
             member1,
             member2,
             member3,
@@ -62,10 +62,10 @@ const createTeam = async (req, res) => {
 // login 
 const loginTeam = async (req, res) => {
     try {
-        const { team_username, team_password } = req.body;
+        const { username, password } = req.body;
 
-        const isEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(team_username);
-        const whereClause = isEmail ? { team_username } : { team_username };
+        const isEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(username);
+        const whereClause = isEmail ? { username } : { username };
 
         const TeamWithIdentifier = await Team.findOne({
             where: whereClause
@@ -76,8 +76,8 @@ const loginTeam = async (req, res) => {
         }
 
         const passwordMatch = await bcrypt.compare(
-            team_password,
-            TeamWithIdentifier.team_password
+            password,
+            TeamWithIdentifier.password
         );
 
         if (!passwordMatch) {
@@ -86,9 +86,9 @@ const loginTeam = async (req, res) => {
 
         const jwtToken = jwt.sign({
             id: TeamWithIdentifier.id,
-            type: TeamWithIdentifier.team_type,
-            team_name: TeamWithIdentifier.team_name,
-            username: TeamWithIdentifier.team_username,
+            type: TeamWithIdentifier.teamType,
+            teamName: TeamWithIdentifier.teamName,
+            username: TeamWithIdentifier.username,
             role: TeamWithIdentifier.role
         },
             process.env.JWT_SECRET
@@ -96,9 +96,9 @@ const loginTeam = async (req, res) => {
 
         return res.status(200).json({
             message: 'ยินดีต้อนรับ',
-            type: TeamWithIdentifier.team_type,
-            team_name: TeamWithIdentifier.team_name,
-            username: team_username,
+            type: TeamWithIdentifier.teamType,
+            teamName: TeamWithIdentifier.teamName,
+            username: username,
             role: TeamWithIdentifier.role,
             token: jwtToken
         });
@@ -155,8 +155,8 @@ const getTeamWithAllParams = async (req, res) => {
 
         const {
             id,
-            team_type,
-            team_name,
+            teamType,
+            teamName,
             member1,
             member2,
             member3,
@@ -168,11 +168,11 @@ const getTeamWithAllParams = async (req, res) => {
         if (id) {
             whereClause.id = id
         }
-        if (team_type) {
-            whereClause.team_type = team_type
+        if (teamType) {
+            whereClause.teamType = teamType
         }
-        if (team_name) {
-            whereClause.team_name = team_name
+        if (teamName) {
+            whereClause.teamName = teamName
         }
         if (member1) {
             whereClause.member1 = member1
@@ -209,10 +209,10 @@ const getTeamWithAllParams = async (req, res) => {
 // update team
 const updateTeam = async (req, res) => {
     const {
-        team_name,
-        team_username,
-        team_password,
-        team_telephone,
+        teamName,
+        username,
+        password,
+        teamTelephone,
         member1,
         member2,
         member3,
@@ -239,24 +239,24 @@ const updateTeam = async (req, res) => {
             return res.status(404).json({ message: 'ไม่พบผู้ใช้งานทีม' })
         }
 
-        if (team_name !== team.team_name) {
-            const alreadyExistsTemaName = await Team.findOne({ where: { team_name: team_name } })
+        if (teamName !== team.teamName) {
+            const alreadyExistsTemaName = await Team.findOne({ where: { teamName: teamName } })
 
             if (alreadyExistsTemaName) {
                 return res.status(400).json({ message: "ชื่อผู้ใช้มีอยู่แล้ว" })
             }
         }
 
-        if (team_username !== team.team_username) {
-            const alreadyExistsTemaUsername = await Team.findOne({ where: { team_username: team_username } })
+        if (username !== team.username) {
+            const alreadyExistsTemaUsername = await Team.findOne({ where: { username: username } })
 
             if (alreadyExistsTemaUsername) {
                 return res.status(400).json({ message: "ชื่อผู้ใช้มีอยู่แล้ว" })
             }
         }
 
-        if (team_telephone !== team.team_telephone) {
-            const alreadyExistsTemaTelephone = await Team.findOne({ where: { team_telephone: team_telephone } })
+        if (teamTelephone !== team.teamTelephone) {
+            const alreadyExistsTemaTelephone = await Team.findOne({ where: { teamTelephone: teamTelephone } })
 
             if (alreadyExistsTemaTelephone) {
                 return res.status(400).json({ message: "มีเบอร์โทรศัพท์นี้อยู่แล้ว" })
@@ -305,18 +305,18 @@ const updateTeam = async (req, res) => {
             }
         }
 
-        team.team_name = team_name || team.team_name
-        team.team_username = team_username || team.team_username
-        team.team_telephone = team_telephone || team.team_telephone
+        team.teamName = teamName || team.teamName
+        team.username = username || team.username
+        team.teamTelephone = teamTelephone || team.teamTelephone
         team.member1 = member1 || team.member1
         team.member2 = member2 || team.member2
         team.member3 = member3 || team.member3
         team.member4 = member4 || team.member4
         team.member5 = member5 || team.member5
 
-        if (team_password) {
-            const hashedPassword = await bcrypt.hash(team_password, saltRounds)
-            team.team_password = hashedPassword
+        if (password) {
+            const hashedPassword = await bcrypt.hash(password, saltRounds)
+            team.password = hashedPassword
         }
 
         const updateTeam = await team.save()

@@ -13,15 +13,15 @@ require('dotenv').config({ path: './config.env' })
 // register student
 const createStudent = async (req, res) => {
     const {
+        stuNumber,
+        stuIdCard,
         title,
-        stu_number,
-        stu_Idcard,
-        stu_name,
-        stu_surname,
-        stu_telephone,
-        stu_email,
-        stu_username,
-        stu_password,
+        stuNane,
+        stuSurname,
+        stuTelephone,
+        email,
+        username,
+        password,
         yearlevel_id,
         depart_id,
         teach_id,
@@ -29,11 +29,11 @@ const createStudent = async (req, res) => {
     } = req.body
 
     try {
-        const alreadyExistsNumber = await Student.findOne({ where: { stu_number } })
-        const alreadyExistsIdCard = await Student.findOne({ where: { stu_Idcard } })
-        const alreadyExistsEmail = await Student.findOne({ where: { stu_email } })
-        const alreadyExistsUsername = await Student.findOne({ where: { stu_username } })
-        const alreadyExistsTelephone = await Student.findOne({ where: { stu_telephone } })
+        const alreadyExistsNumber = await Student.findOne({ where: { stuNumber } })
+        const alreadyExistsIdCard = await Student.findOne({ where: { stuIdCard } })
+        const alreadyExistsEmail = await Student.findOne({ where: { email } })
+        const alreadyExistsUsername = await Student.findOne({ where: { username } })
+        const alreadyExistsTelephone = await Student.findOne({ where: { stuTelephone } })
 
         if (alreadyExistsNumber) {
             return res.json({ message: 'มีเลขประจำตัวนักศึกษาอยู่แล้ว' })
@@ -51,18 +51,18 @@ const createStudent = async (req, res) => {
             return res.json({ message: 'มีหมายเลขโทรศัพท์อยู่แล้ว' })
         }
 
-        const hashedPassword = await bcrypt.hash(stu_password, saltRounds)
+        const hashedPassword = await bcrypt.hash(password, saltRounds)
 
         const newStudnets = new Student({
             title,
-            stu_number,
-            stu_Idcard,
-            stu_name,
-            stu_surname,
-            stu_telephone,
-            stu_email,
-            stu_username,
-            stu_password: hashedPassword,
+            stuNumber,
+            stuIdCard,
+            stuNane,
+            stuSurname,
+            stuTelephone,
+            email,
+            username,
+            password: hashedPassword,
             role: 'Student',
             yearlevel_id,
             depart_id,
@@ -81,13 +81,13 @@ const createStudent = async (req, res) => {
 // login student
 const loginStudnet = async (req, res) => {
     try {
-        const { stu_username, stu_password } = req.body;
+        const { username, password } = req.body;
         let whereClause;
 
-        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(stu_username)) {
-            whereClause = { stu_email: stu_username };
+        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(username)) {
+            whereClause = { email: username };
         } else {
-            whereClause = { stu_username: stu_username };
+            whereClause = { username: username };
         }
 
         console.error(whereClause)
@@ -103,8 +103,8 @@ const loginStudnet = async (req, res) => {
         }
 
         const passwordMatch = await bcrypt.compare(
-            stu_password,
-            studnetWithIdentifier.stu_password
+            password,
+            studnetWithIdentifier.password
         )
 
         if (!passwordMatch) {
@@ -113,8 +113,8 @@ const loginStudnet = async (req, res) => {
 
         const jwtToken = jwt.sign({
             id: studnetWithIdentifier.id,
-            stu_email: studnetWithIdentifier.stu_email,
-            stu_username: studnetWithIdentifier.stu_username,
+            email: studnetWithIdentifier.email,
+            username: studnetWithIdentifier.username,
             role: studnetWithIdentifier.role
         },
             process.env.JWT_SECRET
@@ -122,8 +122,8 @@ const loginStudnet = async (req, res) => {
 
         return res.status(200).json({
             message: "ยินดีต้อนรับ",
-            email: studnetWithIdentifier.stu_email,
-            username: studnetWithIdentifier.stu_username,
+            email: studnetWithIdentifier.email,
+            username: studnetWithIdentifier.username,
             role: studnetWithIdentifier.role,
             token: jwtToken
         })
@@ -194,23 +194,23 @@ const getStudentWithAllParams = async (req, res) => {
             return res.status(401).json({ message: 'Unauthorized' })
         }
 
-        const { id, stu_number, stu_name, stu_email, stu_username } = req.query
+        const { id, stuNumber, stuNane, email, username } = req.query
 
         const whereClause = {}
         if (id) {
             whereClause.id = id
         }
-        if (stu_number) {
-            whereClause.stu_number = stu_number
+        if (stuNumber) {
+            whereClause.stuNumber = stuNumber
         }
-        if (stu_name) {
-            whereClause.stu_name = stu_name
-        }
-        if (id) {
-            whereClause.stu_email = stu_email
+        if (stuNane) {
+            whereClause.stuNane = stuNane
         }
         if (id) {
-            whereClause.stu_username = stu_username
+            whereClause.email = email
+        }
+        if (id) {
+            whereClause.username = username
         }
 
         const student = await Student.findAll({
@@ -232,15 +232,15 @@ const getStudentWithAllParams = async (req, res) => {
 const updateStudent = async (req, res) => {
     try {
         const {
-            stu_number,
-            stu_Idcard,
+            stuNumber,
+            stuIdCard,
             title,
-            stu_name,
-            stu_surname,
-            stu_telephone,
-            stu_email,
-            stu_username,
-            stu_password,
+            stuNane,
+            stuSurname,
+            stuTelephone,
+            email,
+            username,
+            password,
             yearlevel_id,
             depart_id,
             teach_id,
@@ -272,38 +272,38 @@ const updateStudent = async (req, res) => {
             return res.status(404).json({ message: "ไม่พบนักศึกษา" })
         }
 
-        if (stu_username !== student.stu_username) {
-            const alreadyExistsUsername = await Student.findOne({ where: { stu_username } })
+        if (username !== student.username) {
+            const alreadyExistsUsername = await Student.findOne({ where: { username } })
 
             if (alreadyExistsUsername) {
                 return res.status(400).json({ message: "ชื่อผู้ใช้มีอยู่แล้ว" })
             }
         }
 
-        if (stu_email !== student.stu_email) {
-            const alreadyExistsEmail = await Student.findOne({ where: { stu_email } })
+        if (email !== student.email) {
+            const alreadyExistsEmail = await Student.findOne({ where: { email } })
 
             if (alreadyExistsEmail) {
                 return res.status(400).json({ message: "อีเมลล์ผู้ใช้มีอยู่แล้ว" })
             }
         }
 
-        student.stu_number = stu_number || student.stu_number
-        student.stu_Idcard = stu_Idcard || student.stu_Idcard
+        student.stuNumber = stuNumber || student.stuNumber
+        student.stuIdCard = stuIdCard || student.stuIdCard
         student.title = title || student.title
-        student.stu_name = stu_name || student.stu_name
-        student.stu_surname = stu_surname || student.stu_surname
-        student.stu_telephone = stu_telephone || student.stu_telephone
-        student.stu_email = stu_email || student.stu_email
-        student.stu_username = stu_username || student.stu_username
+        student.stuNane = stuNane || student.stuNane
+        student.stuSurname = stuSurname || student.stuSurname
+        student.stuTelephone = stuTelephone || student.stuTelephone
+        student.email = email || student.email
+        student.username = username || student.username
         student.yearlevel_id = yearlevel_id || student.yearlevel_id
         student.depart_id = depart_id || student.depart_id
         student.teach_id = teach_id || student.teach_id
         student.teach_id2 = teach_id2 || student.teach_id2
 
-        if (stu_password) {
-            const hashedPassword = await bcrypt.hash(stu_password, saltRounds)
-            student.stu_password = hashedPassword
+        if (password) {
+            const hashedPassword = await bcrypt.hash(password, saltRounds)
+            student.password = hashedPassword
         }
 
         const updateStudent = await student.save()

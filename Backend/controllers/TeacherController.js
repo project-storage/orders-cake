@@ -13,20 +13,20 @@ require('dotenv').config({ path: './config.env' })
 const createTeahcer = async (req, res) => {
   const {
     title,
-    teach_name,
-    teach_surname,
-    tach_telephone,
-    teach_email,
-    teach_username,
-    teach_password,
+    teachName,
+    teachSurname,
+    teachTelephone,
+    email,
+    username,
+    password,
     yearlevel_id,
     yearlevel_id2,
     yearlevel_id3
   } = req.body
 
   try {
-    const alreadyExistsEmail = await Teacher.findOne({ where: { teach_email } })
-    const alreadyExistsUsername = await Teacher.findOne({ where: { teach_username } })
+    const alreadyExistsEmail = await Teacher.findOne({ where: { email } })
+    const alreadyExistsUsername = await Teacher.findOne({ where: { username } })
 
     if (alreadyExistsEmail) {
       return res.json({ message: 'มีอีเมลล์นี้อยู่แล้ว' })
@@ -35,16 +35,16 @@ const createTeahcer = async (req, res) => {
       return res.json({ message: 'มีชื่อผู้ใช้งานนี้อยู่แล้ว' })
     }
 
-    const hashedPassword = await bcrypt.hash(teach_password, saltRounds)
+    const hashedPassword = await bcrypt.hash(password, saltRounds)
 
     const newTeacher = new Teacher({
       title,
-      teach_name,
-      teach_surname,
-      tach_telephone,
-      teach_email,
-      teach_username,
-      teach_password: hashedPassword,
+      teachName,
+      teachSurname,
+      teachTelephone,
+      email,
+      username,
+      password: hashedPassword,
       role: 'teacher',
       yearlevel_id,
       yearlevel_id2,
@@ -63,14 +63,14 @@ const createTeahcer = async (req, res) => {
 // login teacher
 const loginTeacher = async (req, res) => {
   try {
-    const { teach_username, teach_password } = req.body
+    const { username, password } = req.body
     console.log(req.body)
     let whereClause
 
-    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(teach_username)) {
-      whereClause = { teach_email: teach_username }
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(username)) {
+      whereClause = { email: username }
     } else {
-      whereClause = { teach_username: teach_username }
+      whereClause = { username: username }
     }
 
     const teacherWithIdentifier = await Teacher.findOne({
@@ -82,8 +82,8 @@ const loginTeacher = async (req, res) => {
     }
 
     const passwordMatch = await bcrypt.compare(
-      teach_password,
-      teacherWithIdentifier.teach_password
+      password,
+      teacherWithIdentifier.password
     )
     if (!passwordMatch) {
       return res.status(401).json({ message: 'รหัสผ่านไม่ถูกต้อง' })
@@ -91,8 +91,8 @@ const loginTeacher = async (req, res) => {
 
     const jwtToken = jwt.sign({
       id: teacherWithIdentifier.id,
-      teach_email: teacherWithIdentifier.teach_email,
-      teach_username: teacherWithIdentifier.teach_username,
+      email: teacherWithIdentifier.email,
+      username: teacherWithIdentifier.username,
       role: teacherWithIdentifier.role
     },
       process.env.JWT_SECRET
@@ -100,8 +100,8 @@ const loginTeacher = async (req, res) => {
 
     return res.json({
       message: 'ยินดีต้อนรับ',
-      email: teacherWithIdentifier.teach_email,
-      username: teach_username,
+      email: teacherWithIdentifier.email,
+      username: username,
       role: teacherWithIdentifier.role,
       token: jwtToken
     })
@@ -199,23 +199,23 @@ const getTeacherWithAllParams = async (req, res) => {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
-    const { id, teach_name, teach_surname, teach_email, teach_username, role } = req.query
+    const { id, teachName, teachSurname, email, username, role } = req.query
 
     const whereClause = {}
     if (id) {
       whereClause.id = id
     }
-    if (teach_name) {
-      whereClause.teach_name = teach_name
+    if (teachName) {
+      whereClause.teachName = teachName
     }
-    if (teach_surname) {
-      whereClause.teach_surname = teach_surname
+    if (teachSurname) {
+      whereClause.teachSurname = teachSurname
     }
-    if (teach_email) {
-      whereClause.teach_email = teach_email
+    if (email) {
+      whereClause.email = email
     }
-    if (teach_username) {
-      whereClause.teach_username = teach_username
+    if (username) {
+      whereClause.username = username
     }
     if (role) {
       whereClause.role = role
@@ -260,12 +260,12 @@ const getTeacherWithAllParams = async (req, res) => {
 // update teacher 
 const updateTeacher = async (req, res) => {
   const {
-    teach_name,
-    teach_surname,
-    tach_telephone,
-    teach_email,
-    teach_username,
-    teach_password,
+    teachName,
+    teachSurname,
+    teachTelephone,
+    email,
+    username,
+    password,
     yearlevel_id,
     yearlevel_id2,
     yearlevel_id3
@@ -314,34 +314,34 @@ const updateTeacher = async (req, res) => {
       return res.status(404).json({ message: 'ไม่พบครูที่ปรึกษา' })
     }
 
-    if (teach_username !== teacher.teach_username) {
-      const alreadyExistsUser = await Teacher.findOne({ where: { teach_username: teach_username } })
+    if (username !== teacher.username) {
+      const alreadyExistsUser = await Teacher.findOne({ where: { username: username } })
 
       if (alreadyExistsUser) {
         return res.status(400).json({ message: 'ชื่อผู้ใช้มีอยู่แล้ว' })
       }
     }
 
-    if (teach_email !== teacher.teach_email) {
-      const alreadyExistsEmail = await Teacher.findOne({ where: { teach_email: teach_email } })
+    if (email !== teacher.email) {
+      const alreadyExistsEmail = await Teacher.findOne({ where: { email: email } })
 
       if (alreadyExistsEmail) {
         return res.status(400).json({ message: 'อีเมลล์ผู้ใช้มีอยู่แล้ว' })
       }
     }
 
-    teacher.teach_name = teach_name || teacher.teach_name
-    teacher.teach_surname = teach_surname || teacher.teach_surname
-    teacher.tach_telephone = tach_telephone || teacher.tach_telephone
-    teacher.teach_email = teach_email || teacher.teach_email
-    teacher.teach_username = teach_username || teacher.teach_username
+    teacher.teachName = teachName || teacher.teachName
+    teacher.teachSurname = teachSurname || teacher.teachSurname
+    teacher.teachTelephone = teachTelephone || teacher.teachTelephone
+    teacher.email = email || teacher.email
+    teacher.username = username || teacher.username
     teacher.yearlevel_id = yearlevel_id || teacher.yearlevel_id
     teacher.yearlevel_id2 = yearlevel_id2 || teacher.yearlevel_id2
     teacher.yearlevel_id3 = yearlevel_id3 || teacher.yearlevel_id3
 
-    if (teach_password) {
-      const hashedPassword = await bcrypt.hash(teach_password, saltRounds)
-      teacher.teach_password = hashedPassword
+    if (password) {
+      const hashedPassword = await bcrypt.hash(password, saltRounds)
+      teacher.password = hashedPassword
     }
 
     const updatedTeacher = await teacher.save()
