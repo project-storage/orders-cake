@@ -124,7 +124,6 @@ const updateDepartment = async (req, res) => {
     if (!updatedDepartment) {
       return res.status(400).json({ message: 'ข้อผิดพลาดในการอัปเดตแผนก' })
     }
-    console.log(updatedDepartment)
     return res.status(200).json({
       message: 'แผนกอัปเดตเรียบร้อยแล้ว!',
       updatedDepartment: updatedDepartment

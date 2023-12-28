@@ -42,9 +42,6 @@ app.get('/api/user-test', (req, res) => {
   res.send('Hello User')
 })
 
-// static images folder
-app.use('/Images',express.static('./Images'))
-
 // Port
 const PORT = process.env.PORT || 8080
 
