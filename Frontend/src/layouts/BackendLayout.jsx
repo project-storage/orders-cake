@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom"
 import { Box } from "@mui/material"
 import CssBaseline from "@mui/material/CssBaseline"
-import SideNav from "../components/Layouts/SideNav"
+import SideNav from "../components/Layouts/Admin/SideNav"
 import AppHeader from "../components/Layouts/AppHearder"
 
 const BackendLayout = () => {

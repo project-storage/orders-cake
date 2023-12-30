@@ -13,6 +13,9 @@ export const DASHBOARD_PATH = BASE_PATH +'dashboard'
 export const PRODUCT_PATH = BASE_PATH + 'product'
 export const REPORT_PATH = BASE_PATH + 'report'
 export const SETTING_PATH = BASE_PATH + 'setting'
+export const USER_PATH = BASE_PATH + 'users'
+export const STUDNET_PATH = BASE_PATH + 'studnets'
+export const TEACHER_PATH = BASE_PATH + 'teachers'
 
 // Profile Name and Role
 export const PROFILE_NAME = 'Samit Koyom'

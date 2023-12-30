@@ -1,9 +1,16 @@
 import { Avatar, Box, Typography } from "@mui/material";
-import { Menu, MenuItem, Sidebar, useProSidebar } from "react-pro-sidebar";
+import {
+  Menu,
+  MenuItem,
+  Sidebar,
+  SubMenu,
+  useProSidebar,
+} from "react-pro-sidebar";
 import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
 import StyleOutlinedIcon from "@mui/icons-material/StyleOutlined";
 import SourceOutlinedIcon from "@mui/icons-material/SourceOutlined";
 import AnalyticsOutlinedIcon from "@mui/icons-material/AnalyticsOutlined";
+import SupervisedUserCircleOutlinedIcon from "@mui/icons-material/SupervisedUserCircleOutlined";
 import { Link } from "react-router-dom";
 import {
   DASHBOARD_PATH,
@@ -11,9 +18,12 @@ import {
   PRODUCT_PATH,
   REPORT_PATH,
   SETTING_PATH,
-} from "../../config/constants";
+  STUDNET_PATH,
+  TEACHER_PATH,
+  USER_PATH,
+} from "../../../config/constants";
 import { useState } from "react";
-import Footter from "./Footter";
+import Footter from "../Footter";
 
 const SideNav = () => {
   // useProSidebar hook to control the sidebar
@@ -87,6 +97,35 @@ const SideNav = () => {
         >
           <Typography variant="body2">Setting </Typography>
         </MenuItem>
+
+        <SubMenu label="USER" icon={<SupervisedUserCircleOutlinedIcon />}>
+          <MenuItem
+            active={activeMenuItem === USER_PATH}
+            component={<Link to={USER_PATH} />}
+            icon={<StyleOutlinedIcon />}
+            onClick={() => handleMenuClick(USER_PATH)}
+          >
+            <Typography variant="body2">User </Typography>
+          </MenuItem>
+
+          <MenuItem
+            active={activeMenuItem === STUDNET_PATH}
+            component={<Link to={STUDNET_PATH} />}
+            icon={<StyleOutlinedIcon />}
+            onClick={() => handleMenuClick(STUDNET_PATH)}
+          >
+            <Typography variant="body2">Student </Typography>
+          </MenuItem>
+
+          <MenuItem
+            active={activeMenuItem === TEACHER_PATH}
+            component={<Link to={TEACHER_PATH} />}
+            icon={<StyleOutlinedIcon />}
+            onClick={() => handleMenuClick(TEACHER_PATH)}
+          >
+            <Typography variant="body2">Teacher </Typography>
+          </MenuItem>
+        </SubMenu>
       </Menu>
       {/* <Footter/> */}
       {!collapsed ? (
