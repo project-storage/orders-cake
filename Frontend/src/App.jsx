@@ -28,6 +28,7 @@ import UserLayout from "./layouts/UserLayout";
 import DashboardUser from "./pages/User/DashboardUser";
 import ProductUser from "./pages/User/ProductUser";
 import ReportUser from "./pages/User/ReportUser";
+import Spinner from "./components/Spinner";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
       <Routes>
         <Route element={<AuthLayout />}>
           <Route path="/" element={<Login />} />
+          <Route path="/loading" element={<Spinner/>}/>
         </Route>
         <Route element={<BackendLayout />}>
           <Route path={DASHBOARD_PATH} element={<Dashboard />} />

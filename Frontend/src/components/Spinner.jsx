@@ -1,6 +1,7 @@
+import { Box, CircularProgress, Container, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-const Spinner = ({ path = "/"}) => {
+const Spinner = ({ path = "/" }) => {
   const [count, setCount] = useState(3);
   const navigate = useNavigate();
 
@@ -14,17 +15,18 @@ const Spinner = ({ path = "/"}) => {
     return () => clearInterval(interval);
   }, [count, navigate, location, path]);
   return (
-    <>
-      <div
-        className="d-flex flex-column justify-content-center align-items-center"
-        style={{ height: "100vh" }}
-      >
-        <h1 className="text-center">redirecting to you in {count} second</h1>
-        <div className="spinner-border" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </div>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh", 
+      }}
+    >
+      <div>
+        <CircularProgress />
       </div>
-    </>
+    </Box>
   );
 };
 
