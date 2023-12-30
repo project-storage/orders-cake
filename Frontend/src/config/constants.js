@@ -17,6 +17,12 @@ export const USER_PATH = BASE_PATH + 'users'
 export const STUDNET_PATH = BASE_PATH + 'studnets'
 export const TEACHER_PATH = BASE_PATH + 'teachers'
 
+// User Routes
+const BASE_USER = '/user/'
+export const DASHBOARD_USER = BASE_USER +'dashboard'
+export const PRODUCT_USER = BASE_USER + 'product'
+export const REPORT_USER = BASE_USER + 'report'
+
 // Profile Name and Role
 export const PROFILE_NAME = 'Samit Koyom'
 export const PROFILE_ROLE = 'Administrator'
