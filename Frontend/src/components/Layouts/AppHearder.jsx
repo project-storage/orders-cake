@@ -15,8 +15,10 @@ import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
 import { useProSidebar } from "react-pro-sidebar";
 import { useState } from "react";
 import { SYSTEM_NAME } from "../../config/constants";
+import { useNavigate } from "react-router-dom";
 
 const AppHeader = () => {
+  const navigate = useNavigate()
   // useProSidebar hook to control the sidebar
   const { collapseSidebar, toggleSidebar, broken } = useProSidebar();
 
@@ -31,8 +33,7 @@ const AppHeader = () => {
   };
 
   const handleLogout = () => {
-    // Perform logout action
-    // Example: clear authentication token, redirect to login page, etc.
+   navigate('/')
   };
 
   return (
