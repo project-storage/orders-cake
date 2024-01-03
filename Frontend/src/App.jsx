@@ -1,6 +1,3 @@
-// import { Button, Stack } from '@mui/material'
-// import { Delete, Send, Photo } from '@mui/icons-material'
-
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AuthLayout from "./layouts/AuthLayout";
 import Login from "./pages/Auth/Login";
@@ -12,8 +9,10 @@ import Setting from "./pages/Admin/Setting";
 import {
   DASHBOARD_PATH,
   DASHBOARD_USER,
+  LOGIN_PATH,
   PRODUCT_PATH,
   PRODUCT_USER,
+  REGISTER_PATH,
   REPORT_PATH,
   REPORT_USER,
   SETTING_PATH,
@@ -29,15 +28,18 @@ import DashboardUser from "./pages/User/DashboardUser";
 import ProductUser from "./pages/User/ProductUser";
 import ReportUser from "./pages/User/ReportUser";
 import Spinner from "./components/Spinner";
+import Register from "./pages/Auth/Register";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route element={<AuthLayout />}>
-          <Route path="/" element={<Login />} />
-          <Route path="/loading" element={<Spinner/>}/>
+          <Route path={LOGIN_PATH} element={<Login />} />
+          <Route path="/loading" element={<Spinner />} />
+          <Route path={REGISTER_PATH} element={<Register />} />
         </Route>
+        
         <Route element={<BackendLayout />}>
           <Route path={DASHBOARD_PATH} element={<Dashboard />} />
           <Route path={PRODUCT_PATH} element={<Product />} />

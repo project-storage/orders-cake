@@ -1,6 +1,10 @@
 // System Constants
 export const SYSTEM_NAME = 'ระบบสั่งจองเค้กออนไลน์ '
 
+// Authentication
+export const LOGIN_PATH = '/'
+export const REGISTER_PATH = '/register'
+
 // Backend Page Title
 export const DASHBOARD_TITLE = 'Dashboard'
 export const PRODUCT_TITLE = 'Product'
@@ -23,9 +27,7 @@ export const DASHBOARD_USER = BASE_USER +'dashboard'
 export const PRODUCT_USER = BASE_USER + 'product'
 export const REPORT_USER = BASE_USER + 'report'
 
-// Profile Name and Role
-export const PROFILE_NAME = 'Samit Koyom'
-export const PROFILE_ROLE = 'Administrator'
+
 
 // Footter 
 export const FOOTTER =  'Devalop By Department Information Technology'

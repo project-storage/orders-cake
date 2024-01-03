@@ -16,51 +16,15 @@ import {
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import UserService from "../../services/UserService";
-import { REGISTER_PATH } from "../../config/constants";
+import { LOGIN_PATH, REGISTER_PATH } from "../../config/constants";
 
-const Login = () => {
+const Register = () => {
   const [formData, setFormData] = useState({ username: "", password: "" });
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    if (formData.username === "" || formData.password === "") {
-      setError("Error: Please fill in all fields");
-      return;
-    }
-
-    try {
-      const response = await UserService.postLogin(formData);
-      const userRole = response.data.role;
-
-      switch (userRole) {
-        case "superAdmin":
-          localStorage.setItem("token", response.data.token);
-          navigate("/backend/dashboard");
-          break;
-        case "Admin":
-        case "DeparCake":
-        case "DepartMoney":
-          localStorage.setItem("token", response.data.token);
-          navigate("/user/dashboard");
-          break;
-        case "student":
-          localStorage.setItem("token", response.data.token);
-          navigate("/student/dashboard");
-          break;
-        case "teacher":
-          localStorage.setItem("token", response.data.token);
-          navigate("/teacher/dashboard");
-          break;
-        default:
-          // Handle other roles or unknown roles
-          break;
-      }
-    } catch (error) {
-      console.error("Login failed", error);
-    }
+    navigate(LOGIN_PATH);
   };
 
   return (
@@ -87,7 +51,7 @@ const Login = () => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            เข้าสู่ระบบ
+            สมัครการใช้งาน
           </Typography>
           <Box
             component="form"
@@ -150,4 +114,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
