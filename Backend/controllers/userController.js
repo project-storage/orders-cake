@@ -85,6 +85,7 @@ const registerUser = async (req, res) => {
     // Check if email or username already exists
     const alreadyExistsEmail = await User.findOne({ where: { email } })
     const alreadyExistsUsername = await User.findOne({ where: { username } })
+    const alreadyExistsTelephone = await User.findOne({ where: { telephone } })
 
     if (alreadyExistsEmail) {
       return res.json({ message: 'มีอีเมลล์นี้อยู่แล้ว' })
@@ -92,28 +93,26 @@ const registerUser = async (req, res) => {
     if (alreadyExistsUsername) {
       return res.json({ message: 'มีชื่อผู้ใช้งานนี้อยู่แล้ว' })
     }
+    if (alreadyExistsTelephone) {
+      return res.json({ message: 'มีเบอร์โทรศัพท์ใช้งานนี้อยู่แล้ว' })
+    }
 
     const hashedPassword = await bcrypt.hash(password, saltRounds)
 
-    if (req.user.role === 'Admin' || req.user.role === 'superAdmin') {
-      if (role === 'DepatMoney' || role === 'DepatCake') {
-        const newUser = new User({
-          title,
-          name,
-          surname,
-          telephone,
-          email,
-          username,
-          password: hashedPassword,
-          role
-        })
+    const newUser = new User({
+      title,
+      name,
+      surname,
+      telephone,
+      email,
+      username,
+      password: hashedPassword,
+      role
+    })
 
-        await newUser.save()
-        return res.status(200).json({ message: 'สร้างผู้ใช้งานสำเร็จ', user: newUser })
-      }
-    } else {
-      return res.status(403).json({ message: 'คุณไม่มีสิทธิ์สร้างผู้ใช้งาน' })
-    }
+    await newUser.save()
+
+    return res.status(200).json({ message: 'สร้างผู้ใช้งานสำเร็จ', user: newUser })
   } catch (error) {
     console.error(error)
     return res
@@ -135,7 +134,7 @@ const loginUser = async (req, res) => {
 
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(username)) {
       whereClause = { email: username }
-    }else{
+    } else {
       whereClause = { username: username }
     }
 
@@ -275,7 +274,11 @@ const updateUser = async (req, res) => {
     let user
 
     // ตรวจสอบบทบาทของผู้ใช้
-    if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
+    if (
+      req.user.role !== 'Admin' &&
+      req.user.role !== 'superAdmin' &&
+      req.user.role === 'DepatMoney' &&
+      req.user.role === 'DepatCake') {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
@@ -329,7 +332,7 @@ const updateUser = async (req, res) => {
       return res.status(400).json({ message: 'ข้อผิดพลาดในการอัปเดตผู้ใช้' })
     }
 
-    return res.status(200).json({ message: 'ผู้ใช้อัปเดตเรียบร้อยแล้ว' })
+    return res.status(200).json({ message: `ผู้ใช้อัปเดตเรียบร้อยแล้ว ID: ${req.user.id}`,updata:updatedUser })
   } catch (error) {
     console.error('Error', error)
     return res

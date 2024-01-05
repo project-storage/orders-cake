@@ -40,6 +40,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING(100),
             allowNull: true
         },
+        remeke: {
+            type: DataTypes.STRING(100),
+            allowNull: false
+        },
         role: {
             type: DataTypes.ENUM("team"),
             allowNull: true

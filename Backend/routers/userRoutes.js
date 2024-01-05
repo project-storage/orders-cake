@@ -31,9 +31,7 @@ userRouter.post('/create-admin', userController.createAdminUser)
 userRouter.post('/create-superAdmin', userController.createSuperAdminUser)
 userRouter.post('/login', userController.loginUser)
 userRouter.post(
-  '/register',
-  passport.authenticate('jwt', { session: false }),
-  userController.registerUser
+  '/register', userController.registerUser
 )
 
 // method delete
