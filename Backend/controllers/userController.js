@@ -5,6 +5,9 @@ const bcrypt = require('bcrypt')
 const saltRounds = 10
 
 const User = db.user
+const Team = db.team
+const Teacher = db.teacher
+const Student = db.student
 
 require('dotenv').config({ path: './config.env' })
 
@@ -122,41 +125,44 @@ const registerUser = async (req, res) => {
 }
 
 // login user
+const findUser = async (whereClause) => {
+  try {
+    return await User.findOne({ where: whereClause });
+  } catch (error) {
+    console.error("Error finding user: ", error);
+    return null;
+  }
+};
+
 const loginUser = async (req, res) => {
   try {
-    const { username, password } = req.body
+    const { username, password } = req.body;
 
     if (!username || !password) {
-      return res.status(400).json({ message: 'กรุณากรอกชื่อผู้ใช้งานและรหัสผ่าน' });
+      return res.status(400).json({ message: 'Please provide both username and password' });
     }
 
-    let whereClause
+    let whereClause;
 
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(username)) {
-      whereClause = { email: username }
+      whereClause = { email: username };
     } else {
-      whereClause = { username: username }
+      whereClause = { username: username };
     }
 
-    const userWithIdentifier = await User.findOne({
-      where: whereClause
-    }).catch((error) => {
-      console.error("error", error);
-    })
+    let userWithIdentifier = await findUser(whereClause)
+      || await Teacher.findOne({ where: whereClause })
+      || await Team.findOne({ where: whereClause })
+      || await Student.findOne({ where: whereClause });
 
     if (!userWithIdentifier) {
-      return res
-        .status(401)
-        .json({ message: 'ชื่อผู้ใช้งาน หรือ อีเมลล์ ไม่ถูกต้อง' })
+      return res.status(401).json({ message: 'Invalid username or email' });
     }
 
-    const passwordMatch = await bcrypt.compare(
-      password,
-      userWithIdentifier.password
-    )
-    console.log(passwordMatch)
+    const passwordMatch = await bcrypt.compare(password, userWithIdentifier.password);
+
     if (!passwordMatch) {
-      return res.status(401).json({ message: 'รหัสผ่านไม่ถูกต้อง', passwordMatch, password })
+      return res.status(401).json({ message: 'Incorrect password' });
     }
 
     const jwtToken = jwt.sign(
@@ -167,20 +173,21 @@ const loginUser = async (req, res) => {
         role: userWithIdentifier.role
       },
       process.env.JWT_SECRET
-    )
+    );
 
     return res.status(200).json({
-      message: 'ยินดีต้อนรับ',
+      message: 'Welcome',
       username: username,
       email: userWithIdentifier.email,
       role: userWithIdentifier.role,
       token: jwtToken
-    })
+    });
   } catch (error) {
-    console.error('Error: ', error)
-    return res.status(500).json({ message: 'มีข้อผิดพลาดในการล็อกอิน' })
+    console.error('Error: ', error);
+    return res.status(500).json({ message: 'An error occurred during login' });
   }
-}
+};
+
 
 // get user info
 const getUserInfo = async (req, res) => {
@@ -332,7 +339,7 @@ const updateUser = async (req, res) => {
       return res.status(400).json({ message: 'ข้อผิดพลาดในการอัปเดตผู้ใช้' })
     }
 
-    return res.status(200).json({ message: `ผู้ใช้อัปเดตเรียบร้อยแล้ว ID: ${req.user.id}`,updata:updatedUser })
+    return res.status(200).json({ message: `ผู้ใช้อัปเดตเรียบร้อยแล้ว ID: ${req.user.id}`, updata: updatedUser })
   } catch (error) {
     console.error('Error', error)
     return res

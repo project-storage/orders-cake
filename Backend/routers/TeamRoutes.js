@@ -4,7 +4,6 @@ const passport = require('passport')
 
 // method post
 TeamRouter.post('/create-team', TeamController.createTeam)
-TeamRouter.post('/login-team', TeamController.loginTeam)
 
 // method get
 TeamRouter.get('/info-team', passport.authenticate('jwt', { session: false }), TeamController.getInfoTeam)

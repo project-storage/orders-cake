@@ -13,9 +13,9 @@ require('dotenv').config({ path: './config.env' })
 const createTeahcer = async (req, res) => {
   const {
     title,
-    teachName,
-    teachSurname,
-    teachTelephone,
+    name,
+    surname,
+    telephone,
     email,
     username,
     password,
@@ -39,9 +39,9 @@ const createTeahcer = async (req, res) => {
 
     const newTeacher = new Teacher({
       title,
-      teachName,
-      teachSurname,
-      teachTelephone,
+      name,
+      surname,
+      telephone,
       email,
       username,
       password: hashedPassword,
@@ -52,62 +52,13 @@ const createTeahcer = async (req, res) => {
     })
 
     await newTeacher.save()
-    return res.status(200).json({ message: 'สร้างครูที่ปรึกษาสำเร็จ' })
+
+    return res.status(200).json({ message: 'สร้างครูที่ปรึกษาสำเร็จ', creaet: newTeacher })
   } catch (error) {
+    console.error("Error creating teacher: ", error);
     return res
       .status(500)
       .json({ message: 'เกิดข้อผิดพลาดในการสร้างครูที่ปรึกษาสำเร็จ' })
-  }
-}
-
-// login teacher
-const loginTeacher = async (req, res) => {
-  try {
-    const { username, password } = req.body
-    console.log(req.body)
-    let whereClause
-
-    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(username)) {
-      whereClause = { email: username }
-    } else {
-      whereClause = { username: username }
-    }
-
-    const teacherWithIdentifier = await Teacher.findOne({
-      where: whereClause
-    })
-
-    if (!teacherWithIdentifier) {
-      return res.status(401).json({ message: 'ชื่อผู้ใช้งาน หรือ อีเมลล์ ไม่ถูกต้อง' })
-    }
-
-    const passwordMatch = await bcrypt.compare(
-      password,
-      teacherWithIdentifier.password
-    )
-    if (!passwordMatch) {
-      return res.status(401).json({ message: 'รหัสผ่านไม่ถูกต้อง' })
-    }
-
-    const jwtToken = jwt.sign({
-      id: teacherWithIdentifier.id,
-      email: teacherWithIdentifier.email,
-      username: teacherWithIdentifier.username,
-      role: teacherWithIdentifier.role
-    },
-      process.env.JWT_SECRET
-    )
-
-    return res.json({
-      message: 'ยินดีต้อนรับ',
-      email: teacherWithIdentifier.email,
-      username: username,
-      role: teacherWithIdentifier.role,
-      token: jwtToken
-    })
-  } catch (error) {
-    console.error('Error: ', error)
-    return res.status(500).json({ message: 'มีข้อผิดพลาดในการล็อกอิน' })
   }
 }
 

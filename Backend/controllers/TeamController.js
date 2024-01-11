@@ -18,7 +18,8 @@ const createTeam = async (req, res) => {
             member2,
             member3,
             member4,
-            member5
+            member5,
+            remake
         } = req.body
 
         const alreadyExistsTeamName = await Team.findOne({ where: { teamName } })
@@ -48,6 +49,7 @@ const createTeam = async (req, res) => {
             member3,
             member4,
             member5,
+            remake,
             role: "team"
         })
 
@@ -58,56 +60,6 @@ const createTeam = async (req, res) => {
         return res.status(500).json({ message: "เกิดข้อผิลพลาดในการสร้างผู้ใช้งานทีม" })
     }
 }
-
-// login 
-const loginTeam = async (req, res) => {
-    try {
-        const { username, password } = req.body;
-
-        const isEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(username);
-        const whereClause = isEmail ? { username } : { username };
-
-        const TeamWithIdentifier = await Team.findOne({
-            where: whereClause
-        });
-
-        if (!TeamWithIdentifier) {
-            return res.status(401).json({ message: "ชื่อผู้ใช้งานทีมไม่ถูกต้อง" });
-        }
-
-        const passwordMatch = await bcrypt.compare(
-            password,
-            TeamWithIdentifier.password
-        );
-
-        if (!passwordMatch) {
-            return res.status(401).json({ message: "รหัสผ่านไม่ถูกต้อง" });
-        }
-
-        const jwtToken = jwt.sign({
-            id: TeamWithIdentifier.id,
-            type: TeamWithIdentifier.teamType,
-            teamName: TeamWithIdentifier.teamName,
-            username: TeamWithIdentifier.username,
-            role: TeamWithIdentifier.role
-        },
-            process.env.JWT_SECRET
-        );
-
-        return res.status(200).json({
-            message: 'ยินดีต้อนรับ',
-            type: TeamWithIdentifier.teamType,
-            teamName: TeamWithIdentifier.teamName,
-            username: username,
-            role: TeamWithIdentifier.role,
-            token: jwtToken
-        });
-    } catch (error) {
-        console.error("Error", error);
-        return res.status(500).json({ message: "เกิดข้อผิดพลาดในการล็อคอิน" });
-    }
-}
-
 
 // Info team
 const getInfoTeam = async (req, res) => {

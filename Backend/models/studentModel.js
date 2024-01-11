@@ -12,15 +12,15 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(5),
       allowNull: false
     },
-    stuNane: {
+    name: {
       type: DataTypes.STRING(50),
       allowNull: false
     },
-    stuSurname: {
+    surname: {
       type: DataTypes.STRING(50),
       allowNull: false
     },
-    stuTelephone: {
+    telephone: {
       type: DataTypes.STRING(10),
       allowNull: false
     },

@@ -40,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING(100),
             allowNull: true
         },
-        remeke: {
+        remake: {
             type: DataTypes.STRING(100),
             allowNull: false
         },
