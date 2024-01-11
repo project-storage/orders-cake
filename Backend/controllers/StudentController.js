@@ -291,7 +291,6 @@ const deleteStudent = async (req, res) => {
 
 module.exports = {
     createStudent,
-    loginStudnet,
     getInfoStudent,
     getAllStudent,
     getStudentWithAllParams,

@@ -336,7 +336,6 @@ const deleteTeacher = async (req, res) => {
 }
 module.exports = {
   createTeahcer,
-  loginTeacher,
   getinfoTeacher,
   getAllTeacher,
   getTeacherWithAllParams,

@@ -312,7 +312,6 @@ const deleteTeam = async (req, res) => {
 }
 module.exports = {
     createTeam,
-    loginTeam,
     getInfoTeam,
     getAllTeam,
     getTeamWithAllParams,
