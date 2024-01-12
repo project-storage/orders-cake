@@ -4,15 +4,15 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(5),
       allowNull: false
     },
-    teachName: {
+    name: {
       type: DataTypes.STRING(50),
       allowNull: false
     },
-    teachSurname: {
+    surname: {
       type: DataTypes.STRING(50),
       allowNull: false
     },
-    teachTelephone: {
+    telephone: {
       type: DataTypes.STRING(10),
       allowNull: true
     },

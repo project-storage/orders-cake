@@ -13,17 +13,18 @@ const createTeam = async (req, res) => {
             teamName,
             username,
             password,
-            teamTelephone,
+            telephone,
             member1,
             member2,
             member3,
             member4,
-            member5
+            member5,
+            remake
         } = req.body
 
         const alreadyExistsTeamName = await Team.findOne({ where: { teamName } })
-        const alreadyExistsUsername = await Team.findOne({ where: { username } })
-        const alreadyExistsTelephone = await Team.findOne({ where: { teamTelephone } })
+        const alreadyExistsusername = await Team.findOne({ where: { username } })
+        const alreadyExistsTelephone = await Team.findOne({ where: { telephone } })
 
         if (alreadyExistsTeamName) {
             return res.json({ message: 'มีชื่อทีมนี้อยู่แล้ว' })
@@ -31,23 +32,24 @@ const createTeam = async (req, res) => {
         if (alreadyExistsTelephone) {
             return res.json({ message: 'มีเบอร์โทรอยู่แล้ว' })
         }
-        if (alreadyExistsUsername) {
+        if (alreadyExistsusername) {
             return res.json({ message: 'มีชื่อผู้ใช้งานนี้อยู่แล้ว' })
         }
 
-        const hashedPassword = await bcrypt.hash(password, saltRounds)
+        const hashedpassword = await bcrypt.hash(password, saltRounds)
 
         const newTeam = new Team({
             teamType,
             teamName,
             username,
-            password: hashedPassword,
-            teamTelephone,
+            password: hashedpassword,
+            telephone,
             member1,
             member2,
             member3,
             member4,
             member5,
+            remake,
             role: "team"
         })
 
@@ -58,56 +60,6 @@ const createTeam = async (req, res) => {
         return res.status(500).json({ message: "เกิดข้อผิลพลาดในการสร้างผู้ใช้งานทีม" })
     }
 }
-
-// login 
-const loginTeam = async (req, res) => {
-    try {
-        const { username, password } = req.body;
-
-        const isEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(username);
-        const whereClause = isEmail ? { username } : { username };
-
-        const TeamWithIdentifier = await Team.findOne({
-            where: whereClause
-        });
-
-        if (!TeamWithIdentifier) {
-            return res.status(401).json({ message: "ชื่อผู้ใช้งานทีมไม่ถูกต้อง" });
-        }
-
-        const passwordMatch = await bcrypt.compare(
-            password,
-            TeamWithIdentifier.password
-        );
-
-        if (!passwordMatch) {
-            return res.status(401).json({ message: "รหัสผ่านไม่ถูกต้อง" });
-        }
-
-        const jwtToken = jwt.sign({
-            id: TeamWithIdentifier.id,
-            type: TeamWithIdentifier.teamType,
-            teamName: TeamWithIdentifier.teamName,
-            username: TeamWithIdentifier.username,
-            role: TeamWithIdentifier.role
-        },
-            process.env.JWT_SECRET
-        );
-
-        return res.status(200).json({
-            message: 'ยินดีต้อนรับ',
-            type: TeamWithIdentifier.teamType,
-            teamName: TeamWithIdentifier.teamName,
-            username: username,
-            role: TeamWithIdentifier.role,
-            token: jwtToken
-        });
-    } catch (error) {
-        console.error("Error", error);
-        return res.status(500).json({ message: "เกิดข้อผิดพลาดในการล็อคอิน" });
-    }
-}
-
 
 // Info team
 const getInfoTeam = async (req, res) => {
@@ -161,7 +113,8 @@ const getTeamWithAllParams = async (req, res) => {
             member2,
             member3,
             member4,
-            member5
+            member5,
+            remake
         } = req.query
 
         const whereClause = {}
@@ -189,6 +142,9 @@ const getTeamWithAllParams = async (req, res) => {
         if (member5) {
             whereClause.member5 = member5
         }
+        if (remake) {
+            whereClause.remake = remake
+        }
 
         const team = await Team.findAll({
             where: whereClause
@@ -212,12 +168,13 @@ const updateTeam = async (req, res) => {
         teamName,
         username,
         password,
-        teamTelephone,
+        telephone,
         member1,
         member2,
         member3,
         member4,
-        member5
+        member5,
+        remake
     } = req.body
 
     let team
@@ -248,15 +205,15 @@ const updateTeam = async (req, res) => {
         }
 
         if (username !== team.username) {
-            const alreadyExistsTemaUsername = await Team.findOne({ where: { username: username } })
+            const alreadyExistsTemausername = await Team.findOne({ where: { username: username } })
 
-            if (alreadyExistsTemaUsername) {
+            if (alreadyExistsTemausername) {
                 return res.status(400).json({ message: "ชื่อผู้ใช้มีอยู่แล้ว" })
             }
         }
 
-        if (teamTelephone !== team.teamTelephone) {
-            const alreadyExistsTemaTelephone = await Team.findOne({ where: { teamTelephone: teamTelephone } })
+        if (telephone !== team.telephone) {
+            const alreadyExistsTemaTelephone = await Team.findOne({ where: { telephone: telephone } })
 
             if (alreadyExistsTemaTelephone) {
                 return res.status(400).json({ message: "มีเบอร์โทรศัพท์นี้อยู่แล้ว" })
@@ -307,16 +264,17 @@ const updateTeam = async (req, res) => {
 
         team.teamName = teamName || team.teamName
         team.username = username || team.username
-        team.teamTelephone = teamTelephone || team.teamTelephone
+        team.telephone = telephone || team.telephone
         team.member1 = member1 || team.member1
         team.member2 = member2 || team.member2
         team.member3 = member3 || team.member3
         team.member4 = member4 || team.member4
         team.member5 = member5 || team.member5
+        team.remake = remake || team.remake
 
         if (password) {
-            const hashedPassword = await bcrypt.hash(password, saltRounds)
-            team.password = hashedPassword
+            const hashedpassword = await bcrypt.hash(password, saltRounds)
+            team.password = hashedpassword
         }
 
         const updateTeam = await team.save()
@@ -360,7 +318,6 @@ const deleteTeam = async (req, res) => {
 }
 module.exports = {
     createTeam,
-    loginTeam,
     getInfoTeam,
     getAllTeam,
     getTeamWithAllParams,

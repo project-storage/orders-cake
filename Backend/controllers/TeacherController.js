@@ -13,9 +13,9 @@ require('dotenv').config({ path: './config.env' })
 const createTeahcer = async (req, res) => {
   const {
     title,
-    teachName,
-    teachSurname,
-    teachTelephone,
+    name,
+    surname,
+    telephone,
     email,
     username,
     password,
@@ -25,26 +25,26 @@ const createTeahcer = async (req, res) => {
   } = req.body
 
   try {
-    const alreadyExistsEmail = await Teacher.findOne({ where: { email } })
-    const alreadyExistsUsername = await Teacher.findOne({ where: { username } })
+    const alreadyExistsemail = await Teacher.findOne({ where: { email } })
+    const alreadyExistsusername = await Teacher.findOne({ where: { username } })
 
-    if (alreadyExistsEmail) {
+    if (alreadyExistsemail) {
       return res.json({ message: 'มีอีเมลล์นี้อยู่แล้ว' })
     }
-    if (alreadyExistsUsername) {
+    if (alreadyExistsusername) {
       return res.json({ message: 'มีชื่อผู้ใช้งานนี้อยู่แล้ว' })
     }
 
-    const hashedPassword = await bcrypt.hash(password, saltRounds)
+    const hashedpassword = await bcrypt.hash(password, saltRounds)
 
     const newTeacher = new Teacher({
       title,
-      teachName,
-      teachSurname,
-      teachTelephone,
+      name,
+      surname,
+      telephone,
       email,
       username,
-      password: hashedPassword,
+      password: hashedpassword,
       role: 'teacher',
       yearlevel_id,
       yearlevel_id2,
@@ -52,62 +52,13 @@ const createTeahcer = async (req, res) => {
     })
 
     await newTeacher.save()
-    return res.status(200).json({ message: 'สร้างครูที่ปรึกษาสำเร็จ' })
+
+    return res.status(200).json({ message: 'สร้างครูที่ปรึกษาสำเร็จ', creaet: newTeacher })
   } catch (error) {
+    console.error("Error creating teacher: ", error);
     return res
       .status(500)
       .json({ message: 'เกิดข้อผิดพลาดในการสร้างครูที่ปรึกษาสำเร็จ' })
-  }
-}
-
-// login teacher
-const loginTeacher = async (req, res) => {
-  try {
-    const { username, password } = req.body
-    console.log(req.body)
-    let whereClause
-
-    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(username)) {
-      whereClause = { email: username }
-    } else {
-      whereClause = { username: username }
-    }
-
-    const teacherWithIdentifier = await Teacher.findOne({
-      where: whereClause
-    })
-
-    if (!teacherWithIdentifier) {
-      return res.status(401).json({ message: 'ชื่อผู้ใช้งาน หรือ อีเมลล์ ไม่ถูกต้อง' })
-    }
-
-    const passwordMatch = await bcrypt.compare(
-      password,
-      teacherWithIdentifier.password
-    )
-    if (!passwordMatch) {
-      return res.status(401).json({ message: 'รหัสผ่านไม่ถูกต้อง' })
-    }
-
-    const jwtToken = jwt.sign({
-      id: teacherWithIdentifier.id,
-      email: teacherWithIdentifier.email,
-      username: teacherWithIdentifier.username,
-      role: teacherWithIdentifier.role
-    },
-      process.env.JWT_SECRET
-    )
-
-    return res.json({
-      message: 'ยินดีต้อนรับ',
-      email: teacherWithIdentifier.email,
-      username: username,
-      role: teacherWithIdentifier.role,
-      token: jwtToken
-    })
-  } catch (error) {
-    console.error('Error: ', error)
-    return res.status(500).json({ message: 'มีข้อผิดพลาดในการล็อกอิน' })
   }
 }
 
@@ -199,17 +150,17 @@ const getTeacherWithAllParams = async (req, res) => {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
-    const { id, teachName, teachSurname, email, username, role } = req.query
+    const { id, teachname, teachsurname, email, username, role } = req.query
 
     const whereClause = {}
     if (id) {
       whereClause.id = id
     }
-    if (teachName) {
-      whereClause.teachName = teachName
+    if (teachname) {
+      whereClause.teachname = teachname
     }
-    if (teachSurname) {
-      whereClause.teachSurname = teachSurname
+    if (teachsurname) {
+      whereClause.teachsurname = teachsurname
     }
     if (email) {
       whereClause.email = email
@@ -260,9 +211,9 @@ const getTeacherWithAllParams = async (req, res) => {
 // update teacher 
 const updateTeacher = async (req, res) => {
   const {
-    teachName,
-    teachSurname,
-    teachTelephone,
+    teachname,
+    teachsurname,
+    teachtelephone,
     email,
     username,
     password,
@@ -323,16 +274,16 @@ const updateTeacher = async (req, res) => {
     }
 
     if (email !== teacher.email) {
-      const alreadyExistsEmail = await Teacher.findOne({ where: { email: email } })
+      const alreadyExistsemail = await Teacher.findOne({ where: { email: email } })
 
-      if (alreadyExistsEmail) {
+      if (alreadyExistsemail) {
         return res.status(400).json({ message: 'อีเมลล์ผู้ใช้มีอยู่แล้ว' })
       }
     }
 
-    teacher.teachName = teachName || teacher.teachName
-    teacher.teachSurname = teachSurname || teacher.teachSurname
-    teacher.teachTelephone = teachTelephone || teacher.teachTelephone
+    teacher.teachname = teachname || teacher.teachname
+    teacher.teachsurname = teachsurname || teacher.teachsurname
+    teacher.teachtelephone = teachtelephone || teacher.teachtelephone
     teacher.email = email || teacher.email
     teacher.username = username || teacher.username
     teacher.yearlevel_id = yearlevel_id || teacher.yearlevel_id
@@ -340,8 +291,8 @@ const updateTeacher = async (req, res) => {
     teacher.yearlevel_id3 = yearlevel_id3 || teacher.yearlevel_id3
 
     if (password) {
-      const hashedPassword = await bcrypt.hash(password, saltRounds)
-      teacher.password = hashedPassword
+      const hashedpassword = await bcrypt.hash(password, saltRounds)
+      teacher.password = hashedpassword
     }
 
     const updatedTeacher = await teacher.save()
@@ -385,7 +336,6 @@ const deleteTeacher = async (req, res) => {
 }
 module.exports = {
   createTeahcer,
-  loginTeacher,
   getinfoTeacher,
   getAllTeacher,
   getTeacherWithAllParams,
