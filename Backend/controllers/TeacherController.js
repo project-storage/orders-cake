@@ -25,17 +25,17 @@ const createTeahcer = async (req, res) => {
   } = req.body
 
   try {
-    const alreadyExistsEmail = await Teacher.findOne({ where: { email } })
-    const alreadyExistsUsername = await Teacher.findOne({ where: { username } })
+    const alreadyExistsemail = await Teacher.findOne({ where: { email } })
+    const alreadyExistsusername = await Teacher.findOne({ where: { username } })
 
-    if (alreadyExistsEmail) {
+    if (alreadyExistsemail) {
       return res.json({ message: 'มีอีเมลล์นี้อยู่แล้ว' })
     }
-    if (alreadyExistsUsername) {
+    if (alreadyExistsusername) {
       return res.json({ message: 'มีชื่อผู้ใช้งานนี้อยู่แล้ว' })
     }
 
-    const hashedPassword = await bcrypt.hash(password, saltRounds)
+    const hashedpassword = await bcrypt.hash(password, saltRounds)
 
     const newTeacher = new Teacher({
       title,
@@ -44,7 +44,7 @@ const createTeahcer = async (req, res) => {
       telephone,
       email,
       username,
-      password: hashedPassword,
+      password: hashedpassword,
       role: 'teacher',
       yearlevel_id,
       yearlevel_id2,
@@ -150,17 +150,17 @@ const getTeacherWithAllParams = async (req, res) => {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
-    const { id, teachName, teachSurname, email, username, role } = req.query
+    const { id, teachname, teachsurname, email, username, role } = req.query
 
     const whereClause = {}
     if (id) {
       whereClause.id = id
     }
-    if (teachName) {
-      whereClause.teachName = teachName
+    if (teachname) {
+      whereClause.teachname = teachname
     }
-    if (teachSurname) {
-      whereClause.teachSurname = teachSurname
+    if (teachsurname) {
+      whereClause.teachsurname = teachsurname
     }
     if (email) {
       whereClause.email = email
@@ -211,9 +211,9 @@ const getTeacherWithAllParams = async (req, res) => {
 // update teacher 
 const updateTeacher = async (req, res) => {
   const {
-    teachName,
-    teachSurname,
-    teachTelephone,
+    teachname,
+    teachsurname,
+    teachtelephone,
     email,
     username,
     password,
@@ -274,16 +274,16 @@ const updateTeacher = async (req, res) => {
     }
 
     if (email !== teacher.email) {
-      const alreadyExistsEmail = await Teacher.findOne({ where: { email: email } })
+      const alreadyExistsemail = await Teacher.findOne({ where: { email: email } })
 
-      if (alreadyExistsEmail) {
+      if (alreadyExistsemail) {
         return res.status(400).json({ message: 'อีเมลล์ผู้ใช้มีอยู่แล้ว' })
       }
     }
 
-    teacher.teachName = teachName || teacher.teachName
-    teacher.teachSurname = teachSurname || teacher.teachSurname
-    teacher.teachTelephone = teachTelephone || teacher.teachTelephone
+    teacher.teachname = teachname || teacher.teachname
+    teacher.teachsurname = teachsurname || teacher.teachsurname
+    teacher.teachtelephone = teachtelephone || teacher.teachtelephone
     teacher.email = email || teacher.email
     teacher.username = username || teacher.username
     teacher.yearlevel_id = yearlevel_id || teacher.yearlevel_id
@@ -291,8 +291,8 @@ const updateTeacher = async (req, res) => {
     teacher.yearlevel_id3 = yearlevel_id3 || teacher.yearlevel_id3
 
     if (password) {
-      const hashedPassword = await bcrypt.hash(password, saltRounds)
-      teacher.password = hashedPassword
+      const hashedpassword = await bcrypt.hash(password, saltRounds)
+      teacher.password = hashedpassword
     }
 
     const updatedTeacher = await teacher.save()

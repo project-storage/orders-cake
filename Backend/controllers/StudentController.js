@@ -16,9 +16,9 @@ const createStudent = async (req, res) => {
         stuNumber,
         stuIdCard,
         title,
-        stuNane,
-        stuSurname,
-        stuTelephone,
+        name,
+        surname,
+        telephone,
         email,
         username,
         password,
@@ -32,8 +32,8 @@ const createStudent = async (req, res) => {
         const alreadyExistsNumber = await Student.findOne({ where: { stuNumber } })
         const alreadyExistsIdCard = await Student.findOne({ where: { stuIdCard } })
         const alreadyExistsEmail = await Student.findOne({ where: { email } })
-        const alreadyExistsUsername = await Student.findOne({ where: { username } })
-        const alreadyExistsTelephone = await Student.findOne({ where: { stuTelephone } })
+        const alreadyExistsusername = await Student.findOne({ where: { username } })
+        const alreadyExistsTelephone = await Student.findOne({ where: { telephone } })
 
         if (alreadyExistsNumber) {
             return res.json({ message: 'มีเลขประจำตัวนักศึกษาอยู่แล้ว' })
@@ -44,7 +44,7 @@ const createStudent = async (req, res) => {
         if (alreadyExistsEmail) {
             return res.json({ message: 'มีอีเมลล์อยู่แล้ว' })
         }
-        if (alreadyExistsUsername) {
+        if (alreadyExistsusername) {
             return res.json({ message: 'มีชื่่อผู้ใช้งานอยู่แล้ว' })
         }
         if (alreadyExistsTelephone) {
@@ -57,9 +57,9 @@ const createStudent = async (req, res) => {
             title,
             stuNumber,
             stuIdCard,
-            stuNane,
-            stuSurname,
-            stuTelephone,
+            name,
+            surname,
+            telephone,
             email,
             username,
             password: hashedPassword,
@@ -139,7 +139,7 @@ const getStudentWithAllParams = async (req, res) => {
             return res.status(401).json({ message: 'Unauthorized' })
         }
 
-        const { id, stuNumber, stuNane, email, username } = req.query
+        const { id, stuNumber, name, email, username } = req.query
 
         const whereClause = {}
         if (id) {
@@ -148,8 +148,8 @@ const getStudentWithAllParams = async (req, res) => {
         if (stuNumber) {
             whereClause.stuNumber = stuNumber
         }
-        if (stuNane) {
-            whereClause.stuNane = stuNane
+        if (name) {
+            whereClause.name = name
         }
         if (id) {
             whereClause.email = email
@@ -180,9 +180,9 @@ const updateStudent = async (req, res) => {
             stuNumber,
             stuIdCard,
             title,
-            stuNane,
-            stuSurname,
-            stuTelephone,
+            name,
+            surname,
+            telephone,
             email,
             username,
             password,
@@ -218,9 +218,9 @@ const updateStudent = async (req, res) => {
         }
 
         if (username !== student.username) {
-            const alreadyExistsUsername = await Student.findOne({ where: { username } })
+            const alreadyExistsusername = await Student.findOne({ where: { username } })
 
-            if (alreadyExistsUsername) {
+            if (alreadyExistsusername) {
                 return res.status(400).json({ message: "ชื่อผู้ใช้มีอยู่แล้ว" })
             }
         }
@@ -236,9 +236,9 @@ const updateStudent = async (req, res) => {
         student.stuNumber = stuNumber || student.stuNumber
         student.stuIdCard = stuIdCard || student.stuIdCard
         student.title = title || student.title
-        student.stuNane = stuNane || student.stuNane
-        student.stuSurname = stuSurname || student.stuSurname
-        student.stuTelephone = stuTelephone || student.stuTelephone
+        student.name = name || student.name
+        student.surname = surname || student.surname
+        student.telephone = telephone || student.telephone
         student.email = email || student.email
         student.username = username || student.username
         student.yearlevel_id = yearlevel_id || student.yearlevel_id
