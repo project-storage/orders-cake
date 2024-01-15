@@ -1,44 +1,44 @@
-const userController = require('../controllers/userController')
-const userRouter = require('express').Router()
-const passport = require('passport')
+const userController = require('../controllers/userController');
+const userRouter = require('express').Router();
+const passport = require('passport');
 
-// method get
+// Method: GET
 userRouter.get(
-  '/search-users',
+  '/users/search',
   passport.authenticate('jwt', { session: false }),
   userController.getUserWithAllParams
-)
+);
+
 userRouter.get(
-  '/all-user',
+  '/users/all',
   passport.authenticate('jwt', { session: false }),
   userController.getAllUser
-)
+);
+
 userRouter.get(
-  '/user-info',
+  '/users/info',
   passport.authenticate('jwt', { session: false }),
   userController.getUserInfo
-)
+);
 
-// method put
+// Method: PUT
 userRouter.put(
-  '/update-users/:id',
+  '/users/update/:id',
   passport.authenticate('jwt', { session: false }),
   userController.updateUser
-)
+);
 
-// method post
-userRouter.post('/create-admin', userController.createAdminUser)
-userRouter.post('/create-superAdmin', userController.createSuperAdminUser)
-userRouter.post('/login', userController.loginUser)
-userRouter.post(
-  '/register', userController.registerUser
-)
+// Method: POST
+userRouter.post('/users/create-admin', userController.createAdminUser);
+userRouter.post('/users/create-super-admin', userController.createSuperAdminUser);
+userRouter.post('/users/login', userController.loginUser);
+userRouter.post('/users/register', userController.registerUser);
 
-// method delete
+// Method: DELETE
 userRouter.delete(
-  '/delete-user/:id',
+  '/users/delete/:id',
   passport.authenticate('jwt', { session: false }),
   userController.deleteUser
-)
+);
 
-module.exports = userRouter
+module.exports = userRouter;

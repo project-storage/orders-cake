@@ -1,18 +1,41 @@
-const TeamController = require('../controllers/TeamController')
-const TeamRouter = require('express').Router()
-const passport = require('passport')
+const TeamController = require('../controllers/teamController');
+const TeamRouter = require('express').Router();
+const passport = require('passport');
 
-// method post
-TeamRouter.post('/create-team', TeamController.createTeam)
+// Method: POST
+TeamRouter.post('/teams/create', TeamController.createTeam);
 
-// method get
-TeamRouter.get('/info-team', passport.authenticate('jwt', { session: false }), TeamController.getInfoTeam)
-TeamRouter.get('/all-team', passport.authenticate('jwt', { session: false }), TeamController.getAllTeam)
-TeamRouter.get('/search-team', passport.authenticate('jwt', { session: false }), TeamController.getTeamWithAllParams)
+// Method: GET
+TeamRouter.get(
+    '/teams/info',
+    passport.authenticate('jwt', { session: false }),
+    TeamController.getInfoTeam
+);
 
-// method put
-TeamRouter.put('/update-team/:id', passport.authenticate('jwt', { session: false }), TeamController.updateTeam)
+TeamRouter.get(
+    '/teams/all',
+    passport.authenticate('jwt', { session: false }),
+    TeamController.getAllTeam
+);
 
-// method delete
-TeamRouter.delete('/delete-team/:id',passport.authenticate('jwt',{session:false}),TeamController.deleteTeam)
-module.exports = TeamRouter
+TeamRouter.get(
+    '/teams/search',
+    passport.authenticate('jwt', { session: false }),
+    TeamController.getTeamWithAllParams
+);
+
+// Method: PUT
+TeamRouter.put(
+    '/teams/update/:id',
+    passport.authenticate('jwt', { session: false }),
+    TeamController.updateTeam
+);
+
+// Method: DELETE
+TeamRouter.delete(
+    '/teams/delete/:id',
+    passport.authenticate('jwt', { session: false }),
+    TeamController.deleteTeam
+);
+
+module.exports = TeamRouter;

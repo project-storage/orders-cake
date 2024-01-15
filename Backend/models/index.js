@@ -29,16 +29,16 @@ const db = {}
 db.Sequelize = Sequelize
 db.sequelize = sequelize
 
-db.bill = require('./BillModel')(sequelize, DataTypes)
-db.department = require('./DepartmentModel')(sequelize, DataTypes)
-db.oders = require('./OrderModel')(sequelize, DataTypes)
-db.student = require('./StudentModel')(sequelize, DataTypes)
-db.teacher = require('./TeacherModel')(sequelize, DataTypes)
-db.team = require('./TeamModel')(sequelize, DataTypes)
-db.user = require('./UserModel')(sequelize, DataTypes)
-db.yearlevel = require('./YearLevellModel')(sequelize, DataTypes)
-db.years = require('./YearsModel')(sequelize, DataTypes)
-db.cake = require('./CakeModel')(sequelize, DataTypes)
+db.bill = require('./billModel')(sequelize, DataTypes)
+db.department = require('./departmentModel')(sequelize, DataTypes)
+db.orderMaster = require('./orderMasterlModel')(sequelize, DataTypes)
+db.order = require('./orderModel')(sequelize,DataTypes)
+db.student = require('./studentModel')(sequelize, DataTypes)
+db.teacher = require('./teacherModel')(sequelize, DataTypes)
+db.team = require('./teamModel')(sequelize, DataTypes)
+db.user = require('./userModel')(sequelize, DataTypes)
+db.yearlevel = require('./yearLevellModel')(sequelize, DataTypes)
+db.cake = require('./cakeModel')(sequelize, DataTypes)
 
 // one to many year level and department
 db.department.hasMany(db.yearlevel, {

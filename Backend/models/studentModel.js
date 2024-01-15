@@ -40,19 +40,19 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ENUM('student'),
       allowNull: true
     },
-    yearlevel_id: {
+    yearlevelID: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    depart_id: {
+    departID: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    teach_id: {
+    teachID: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    teach_id2: {
+    teachID2: {
       type: DataTypes.INTEGER,
       allowNull: true
     }

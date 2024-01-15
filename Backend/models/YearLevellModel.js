@@ -1,10 +1,10 @@
 module.exports = (sequelize, DataTypes) => {
   const Yearlevel = sequelize.define('yearlevel', {
-    level_name: {
+    levelName: {
       type: DataTypes.STRING(100),
       allowNull: false
     },
-    depart_id: {
+    departID: {
       type: DataTypes.INTEGER,
       allowNull: false
     }
