@@ -4,6 +4,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(100),
       allowNull: false
     },
+    branchID: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
     departID: {
       type: DataTypes.INTEGER,
       allowNull: false

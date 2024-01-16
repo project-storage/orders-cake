@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
     const Order = sequelize.define('orders', {
-        orderID: {
+        orderMasterID: {
             type: DataTypes.INTEGER,
             allowNull: true
         },

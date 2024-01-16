@@ -29,25 +29,34 @@ const db = {}
 db.Sequelize = Sequelize
 db.sequelize = sequelize
 
-db.bill = require('./billModel')(sequelize, DataTypes)
-db.department = require('./departmentModel')(sequelize, DataTypes)
-db.orderMaster = require('./orderMasterlModel')(sequelize, DataTypes)
-db.order = require('./orderModel')(sequelize,DataTypes)
 db.student = require('./studentModel')(sequelize, DataTypes)
 db.teacher = require('./teacherModel')(sequelize, DataTypes)
 db.team = require('./teamModel')(sequelize, DataTypes)
 db.user = require('./userModel')(sequelize, DataTypes)
 db.yearlevel = require('./yearLevellModel')(sequelize, DataTypes)
+db.branch = require('./branchModel')(sequelize, DataTypes)
+db.department = require('./departmentModel')(sequelize, DataTypes)
+db.bill = require('./billModel')(sequelize, DataTypes)
 db.cake = require('./cakeModel')(sequelize, DataTypes)
+db.orderMaster = require('./orderMasterlModel')(sequelize, DataTypes)
+db.order = require('./orderModel')(sequelize, DataTypes)
 
 // one to many year level and department
 db.department.hasMany(db.yearlevel, {
-  foreignKey: 'depart_id',
+  foreignKey: 'departID',
   as: 'yearlevels'
 })
 db.yearlevel.belongsTo(db.department, {
-  foreignKey: 'depart_id',
+  foreignKey: 'departID',
   as: 'departments'
+})
+db.branch.hasMany(db.yearlevel, {
+  foreignKey: 'branchID',
+  as: 'yearlevels'
+})
+db.yearlevel.belongsTo(db.branch, {
+  foreignKey: 'branchID',
+  as: 'branchs'
 })
 
 // one to many teacher and year level
@@ -88,11 +97,11 @@ db.yearlevel.hasOne(db.student, {
 
 // one to one student and department
 db.student.belongsTo(db.department, {
-  foreignKey: 'depart_id',
+  foreignKey: 'departID',
   as: 'departments'
 })
 db.department.hasOne(db.student, {
-  foreignKey: 'depart_id',
+  foreignKey: 'departID',
   as: 'students'
 })
 

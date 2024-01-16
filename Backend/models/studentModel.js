@@ -44,6 +44,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false
     },
+    branchID: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
     departID: {
       type: DataTypes.INTEGER,
       allowNull: false

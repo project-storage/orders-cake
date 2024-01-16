@@ -8,6 +8,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: true
     },
+    teachID: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
     cakeButter: {
       type: DataTypes.INTEGER,
       allowNull: false
