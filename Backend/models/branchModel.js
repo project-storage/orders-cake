@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const Branch = sequelize.defind('branchs', {
+    const Branch = sequelize.define('branchs', {
         branchName: {
             type: DataTypes.STRING(50),
             allowNull: false

@@ -1,10 +1,10 @@
 module.exports = (sequelize, DataTypes) => {
-    const TournamentSummary = sequelize.defilne('tournamentSummarys', {
+    const TurmSummary = sequelize.define('TurmSummarys', {
         orderMasterID: {
             type: DataTypes.INTEGER,
             allowNull: false
         }
     })
 
-    return TournamentSummary
+    return TurmSummary
 }
