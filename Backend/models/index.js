@@ -64,13 +64,13 @@ db.yearlevel.belongsTo(db.branch, {
 
 // ----------- table branch -----------//
 // one to many branches and departments
-db.branch.hasMany(db.department, {
-  foreignKey: 'branchID',
+db.department.hasMany(db.branch, {
+  foreignKey: 'departID',
   as: 'departments'
 });
-db.department.belongsTo(db.branch, {
-  foreignKey: 'branchID',
-  as: 'branch'
+db.branch.belongsTo(db.department, {
+  foreignKey: 'departID',
+  as: 'branchs'
 });
 
 // ----------- table teacher -----------//
@@ -151,74 +151,76 @@ db.department.hasOne(db.student, {
 
 // ----------- table order master -----------//
 // one to many students and orderMaster
-db.student.belongsTo(db.orderMaster, {
-  foreignKey: 'stuID',
-  as: 'orderMasters'
-});
-db.orderMaster.hasMany(db.student, {
+db.student.hasMany(db.orderMaster, {
   foreignKey: 'stuID',
   as: 'students'
 });
+db.orderMaster.belongsTo(db.student, {
+  foreignKey: 'stuID',
+  as: 'orderMastersStu'
+});
 
 // one to many team and orderMaster
-db.team.belongsTo(db.orderMaster, {
-  foreignKey: 'teamID',
-  as: 'orderMasters'
-})
-db.orderMaster.hasMany(db.team, {
+db.team.hasMany(db.orderMaster, {
   foreignKey: 'teamID',
   as: 'teams'
 })
+db.orderMaster.belongsTo(db.team, {
+  foreignKey: 'teamID',
+  as: 'orderMastersTeam'
+})
 
 // one to many teacher and orderMaster
-db.teacher.belongsTo(db.orderMaster, {
-  foreignKey: 'teachID',
-  as: 'orderMasters'
-})
-db.orderMaster.hasMany(db.teacher, {
+db.teacher.hasMany(db.orderMaster, {
   foreignKey: 'teachID',
   as: 'teachers'
 })
+db.orderMaster.belongsTo(db.teacher, {
+  foreignKey: 'teachID',
+  as: 'orderMastersTech'
+})
+
 
 // ----------- table order  -----------//
 // one to one orderMaster and order
 db.orderMaster.hasOne(db.order, {
   foreignKey: 'orderMasterID',
-  as: 'orders'
+  as: 'orderMastersOrder'
 });
 db.order.belongsTo(db.orderMaster, {
   foreignKey: 'orderMasterID',
-  as: 'orderMaster'
+  as: 'orders'
 });
 
 // one to many teacher and orders
-db.teacher.belongsTo(db.order, {
+db.teacher.hasMany(db.order, {
   foreignKey: 'teachID',
-  as: 'orders'
-})
-db.order.hasMany(db.teacher, {
+  as: 'ordersTeacher'
+});
+
+db.order.belongsTo(db.teacher, {
   foreignKey: 'teachID',
-  as: 'teachers'
-})
+  as: 'teachersInOrder'
+});
 
 // ----------- table TurmSummary  -----------//
 // one to many TurmSummary and orderMaster
-db.orderMaster.belongsTo(db.turmSummary, {
+db.orderMaster.hasMany(db.turmSummary, {
   foreignKey: 'orderMasterID',
   as: 'turmSummarys'
 });
-db.turmSummary.hasMany(db.orderMaster, {
+db.turmSummary.belongsTo(db.orderMaster, {
   foreignKey: 'orderMasterID',
   as: 'orderMasters'
 });
 
 // ----------- table stocks  -----------//
 // one to many cake and stock
-db.cake.belongsTo(db.stock, {
+db.cake.hasMany(db.stock, {
   foreignKey: 'cakeID',
   as: 'stocks'
 });
-db.stock.hasMany(db.cake, {
+db.stock.belongsTo(db.cake, {
   foreignKey: 'cakeID',
   as: 'cakes'
 });
