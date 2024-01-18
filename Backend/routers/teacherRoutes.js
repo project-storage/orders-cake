@@ -3,37 +3,37 @@ const TeacherRouter = require('express').Router();
 const passport = require('passport');
 
 // Method: POST
-TeacherRouter.post('/teachers/register', TeacherController.createTeahcer);
+TeacherRouter.post('/register', TeacherController.createTeahcer);
 
 // Method: GET
 TeacherRouter.get(
-    '/teachers/info',
+    '/info',
     passport.authenticate('jwt', { session: false }),
     TeacherController.getinfoTeacher
 );
 
 TeacherRouter.get(
-    '/teachers/all',
+    '/all',
     passport.authenticate('jwt', { session: false }),
     TeacherController.getAllTeacher
 );
 
 TeacherRouter.get(
-    '/teachers/search',
+    '/search',
     passport.authenticate('jwt', { session: false }),
     TeacherController.getTeacherWithAllParams
 );
 
 // Method: PUT
 TeacherRouter.put(
-    '/teachers/update/:id',
+    '/update/:id',
     passport.authenticate('jwt', { session: false }),
     TeacherController.updateTeacher
 );
 
 // Method: DELETE
 TeacherRouter.delete(
-    '/teachers/delete/:id',
+    '/delete/:id',
     passport.authenticate('jwt', { session: false }),
     TeacherController.deleteTeacher
 );

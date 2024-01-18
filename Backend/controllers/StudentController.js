@@ -23,6 +23,7 @@ const createStudent = async (req, res) => {
         username,
         password,
         yearlevelID,
+        branchID,
         departID,
         teachID,
         teachID2
@@ -65,6 +66,7 @@ const createStudent = async (req, res) => {
             password: hashedPassword,
             role: 'Student',
             yearlevelID,
+            branchID,
             departID,
             teachID,
             teachID2

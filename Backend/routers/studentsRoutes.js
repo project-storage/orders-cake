@@ -3,37 +3,37 @@ const StudentRouter = require('express').Router();
 const passport = require('passport');
 
 // Method: POST
-StudentRouter.post('/students/register', StudentController.createStudent);
+StudentRouter.post('/register', StudentController.createStudent);
 
 // Method: GET
 StudentRouter.get(
-    '/students/info',
+    '/info',
     passport.authenticate('jwt', { session: false }),
     StudentController.getInfoStudent
 );
 
 StudentRouter.get(
-    '/students/all',
+    '/all',
     passport.authenticate('jwt', { session: false }),
     StudentController.getAllStudent
 );
 
 StudentRouter.get(
-    '/students/search',
+    '/search',
     passport.authenticate('jwt', { session: false }),
     StudentController.getStudentWithAllParams
 );
 
 // Method: PUT
 StudentRouter.put(
-    '/students/update/:id',
+    '/update/:id',
     passport.authenticate('jwt', { session: false }),
     StudentController.updateStudent
 );
 
 // Method: DELETE
 StudentRouter.delete(
-    '/students/delete/:id',
+    '/delete/:id',
     passport.authenticate('jwt', { session: false }),
     StudentController.deleteStudent
 );

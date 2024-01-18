@@ -52,7 +52,7 @@ const createTeahcer = async (req, res) => {
     })
 
     await newTeacher.save()
-
+console.log(newTeacher)
     return res.status(200).json({ message: 'สร้างครูที่ปรึกษาสำเร็จ', creaet: newTeacher })
   } catch (error) {
     console.error("Error creating teacher: ", error);
