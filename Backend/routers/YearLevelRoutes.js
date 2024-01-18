@@ -28,7 +28,7 @@ YearlevelRouter.put(
 
 // method post
 YearlevelRouter.post(
-  '/create-yearlevel',
+  '/create',
   passport.authenticate('jwt', { session: false }),
   YearlevelController.createYearlevel
 )

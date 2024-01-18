@@ -29,8 +29,8 @@ userRouter.put(
 );
 
 // Method: POST
-userRouter.post('/users/create-admin', userController.createAdminUser);
-userRouter.post('/users/create-super-admin', userController.createSuperAdminUser);
+userRouter.post('/admin/create-admin', userController.createAdminUser);
+userRouter.post('/admin/create-super-admin', userController.createSuperAdminUser);
 userRouter.post('/users/login', userController.loginUser);
 userRouter.post('/users/register', userController.registerUser);
 

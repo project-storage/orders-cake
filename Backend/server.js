@@ -20,7 +20,7 @@ const teacherRouter = require('./routers/teacherRoutes');
 const studentRouter = require('./routers/studentsRoutes');
 const teamRouter = require('./routers/teamRoutes');
 const cakeRouter = require('./routers/cakeRoutes');
-
+const branchRouter = require('./routers/branchRoutes')
 // API Routes with Prefixes and Versioning
 app.use('/api/users', userRouter);
 app.use('/api/departments', departmentRouter);
@@ -29,6 +29,7 @@ app.use('/api/teachers', teacherRouter);
 app.use('/api/students', studentRouter);
 app.use('/api/teams', teamRouter);
 app.use('/api/cakes', cakeRouter);
+app.use('/api/branchs', branchRouter)
 
 // Test Routes
 app.get('/api', (req, res) => {

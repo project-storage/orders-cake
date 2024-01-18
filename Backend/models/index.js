@@ -59,18 +59,18 @@ db.branch.hasMany(db.yearlevel, {
 });
 db.yearlevel.belongsTo(db.branch, {
   foreignKey: 'branchID',
-  as: 'branch'
+  as: 'branchs'
 });
 
 // ----------- table branch -----------//
 // one to many branches and departments
 db.department.hasMany(db.branch, {
   foreignKey: 'departID',
-  as: 'departments'
+  as: 'branchs'
 });
 db.branch.belongsTo(db.department, {
   foreignKey: 'departID',
-  as: 'branchs'
+  as: 'departments'
 });
 
 // ----------- table teacher -----------//
@@ -153,31 +153,31 @@ db.department.hasOne(db.student, {
 // one to many students and orderMaster
 db.student.hasMany(db.orderMaster, {
   foreignKey: 'stuID',
-  as: 'students'
+  as: 'orderMastersStu'
 });
 db.orderMaster.belongsTo(db.student, {
   foreignKey: 'stuID',
-  as: 'orderMastersStu'
+  as: 'students'
 });
 
 // one to many team and orderMaster
 db.team.hasMany(db.orderMaster, {
   foreignKey: 'teamID',
-  as: 'teams'
+  as: 'orderMastersTeam'
 })
 db.orderMaster.belongsTo(db.team, {
   foreignKey: 'teamID',
-  as: 'orderMastersTeam'
+  as: 'teams'
 })
 
 // one to many teacher and orderMaster
 db.teacher.hasMany(db.orderMaster, {
   foreignKey: 'teachID',
-  as: 'teachers'
+  as: 'orderMastersTech'
 })
 db.orderMaster.belongsTo(db.teacher, {
   foreignKey: 'teachID',
-  as: 'orderMastersTech'
+  as: 'teachers'
 })
 
 
@@ -185,11 +185,11 @@ db.orderMaster.belongsTo(db.teacher, {
 // one to one orderMaster and order
 db.orderMaster.hasOne(db.order, {
   foreignKey: 'orderMasterID',
-  as: 'orderMastersOrder'
+  as: 'orders'
 });
 db.order.belongsTo(db.orderMaster, {
   foreignKey: 'orderMasterID',
-  as: 'orders'
+  as: 'orderMastersOrder'
 });
 
 // one to many teacher and orders

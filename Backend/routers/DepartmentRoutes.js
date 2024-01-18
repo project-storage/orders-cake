@@ -28,7 +28,7 @@ departmentRouter.put(
 
 // method post
 departmentRouter.post(
-  '/departments/create',
+  '/department/create',
   passport.authenticate('jwt', { session: false }),
   departmentController.createDepartment
 )
