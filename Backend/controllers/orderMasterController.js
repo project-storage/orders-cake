@@ -73,3 +73,20 @@ const createOrderMaster = async (req, res) => {
 module.exports = {
     createOrderMaster
 }
+
+
+// app.post('/createOrder', async (req, res) => {
+//     try {
+//       const { stuID, teamID, teachID, dateBuy, timeBuy, pickupDate, pickupTime, price, status, depositPrice, remainingPrice } = req.body;
+//       const order = await Order.create({ stuID, teamID, teachID, dateBuy, timeBuy, pickupDate, pickupTime, price, status, depositPrice, remainingPrice });
+//       const orderDetails = req.body.orderDetails;
+//       for (let i = 0; i < orderDetails.length; i++) {
+//         const { cakeID, totalCake, totalPoundsAmount, totalPrice } = orderDetails[i];
+//         await OrderDetails.create({ orderID: order.id, cakeID, totalCake, totalPoundsAmount, totalPrice });
+//       }
+//       res.status(201).json(order);
+//     } catch (error) {
+//       console.error(error);
+//       res.status(500).json({ message: 'Server Error' });
+//     }
+//   });
