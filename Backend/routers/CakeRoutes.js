@@ -4,7 +4,7 @@ const passport = require('passport');
 
 // Method: POST
 cakeRouter.post(
-    '/cakes/create',
+    '/create',
     passport.authenticate('jwt', { session: false }),
     cakeController.createCake
 );

@@ -21,7 +21,8 @@ const studentRouter = require('./routers/studentsRoutes');
 const teamRouter = require('./routers/teamRoutes');
 const cakeRouter = require('./routers/cakeRoutes');
 const branchRouter = require('./routers/branchRoutes')
-const orderMasterRouter = require('./routers/orderMasterRouters')
+// const orderMasterRouter = require('./routers/orderDetailsRouters')
+const orderRouter = require('./routers/ordersRoutes')
 
 // API Routes with Prefixes and Versioning
 app.use('/api/users', userRouter);
@@ -32,7 +33,8 @@ app.use('/api/students', studentRouter);
 app.use('/api/teams', teamRouter);
 app.use('/api/cakes', cakeRouter);
 app.use('/api/branchs', branchRouter)
-app.use('/api/order-masters', orderMasterRouter)
+// app.use('/api/order-masters', orderMasterRouter)
+app.use('/api/orders', orderRouter)
 
 // Test Routes
 app.get('/api', (req, res) => {
