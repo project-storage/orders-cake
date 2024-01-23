@@ -1,6 +1,7 @@
 const db = require('../models')
 const Yearlevel = db.yearlevel
 const Department = db.department
+const Branch = db.branch
 
 // สร้างระดับการศึกษา
 const createYearlevel = async (req, res) => {
@@ -9,33 +10,37 @@ const createYearlevel = async (req, res) => {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
-    const { level_name, depart_id } = req.body
+    const { levelName, departID, branchID } = req.body
 
-    if (!level_name) {
+    if (!levelName) {
       return res
         .status(400)
         .json({ message: 'กรุณากรอกข้อมูลในช่องระดับการศึกษา' })
     }
 
-    if (!depart_id) {
+    if (!departID) {
       return res.status(400).json({ message: 'กรุณาเลือกแผนก' })
     }
 
+    if (!branchID) {
+      return res.status(400).json({ message: 'กรุณาเลือกสาขาวิชา' })
+    }
+
     // const alreadyExistsYearlevel = await Yearlevel.findOne({
-    //   where: { level_name }
+    //   where: { levelName }
     // })
 
     // if (alreadyExistsYearlevel) {
     //   return res.status(409).json({ message: 'มีห้องเรียนอยู่แล้ว' })
     // }
 
-    if (isNaN(depart_id)) {
+    if (isNaN(departID)) {
       return res
         .status(404)
-        .json({ message: 'depart_id ควรเป็นตัวเลขเท่านั้น' })
+        .json({ message: 'departID ควรเป็นตัวเลขเท่านั้น' })
     }
 
-    const newYearlevel = new Yearlevel({ level_name, depart_id })
+    const newYearlevel = new Yearlevel({ levelName, departID, branchID })
     const saveYearlevel = await newYearlevel.save()
 
     return res.status(200).json({
@@ -58,10 +63,21 @@ const getAllYearlevel = async (req, res) => {
     }
 
     const yearlevel = await Yearlevel.findAll({
-      include: { model: Department, as: 'departments' }
-    })
+      include: [
+        {
+          model: Branch,
+          as: 'branchs',
+          include: [
+            {
+              model: Department,
+              as: 'departments'
+            }
+          ]
+        }
+      ]
+    });
 
-    return res.status(200).json(yearlevel)
+    return res.status(200).json({ status: "200", message: "get all year-level success", data: yearlevel })
   } catch (error) {
     console.error("Error", error);
     return res
@@ -98,17 +114,17 @@ const getAllYearlevelWithAllParans = async (req, res) => {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
-    const { id, level_name, depart_id } = req.query // เปลี่ยนจาก req.body เป็น req.query
+    const { id, levelName, departID } = req.query // เปลี่ยนจาก req.body เป็น req.query
 
     const whereClause = {}
     if (id) {
       whereClause.id = id
     }
-    if (level_name) {
-      whereClause.level_name = level_name
+    if (levelName) {
+      whereClause.levelName = levelName
     }
-    if (depart_id) {
-      whereClause.depart_id = depart_id
+    if (departID) {
+      whereClause.departID = departID
     }
 
     const yearlevel = await Yearlevel.findAll({
@@ -136,7 +152,7 @@ const updateYearlevel = async (req, res) => {
       return res.status(401).json({ message: 'Unauthorized`' })
     }
 
-    const { id, level_name, depart_id } = req.body
+    const { id, levelName, departID } = req.body
 
     const yearlevel = await Yearlevel.findOne({
       where: { id: req.params.id }
@@ -146,8 +162,8 @@ const updateYearlevel = async (req, res) => {
       return res.status(404).json({ message: 'ไม่พบข้อมูลระดับการศึกษา' })
     }
 
-    yearlevel.level_name = level_name || yearlevel.level_name
-    yearlevel.depart_id = depart_id || yearlevel.depart_id
+    yearlevel.levelName = levelName || yearlevel.levelName
+    yearlevel.departID = departID || yearlevel.departID
 
     const updatedYearlevel = await yearlevel.save()
     if (!updatedYearlevel) {

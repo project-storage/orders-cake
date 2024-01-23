@@ -19,9 +19,9 @@ const createTeahcer = async (req, res) => {
     email,
     username,
     password,
-    yearlevel_id,
-    yearlevel_id2,
-    yearlevel_id3
+    yearlevelID,
+    yearlevelID2,
+    yearlevelID3
   } = req.body
 
   try {
@@ -46,13 +46,13 @@ const createTeahcer = async (req, res) => {
       username,
       password: hashedpassword,
       role: 'teacher',
-      yearlevel_id,
-      yearlevel_id2,
-      yearlevel_id3
+      yearlevelID,
+      yearlevelID2,
+      yearlevelID3
     })
 
     await newTeacher.save()
-
+console.log(newTeacher)
     return res.status(200).json({ message: 'สร้างครูที่ปรึกษาสำเร็จ', creaet: newTeacher })
   } catch (error) {
     console.error("Error creating teacher: ", error);
@@ -217,9 +217,9 @@ const updateTeacher = async (req, res) => {
     email,
     username,
     password,
-    yearlevel_id,
-    yearlevel_id2,
-    yearlevel_id3
+    yearlevelID,
+    yearlevelID2,
+    yearlevelID3
   } = req.body
 
   let teacher
@@ -286,9 +286,9 @@ const updateTeacher = async (req, res) => {
     teacher.teachtelephone = teachtelephone || teacher.teachtelephone
     teacher.email = email || teacher.email
     teacher.username = username || teacher.username
-    teacher.yearlevel_id = yearlevel_id || teacher.yearlevel_id
-    teacher.yearlevel_id2 = yearlevel_id2 || teacher.yearlevel_id2
-    teacher.yearlevel_id3 = yearlevel_id3 || teacher.yearlevel_id3
+    teacher.yearlevelID = yearlevelID || teacher.yearlevelID
+    teacher.yearlevelID2 = yearlevelID2 || teacher.yearlevelID2
+    teacher.yearlevelID3 = yearlevelID3 || teacher.yearlevelID3
 
     if (password) {
       const hashedpassword = await bcrypt.hash(password, saltRounds)

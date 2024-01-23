@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const Department = sequelize.define('department', {
-    depart_name: {
+    departName: {
       type: DataTypes.STRING(100),
       allowNull: false
     }

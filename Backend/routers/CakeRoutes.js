@@ -1,43 +1,44 @@
-const cakeController = require('../controllers/CakeController')
-const cakeRouter = require('express').Router()
-const passport = require('passport')
+const cakeController = require('../controllers/cakeController');
+const cakeRouter = require('express').Router();
+const passport = require('passport');
 
-// method post
+// Method: POST
 cakeRouter.post(
-    '/create-cake',
+    '/create',
     passport.authenticate('jwt', { session: false }),
     cakeController.createCake
-)
+);
 
 cakeRouter.post(
-    '/update-cake/:id',
+    '/cakes/update/:id',
     passport.authenticate('jwt', { session: false }),
     cakeController.updateCake
-)
+);
 
-// method get
+// Method: GET
 cakeRouter.get(
-    '/info-cake/:id',
+    '/cakes/info/:id',
     passport.authenticate('jwt', { session: false }),
     cakeController.getInfoCake
-)
+);
 
 cakeRouter.get(
-    '/all-cake',
+    '/cakes/all',
     passport.authenticate('jwt', { session: false }),
     cakeController.getAllCake
-)
+);
 
 cakeRouter.get(
-    '/search-cake',
+    '/cakes/search',
     passport.authenticate('jwt', { session: false }),
     cakeController.getCakeWithAllParmans
-)
+);
 
-// method delete 
+// Method: DELETE 
 cakeRouter.delete(
-    '/delete-cake/:id',
+    '/cakes/delete/:id',
     passport.authenticate('jwt', { session: false }),
     cakeController.deleteCake
-)
-module.exports = cakeRouter
+);
+
+module.exports = cakeRouter;

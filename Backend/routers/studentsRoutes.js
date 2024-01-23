@@ -1,18 +1,41 @@
-const StudnetController = require('../controllers/StudentController')
-const StudentRouter = require('express').Router()
-const passport = require('passport')
+const StudentController = require('../controllers/StudentController');
+const StudentRouter = require('express').Router();
+const passport = require('passport');
 
-// method post
-StudentRouter.post('/register-student', StudnetController.createStudent)
+// Method: POST
+StudentRouter.post('/register', StudentController.createStudent);
 
-// method get
-StudentRouter.get('/info-student', passport.authenticate('jwt', { session: false }), StudnetController.getInfoStudent)
-StudentRouter.get('/all-student', passport.authenticate('jwt', { session: false }), StudnetController.getAllStudent)
-StudentRouter.get('/search-student', passport.authenticate('jwt', { session: false }), StudnetController.getStudentWithAllParams)
+// Method: GET
+StudentRouter.get(
+    '/info',
+    passport.authenticate('jwt', { session: false }),
+    StudentController.getInfoStudent
+);
 
-// method puh
-StudentRouter.put('/update-student/:id', passport.authenticate('jwt', { session: false }), StudnetController.updateStudent)
+StudentRouter.get(
+    '/all',
+    passport.authenticate('jwt', { session: false }),
+    StudentController.getAllStudent
+);
 
-// method delete
-StudentRouter.delete('/delete-student/:id', passport.authenticate('jwt', { session: false }), StudnetController.deleteStudent)
-module.exports = StudentRouter
+StudentRouter.get(
+    '/search',
+    passport.authenticate('jwt', { session: false }),
+    StudentController.getStudentWithAllParams
+);
+
+// Method: PUT
+StudentRouter.put(
+    '/update/:id',
+    passport.authenticate('jwt', { session: false }),
+    StudentController.updateStudent
+);
+
+// Method: DELETE
+StudentRouter.delete(
+    '/delete/:id',
+    passport.authenticate('jwt', { session: false }),
+    StudentController.deleteStudent
+);
+
+module.exports = StudentRouter;

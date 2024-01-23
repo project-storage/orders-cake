@@ -22,10 +22,11 @@ const createStudent = async (req, res) => {
         email,
         username,
         password,
-        yearlevel_id,
-        depart_id,
-        teach_id,
-        teach_id2
+        yearlevelID,
+        branchID,
+        departID,
+        teachID,
+        teachID2
     } = req.body
 
     try {
@@ -64,10 +65,11 @@ const createStudent = async (req, res) => {
             username,
             password: hashedPassword,
             role: 'Student',
-            yearlevel_id,
-            depart_id,
-            teach_id,
-            teach_id2
+            yearlevelID,
+            branchID,
+            departID,
+            teachID,
+            teachID2
         })
 
         await newStudnets.save()
@@ -186,10 +188,10 @@ const updateStudent = async (req, res) => {
             email,
             username,
             password,
-            yearlevel_id,
-            depart_id,
-            teach_id,
-            teach_id2
+            yearlevelID,
+            departID,
+            teachID,
+            teachID2
         } = req.body
 
         let student
@@ -241,10 +243,10 @@ const updateStudent = async (req, res) => {
         student.telephone = telephone || student.telephone
         student.email = email || student.email
         student.username = username || student.username
-        student.yearlevel_id = yearlevel_id || student.yearlevel_id
-        student.depart_id = depart_id || student.depart_id
-        student.teach_id = teach_id || student.teach_id
-        student.teach_id2 = teach_id2 || student.teach_id2
+        student.yearlevelID = yearlevelID || student.yearlevelID
+        student.departID = departID || student.departID
+        student.teachID = teachID || student.teachID
+        student.teachID2 = teachID2 || student.teachID2
 
         if (password) {
             const hashedPassword = await bcrypt.hash(password, saltRounds)

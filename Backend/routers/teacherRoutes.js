@@ -1,19 +1,41 @@
-const TeacherController = require('../controllers/TeacherController')
-const TeacherRouter = require('express').Router()
-const passport = require('passport')
+const TeacherController = require('../controllers/TeacherController');
+const TeacherRouter = require('express').Router();
+const passport = require('passport');
 
-// method post
-TeacherRouter.post('/register-teacher', TeacherController.createTeahcer)
+// Method: POST
+TeacherRouter.post('/register', TeacherController.createTeahcer);
 
-// method get
-TeacherRouter.get('/info-teacher', passport.authenticate('jwt', { session: false }), TeacherController.getinfoTeacher)
-TeacherRouter.get('/all-teacher', passport.authenticate('jwt', { session: false }), TeacherController.getAllTeacher)
-TeacherRouter.get('/search-teacher', passport.authenticate('jwt', { session: false }), TeacherController.getTeacherWithAllParams)
+// Method: GET
+TeacherRouter.get(
+    '/info',
+    passport.authenticate('jwt', { session: false }),
+    TeacherController.getinfoTeacher
+);
 
-// method put 
-TeacherRouter.put('/update-teacher/:id', passport.authenticate('jwt', { session: false }), TeacherController.updateTeacher)
+TeacherRouter.get(
+    '/all',
+    passport.authenticate('jwt', { session: false }),
+    TeacherController.getAllTeacher
+);
 
-// method delete
-TeacherRouter.delete('/delete-teacher/:id', passport.authenticate('jwt', { session: false }), TeacherController.deleteTeacher)
+TeacherRouter.get(
+    '/search',
+    passport.authenticate('jwt', { session: false }),
+    TeacherController.getTeacherWithAllParams
+);
 
-module.exports = TeacherRouter
+// Method: PUT
+TeacherRouter.put(
+    '/update/:id',
+    passport.authenticate('jwt', { session: false }),
+    TeacherController.updateTeacher
+);
+
+// Method: DELETE
+TeacherRouter.delete(
+    '/delete/:id',
+    passport.authenticate('jwt', { session: false }),
+    TeacherController.deleteTeacher
+);
+
+module.exports = TeacherRouter;

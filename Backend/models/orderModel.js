@@ -1,38 +1,49 @@
 module.exports = (sequelize, DataTypes) => {
-  const Order = sequelize.define('orders', {
-    stu_id: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    team_id: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    cake_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    totalPound: {
-      type: DataTypes.DECIMAL(5, 1),
-      allowNull: false
-    },
-    totalPoundsAmount: {
-      type: DataTypes.DECIMAL(10, 2),
-      allowNull: false
-    },
-    totalPrice: {
-      type: DataTypes.DECIMAL(10, 2),
-      allowNull: false
-    },
-    orderDate: {
-      type: DataTypes.DATE,
-      allowNull: false
-    },
-    orderTime: {
-      type: DataTypes.DATE,
-      allowNull: false
-    }
-  })
-
-  return Order
+    const Order = sequelize.define('orders', {
+        stuID: {
+            type: DataTypes.INTEGER,
+            allowNull: true
+        },
+        teamID: {
+            type: DataTypes.INTEGER,
+            allowNull: true
+        },
+        teachID: {
+            type: DataTypes.INTEGER,
+            allowNull: true
+        },
+        dateBuy: {
+            type: DataTypes.DATEONLY,
+            allowNull: false
+        },
+        timeBuy: {
+            type: DataTypes.TIME,
+            allowNull: false
+        },
+        pickupDate: {
+            type: DataTypes.DATEONLY,
+            allowNull: false
+        },
+        pickupTime: {
+            type: DataTypes.TIME,
+            allowNull: false
+        },
+        price: {
+            type: DataTypes.INTEGER,
+            allowNull: true
+        },
+        status: {
+            type: DataTypes.ENUM("จ่ายเต็มจำนวน", "จ่ายแบบมัดจำ"),
+            allowNull: true
+        },
+        depositPrice: {
+            type: DataTypes.INTEGER,
+            allowNull: true
+        },
+        remainingPrice: {
+            type: DataTypes.INTEGER,
+            allowNull: true
+        },
+    })
+    return Order
 }
