@@ -6,18 +6,18 @@ import {
   SubMenu,
   // SidebarFooter,
 } from "react-pro-sidebar";
-import { Box, IconButton, Typography, useTheme, Badge } from "@mui/material";
+import { Box, IconButton, Typography} from "@mui/material";
 import { Link } from "react-router-dom";
 
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
-import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
-import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
-import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
+// import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
+// import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
+// import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
 // import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
-import TableViewIcon from '@mui/icons-material/TableView';
+// import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
+// import TableViewIcon from '@mui/icons-material/TableView';
 import { useState } from "react";
 const SideBar = () => {
   const [isCollapsed, setisCollapsed] = useState(false);
@@ -27,7 +27,7 @@ const SideBar = () => {
   return (
     <div
       style={{
-        display: "flex",
+        // display: "flex",
         height: "100%",
       }}
     >
@@ -36,9 +36,9 @@ const SideBar = () => {
         toggled={toggled}
         onBackdropClick={() => setToggled(false)}
         onBreakPoint={setBroken}
-        image="/assets/17372.jpg"
+        // image="/assets/17372.jpg"
         breakPoint="md"
-        style={{ height: "100%" }}
+        style={{ height: "100%", border: "none",backgroundColor:"rgb(255, 255, 255)"}}
       >
         <div
           style={{ display: "flex", flexDirection: "column", height: "100%" }}
@@ -60,14 +60,14 @@ const SideBar = () => {
                     alignItems="center"
                     ml="15px"
                   >
-                    <Typography>ROITAI APP</Typography>
+                    <Typography>Admin</Typography>
                     <IconButton onClick={() => setisCollapsed(!isCollapsed)}>
                       <MenuOutlinedIcon />
                     </IconButton>
                   </Box>
                 )}
               </MenuItem>
-              {!isCollapsed && (
+              {/* {!isCollapsed && (
                 <Box mb="25px">
                   <Box
                     display="flex"
@@ -78,7 +78,7 @@ const SideBar = () => {
                       alt="profile-user"
                       width="100px"
                       height="100px"
-                      src={`/assets/user.jpg`}
+                      src={'../../assets/001.jpg'}
                       style={{ cursor: "pointer", borderRadius: "50%" }}
                     />
                   </Box>
@@ -87,13 +87,16 @@ const SideBar = () => {
                     <Typography>DEV </Typography>
                   </Box>
                 </Box>
-              )}
+              )} */}
 
-              <Link to="/admin" className="menu-bars">
+              <Link to="/admin/dashboard" className="menu-bars">
                 <MenuItem icon={<HomeOutlinedIcon />}>Dashboard</MenuItem>
               </Link>
+              <Link to="/admin/all_product" className="menu-bars">
+                <MenuItem icon={<HomeOutlinedIcon />}>จัดการเค้ก</MenuItem>
+              </Link>
 
-              <SubMenu icon={<MapOutlinedIcon />} label="Data">
+              {/* <SubMenu icon={<MapOutlinedIcon />} label="Data">
                 <Link to={"/admin/viewtable"} className="menu-bars">
                   <MenuItem icon={<TableViewIcon />}>
                     {" "}
@@ -104,7 +107,7 @@ const SideBar = () => {
                   {" "}
                   Line charts
                 </MenuItem>
-              </SubMenu>
+              </SubMenu> */}
 
               <SubMenu label="Manage" icon={<PeopleOutlinedIcon />}>
                 <Link to={"/admin/manage"} className="menu-bars">
@@ -114,7 +117,7 @@ const SideBar = () => {
               </SubMenu>
             </Menu>
 
-            <div
+            {/* <div
               style={{
                 padding: "0 24px",
                 marginBottom: "8px",
@@ -134,9 +137,9 @@ const SideBar = () => {
             </div>
 
             <Menu>
-              <MenuItem icon={<CalendarTodayOutlinedIcon />}>Calendar</MenuItem>
-              <MenuItem icon={<ReceiptOutlinedIcon />}>Documentation</MenuItem>
-            </Menu>
+              {/* <MenuItem icon={<CalendarTodayOutlinedIcon />}>Calendar</MenuItem> 
+              <MenuItem icon={<ReceiptOutlinedIcon />}>ตั้งค่า</MenuItem>
+            </Menu> */}
           </div>
         </div>
       </Sidebar>
