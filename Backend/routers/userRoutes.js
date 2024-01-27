@@ -4,26 +4,26 @@ const passport = require('passport');
 
 // Method: GET
 userRouter.get(
-  '/users/search',
+  '/search',
   passport.authenticate('jwt', { session: false }),
   userController.getUserWithAllParams
 );
 
 userRouter.get(
-  '/users/all',
+  '/all',
   passport.authenticate('jwt', { session: false }),
   userController.getAllUser
 );
 
 userRouter.get(
-  '/users/info',
+  '/info',
   passport.authenticate('jwt', { session: false }),
   userController.getUserInfo
 );
 
 // Method: PUT
 userRouter.put(
-  '/users/update/:id',
+  '/update/:id',
   passport.authenticate('jwt', { session: false }),
   userController.updateUser
 );
@@ -31,12 +31,12 @@ userRouter.put(
 // Method: POST
 userRouter.post('/admin/create-admin', userController.createAdminUser);
 userRouter.post('/admin/create-super-admin', userController.createSuperAdminUser);
-userRouter.post('/users/login', userController.loginUser);
-userRouter.post('/users/register', userController.registerUser);
+userRouter.post('/login', userController.loginUser);
+userRouter.post('/register', userController.registerUser);
 
 // Method: DELETE
 userRouter.delete(
-  '/users/delete/:id',
+  '/delete/:id',
   passport.authenticate('jwt', { session: false }),
   userController.deleteUser
 );

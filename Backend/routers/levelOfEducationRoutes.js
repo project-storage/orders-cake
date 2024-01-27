@@ -1,43 +1,43 @@
-const YearlevelController = require('../controllers/yearLevelController')
-const YearlevelRouter = require('express').Router()
+const LFEDController = require('../controllers/yearLevelController')
+const LFEDRouter = require('express').Router()
 const passport = require('passport')
 
 //method get
-YearlevelRouter.get(
+LFEDRouter.get(
   '/all-yearlevel',
   passport.authenticate('jwt', { session: false }),
   YearlevelController.getAllYearlevel
 )
-YearlevelRouter.get(
+LFEDRouter.get(
   '/info-yearlevel/:id',
   passport.authenticate('jwt', { session: false }),
   YearlevelController.getInfoYearlevel
 )
-YearlevelRouter.get(
+LFEDRouter.get(
   '/search-yearlevel',
   passport.authenticate('jwt', { session: false }),
   YearlevelController.getAllYearlevelWithAllParans
 )
 
 // method put
-YearlevelRouter.put(
+LFEDRouter.put(
   '/update-yearlevel/:id',
   passport.authenticate('jwt', { session: false }),
   YearlevelController.updateYearlevel
 )
 
 // method post
-YearlevelRouter.post(
+LFEDRouter.post(
   '/create',
   passport.authenticate('jwt', { session: false }),
   YearlevelController.createYearlevel
 )
 
 // method delete
-YearlevelRouter.delete(
+LFEDRouter.delete(
   '/delete-yearlevel/:id',
   passport.authenticate('jwt', { session: false }),
   YearlevelController.deleteYearlevel
 )
 
-module.exports = YearlevelRouter
+module.exports = LFEDRouter

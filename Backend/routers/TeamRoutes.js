@@ -3,37 +3,37 @@ const TeamRouter = require('express').Router();
 const passport = require('passport');
 
 // Method: POST
-TeamRouter.post('/teams/create', TeamController.createTeam);
+TeamRouter.post('/create', TeamController.createTeam);
 
 // Method: GET
 TeamRouter.get(
-    '/teams/info',
+    '/info',
     passport.authenticate('jwt', { session: false }),
     TeamController.getInfoTeam
 );
 
 TeamRouter.get(
-    '/teams/all',
+    '/all',
     passport.authenticate('jwt', { session: false }),
     TeamController.getAllTeam
 );
 
 TeamRouter.get(
-    '/teams/search',
+    '/search',
     passport.authenticate('jwt', { session: false }),
     TeamController.getTeamWithAllParams
 );
 
 // Method: PUT
 TeamRouter.put(
-    '/teams/update/:id',
+    '/update/:id',
     passport.authenticate('jwt', { session: false }),
     TeamController.updateTeam
 );
 
 // Method: DELETE
 TeamRouter.delete(
-    '/teams/delete/:id',
+    '/delete/:id',
     passport.authenticate('jwt', { session: false }),
     TeamController.deleteTeam
 );
