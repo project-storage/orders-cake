@@ -8,46 +8,6 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING(100),
             allowNull: false
         },
-        username: {
-            type: DataTypes.STRING(100),
-            allowNull: false
-        },
-        password: {
-            type: DataTypes.STRING(100),
-            allowNull: false
-        },
-        telephone: {
-            type: DataTypes.STRING(10),
-            allowNull: false
-        },
-        member1: {
-            type: DataTypes.STRING(100),
-            allowNull: false
-        },
-        member2: {
-            type: DataTypes.STRING(100),
-            allowNull: true
-        },
-        member3: {
-            type: DataTypes.STRING(100),
-            allowNull: true
-        },
-        member4: {
-            type: DataTypes.STRING(100),
-            allowNull: true
-        },
-        member5: {
-            type: DataTypes.STRING(100),
-            allowNull: true
-        },
-        remake: {
-            type: DataTypes.STRING(100),
-            allowNull: false
-        },
-        role: {
-            type: DataTypes.ENUM("team"),
-            allowNull: true
-        }
     })
     return Team
 }

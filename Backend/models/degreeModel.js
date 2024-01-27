@@ -1,10 +1,10 @@
 module.exports = (sequelize, DataTypes) => {
-  const LFED = sequelize.define('levelOfEducations', {
-    levelName: {
+  const Degree = sequelize.define('degrees', {
+    degreeName: {
       type: DataTypes.STRING(100),
       allowNull: false
     },
   })
 
-  return LFED
+  return Degree
 }

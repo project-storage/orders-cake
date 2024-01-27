@@ -1,21 +1,21 @@
 module.exports = (sequelize, DataTypes) => {
-    const Cake = sequelize.define('cakes', {
-        cakeName: {
+    const Group = sequelize.define('groups', {
+        roomName: {
             type: DataTypes.STRING(100),
             allowNull: false
         },
-        poundID: {
+        teachID: {
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        size: {
+        departID: {
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        // image: {
-        //     type: DataTypes.BLOB('long'),
-        // }
+        degreeID: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
     })
-
-    return Cake
+    return Group
 }

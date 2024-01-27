@@ -1,14 +1,18 @@
 module.exports = (sequelize, DataTypes) => {
     const Order = sequelize.define('orders', {
+        bookNumber: {
+            type: DataTypes.INTEGER,
+            allowNull: true
+        },
+        orderNumber: {
+            type: DataTypes.INTEGER,
+            allowNull: true
+        },
         stuID: {
             type: DataTypes.INTEGER,
             allowNull: true
         },
         teamID: {
-            type: DataTypes.INTEGER,
-            allowNull: true
-        },
-        teachID: {
             type: DataTypes.INTEGER,
             allowNull: true
         },
@@ -32,9 +36,9 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             allowNull: true
         },
-        status: {
-            type: DataTypes.ENUM("จ่ายเต็มจำนวน", "จ่ายแบบมัดจำ"),
-            allowNull: true
+        statusID: {
+            type: DataTypes.INTEGER,
+            allowNull: false
         },
         depositPrice: {
             type: DataTypes.INTEGER,
