@@ -19,9 +19,6 @@ const createTeahcer = async (req, res) => {
     email,
     username,
     password,
-    yearlevelID,
-    yearlevelID2,
-    yearlevelID3
   } = req.body
 
   try {
@@ -52,7 +49,7 @@ const createTeahcer = async (req, res) => {
     })
 
     await newTeacher.save()
-console.log(newTeacher)
+    console.log(newTeacher)
     return res.status(200).json({ message: 'สร้างครูที่ปรึกษาสำเร็จ', creaet: newTeacher })
   } catch (error) {
     console.error("Error creating teacher: ", error);
@@ -66,27 +63,7 @@ console.log(newTeacher)
 const getinfoTeacher = async (req, res) => {
   try {
     const teacher = await Teacher.findOne({
-      where: { id: req.user.id }, include: [
-        {
-          model: YearLevel, as: 'yearlevel1',
-          include: [
-            {
-              model: Department, as: 'departments'
-            }]
-        },
-        {
-          model: YearLevel, as: 'yearlevel2', include: [
-            {
-              model: Department, as: 'departments'
-            }]
-        },
-        {
-          model: YearLevel, as: 'yearlevel3', include: [
-            {
-              model: Department, as: 'departments'
-            }]
-        },
-      ],
+      where: { id: req.user.id }
     })
 
     if (!teacher) {
@@ -108,29 +85,7 @@ const getAllTeacher = async (req, res) => {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
-    const teacher = await Teacher.findAll({
-      include: [
-        {
-          model: YearLevel, as: 'yearlevel1',
-          include: [
-            {
-              model: Department, as: 'departments'
-            }]
-        },
-        {
-          model: YearLevel, as: 'yearlevel2', include: [
-            {
-              model: Department, as: 'departments'
-            }]
-        },
-        {
-          model: YearLevel, as: 'yearlevel3', include: [
-            {
-              model: Department, as: 'departments'
-            }]
-        },
-      ],
-    })
+    const teacher = await Teacher.findAll({})
     if (!teacher) {
       return res.status(404).json({ message: 'ไม่พบข้อมูลครูที่ปรึกษา' })
     }
@@ -172,29 +127,7 @@ const getTeacherWithAllParams = async (req, res) => {
       whereClause.role = role
     }
 
-    const teacher = await Teacher.findAll({
-      where: whereClause, include: [
-        {
-          model: YearLevel, as: 'yearlevel1',
-          include: [
-            {
-              model: Department, as: 'departments'
-            }]
-        },
-        {
-          model: YearLevel, as: 'yearlevel2', include: [
-            {
-              model: Department, as: 'departments'
-            }]
-        },
-        {
-          model: YearLevel, as: 'yearlevel3', include: [
-            {
-              model: Department, as: 'departments'
-            }]
-        },
-      ],
-    })
+    const teacher = await Teacher.findAll({})
     if (teacher.length === 0) {
       return res.status(405).json({ message: "ไม่พบข้อมูลครูที่ปรึกษา" })
     }
@@ -217,9 +150,6 @@ const updateTeacher = async (req, res) => {
     email,
     username,
     password,
-    yearlevelID,
-    yearlevelID2,
-    yearlevelID3
   } = req.body
 
   let teacher
@@ -235,30 +165,7 @@ const updateTeacher = async (req, res) => {
       return res.status(404).json({ message: 'อัปเดตครูที่ปรึกษาต้องระบบ id' })
     }
     teacher = await Teacher.findOne({
-      where: { id: req.params.id },
-      include: [
-        {
-          model: YearLevel, as: 'yearlevel1',
-          include: [
-            {
-              model: Department, as: 'departments'
-            }]
-        },
-        {
-          model: YearLevel, as: 'yearlevel2',
-          include: [
-            {
-              model: Department, as: 'departments'
-            }]
-        },
-        {
-          model: YearLevel, as: 'yearlevel3',
-          include: [
-            {
-              model: Department, as: 'departments'
-            }]
-        },
-      ],
+      where: { id: req.params.id }
     })
 
     if (!teacher) {
@@ -286,9 +193,6 @@ const updateTeacher = async (req, res) => {
     teacher.teachtelephone = teachtelephone || teacher.teachtelephone
     teacher.email = email || teacher.email
     teacher.username = username || teacher.username
-    teacher.yearlevelID = yearlevelID || teacher.yearlevelID
-    teacher.yearlevelID2 = yearlevelID2 || teacher.yearlevelID2
-    teacher.yearlevelID3 = yearlevelID3 || teacher.yearlevelID3
 
     if (password) {
       const hashedpassword = await bcrypt.hash(password, saltRounds)

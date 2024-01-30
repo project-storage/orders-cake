@@ -9,13 +9,13 @@ const createCake = async (req, res) => {
             return res.status(401).json({ message: 'Unauthorized' });
         }
 
-        const { cakeName, pound, price, } = req.body;
+        const { cakeName, poundID, size, } = req.body;
 
-        if (!cakeName || !pound || !price) {
+        if (!cakeName || !poundID || !size) {
             return res.status(400).json({ message: 'กรุณากรอกข้อมูลทุกช่อง' });
         }
 
-        const newCake = new Cake({ cakeName, pound, price });
+        const newCake = new Cake({ cakeName, poundID, size });
         const saveCake = await newCake.save();
 
         return res.status(200).json({
@@ -77,7 +77,7 @@ const getCakeWithAllParmans = async (req, res) => {
             return res.status(401).json({ message: 'Unauthorized' });
         }
 
-        const { id, cakeName, pound, price } = req.query;
+        const { id, cakeName } = req.query;
 
         const whereClause = {};
 
@@ -87,22 +87,6 @@ const getCakeWithAllParmans = async (req, res) => {
 
         if (cakeName) {
             whereClause.cakeName
-        }
-
-        if (pound && isNaN(parseFloat(pound))) {
-            return res.status(400).json({ message: 'ปอนด์ต้องเป็นตัวเลขเท่านั้น' });
-        }
-
-        if (price && isNaN(parseFloat(price))) {
-            return res.status(400).json({ message: 'ราคาต้องเป็นตัวเลขเท่านั้น' });
-        }
-
-        if (pound) {
-            whereClause.pound = pound;
-        }
-
-        if (price) {
-            whereClause.price = price;
         }
 
         const cakeQuery = await Cake.findAll({ where: whereClause });
@@ -122,7 +106,7 @@ const updateCake = async (req, res) => {
             return res.status(401).json({ message: 'Unauthorized' })
         }
 
-        const { cakeName, pound, price } = req.body
+        const { cakeName, poundID, size } = req.body
 
         const cake = await Cake.findOne({ where: { id: req.params.id } })
 
@@ -131,8 +115,8 @@ const updateCake = async (req, res) => {
         }
 
         cake.cakeName = cakeName || cake.cakeName
-        cake.pound = pound || cake.pound
-        cake.price = price || cake.price
+        cake.poundID = poundID || cake.poundID
+        cake.size = size || cake.size
 
         const updateCake = await cake.save()
 

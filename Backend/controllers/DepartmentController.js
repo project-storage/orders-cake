@@ -9,21 +9,38 @@ const createDepartment = async (req, res) => {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
-    const { departName } = req.body
+    const { departCode, departName } = req.body
 
     if (!departName) {
       return res.status(400).json({ message: 'กรุณากรอกข้อมูลในช่องแผนก' })
     }
 
-    const alreadyExistsDepartment = await Department.findOne({
+    if (!departCode) {
+      return res.status(400).json({ message: 'กรุณากรอกข้อมูลในช่องรหัสแผนก' })
+    }
+
+    const alreadyExistsDepartName = await Department.findOne({
       where: { departName: departName }
     })
 
-    if (alreadyExistsDepartment) {
+    const alreadyExistsDepartCode = await Department.findOne({
+      where: { departName: departCode }
+    })
+
+    if (alreadyExistsDepartName) {
       return res.status(409).json({ message: 'มีแผนกอยู่แล้ว' })
     }
 
-    const newDepartment = new Department({ departName: departName })
+    if (alreadyExistsDepartCode) {
+      return res.status(409).json({ message: 'มีรหัสแผนกอยู่แล้ว' })
+    }
+
+    if (isNaN(departCode)) {
+      return res.status(404).json({ status: 404, message: 'departCode ควรเป็นตัวเลขเท่านั้น' })
+    }
+
+
+    const newDepartment = new Department({ departName, departCode })
     const savedDepartment = await newDepartment.save()
 
     return res
@@ -77,7 +94,7 @@ const getDepartmentWithAllParams = async (req, res) => {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
-    const { id, departName } = req.query
+    const { id, departName, departCode } = req.query
 
     const whereClause = {}
     if (id) {
@@ -85,6 +102,9 @@ const getDepartmentWithAllParams = async (req, res) => {
     }
     if (departName) {
       whereClause.departName = departName
+    }
+    if (departCode) {
+      whereClause.departCode = departCode
     }
 
     const department = await Department.findAll({ where: whereClause })
@@ -107,7 +127,7 @@ const updateDepartment = async (req, res) => {
       return res.status(401).json({ message: 'Unauthorized' })
     }
 
-    const { id, departName } = req.body
+    const { departName, departCode } = req.body
 
     const department = await Department.findOne({
       where: { id: req.params.id }
@@ -118,6 +138,7 @@ const updateDepartment = async (req, res) => {
     }
 
     department.departName = departName || department.departName
+    department.departName = departCode || department.departCode
 
     const updatedDepartment = await department.save()
 

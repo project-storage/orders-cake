@@ -22,11 +22,7 @@ const createStudent = async (req, res) => {
         email,
         username,
         password,
-        yearlevelID,
-        branchID,
-        departID,
-        teachID,
-        teachID2
+        groupID
     } = req.body
 
     try {
@@ -65,11 +61,7 @@ const createStudent = async (req, res) => {
             username,
             password: hashedPassword,
             role: 'Student',
-            yearlevelID,
-            branchID,
-            departID,
-            teachID,
-            teachID2
+            groupID
         })
 
         await newStudnets.save()
@@ -84,13 +76,7 @@ const createStudent = async (req, res) => {
 const getInfoStudent = async (req, res) => {
     try {
         const student = await Student.findOne({
-            where: { id: req.user.id },
-            include: [
-                { model: YearLevel, as: 'yearlevels' },
-                { model: Department, as: 'departments' },
-                { model: Teacher, as: 'teachers1' },
-                { model: Teacher, as: 'teachers2' }
-            ]
+            where: { id: req.user.id }
         })
 
         if (!student) {
@@ -112,14 +98,7 @@ const getAllStudent = async (req, res) => {
             return res.status(401).json({ message: 'Unauthorized' })
         }
 
-        const student = await Student.findAll({
-            include: [
-                { model: YearLevel, as: 'yearlevels' },
-                { model: Department, as: 'departments' },
-                { model: Teacher, as: 'teachers1' },
-                { model: Teacher, as: "teachers2" }
-            ]
-        })
+        const student = await Student.findAll({})
 
         if (!student) {
             return res.status(404).json({ message: "ไม่พบข้อมูลนักศึกษา" })
@@ -188,10 +167,7 @@ const updateStudent = async (req, res) => {
             email,
             username,
             password,
-            yearlevelID,
-            departID,
-            teachID,
-            teachID2
+            groupID
         } = req.body
 
         let student
@@ -206,13 +182,7 @@ const updateStudent = async (req, res) => {
         }
 
         student = await Student.findOne({
-            where: { id: req.params.id },
-            include: [
-                { model: YearLevel, as: 'yearlevels' },
-                { model: Department, as: 'departments' },
-                { model: Teacher, as: 'teachers1' },
-                { model: Teacher, as: 'teachers2' }
-            ]
+            where: { id: req.params.id }
         })
 
         if (!student) {
@@ -243,10 +213,7 @@ const updateStudent = async (req, res) => {
         student.telephone = telephone || student.telephone
         student.email = email || student.email
         student.username = username || student.username
-        student.yearlevelID = yearlevelID || student.yearlevelID
-        student.departID = departID || student.departID
-        student.teachID = teachID || student.teachID
-        student.teachID2 = teachID2 || student.teachID2
+        student.groupID = groupID || student.groupID
 
         if (password) {
             const hashedPassword = await bcrypt.hash(password, saltRounds)
