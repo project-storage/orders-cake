@@ -4,9 +4,7 @@ const bcrypt = require('bcrypt');
 
 const saltRounds = 10;
 const Student = db.student;
-const Teacher = db.teacher;
-const YearLevel = db.yearlevel;
-const Department = db.department;
+const Group = db.group
 
 require('dotenv').config({ path: './config.env' });
 
@@ -65,7 +63,7 @@ const createStudent = async (req, res) => {
         });
 
         await newStudents.save();
-        return res.status(200).json({ message: 'Student created successfully' });
+        return res.status(200).json({ status_code: 200, message: 'Student created successfully', data: newStudents });
     } catch (error) {
         console.error("Error", error);
         return res.status(500).json({ message: 'An error occurred while creating a student' });
@@ -83,7 +81,7 @@ const getInfoStudent = async (req, res) => {
             return res.status(401).json({ message: "User data not found" });
         }
 
-        return res.status(200).json({ student });
+        return res.status(200).json({ status_code: 200, message: "Get info student success", data: student });
     } catch (error) {
         console.error("Error", error);
         return res.status(500).json({ message: 'An error occurred while fetching student data' });
@@ -104,7 +102,7 @@ const getAllStudent = async (req, res) => {
             return res.status(404).json({ message: "Student data not found" });
         }
 
-        return res.status(200).json(students);
+        return res.status(200).json({ status_code: 200, message: "Get all data student success", data: students });
 
     } catch (error) {
         console.error("Error", error);
@@ -147,7 +145,7 @@ const getStudentWithAllParams = async (req, res) => {
             return res.status(405).json({ message: "Student data not found" });
         }
 
-        return res.status(200).json(students);
+        return res.status(200).json({ status_code: 200, data: students });
     } catch (error) {
         console.error("Error", error);
         return res.status(500).json({ message: 'An error occurred while fetching student data' });
@@ -226,7 +224,7 @@ const updateStudent = async (req, res) => {
             return res.status(400).json({ message: "Error updating student data" });
         }
 
-        return res.status(200).json({ message: "Student updated successfully", updatedStudent });
+        return res.status(200).json({ status_code: 200, message: "Student updated successfully", data: updatedStudent });
     } catch (error) {
         console.error("Error", error);
         return res.status(500).json({ message: 'An error occurred while updating student data' });
@@ -250,7 +248,7 @@ const deleteStudent = async (req, res) => {
             return res.status(400).json({ message: "Error deleting student data" });
         }
 
-        return res.status(200).json({ message: "Student deleted successfully" });
+        return res.status(200).json({ status_code: 200, message: "Student deleted successfully" });
     } catch (error) {
         console.error("Error", error);
         return res.status(500).json({ message: 'An error occurred while deleting student data' });

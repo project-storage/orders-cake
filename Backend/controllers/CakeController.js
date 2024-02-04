@@ -19,6 +19,7 @@ const createCake = async (req, res) => {
         const saveCake = await newCake.save();
 
         return res.status(200).json({
+            status_code: 200,
             message: 'Cake created successfully',
             cake: saveCake
         });
@@ -40,7 +41,7 @@ const getInfoCake = async (req, res) => {
             where: { id: req.params.id }
         });
 
-        return res.status(200).json({ message: `Retrieve data for ID: ${req.params.id} successful`, cake: cakeById });
+        return res.status(200).json({ status_code: 200, message: `Retrieve data for ID: ${req.params.id} successful`, data: cakeById });
     } catch (error) {
         console.error("Error", error);
         return res.status(500).json({ message: 'An error occurred while retrieving data' });
@@ -57,7 +58,7 @@ const getAllCake = async (req, res) => {
 
         const cakeByAll = await Cake.findAll({});
 
-        return res.status(200).json({ CakeAll: cakeByAll });
+        return res.status(200).json({ status_code: 200, message: "Get all data cake success", data: cakeByAll });
     } catch (error) {
         console.error("Error", error);
         return res.status(500).json({ message: 'An error occurred while retrieving data' });
@@ -86,7 +87,7 @@ const getCakeWithAllParams = async (req, res) => {
 
         const cakeQuery = await Cake.findAll({ where: whereClause });
 
-        return res.status(200).json({ query_cake: cakeQuery });
+        return res.status(200).json({ status_code: 200, query_cake: cakeQuery });
     } catch (error) {
         console.error("Error", error);
         return res.status(500).json({ message: 'An error occurred while retrieving data' });
@@ -116,8 +117,9 @@ const updateCake = async (req, res) => {
         const updateCake = await cake.save();
 
         return res.status(200).json({
+            status_code: 200,
             message: 'Cake updated successfully!',
-            cake: updateCake
+            updataCake: updateCake
         });
     } catch (error) {
         console.error("Error", error);
@@ -149,7 +151,7 @@ const deleteCake = async (req, res) => {
             return res.status(400).json({ message: 'An error occurred while deleting cake data' });
         }
 
-        return res.status(200).json({ message: `Cake ID: ${req.params.id} deleted successfully` });
+        return res.status(200).json({ status_code: 200, message: `Cake ID: ${req.params.id} deleted successfully` });
     } catch (error) {
         console.error("Error", error);
         return res.status(500).json({ message: 'An error occurred while deleting cake data' });

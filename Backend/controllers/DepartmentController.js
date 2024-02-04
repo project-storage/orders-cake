@@ -28,15 +28,15 @@ const createDepartment = async (req, res) => {
     });
 
     if (alreadyExistsDepartName) {
-      return res.status(409).json({ message: 'Department already exists' });
+      return res.status(409).json({ status_code: 409, message: 'Department already exists' });
     }
 
     if (alreadyExistsDepartCode) {
-      return res.status(409).json({ message: 'Department code already exists' });
+      return res.status(409).json({ status_code: 409, message: 'Department code already exists' });
     }
 
     if (isNaN(departCode)) {
-      return res.status(404).json({ status: 404, message: 'departCode should be a number' });
+      return res.status(404).json({ status_code: 404, message: 'departCode should be a number' });
     }
 
     const newDepartment = new Department({ departName, departCode });
@@ -44,7 +44,7 @@ const createDepartment = async (req, res) => {
 
     return res
       .status(200)
-      .json({ message: 'Department created successfully', department: savedDepartment });
+      .json({ status_code: 200, message: 'Department created successfully', data: savedDepartment });
   } catch (error) {
     console.error("Error", error);
     return res.status(500).json({ message: 'An error occurred while creating department' });
@@ -63,7 +63,7 @@ const getInfoDepartment = async (req, res) => {
       where: { id: req.params.id }
     });
 
-    return res.status(200).json({ department });
+    return res.status(200).json({ status_code: 200, message: "Get info data department success", data: department });
   } catch (error) {
     console.error("Error", error);
     return res.status(500).json({ message: 'An error occurred while fetching department data' });
@@ -80,7 +80,7 @@ const getAllDepartment = async (req, res) => {
 
     const departments = await Department.findAll();
 
-    return res.status(200).json(departments);
+    return res.status(200).json({ status_code: 200, message: "Get All department success", data: departments });
   } catch (error) {
     console.error("Error", error);
     return res.status(500).json({ message: 'An error occurred while fetching department data' });
@@ -111,10 +111,10 @@ const getDepartmentWithAllParams = async (req, res) => {
     const departments = await Department.findAll({ where: whereClause });
 
     if (departments.length === 0) {
-      return res.status(404).json({ message: 'No data found' });
+      return res.status(404).json({ status_code: 404, message: 'No data found' });
     }
 
-    return res.status(200).json(departments);
+    return res.status(200).json({ status_code: 200, data: departments });
   } catch (error) {
     console.error("Error", error);
     return res.status(500).json({ message: 'An error occurred while fetching department data' });
@@ -149,6 +149,7 @@ const updateDepartment = async (req, res) => {
     }
 
     return res.status(200).json({
+      status_code: 200,
       message: 'Department updated successfully!',
       updatedDepartment: updatedDepartment
     });
@@ -184,7 +185,7 @@ const deleteDepartment = async (req, res) => {
       return res.status(400).json({ message: 'Error deleting department' });
     }
 
-    return res.status(200).json({ message: 'Department deleted successfully' });
+    return res.status(200).json({ status_code: 200, message: 'Department deleted successfully' });
   } catch (error) {
     console.error("Error", error);
     return res.status(500).json({ message: 'An error occurred while deleting department' });

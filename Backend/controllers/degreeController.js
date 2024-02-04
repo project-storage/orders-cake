@@ -15,7 +15,7 @@ const createDegree = async (req, res) => {
         console.log(searchDegree)
 
         return res.status(200).json({
-            status: 200,
+            status_code: 200,
             message: 'Create degree successfully',
             data: saveDegree
         });
@@ -24,7 +24,7 @@ const createDegree = async (req, res) => {
         return res
             .status(500)
             .json({
-                status: 500,
+                status_code: 500,
                 message: `An error occurred creating data: ${error}`
             });
     }
@@ -39,14 +39,14 @@ const getAllDegree = async (req, res) => {
 
         const degreeAll = await Degree.findAll({});
         return res.status(200).json({
-            status: 200,
+            status_code: 200,
             message: "Get all data success",
             data: degreeAll
         });
     } catch (error) {
         console.log(error);
         return res.status(500).json({
-            status: 500,
+            status_code: 500,
             message: `An error occurred getting all data: ${error}`
         });
     }
@@ -73,13 +73,13 @@ const searchDegree = async (req, res) => {
         const degreeQuery = await Degree.findOne({ where: whereClause });
 
         return res.status(200).json({
-            status: 200,
+            status_code: 200,
             data: degreeQuery
         });
     } catch (error) {
         console.log(error);
         return res.status(500).json({
-            status: 200,
+            status_code: 500,
             message: `An error occurred searching data: ${error}`
         });
     }
@@ -98,7 +98,7 @@ const updateDegree = async (req, res) => {
 
         if (!degree) {
             return res.status(404).json({
-                status: 404,
+                status_code: 404,
                 message: 'Not Found Degree'
             });
         }
@@ -108,14 +108,14 @@ const updateDegree = async (req, res) => {
         const updateDegree = await degree.save();
 
         return res.status(200).json({
-            status: 200,
+            status_code: 200,
             message: "Update Degree Success",
             data: updateDegree
         });
     } catch (error) {
         console.error(error);
         return res.status(500).json({
-            status: 500,
+            status_code: 500,
             message: `An error occurred updating data: ${error}`
         });
     }
@@ -134,7 +134,7 @@ const deleteDegree = async (req, res) => {
 
         if (!degree) {
             return res.status(404).json({
-                status: 404,
+                status_code: 404,
                 message: "Not Found Degree"
             });
         }
@@ -145,19 +145,19 @@ const deleteDegree = async (req, res) => {
 
         if (!deleteDegree) {
             return res.status(404).json({
-                status: 404,
+                status_code: 404,
                 message: "An error occurred deleting degree data."
             });
         }
 
         return res.status(200).json({
-            status: 200,
+            status_code: 200,
             message: "Delete data degree success"
         });
     } catch (error) {
         console.error(error);
         return res.status(500).json({
-            status: 500,
+            status_code: 500,
             message: `An error occurred deleting data: ${error}`
         });
     }

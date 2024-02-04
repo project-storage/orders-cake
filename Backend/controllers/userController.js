@@ -20,6 +20,12 @@ const createSuperAdminUser = async (req, res) => {
       return res.status(400).status({ message: "Please fill in all fields" });
     }
 
+    const superAdmin = await User.findOne({ where: { role: "superAdmin" } })
+
+    if (superAdmin) {
+      return res.status(400).json({ status: 400, message: "superAdmin user already exists" })
+    }
+
     // hash the password
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
@@ -35,7 +41,7 @@ const createSuperAdminUser = async (req, res) => {
     });
 
     await newSuperAdminUser.save();
-    return res.status(200).json({ message: 'Super admin created successfully' });
+    return res.status(200).json({ status_code: 200, message: 'Super admin created successfully', data: newSuperAdminUser });
   } catch (error) {
     console.error(error);
     return res
@@ -67,7 +73,7 @@ const createAdminUser = async (req, res) => {
     });
 
     await newAdminUser.save();
-    return res.status(200).json({ message: 'Admin created successfully' });
+    return res.status(200).json({ status_code: 200, message: 'Admin created successfully', data: newAdminUser });
   } catch (error) {
     console.error(error);
     return res
@@ -115,7 +121,7 @@ const registerUser = async (req, res) => {
 
     await newUser.save();
 
-    return res.status(200).json({ message: 'User created successfully', user: newUser });
+    return res.status(200).json({ status_code: 200, message: 'User created successfully', user: newUser });
   } catch (error) {
     console.error(error);
     return res
@@ -176,11 +182,14 @@ const loginUser = async (req, res) => {
     );
 
     return res.status(200).json({
+      status_code: 200,
       message: 'Welcome',
-      username: username,
-      email: userWithIdentifier.email,
-      role: userWithIdentifier.role,
-      token: jwtToken,
+      data: {
+        username: username,
+        email: userWithIdentifier.email,
+        role: userWithIdentifier.role,
+        token: jwtToken,
+      }
     });
   } catch (error) {
     console.error('Error: ', error);
@@ -197,7 +206,7 @@ const getUserInfo = async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    return res.status(200).json({ user });
+    return res.status(200).json({ status_code: 200, message: "Get info user success", data: user });
   } catch (error) {
     console.error('Error retrieving user info:', error);
     return res.status(500).json({ message: 'Error fetching user data' });
@@ -215,7 +224,7 @@ const getAllUser = async (req, res) => {
     // Find all users from the database
     const users = await User.findAll();
 
-    return res.status(200).json(users);
+    return res.status(200).json({ status_code: 200, message: "Get all user success", data: users });
   } catch (error) {
     console.error('Error', error);
     return res
@@ -264,7 +273,7 @@ const getUserWithAllParams = async (req, res) => {
     if (users.length === 0) {
       return res.status(405).json({ message: 'User not found' });
     }
-    return res.status(200).json(users);
+    return res.status(200).json({ status_code: 200, data: users });
   } catch (error) {
     console.error('Error', error);
     return res
@@ -339,7 +348,7 @@ const updateUser = async (req, res) => {
       return res.status(400).json({ message: 'Error updating user' });
     }
 
-    return res.status(200).json({ message: `User updated successfully ID: ${req.user.id}`, updated: updatedUser });
+    return res.status(200).json({ status_code: 200, message: `User updated successfully ID: ${req.user.id}`, updated: updatedUser });
   } catch (error) {
     console.error('Error', error);
     return res
@@ -366,7 +375,7 @@ const deleteUser = async (req, res) => {
       return res.status(400).json({ message: 'Error deleting user' });
     }
 
-    return res.status(200).json({ message: 'User deleted successfully' });
+    return res.status(200).json({ status_code: 200, message: 'User deleted successfully' });
   } catch (error) {
     console.error('Error', error);
     return res.status(500).json({ message: 'Error deleting user' });

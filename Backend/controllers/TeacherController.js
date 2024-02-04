@@ -43,14 +43,11 @@ const createTeacher = async (req, res) => {
             username,
             password: hashedPassword,
             role: 'teacher',
-            yearlevelID,
-            yearlevelID2,
-            yearlevelID3
         });
 
         await newTeacher.save();
         console.log(newTeacher);
-        return res.status(200).json({ message: 'Teacher created successfully', create: newTeacher });
+        return res.status(200).json({ status_code: 200, message: 'Teacher created successfully', data: newTeacher });
     } catch (error) {
         console.error("Error creating teacher: ", error);
         return res
@@ -70,7 +67,7 @@ const getInfoTeacher = async (req, res) => {
             return res.status(401).json({ message: "User data not found" });
         }
 
-        return res.status(200).json({ teacher });
+        return res.status(200).json({ status_code: 200, message: "Get Info Success", data: teacher });
     } catch (error) {
         console.error("Error", error);
         return res.status(500).json({ message: 'An error occurred while fetching user data' });
@@ -90,7 +87,7 @@ const getAllTeachers = async (req, res) => {
             return res.status(404).json({ message: 'Teacher data not found' });
         }
 
-        return res.status(200).json({ teachers });
+        return res.status(200).json({ status_code: 200, message: "Get All Teachers Success", data: teachers });
     } catch (error) {
         console.error("Error", error);
         return res.status(500).json({ message: 'An error occurred while fetching all teachers' });
@@ -132,7 +129,7 @@ const getTeacherWithAllParams = async (req, res) => {
             return res.status(405).json({ message: "Teacher data not found" });
         }
 
-        return res.status(200).json(teachers);
+        return res.status(200).json({ status_code: 200, message: "Search Success", data: teachers });
     } catch (error) {
         console.error("Error", error);
         return res.status(500).json({ message: 'An error occurred while fetching teachers' });
@@ -203,7 +200,7 @@ const updateTeacher = async (req, res) => {
             return res.status(400).json({ message: 'Error updating teacher data' });
         }
 
-        return res.status(200).json({ message: 'Teacher updated successfully' });
+        return res.status(200).json({ status_code: 200, message: 'Teacher updated successfully', data: updateTeacher });
     } catch (error) {
         console.error("Error", error);
         return res
