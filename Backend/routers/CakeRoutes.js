@@ -31,7 +31,7 @@ cakeRouter.get(
 cakeRouter.get(
     '/cakes/search',
     passport.authenticate('jwt', { session: false }),
-    cakeController.getCakeWithAllParmans
+    cakeController.getCakeWithAllParams
 );
 
 // Method: DELETE 

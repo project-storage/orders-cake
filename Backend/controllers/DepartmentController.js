@@ -1,192 +1,195 @@
-const db = require('../models')
-const Department = db.department
+const db = require('../models');
+const Department = db.department;
 
-// create department
+// Create department
 const createDepartment = async (req, res) => {
   try {
-    // ตรวจสอบบทบาทของผู้ใช้
+    // Check user roles
     if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
-      return res.status(401).json({ message: 'Unauthorized' })
+      return res.status(401).json({ message: 'Unauthorized' });
     }
 
-    const { departCode, departName } = req.body
+    const { departCode, departName } = req.body;
 
     if (!departName) {
-      return res.status(400).json({ message: 'กรุณากรอกข้อมูลในช่องแผนก' })
+      return res.status(400).json({ message: 'Please enter department information' });
     }
 
     if (!departCode) {
-      return res.status(400).json({ message: 'กรุณากรอกข้อมูลในช่องรหัสแผนก' })
+      return res.status(400).json({ message: 'Please enter department code' });
     }
 
     const alreadyExistsDepartName = await Department.findOne({
       where: { departName: departName }
-    })
+    });
 
     const alreadyExistsDepartCode = await Department.findOne({
-      where: { departName: departCode }
-    })
+      where: { departCode: departCode }
+    });
 
     if (alreadyExistsDepartName) {
-      return res.status(409).json({ message: 'มีแผนกอยู่แล้ว' })
+      return res.status(409).json({ message: 'Department already exists' });
     }
 
     if (alreadyExistsDepartCode) {
-      return res.status(409).json({ message: 'มีรหัสแผนกอยู่แล้ว' })
+      return res.status(409).json({ message: 'Department code already exists' });
     }
 
     if (isNaN(departCode)) {
-      return res.status(404).json({ status: 404, message: 'departCode ควรเป็นตัวเลขเท่านั้น' })
+      return res.status(404).json({ status: 404, message: 'departCode should be a number' });
     }
 
-
-    const newDepartment = new Department({ departName, departCode })
-    const savedDepartment = await newDepartment.save()
+    const newDepartment = new Department({ departName, departCode });
+    const savedDepartment = await newDepartment.save();
 
     return res
       .status(200)
-      .json({ message: 'สร้างแผนกสำเร็จ', แผนก: savedDepartment })
+      .json({ message: 'Department created successfully', department: savedDepartment });
   } catch (error) {
     console.error("Error", error);
-    return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการสร้างแผนก' })
+    return res.status(500).json({ message: 'An error occurred while creating department' });
   }
-}
+};
 
-// info department
+// Info department
 const getInfoDepartment = async (req, res) => {
   try {
-    // ตรวจสอบบทบาทของผู้ใช้
+    // Check user roles
     if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
-      return res.status(401).json({ message: 'Unauthorized' })
+      return res.status(401).json({ message: 'Unauthorized' });
     }
 
     const department = await Department.findAll({
       where: { id: req.params.id }
-    })
-    return res.status(200).json({ department })
+    });
+
+    return res.status(200).json({ department });
   } catch (error) {
     console.error("Error", error);
-    return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการดึงข้อมูลแผนก' })
+    return res.status(500).json({ message: 'An error occurred while fetching department data' });
   }
-}
+};
 
-// all department
+// All departments
 const getAllDepartment = async (req, res) => {
   try {
-    // ตรวจสอบบทบาทของผู้ใช้
+    // Check user roles
     if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
-      return res.status(401).json({ message: 'Unauthorized' })
+      return res.status(401).json({ message: 'Unauthorized' });
     }
 
-    const department = await Department.findAll()
-    return res.status(200).json(department)
+    const departments = await Department.findAll();
+
+    return res.status(200).json(departments);
   } catch (error) {
     console.error("Error", error);
-    return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการดึงข้อมูลแผนก' })
+    return res.status(500).json({ message: 'An error occurred while fetching department data' });
   }
-}
+};
 
-// search department
+// Search department
 const getDepartmentWithAllParams = async (req, res) => {
   try {
-    // ตรวจสอบบทบาทของผู้ใช้
+    // Check user roles
     if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
-      return res.status(401).json({ message: 'Unauthorized' })
+      return res.status(401).json({ message: 'Unauthorized' });
     }
 
-    const { id, departName, departCode } = req.query
+    const { id, departName, departCode } = req.query;
 
-    const whereClause = {}
+    const whereClause = {};
     if (id) {
-      whereClause.id = id
+      whereClause.id = id;
     }
     if (departName) {
-      whereClause.departName = departName
+      whereClause.departName = departName;
     }
     if (departCode) {
-      whereClause.departCode = departCode
+      whereClause.departCode = departCode;
     }
 
-    const department = await Department.findAll({ where: whereClause })
-    if (department.length === 0) {
-      return res.status(404).json({ message: 'ไม่พบข้อมูล' })
+    const departments = await Department.findAll({ where: whereClause });
+
+    if (departments.length === 0) {
+      return res.status(404).json({ message: 'No data found' });
     }
 
-    return res.status(200).json(department)
+    return res.status(200).json(departments);
   } catch (error) {
     console.error("Error", error);
-    return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการดึงข้อมูลแผนก' })
+    return res.status(500).json({ message: 'An error occurred while fetching department data' });
   }
-}
+};
 
-// update department
+// Update department
 const updateDepartment = async (req, res) => {
   try {
-    // ตรวจสอบบทบาทของผู้ใช้
+    // Check user roles
     if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
-      return res.status(401).json({ message: 'Unauthorized' })
+      return res.status(401).json({ message: 'Unauthorized' });
     }
 
-    const { departName, departCode } = req.body
+    const { departName, departCode } = req.body;
 
     const department = await Department.findOne({
       where: { id: req.params.id }
-    })
+    });
 
     if (!department) {
-      return res.status(404).json({ message: 'ไม่พบแผนก' })
+      return res.status(404).json({ message: 'Department not found' });
     }
 
-    department.departName = departName || department.departName
-    department.departName = departCode || department.departCode
+    department.departName = departName || department.departName;
+    department.departCode = departCode || department.departCode;
 
-    const updatedDepartment = await department.save()
+    const updatedDepartment = await department.save();
 
     if (!updatedDepartment) {
-      return res.status(400).json({ message: 'ข้อผิดพลาดในการอัปเดตแผนก' })
+      return res.status(400).json({ message: 'Error updating department' });
     }
+
     return res.status(200).json({
-      message: 'แผนกอัปเดตเรียบร้อยแล้ว!',
+      message: 'Department updated successfully!',
       updatedDepartment: updatedDepartment
-    })
+    });
   } catch (error) {
     console.error("Error", error);
     return res
       .status(500)
-      .json({ message: 'เกิดข้อผิดพลาดในการอัปเดตข้อมูลแผนก' })
+      .json({ message: 'An error occurred while updating department data' });
   }
-}
+};
 
-// delete department
+// Delete department
 const deleteDepartment = async (req, res) => {
   try {
-    // ตรวจสอบบทบาทของผู้ใช้
+    // Check user roles
     if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
-      return res.status(401).json({ message: 'Unauthorized' })
+      return res.status(401).json({ message: 'Unauthorized' });
     }
 
     const department = await Department.findOne({
       where: { id: req.params.id }
-    })
+    });
 
     if (!department) {
-      return res.status(404).json({ message: 'ไม่พบแผนก' })
+      return res.status(404).json({ message: 'Department not found' });
     }
 
     const deleteDepartment = await Department.destroy({
       where: { id: req.params.id }
-    })
+    });
 
     if (!deleteDepartment) {
-      return res.status(400).json({ message: 'เกิดข้อผิดพลาดในการลบแผนก' })
+      return res.status(400).json({ message: 'Error deleting department' });
     }
 
-    return res.status(200).json({ message: 'ลบแผนกสำเร็จ' })
+    return res.status(200).json({ message: 'Department deleted successfully' });
   } catch (error) {
     console.error("Error", error);
-    return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการลบแผนก' })
+    return res.status(500).json({ message: 'An error occurred while deleting department' });
   }
-}
+};
 
 module.exports = {
   createDepartment,
@@ -195,4 +198,4 @@ module.exports = {
   getInfoDepartment,
   updateDepartment,
   deleteDepartment
-}
+};

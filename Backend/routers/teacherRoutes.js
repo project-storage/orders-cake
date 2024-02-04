@@ -3,19 +3,19 @@ const TeacherRouter = require('express').Router();
 const passport = require('passport');
 
 // Method: POST
-TeacherRouter.post('/register', TeacherController.createTeahcer);
+TeacherRouter.post('/register', TeacherController.createTeacher);
 
 // Method: GET
 TeacherRouter.get(
     '/info',
     passport.authenticate('jwt', { session: false }),
-    TeacherController.getinfoTeacher
+    TeacherController.getInfoTeacher
 );
 
 TeacherRouter.get(
     '/all',
     passport.authenticate('jwt', { session: false }),
-    TeacherController.getAllTeacher
+    TeacherController.getAllTeachers
 );
 
 TeacherRouter.get(
