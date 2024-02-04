@@ -83,6 +83,59 @@ db.group.hasOne(db.student, {
   as: 'student'
 });
 
+// // ----------- table team -----------//
+db.memberTeam.hasMany(db.team, {
+  foreignKey: 'teamID',
+  as: 'teams'
+})
+db.team.belongsTo(db.memberTeam, {
+  foreignKey: 'teamID',
+  as: 'memberTeams'
+})
+
+// team and studnet
+db.memberTeam.belongsTo(db.student, {
+  foreignKey: 'stuID1',
+  as: 'student1'
+})
+db.memberTeam.belongsTo(db.student, {
+  foreignKey: 'stuID2',
+  as: 'student2'
+})
+db.memberTeam.belongsTo(db.student, {
+  foreignKey: 'stuID3',
+  as: 'student3'
+})
+db.memberTeam.belongsTo(db.student, {
+  foreignKey: 'stuID4',
+  as: 'student4'
+})
+db.memberTeam.belongsTo(db.student, {
+  foreignKey: 'stuID5',
+  as: 'student5'
+})
+
+db.student.hasMany(db.memberTeam, {
+  foreignKey: 'stuID1',
+  as: 'memberTeams1'
+})
+db.student.hasMany(db.memberTeam, {
+  foreignKey: 'stuID2',
+  as: 'memberTeams2'
+})
+db.student.hasMany(db.memberTeam, {
+  foreignKey: 'stuID3',
+  as: 'memberTeams3'
+})
+db.student.hasMany(db.memberTeam, {
+  foreignKey: 'stuID4',
+  as: 'memberTeams4'
+})
+db.student.hasMany(db.memberTeam, {
+  foreignKey: 'stuID5',
+  as: 'memberTeams5'
+})
+
 // // ----------- table order detail -----------//
 db.order.hasMany(db.orderDetail, {
   foreignKey: 'orderID',
