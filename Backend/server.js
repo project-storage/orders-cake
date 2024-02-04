@@ -15,6 +15,7 @@ app.use(morgan('combined')); // Use Morgan for logging
 // Routers
 const userRouter = require('./routers/userRoutes');
 const departmentRouter = require('./routers/departmentRoutes');
+const degreeRouter = require('./routers/degreeRoutes')
 const teacherRouter = require('./routers/teacherRoutes');
 const studentRouter = require('./routers/studentsRoutes');
 const teamRouter = require('./routers/teamRoutes');
@@ -25,6 +26,7 @@ const orderRouter = require('./routers/ordersRoutes')
 // API Routes with Prefixes and Versioning
 app.use('/api/users', userRouter);
 app.use('/api/departments', departmentRouter);
+app.use('/api/degrees', degreeRouter)
 app.use('/api/teachers', teacherRouter);
 app.use('/api/students', studentRouter);
 app.use('/api/teams', teamRouter);
