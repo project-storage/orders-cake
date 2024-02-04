@@ -33,6 +33,7 @@ db.student = require('./studentModel')(sequelize, DataTypes);
 db.teacher = require('./teacherModel')(sequelize, DataTypes);
 db.team = require('./teamModel')(sequelize, DataTypes);
 db.user = require('./userModel')(sequelize, DataTypes);
+db.memberTeam = require('./memberTeamModel')(sequelize, DataTypes)
 
 db.degree = require('./degreeModel')(sequelize, DataTypes);
 db.department = require('./departmentModel')(sequelize, DataTypes);
@@ -42,7 +43,6 @@ db.cake = require('./cakeModel')(sequelize, DataTypes);
 db.poundType = require('./poundTypeModel')(sequelize, DataTypes)
 db.orderDetail = require('./orderDetail')(sequelize, DataTypes);
 db.order = require('./orderModel')(sequelize, DataTypes);
-db.tourSummary = require('./tourSummaryModel')(sequelize, DataTypes)
 db.status = require('./statusModel')(sequelize, DataTypes)
 
 // ----------- table group -----------//
@@ -84,62 +84,51 @@ db.group.hasOne(db.student, {
 });
 
 // // ----------- table order detail -----------//
-db.order.hasMany(db.orderDetail,{
-  foreignKey:'orderID',
-  as:'orders'
+db.order.hasMany(db.orderDetail, {
+  foreignKey: 'orderID',
+  as: 'orders'
 })
-db.orderDetail.belongsTo(db.order,{
-  foreignKey:'orderID',
-  as:'orderDetails'
+db.orderDetail.belongsTo(db.order, {
+  foreignKey: 'orderID',
+  as: 'orderDetails'
 })
 
-db.cake.hasMany(db.orderDetail,{
-  foreignKey:'cakeID',
-  as:'cakes'
+db.cake.hasMany(db.orderDetail, {
+  foreignKey: 'cakeID',
+  as: 'cakes'
 })
-db.orderDetail.belongsTo(db.cake,{
-  foreignKey:'cakeID',
-  as:'cakeInOrderDetails'
+db.orderDetail.belongsTo(db.cake, {
+  foreignKey: 'cakeID',
+  as: 'cakeInOrderDetails'
 })
 
 // // ----------- table order  -----------//
-db.student.hasMany(db.order,{
-  foreignKey:'stuID',
-  as:'orders'
-})
-db.order.belongsTo(db.student,{
-  foreignKey:'stuID',
-  as:'students'
-})
-
-db.team.hasMany(db.order,{
-  foreignKey:'teamID',
-  as:'orders'
-})
-db.order.belongsTo(db.team,{
-  foreignKey:'teamID',
-  as:'team'
-})
-
-db.status.hasMany(db.order,{
-  foreignKey:'statusID',
-  as:'orders'
-})
-db.order.belongsTo(db.status,{
-  foreignKey:'statusID',
-  as:'statuses'
-})
-
-// ----------- table tourSummary  -----------//
-// one to many tourSummary and orderDetails
-db.order.hasMany(db.tourSummary, {
-  foreignKey: 'orderID',
-  as: 'tournamentSummarys'
-});
-db.tourSummary.belongsTo(db.order, {
-  foreignKey: 'orderID',
+db.student.hasMany(db.order, {
+  foreignKey: 'stuID',
   as: 'orders'
-});
+})
+db.order.belongsTo(db.student, {
+  foreignKey: 'stuID',
+  as: 'students'
+})
+
+db.team.hasMany(db.order, {
+  foreignKey: 'teamID',
+  as: 'orders'
+})
+db.order.belongsTo(db.team, {
+  foreignKey: 'teamID',
+  as: 'team'
+})
+
+db.status.hasMany(db.order, {
+  foreignKey: 'statusID',
+  as: 'orders'
+})
+db.order.belongsTo(db.status, {
+  foreignKey: 'statusID',
+  as: 'statuses'
+})
 
 // ----------- table cake  -----------//
 db.poundType.hasMany(db.cake, {
