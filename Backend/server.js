@@ -18,7 +18,6 @@ const departmentRouter = require('./routers/departmentRoutes');
 const degreeRouter = require('./routers/degreeRoutes')
 const teacherRouter = require('./routers/teacherRoutes');
 const studentRouter = require('./routers/studentsRoutes');
-const teamRouter = require('./routers/teamRoutes');
 const cakeRouter = require('./routers/cakeRoutes');
 // const orderMasterRouter = require('./routers/orderDetailsRouters')
 const orderRouter = require('./routers/ordersRoutes')
@@ -29,7 +28,6 @@ app.use('/api/departments', departmentRouter);
 app.use('/api/degrees', degreeRouter)
 app.use('/api/teachers', teacherRouter);
 app.use('/api/students', studentRouter);
-app.use('/api/teams', teamRouter);
 app.use('/api/cakes', cakeRouter);
 // app.use('/api/order-masters', orderMasterRouter)
 app.use('/api/orders', orderRouter)

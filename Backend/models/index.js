@@ -84,11 +84,11 @@ db.group.hasOne(db.student, {
 });
 
 // // ----------- table team -----------//
-db.memberTeam.hasMany(db.team, {
+db.memberTeam.belongsTo(db.team, {
   foreignKey: 'teamID',
   as: 'teams'
 })
-db.team.belongsTo(db.memberTeam, {
+db.team.hasMany(db.memberTeam, {
   foreignKey: 'teamID',
   as: 'memberTeams'
 })
