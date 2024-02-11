@@ -4,30 +4,26 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        stuID1: {
+        stuID: {
             type: DataTypes.INTEGER,
-            allowNull: false
+            allowNull: true
         },
-        stuID1: {
-            type: DataTypes.INTEGER,
-            allowNull: false
-        },
-        stuID2: {
-            type: DataTypes.INTEGER,
-            allowNull: false
-        },
-        stuID3: {
-            type: DataTypes.INTEGER,
-            allowNull: false
-        },
-        stuID4: {
-            type: DataTypes.INTEGER,
-            allowNull: false
-        },
-        stuID5: {
-            type: DataTypes.INTEGER,
-            allowNull: false
-        }
+        // stuID2: {
+        //     type: DataTypes.INTEGER,
+        //     allowNull: true
+        // },
+        // stuID3: {
+        //     type: DataTypes.INTEGER,
+        //     allowNull: true
+        // },
+        // stuID4: {
+        //     type: DataTypes.INTEGER,
+        //     allowNull: true
+        // },
+        // stuID5: {
+        //     type: DataTypes.INTEGER,
+        //     allowNull: true
+        // },
     })
     return memberTeam
 }
