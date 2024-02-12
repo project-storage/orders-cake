@@ -1,16 +1,14 @@
-const db = require('../models')
-const jwt = require('jsonwebtoken')
-const bcrypt = require('bcrypt')
+const db = require('../models');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
-const saltRounds = 10
-const Student = db.student
-const Teacher = db.teacher
-const YearLevel = db.yearlevel
-const Department = db.department
+const saltRounds = 10;
+const Student = db.student;
+const Group = db.group
 
-require('dotenv').config({ path: './config.env' })
+require('dotenv').config({ path: './config.env' });
 
-// register student
+// Register student
 const createStudent = async (req, res) => {
     const {
         stuNumber,
@@ -22,39 +20,35 @@ const createStudent = async (req, res) => {
         email,
         username,
         password,
-        yearlevelID,
-        branchID,
-        departID,
-        teachID,
-        teachID2
-    } = req.body
+        groupID
+    } = req.body;
 
     try {
-        const alreadyExistsNumber = await Student.findOne({ where: { stuNumber } })
-        const alreadyExistsIdCard = await Student.findOne({ where: { stuIdCard } })
-        const alreadyExistsEmail = await Student.findOne({ where: { email } })
-        const alreadyExistsusername = await Student.findOne({ where: { username } })
-        const alreadyExistsTelephone = await Student.findOne({ where: { telephone } })
+        const alreadyExistsNumber = await Student.findOne({ where: { stuNumber } });
+        const alreadyExistsIdCard = await Student.findOne({ where: { stuIdCard } });
+        const alreadyExistsEmail = await Student.findOne({ where: { email } });
+        const alreadyExistsUsername = await Student.findOne({ where: { username } });
+        const alreadyExistsTelephone = await Student.findOne({ where: { telephone } });
 
         if (alreadyExistsNumber) {
-            return res.json({ message: 'มีเลขประจำตัวนักศึกษาอยู่แล้ว' })
+            return res.json({ message: 'Student number already exists' });
         }
         if (alreadyExistsIdCard) {
-            return res.json({ message: 'มีหมายเลขบัตรประชาชนอยู่แล้ว' })
+            return res.json({ message: 'ID card number already exists' });
         }
         if (alreadyExistsEmail) {
-            return res.json({ message: 'มีอีเมลล์อยู่แล้ว' })
+            return res.json({ message: 'Email already exists' });
         }
-        if (alreadyExistsusername) {
-            return res.json({ message: 'มีชื่่อผู้ใช้งานอยู่แล้ว' })
+        if (alreadyExistsUsername) {
+            return res.json({ message: 'Username already exists' });
         }
         if (alreadyExistsTelephone) {
-            return res.json({ message: 'มีหมายเลขโทรศัพท์อยู่แล้ว' })
+            return res.json({ message: 'Telephone number already exists' });
         }
 
-        const hashedPassword = await bcrypt.hash(password, saltRounds)
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-        const newStudnets = new Student({
+        const newStudents = new Student({
             title,
             stuNumber,
             stuIdCard,
@@ -65,117 +59,100 @@ const createStudent = async (req, res) => {
             username,
             password: hashedPassword,
             role: 'Student',
-            yearlevelID,
-            branchID,
-            departID,
-            teachID,
-            teachID2
-        })
+            groupID
+        });
 
-        await newStudnets.save()
-        return res.status(200).json({ message: 'สร้างนักษศึกษาสำเร็จ' })
+        await newStudents.save();
+        return res.status(200).json({ status_code: 200, message: 'Student created successfully', data: newStudents });
     } catch (error) {
         console.error("Error", error);
-        return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการสร้างนักศึกษา' })
+        return res.status(500).json({ message: 'An error occurred while creating a student' });
     }
-}
+};
 
-// info student
+// Info student
 const getInfoStudent = async (req, res) => {
     try {
         const student = await Student.findOne({
-            where: { id: req.user.id },
-            include: [
-                { model: YearLevel, as: 'yearlevels' },
-                { model: Department, as: 'departments' },
-                { model: Teacher, as: 'teachers1' },
-                { model: Teacher, as: 'teachers2' }
-            ]
-        })
+            where: { id: req.user.id }
+        });
 
         if (!student) {
-            return res.status(401).json({ message: "ไม่พบข้อมูลผู้ใช้งาน" })
+            return res.status(401).json({ message: "User data not found" });
         }
-        console.log(req.user.id)
-        return res.status(200).json({ student })
+
+        return res.status(200).json({ status_code: 200, message: "Get info student success", data: student });
     } catch (error) {
         console.error("Error", error);
-        return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการดึงข้อมูลนักศึกษา' })
+        return res.status(500).json({ message: 'An error occurred while fetching student data' });
     }
-}
+};
 
-// all students
+// All students
 const getAllStudent = async (req, res) => {
     try {
-        // ตรวจสอบบทบาทของผู้ใช้
+        // Check user roles
         if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin' && req.user.role !== 'teacher') {
-            return res.status(401).json({ message: 'Unauthorized' })
+            return res.status(401).json({ message: 'Unauthorized' });
         }
 
-        const student = await Student.findAll({
-            include: [
-                { model: YearLevel, as: 'yearlevels' },
-                { model: Department, as: 'departments' },
-                { model: Teacher, as: 'teachers1' },
-                { model: Teacher, as: "teachers2" }
-            ]
-        })
+        const students = await Student.findAll({});
 
-        if (!student) {
-            return res.status(404).json({ message: "ไม่พบข้อมูลนักศึกษา" })
+        if (!students) {
+            return res.status(404).json({ message: "Student data not found" });
         }
 
-        return res.status(200).json(student)
+        return res.status(200).json({ status_code: 200, message: "Get all data student success", data: students });
 
     } catch (error) {
         console.error("Error", error);
-        return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการดึงข้อมูลนักศึกษา' })
+        return res.status(500).json({ message: 'An error occurred while fetching student data' });
     }
-}
+};
 
-// search srtudent
+// Search student
 const getStudentWithAllParams = async (req, res) => {
     try {
-        // ตรวจสอบบทบาทของผู้ใช้
+        // Check user roles
         if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin' && req.user.role !== 'teacher') {
-            return res.status(401).json({ message: 'Unauthorized' })
+            return res.status(401).json({ message: 'Unauthorized' });
         }
 
-        const { id, stuNumber, name, email, username } = req.query
+        const { id, stuNumber, name, email, username } = req.query;
 
-        const whereClause = {}
+        const whereClause = {};
         if (id) {
-            whereClause.id = id
+            whereClause.id = id;
         }
         if (stuNumber) {
-            whereClause.stuNumber = stuNumber
+            whereClause.stuNumber = stuNumber;
         }
         if (name) {
-            whereClause.name = name
+            whereClause.name = name;
         }
-        if (id) {
-            whereClause.email = email
+        if (email) {
+            whereClause.email = email;
         }
-        if (id) {
-            whereClause.username = username
+        if (username) {
+            whereClause.username = username;
         }
 
-        const student = await Student.findAll({
+        const students = await Student.findAll({
             where: whereClause
-        })
+        });
 
-        if (student.length === 0) {
-            return res.status(405).json({ message: "ไม่พบข้อมูลนักศึกษา" })
+        if (students.length === 0) {
+            return res.status(405).json({ message: "Student data not found" });
         }
 
-        return res.status(200).json(student)
+        return res.status(200).json({ status_code: 200, data: students });
     } catch (error) {
         console.error("Error", error);
-        return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการดึงข้อมูลนักศึกษา' })
+        return res.status(500).json({ message: 'An error occurred while fetching student data' });
     }
-}
+};
 
-// update student 
+// Update student 
 const updateStudent = async (req, res) => {
     try {
         const {
@@ -188,108 +165,95 @@ const updateStudent = async (req, res) => {
             email,
             username,
             password,
-            yearlevelID,
-            departID,
-            teachID,
-            teachID2
-        } = req.body
+            groupID
+        } = req.body;
 
-        let student
+        let student;
 
-        // ตรวจสอบบทบาทของผู้ใช้
+        // Check user roles
         if (req.user.role !== 'Admin' &&
             req.user.role !== 'superAdmin' &&
             req.user.role !== 'teacher' &&
             req.user.role !== 'student'
         ) {
-            return res.status(401).json({ message: 'Unauthorized' })
+            return res.status(401).json({ message: 'Unauthorized' });
         }
 
         student = await Student.findOne({
-            where: { id: req.params.id },
-            include: [
-                { model: YearLevel, as: 'yearlevels' },
-                { model: Department, as: 'departments' },
-                { model: Teacher, as: 'teachers1' },
-                { model: Teacher, as: 'teachers2' }
-            ]
-        })
+            where: { id: req.params.id }
+        });
 
         if (!student) {
-            return res.status(404).json({ message: "ไม่พบนักศึกษา" })
+            return res.status(404).json({ message: "Student not found" });
         }
 
         if (username !== student.username) {
-            const alreadyExistsusername = await Student.findOne({ where: { username } })
+            const alreadyExistsUsername = await Student.findOne({ where: { username } });
 
-            if (alreadyExistsusername) {
-                return res.status(400).json({ message: "ชื่อผู้ใช้มีอยู่แล้ว" })
+            if (alreadyExistsUsername) {
+                return res.status(400).json({ message: "Username already exists" });
             }
         }
 
         if (email !== student.email) {
-            const alreadyExistsEmail = await Student.findOne({ where: { email } })
+            const alreadyExistsEmail = await Student.findOne({ where: { email } });
 
             if (alreadyExistsEmail) {
-                return res.status(400).json({ message: "อีเมลล์ผู้ใช้มีอยู่แล้ว" })
+                return res.status(400).json({ message: "Email already exists" });
             }
         }
 
-        student.stuNumber = stuNumber || student.stuNumber
-        student.stuIdCard = stuIdCard || student.stuIdCard
-        student.title = title || student.title
-        student.name = name || student.name
-        student.surname = surname || student.surname
-        student.telephone = telephone || student.telephone
-        student.email = email || student.email
-        student.username = username || student.username
-        student.yearlevelID = yearlevelID || student.yearlevelID
-        student.departID = departID || student.departID
-        student.teachID = teachID || student.teachID
-        student.teachID2 = teachID2 || student.teachID2
+        student.stuNumber = stuNumber || student.stuNumber;
+        student.stuIdCard = stuIdCard || student.stuIdCard;
+        student.title = title || student.title;
+        student.name = name || student.name;
+        student.surname = surname || student.surname;
+        student.telephone = telephone || student.telephone;
+        student.email = email || student.email;
+        student.username = username || student.username;
+        student.groupID = groupID || student.groupID;
 
         if (password) {
-            const hashedPassword = await bcrypt.hash(password, saltRounds)
-            student.password = hashedPassword
+            const hashedPassword = await bcrypt.hash(password, saltRounds);
+            student.password = hashedPassword;
         }
 
-        const updateStudent = await student.save()
+        const updatedStudent = await student.save();
 
-        if (!updateStudent) {
-            return res.status(400).json({ message: "เกิดข้อผิดพลาดในการอัปเดทข้อมูลนักศึกษา" })
+        if (!updatedStudent) {
+            return res.status(400).json({ message: "Error updating student data" });
         }
 
-        return res.status(200).json({ message: "นักศึกษาอัปเดตเรียบร้อยแล้ว", updateStudent })
+        return res.status(200).json({ status_code: 200, message: "Student updated successfully", data: updatedStudent });
     } catch (error) {
         console.error("Error", error);
-        return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการอัปเดทข้อมูลนักศึกษา' })
+        return res.status(500).json({ message: 'An error occurred while updating student data' });
     }
-}
+};
 
-// delete student
+// Delete student
 const deleteStudent = async (req, res) => {
     try {
         if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
-            return res.status(401).json({ message: 'Unauthorized' })
+            return res.status(401).json({ message: 'Unauthorized' });
         }
 
-        const student = await Student.findOne({ where: { id: req.params.id } })
+        const student = await Student.findOne({ where: { id: req.params.id } });
         if (!student) {
-            return res.status(404).json({ message: "ไม่พบนักศึกษา" })
+            return res.status(404).json({ message: "Student not found" });
         }
 
-        const deleteStudent = await student.destroy()
+        const deleteStudent = await student.destroy();
         if (!deleteStudent) {
-            return res.status(400).json({ message: "เกิดข้อผิดพลาดในการลบข้อมูลนักศึกษา" })
+            return res.status(400).json({ message: "Error deleting student data" });
         }
 
-        return res.status(200).json({ message: "ลบนักศึกษาสำเร็จ" })
+        return res.status(200).json({ status_code: 200, message: "Student deleted successfully" });
     } catch (error) {
         console.error("Error", error);
-        return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการลบข้อมูลนักศึกษา' })
+        return res.status(500).json({ message: 'An error occurred while deleting student data' });
     }
-}
-
+};
 
 module.exports = {
     createStudent,
@@ -298,4 +262,4 @@ module.exports = {
     getStudentWithAllParams,
     updateStudent,
     deleteStudent
-}
+};

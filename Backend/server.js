@@ -14,25 +14,25 @@ app.use(morgan('combined')); // Use Morgan for logging
 
 // Routers
 const userRouter = require('./routers/userRoutes');
+const teamRouter = require('./routers/teamRoutes')
 const departmentRouter = require('./routers/departmentRoutes');
-const yearLevelRouter = require('./routers/YearLevelRoutes');
+const groupRouter = require('./routers/groupRoutes')
+const degreeRouter = require('./routers/degreeRoutes')
 const teacherRouter = require('./routers/teacherRoutes');
 const studentRouter = require('./routers/studentsRoutes');
-const teamRouter = require('./routers/teamRoutes');
 const cakeRouter = require('./routers/cakeRoutes');
-const branchRouter = require('./routers/branchRoutes')
 // const orderMasterRouter = require('./routers/orderDetailsRouters')
 const orderRouter = require('./routers/ordersRoutes')
 
 // API Routes with Prefixes and Versioning
 app.use('/api/users', userRouter);
+app.use('/api/teams', teamRouter)
+app.use('/api/groups', groupRouter)
 app.use('/api/departments', departmentRouter);
-app.use('/api/year-levels', yearLevelRouter);
+app.use('/api/degrees', degreeRouter)
 app.use('/api/teachers', teacherRouter);
 app.use('/api/students', studentRouter);
-app.use('/api/teams', teamRouter);
 app.use('/api/cakes', cakeRouter);
-app.use('/api/branchs', branchRouter)
 // app.use('/api/order-masters', orderMasterRouter)
 app.use('/api/orders', orderRouter)
 

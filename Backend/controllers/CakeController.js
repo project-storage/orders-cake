@@ -1,83 +1,79 @@
 const db = require('../models');
 const Cake = db.cake;
 
-// create cake
+// Create a new cake
 const createCake = async (req, res) => {
     try {
-        // ตรวจสอบบทบาทของผู้ใช้
+        // Check user roles
         if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
             return res.status(401).json({ message: 'Unauthorized' });
         }
 
-        const { cakeName, pound, price, } = req.body;
+        const { cakeName, poundID, size } = req.body;
 
-        if (!cakeName || !pound || !price) {
-            return res.status(400).json({ message: 'กรุณากรอกข้อมูลทุกช่อง' });
+        if (!cakeName || !poundID || !size) {
+            return res.status(400).json({ message: 'Please fill in all fields' });
         }
 
-        const newCake = new Cake({ cakeName, pound, price });
+        const newCake = new Cake({ cakeName, poundID, size });
         const saveCake = await newCake.save();
 
         return res.status(200).json({
-            message: 'สร้างเค้กสำเร็จ',
+            status_code: 200,
+            message: 'Cake created successfully',
             cake: saveCake
         });
     } catch (error) {
         console.error("Error", error);
-        return res
-            .status(500)
-            .json({ message: 'เกิดข้อผิดพลาดในการสร้างข้อมูล' });
+        return res.status(500).json({ message: 'An error occurred while creating data' });
     }
-}
-// Info Cake
+};
+
+// Get information about a specific cake
 const getInfoCake = async (req, res) => {
     try {
-        // ตรวจสอบบทบาทของผู้ใช้
+        // Check user roles
         if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
             return res.status(401).json({ message: 'Unauthorized' });
         }
 
         const cakeById = await Cake.findAll({
             where: { id: req.params.id }
-        })
+        });
 
-        return res.status(200).json({ message: `ดึงข้อมูล ID: ${req.params.id} สำเร็จ`, cake: cakeById })
+        return res.status(200).json({ status_code: 200, message: `Retrieve data for ID: ${req.params.id} successful`, data: cakeById });
     } catch (error) {
         console.error("Error", error);
-        return res
-            .status(500)
-            .json({ message: 'เกิดข้อผิดพลาดในการดึงข้อมูล' });
+        return res.status(500).json({ message: 'An error occurred while retrieving data' });
     }
-}
+};
 
-// All Cake
+// Get all cakes
 const getAllCake = async (req, res) => {
     try {
-        // ตรวจสอบบทบาทของผู้ใช้
+        // Check user roles
         if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
             return res.status(401).json({ message: 'Unauthorized' });
         }
 
-        const cakeByAll = await Cake.findAll({})
+        const cakeByAll = await Cake.findAll({});
 
-        return res.status(200).json({ CakeAll: cakeByAll })
+        return res.status(200).json({ status_code: 200, message: "Get all data cake success", data: cakeByAll });
     } catch (error) {
         console.error("Error", error);
-        return res
-            .status(500)
-            .json({ message: 'เกิดข้อผิดพลาดในการดึงข้อมูล' });
+        return res.status(500).json({ message: 'An error occurred while retrieving data' });
     }
-}
+};
 
-// search cake
-const getCakeWithAllParmans = async (req, res) => {
+// Search for cakes with specified parameters
+const getCakeWithAllParams = async (req, res) => {
     try {
-        // ตรวจสอบบทบาทของผู้ใช้
+        // Check user roles
         if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
             return res.status(401).json({ message: 'Unauthorized' });
         }
 
-        const { id, cakeName, pound, price } = req.query;
+        const { id, cakeName } = req.query;
 
         const whereClause = {};
 
@@ -86,102 +82,87 @@ const getCakeWithAllParmans = async (req, res) => {
         }
 
         if (cakeName) {
-            whereClause.cakeName
-        }
-
-        if (pound && isNaN(parseFloat(pound))) {
-            return res.status(400).json({ message: 'ปอนด์ต้องเป็นตัวเลขเท่านั้น' });
-        }
-
-        if (price && isNaN(parseFloat(price))) {
-            return res.status(400).json({ message: 'ราคาต้องเป็นตัวเลขเท่านั้น' });
-        }
-
-        if (pound) {
-            whereClause.pound = pound;
-        }
-
-        if (price) {
-            whereClause.price = price;
+            whereClause.cakeName = cakeName;
         }
 
         const cakeQuery = await Cake.findAll({ where: whereClause });
 
-        return res.status(200).json({ query_cake: cakeQuery });
+        return res.status(200).json({ status_code: 200, query_cake: cakeQuery });
     } catch (error) {
         console.error("Error", error);
-        return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการดึงข้อมูล' });
+        return res.status(500).json({ message: 'An error occurred while retrieving data' });
     }
-}
+};
 
-// update cake
+// Update cake information
 const updateCake = async (req, res) => {
     try {
-        // ตรวจสอบบทบาทของผู้ใช้
+        // Check user roles
         if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
-            return res.status(401).json({ message: 'Unauthorized' })
+            return res.status(401).json({ message: 'Unauthorized' });
         }
 
-        const { cakeName, pound, price } = req.body
+        const { cakeName, poundID, size } = req.body;
 
-        const cake = await Cake.findOne({ where: { id: req.params.id } })
+        const cake = await Cake.findOne({ where: { id: req.params.id } });
 
         if (!cake) {
-            return res.status(404).json({ message: 'ไม่พบข้อมูลเค้ก' })
+            return res.status(404).json({ message: 'Cake data not found' });
         }
 
-        cake.cakeName = cakeName || cake.cakeName
-        cake.pound = pound || cake.pound
-        cake.price = price || cake.price
+        cake.cakeName = cakeName || cake.cakeName;
+        cake.poundID = poundID || cake.poundID;
+        cake.size = size || cake.size;
 
-        const updateCake = await cake.save()
+        const updateCake = await cake.save();
 
         return res.status(200).json({
-            message: 'เค้กอัปเดตเรียบร้อยแล้ว!',
-            cake: updateCake
-        })
+            status_code: 200,
+            message: 'Cake updated successfully!',
+            updataCake: updateCake
+        });
     } catch (error) {
         console.error("Error", error);
-        return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการอัปเดทข้อมูล' });
+        return res.status(500).json({ message: 'An error occurred while updating data' });
     }
-}
+};
 
-// delete cake
+// Delete a cake
 const deleteCake = async (req, res) => {
     try {
-        // ตรวจสอบบทบาทของผู้ใช้
+        // Check user roles
         if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
-            return res.status(401).json({ message: 'Unauthorized' })
+            return res.status(401).json({ message: 'Unauthorized' });
         }
 
         const cake = await Cake.findOne({
             where: { id: req.params.id }
-        })
+        });
 
         if (!cake) {
-            return res.status(404).json({ message: 'ไม่พบข้อมูลเค้ก' })
+            return res.status(404).json({ message: 'Cake data not found' });
         }
 
         const deleteCake = await Cake.destroy({
             where: { id: req.params.id }
-        })
+        });
 
         if (!deleteCake) {
-            return res.status(400).json({ message: 'เกิดข้อผิดพลาดในการลบข้อมูลเค้ก' })
+            return res.status(400).json({ message: 'An error occurred while deleting cake data' });
         }
 
-        return res.status(200).json({ message: `ลบเค้ก ID: ${req.params.id} สำเร็จ` })
+        return res.status(200).json({ status_code: 200, message: `Cake ID: ${req.params.id} deleted successfully` });
     } catch (error) {
         console.error("Error", error);
-        return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการลบข้อมูลเค้ก' })
+        return res.status(500).json({ message: 'An error occurred while deleting cake data' });
     }
-}
+};
 
 module.exports = {
     createCake,
     getInfoCake,
     getAllCake,
-    getCakeWithAllParmans,
+    getCakeWithAllParams,
     updateCake,
     deleteCake
 };

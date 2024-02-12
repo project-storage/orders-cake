@@ -32,18 +32,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ENUM('teacher'),
       allowNull: false
     },
-    yearlevelID: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    yearlevelID2: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    yearlevelID3: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    }
   })
 
   return Teacher

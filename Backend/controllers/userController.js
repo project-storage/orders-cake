@@ -1,60 +1,66 @@
-const db = require('../models')
-const jwt = require('jsonwebtoken')
-const bcrypt = require('bcrypt')
+const db = require('../models');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
-const saltRounds = 10
+const saltRounds = 10;
 
-const User = db.user
-const Team = db.team
-const Teacher = db.teacher
-const Student = db.student
+const User = db.user;
+const Team = db.team;
+const Teacher = db.teacher;
+const Student = db.student;
 
-require('dotenv').config({ path: './config.env' })
+require('dotenv').config({ path: './config.env' });
 
 // create super Admin
 const createSuperAdminUser = async (req, res) => {
   try {
-    const { title, name, surname, email, username, password } = req.body
+    const { title, name, surname, email, username, password } = req.body;
 
     if (!name || !surname || !username || !password) {
-      return res.status(400).status({ message: "กรุณากรอกข้อมูลให้ครบทุกช่อง" })
+      return res.status(400).status({ message: "Please fill in all fields" });
+    }
+
+    const superAdmin = await User.findOne({ where: { role: "superAdmin" } })
+
+    if (superAdmin) {
+      return res.status(400).json({ status: 400, message: "superAdmin user already exists" })
     }
 
     // hash the password
-    const hashedPassword = await bcrypt.hash(password, saltRounds)
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     // create the Admin user
-    const newsupperAdminUser = new User({
+    const newSuperAdminUser = new User({
       title,
       name,
       surname,
       email,
       username,
       password: hashedPassword,
-      role: 'superAdmin'
-    })
+      role: 'superAdmin',
+    });
 
-    await newsupperAdminUser.save()
-    return res.status(200).json({ message: 'สร้างซุปเปอร์แอดมินสำเร็จ' })
+    await newSuperAdminUser.save();
+    return res.status(200).json({ status_code: 200, message: 'Super admin created successfully', data: newSuperAdminUser });
   } catch (error) {
-    console.error(error)
+    console.error(error);
     return res
       .status(500)
-      .json({ message: 'เกิดข้อผิดพลาดในการสร้างซุปเปอร์แอดมิน' })
+      .json({ message: 'Error creating super admin' });
   }
-}
+};
 
 // create Admin
 const createAdminUser = async (req, res) => {
   try {
-    const { title, name, surname, username, password } = req.body
+    const { title, name, surname, username, password } = req.body;
 
     if (!name || !surname || !username || !password) {
-      return res.status(400).status({ message: "กรุณากรอกข้อมูลให้ครบทุกช่อง" })
+      return res.status(400).status({ message: "Please fill in all fields" });
     }
 
     // hash the password
-    const hashedPassword = await bcrypt.hash(password, saltRounds)
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     // create the Admin user
     const newAdminUser = new User({
@@ -63,44 +69,44 @@ const createAdminUser = async (req, res) => {
       surname,
       username,
       password: hashedPassword,
-      role: 'Admin'
-    })
+      role: 'Admin',
+    });
 
-    await newAdminUser.save()
-    return res.status(200).json({ message: 'สร้างแอดมินสำเร็จ' })
+    await newAdminUser.save();
+    return res.status(200).json({ status_code: 200, message: 'Admin created successfully', data: newAdminUser });
   } catch (error) {
-    console.error(error)
+    console.error(error);
     return res
       .status(500)
-      .json({ message: 'เกิดข้อผิดพลาดในการสร้างแอดมิน' })
+      .json({ message: 'Error creating admin' });
   }
-}
+};
 
 // register
 const registerUser = async (req, res) => {
   try {
-    const { title, name, surname, telephone, email, username, password, role } = req.body
+    const { title, name, surname, telephone, email, username, password, role } = req.body;
 
     if (!title || !name || !surname || !telephone || !email || !username || !password || !role) {
-      return res.status(400).json({ message: 'กรุณากรอกข้อมูลทุกช่อง' });
+      return res.status(400).json({ message: 'Please fill in all fields' });
     }
 
     // Check if email or username already exists
-    const alreadyExistsEmail = await User.findOne({ where: { email } })
-    const alreadyExistsUsername = await User.findOne({ where: { username } })
-    const alreadyExistsTelephone = await User.findOne({ where: { telephone } })
+    const alreadyExistsEmail = await User.findOne({ where: { email } });
+    const alreadyExistsUsername = await User.findOne({ where: { username } });
+    const alreadyExistsTelephone = await User.findOne({ where: { telephone } });
 
     if (alreadyExistsEmail) {
-      return res.json({ message: 'มีอีเมลล์นี้อยู่แล้ว' })
+      return res.json({ message: 'Email already exists' });
     }
     if (alreadyExistsUsername) {
-      return res.json({ message: 'มีชื่อผู้ใช้งานนี้อยู่แล้ว' })
+      return res.json({ message: 'Username already exists' });
     }
     if (alreadyExistsTelephone) {
-      return res.json({ message: 'มีเบอร์โทรศัพท์ใช้งานนี้อยู่แล้ว' })
+      return res.json({ message: 'Telephone number already exists' });
     }
 
-    const hashedPassword = await bcrypt.hash(password, saltRounds)
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     const newUser = new User({
       title,
@@ -110,19 +116,19 @@ const registerUser = async (req, res) => {
       email,
       username,
       password: hashedPassword,
-      role
-    })
+      role,
+    });
 
-    await newUser.save()
+    await newUser.save();
 
-    return res.status(200).json({ message: 'สร้างผู้ใช้งานสำเร็จ', user: newUser })
+    return res.status(200).json({ status_code: 200, message: 'User created successfully', user: newUser });
   } catch (error) {
-    console.error(error)
+    console.error(error);
     return res
       .status(500)
-      .json({ message: 'เกิดข้อผิดพลาดในการสร้างผู้ใช้งาน' })
+      .json({ message: 'Error creating user' });
   }
-}
+};
 
 // login user
 const findUser = async (whereClause) => {
@@ -170,17 +176,20 @@ const loginUser = async (req, res) => {
         id: userWithIdentifier.id,
         email: userWithIdentifier.email,
         username: userWithIdentifier.username,
-        role: userWithIdentifier.role
+        role: userWithIdentifier.role,
       },
       process.env.JWT_SECRET
     );
 
     return res.status(200).json({
+      status_code: 200,
       message: 'Welcome',
-      username: username,
-      email: userWithIdentifier.email,
-      role: userWithIdentifier.role,
-      token: jwtToken
+      data: {
+        username: username,
+        email: userWithIdentifier.email,
+        role: userWithIdentifier.role,
+        token: jwtToken,
+      }
     });
   } catch (error) {
     console.error('Error: ', error);
@@ -188,105 +197,105 @@ const loginUser = async (req, res) => {
   }
 };
 
-
 // get user info
 const getUserInfo = async (req, res) => {
   try {
     const user = await User.findOne({ where: { id: req.user.id } });
 
     if (!user) {
-      return res.status(404).json({ message: 'ไม่พบข้อมูลผู้ใช้งาน' });
+      return res.status(404).json({ message: 'User not found' });
     }
 
-    return res.status(200).json({ user });
+    return res.status(200).json({ status_code: 200, message: "Get info user success", data: user });
   } catch (error) {
     console.error('Error retrieving user info:', error);
-    return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการดึงข้อมูลผู้ใช้' });
+    return res.status(500).json({ message: 'Error fetching user data' });
   }
 };
 
 // get all user
 const getAllUser = async (req, res) => {
   try {
-    // ตรวจสอบบทบาทของผู้ใช้
+    // Check user role
     if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
-      return res.status(401).json({ message: 'Unauthorized' })
+      return res.status(401).json({ message: 'Unauthorized' });
     }
 
-    // ค้นหาผู้ใช้ทั้งหมดจากฐานข้อมูล
-    const users = await User.findAll()
+    // Find all users from the database
+    const users = await User.findAll();
 
-    return res.status(200).json(users)
+    return res.status(200).json({ status_code: 200, message: "Get all user success", data: users });
   } catch (error) {
-    console.error('Error', error)
+    console.error('Error', error);
     return res
       .status(500)
-      .json({ message: 'เกิดข้อผิดพลาดในการดึงข้อมูลผู้ใช้ทั้งหมด' })
+      .json({ message: 'Error fetching all user data' });
   }
-}
+};
 
 // search users
 const getUserWithAllParams = async (req, res) => {
   try {
-    // ตรวจสอบบทบาทของผู้ใช้
+    // Check user role
     if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
-      return res.status(401).json({ message: 'Unauthorized' })
+      return res.status(401).json({ message: 'Unauthorized' });
     }
 
-    // ตรวจสอบค่า userId ที่รับมาจากพารามิเตอร์ของ URL
-    const { id, name, surname, telephone, email, username, role } = req.query
+    // Check userId value from URL parameters
+    const { id, name, surname, telephone, email, username, role } = req.query;
 
-    // สร้างอ็อบเจ็กต์ที่ใช้เก็บเงื่อนไขในการค้นหา
-    const whereClause = {}
+    // Create an object to store search conditions
+    const whereClause = {};
     if (id) {
-      whereClause.id = id
+      whereClause.id = id;
     }
     if (name) {
-      whereClause.name = name
+      whereClause.name = name;
     }
     if (surname) {
-      whereClause.surname = surname
+      whereClause.surname = surname;
     }
     if (email) {
-      whereClause.email = email
+      whereClause.email = email;
     }
     if (username) {
-      whereClause.username = username
+      whereClause.username = username;
     }
     if (telephone) {
-      whereClause.telephone = telephone
+      whereClause.telephone = telephone;
     }
     if (role) {
-      whereClause.role = role
+      whereClause.role = role;
     }
 
-    // ทำคำสั่งค้นหาในฐานข้อมูล
-    const users = await User.findAll({ where: whereClause })
+    // Execute the database search command
+    const users = await User.findAll({ where: whereClause });
     if (users.length === 0) {
-      return res.status(405).json({ message: 'ไม่พบข้อมูลผู้ใช้งาน' })
+      return res.status(405).json({ message: 'User not found' });
     }
-    return res.status(200).json(users)
+    return res.status(200).json({ status_code: 200, data: users });
   } catch (error) {
-    console.error('Error', error)
+    console.error('Error', error);
     return res
       .status(500)
-      .json({ message: 'เกิดข้อผิดพลาดในการดึงข้อมูลผู้ใช้งาน' })
+      .json({ message: 'Error fetching user data' });
   }
-}
+};
 
 // update user
 const updateUser = async (req, res) => {
   try {
-    const { title, name, surname, username, email, password, telephone } = req.body
-    let user
+    const { title, name, surname, username, email, password, telephone } = req.body;
+    let user;
 
-    // ตรวจสอบบทบาทของผู้ใช้
+    // Check user role
     if (
       req.user.role !== 'Admin' &&
       req.user.role !== 'superAdmin' &&
-      req.user.role === 'DepatMoney' &&
-      req.user.role === 'DepatCake') {
-      return res.status(401).json({ message: 'Unauthorized' })
+      req.user.role !== 'DepatMoney' &&
+      req.user.role !== 'DepatCake'
+    ) {
+      return res.status(401).json({ message: 'Unauthorized' });
     }
 
     if (
@@ -296,82 +305,82 @@ const updateUser = async (req, res) => {
       req.user.role === 'DepatCake'
     ) {
       if (!req.params.id) {
-        return res.status(405).json({ message: 'อัปเดตผู้ใช้ต้องระบุ id' })
+        return res.status(405).json({ message: 'Updating user requires specifying id' });
       }
-      user = await User.findOne({ where: { id: req.params.id } })
+      user = await User.findOne({ where: { id: req.params.id } });
     }
 
     if (!user) {
-      return res.status(404).json({ message: 'ไม่พบผู้ใช้งาน' })
+      return res.status(404).json({ message: 'User not found' });
     }
 
     if (username !== user.username) {
-      const alreadyExistsUser = await User.findOne({ where: { username } })
+      const alreadyExistsUser = await User.findOne({ where: { username } });
 
       if (alreadyExistsUser) {
-        return res.status(400).json({ message: 'ชื่อผู้ใช้มีอยู่แล้ว' })
+        return res.status(400).json({ message: 'Username already exists' });
       }
     }
 
     if (email !== user.email) {
-      const alreadyExistsEmail = await User.findOne({ where: { email } })
+      const alreadyExistsEmail = await User.findOne({ where: { email } });
 
       if (alreadyExistsEmail) {
-        return res.status(400).json({ message: 'อีเมลล์ผู้ใช้มีอยู่แล้ว' })
+        return res.status(400).json({ message: 'Email already exists' });
       }
     }
 
-    user.title = title || user.title
-    user.name = name || user.name
-    user.surname = surname || user.surname
-    user.email = email || user.email
-    user.telephone = telephone || user.telephone
-    user.username = username || user.username
+    user.title = title || user.title;
+    user.name = name || user.name;
+    user.surname = surname || user.surname;
+    user.email = email || user.email;
+    user.telephone = telephone || user.telephone;
+    user.username = username || user.username;
 
     if (password) {
-      const hashedPassword = await bcrypt.hash(password, saltRounds)
-      user.password = hashedPassword
+      const hashedPassword = await bcrypt.hash(password, saltRounds);
+      user.password = hashedPassword;
     }
 
-    const updatedUser = await user.save()
+    const updatedUser = await user.save();
 
     if (!updatedUser) {
-      return res.status(400).json({ message: 'ข้อผิดพลาดในการอัปเดตผู้ใช้' })
+      return res.status(400).json({ message: 'Error updating user' });
     }
 
-    return res.status(200).json({ message: `ผู้ใช้อัปเดตเรียบร้อยแล้ว ID: ${req.user.id}`, updata: updatedUser })
+    return res.status(200).json({ status_code: 200, message: `User updated successfully ID: ${req.user.id}`, updated: updatedUser });
   } catch (error) {
-    console.error('Error', error)
+    console.error('Error', error);
     return res
       .status(500)
-      .json({ message: 'เกิดข้อผิดพลาดในการอัปเดตข้อมูลผู้ใช้งาน' })
+      .json({ message: 'Error updating user data' });
   }
-}
+};
 
 // delete user
 const deleteUser = async (req, res) => {
   try {
-    // ตรวจสอบบทบาทของผู้ใช้
+    // Check user role
     if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
-      return res.status(401).json({ message: 'Unauthorized' })
+      return res.status(401).json({ message: 'Unauthorized' });
     }
 
-    const user = await User.findOne({ where: { id: req.params.id } })
+    const user = await User.findOne({ where: { id: req.params.id } });
     if (!user) {
-      return res.status(404).json({ message: 'ไม่พบผู้ใช้งาน' })
+      return res.status(404).json({ message: 'User not found' });
     }
 
-    const deletedUser = await user.destroy()
+    const deletedUser = await user.destroy();
     if (!deletedUser) {
-      return res.status(400).json({ message: 'เกิดข้อผิดพลาดในการลบผู้ใช้งาน' })
+      return res.status(400).json({ message: 'Error deleting user' });
     }
 
-    return res.status(200).json({ message: 'ลบข้อผู้ใช้งานสำเร็จ' })
+    return res.status(200).json({ status_code: 200, message: 'User deleted successfully' });
   } catch (error) {
-    console.error('Error', error)
-    return res.status(500).json({ message: 'เกิดข้อผิดพลาดในการลบผู้ใช้งาน' })
+    console.error('Error', error);
+    return res.status(500).json({ message: 'Error deleting user' });
   }
-}
+};
 
 module.exports = {
   createSuperAdminUser,
@@ -382,5 +391,5 @@ module.exports = {
   getAllUser,
   getUserWithAllParams,
   updateUser,
-  deleteUser
-}
+  deleteUser,
+};

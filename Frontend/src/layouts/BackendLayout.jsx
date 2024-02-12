@@ -8,7 +8,7 @@ const BackendLayout = () => {
   return (
     <>
         <CssBaseline />
-        <AppHeader />
+ 
         <Box sx={styles.container}>
           <SideNav />
           <Box component={"main"} sx={styles.mainSection}>
