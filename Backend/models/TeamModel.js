@@ -4,6 +4,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING(100),
             allowNull: false
         },
+        teamType: {
+            type: DataTypes.STRING(20),
+            allowNull: false
+        },
         username: {
             type: DataTypes.STRING,
             allowNull: false

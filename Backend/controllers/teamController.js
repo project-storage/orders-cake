@@ -8,7 +8,7 @@ const MemberTeam = db.memberTeam
 
 const createTeam = async (req, res) => {
     try {
-        const { teamName, username, password, memberTeam } = req.body
+        const { teamName, teamType, username, password, memberTeam } = req.body
 
         const alreadyExistsTeamName = await Team.findOne({ where: { teamName: teamName } })
         const alreadyExistsUsername = await Team.findOne({ where: { username: username } })
@@ -25,6 +25,7 @@ const createTeam = async (req, res) => {
 
         const newTeam = await Team.create({
             teamName,
+            teamType,
             username,
             password: hashedPassword,
             role: 'team'
@@ -93,7 +94,7 @@ const getTeamWithAllParams = async (req, res) => {
             return res.status(401).json({ message: 'Unauthorized' });
         }
 
-        const { id, teamName } = req.query
+        const { id, teamName, teamType } = req.query
 
         const whereClause = {}
         if (id) {
@@ -101,6 +102,9 @@ const getTeamWithAllParams = async (req, res) => {
         }
         if (teamName) {
             whereClause.teamName = teamName
+        }
+        if (teamType) {
+            whereClause.teamType = teamType
         }
 
         const team = await Team.findAll({
@@ -121,7 +125,7 @@ const getTeamWithAllParams = async (req, res) => {
 const updateTeam = async (req, res) => {
     let team
 
-    const { teamName, username, password, stuID } = req.body
+    const { teamName, teamType, username, password, stuID } = req.body
     try {
         if (
             req.user.role !== 'Admin' &&
@@ -159,6 +163,7 @@ const updateTeam = async (req, res) => {
         }
 
         team.teamName = teamName || team.teamName
+        team.teamType = teamType || team.teamType
         team.username = username || team.username
 
         if (password) {
