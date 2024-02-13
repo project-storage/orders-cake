@@ -23,6 +23,8 @@ export const TEACHER_PATH = BASE_PATH + 'teachers'
 export const VIEWDATA_PATH = BASE_PATH + 'viewdata'
 export const MANAGE_PATH = BASE_PATH + 'manage'
 export const DEPARTMENTSTU_PATH = BASE_PATH + 'departmentstu'
+export const ADMIN_PATH = BASE_PATH + 'admins'
+export const FINANECE_PATH = BASE_PATH + 'finances'
 
 // User Routes
 const BASE_USER = '/user/'

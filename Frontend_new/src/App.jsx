@@ -7,8 +7,10 @@ import Manage from "./pages/SuperAdmin/Manage";
 import ViewData from "./pages/SuperAdmin/ViewData";
 import AuthLayout from "./layouts/AuthLayout";
 import {
+  ADMIN_PATH,
   DASHBOARD_PATH,
   DEPARTMENTSTU_PATH,
+  FINANECE_PATH,
   LOGIN_PATH,
   MANAGE_PATH,
   PRODUCT_PATH,
@@ -16,11 +18,13 @@ import {
   TEACHER_PATH,
   VIEWDATA_PATH,
 } from "./config/constants";
-import AdminLayout from "./layouts/SuperAdminLayout";
+import SuperAdminLayout from "./layouts/SuperAdminLayout";
 import Products from "./pages/SuperAdmin/Products";
 import Students from "./pages/SuperAdmin/Students";
 import Teachers from "./pages/SuperAdmin/Teachers";
 import DepartmentStu from "./pages/SuperAdmin/DepartmentStu";
+import Admins from "./pages/SuperAdmin/Admins";
+import Finances from './pages/SuperAdmin/Finances';
 
 const defaultTheme = createTheme({
   typography: {
@@ -37,7 +41,7 @@ function App() {
                 <Route path={LOGIN_PATH} element={<Login />} />
               </Route>
 
-              <Route element={<AdminLayout />}>
+              <Route element={<SuperAdminLayout />}>
                 <Route path={DASHBOARD_PATH} element={<Dashboard />} />
                 <Route path={MANAGE_PATH} element={<Manage />} />
                 <Route path={VIEWDATA_PATH} element={<ViewData />} />
@@ -45,6 +49,8 @@ function App() {
                 <Route path={`${STUDENT_PATH}/:id`} element={<Students />} />
                 <Route path={TEACHER_PATH} element={<Teachers />} />
                 <Route path={DEPARTMENTSTU_PATH} element={<DepartmentStu />} />
+                <Route path={ADMIN_PATH} element={<Admins />} />
+                <Route path={FINANECE_PATH} element={<Finances />} />
               </Route>
           </Routes>
         </BrowserRouter>

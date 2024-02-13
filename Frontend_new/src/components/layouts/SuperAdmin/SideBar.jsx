@@ -116,6 +116,12 @@ const SideBar = () => {
                 <Link to={"/superadmin/teachers"} className="menu-bars">
                   <MenuItem>ครู อาจารย์</MenuItem>
                 </Link>
+                <Link to={"/superadmin/admins"} className="menu-bars">
+                  <MenuItem>ผู้ดูแลระบบ</MenuItem>
+                </Link>
+                <Link to={"/superadmin/finances"} className="menu-bars">
+                  <MenuItem>ฝ่ายการเงิน</MenuItem>
+                </Link>
                 {/* <Link to={"/admin/admin"} className="menu-bars">
                   <MenuItem>ผู้ดูแล ระบบ</MenuItem>
                 </Link> */}

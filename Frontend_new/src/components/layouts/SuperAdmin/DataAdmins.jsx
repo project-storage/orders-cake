@@ -3,7 +3,6 @@ import BorderColorIcon from "@mui/icons-material/BorderColor";
 import { Button, Stack } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Swal from "sweetalert2";
-
 const rows = [
   {
     id: 1,
@@ -13,6 +12,7 @@ const rows = [
     username: "kritsanachai",
     email: "kritsanachai@gmail.com",
     tel: "09876543321",
+    role: "Admin"
   },
   {
     id: 2,
@@ -22,6 +22,7 @@ const rows = [
     username: "kritsanachai",
     email: "kritsanachai@gmail.com",
     tel: "09876543321",
+    role: "Admin"
   },
   {
     id: 3,
@@ -31,6 +32,7 @@ const rows = [
     username: "kritsanachai",
     email: "kritsanachai@gmail.com",
     tel: "09876543321",
+    role: "Admin"
   },
 ];
 
@@ -53,6 +55,7 @@ const columns = [
   { field: "username", headerName: "ชื่อผู้ใช้งาน",flex: 2,minWidth: 100, maxWidth:200 },
   { field: "email", headerName: "อีเมล", width: 200 },
   { field: "tel", headerName: "เบอร์โทร", width: 200 },
+  { field: "role", headerName: "สถานะ",width: 200 },
   {
     field: "actions",
     headerName: "Actions",
@@ -71,7 +74,8 @@ const columns = [
                 params.row.surname,
                 params.row.username,
                 params.row.email,
-                params.row.tel
+                params.row.tel,
+                params.row.role
               )
             }
           >
@@ -91,9 +95,9 @@ const columns = [
   },
 ];
 
-const handleEdit = (id, title,name, surname,username, email, tel) => {
+const handleEdit = (id, title,name, surname,username, email, tel,role) => {
   Swal.fire({
-    title: "แก้ไขข้อมูลครู อาจารย์",
+    title: "แก้ไขข้อมูลผู้ดูแลระบบ",
     html: `
       <label for="swal-input1" style="width: 120px;">คำนำหน้า:</label><input type="text" id="title" class="swal2-input" value="${title}"><br>
       <label for="swal-input1" style="width: 120px;">ชื่อ:</label><input type="text" id="name" class="swal2-input" value="${name}"><br>
@@ -101,6 +105,7 @@ const handleEdit = (id, title,name, surname,username, email, tel) => {
       <label for="swal-input1" style="width: 120px;">ชื่อผู้ใช้งาน:</label><input type="text" id="username" class="swal2-input" value="${username}"><br>
       <label for="swal-input1" style="width: 120px;">อีเมล:</label><input type="text" id="email" class="swal2-input" value="${email}"><br>
       <label for="swal-input1" style="width: 120px;">เบอร์โทร:</label><input type="text" id="tel" class="swal2-input" value="${tel}"><br>
+      <label for="swal-input1" style="width: 120px;">สถานะ:</label><input type="text" id="tel" class="swal2-input" value="${role}"><br>
     `,
     showCancelButton: true,
     confirmButtonColor: "#3085d6",
@@ -124,15 +129,57 @@ const handleEdit = (id, title,name, surname,username, email, tel) => {
   });
 };
 
-
 const handleDelete = (id) => {
   // เขียนโค้ดสำหรับการลบข้อมูลด้วย ID ที่ได้รับ
   console.log("Delete clicked for row with ID:", id);
 };
 
-const DataTeachers = () => {
+function insertCake() {
+  Swal.fire({
+    title: "เพิ่มผู้ดูแลระบบ",
+    html: `
+    <label for="swal-input1" style="width: 120px;">คำนำหน้า:</label><input type="text" id="title" class="swal2-input""><br>
+    <label for="swal-input1" style="width: 120px;">ชื่อ:</label><input type="text" id="name" class="swal2-input" ><br>
+    <label for="swal-input1" style="width: 120px;">นามสกุล:</label><input type="text" id="surname" class="swal2-input"><br>
+    <label for="swal-input1" style="width: 120px;">ชื่อผู้ใช้งาน:</label><input type="text" id="username" class="swal2-input" ><br>
+    <label for="swal-input1" style="width: 120px;">อีเมล:</label><input type="text" id="email" class="swal2-input" ><br>
+    <label for="swal-input1" style="width: 120px;">เบอร์โทร:</label><input type="text" id="tel" class="swal2-input" ><br>
+    <label for="swal-input1" style="width: 120px;">สถานะ:</label><input type="text" id="tel" class="swal2-input"><br>
+  `,
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "ยืนยัน",
+    cancelButtonText: "ยกเลิก",
+    width: "800px",
+    preConfirm: () => {
+      return [document.getElementById("swal-input1").value];
+    },
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const [newName] = result.value;
+      console.log(`Add new cake with name: ${newName} `);
+    }
+  });
+}
+
+const DataAdmins = () => {
   return (
     <>
+    <Stack
+        direction="row"
+        spacing={2}
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          marginBottom: 2,
+        }}
+      >
+        <h1>ผู้ดูแลระบบ (Admin)</h1>
+        <Button sx={{ m: 3 }} variant="contained" color="success" onClick={() => insertCake()}>
+          เพิ่มผู้ดูแล
+        </Button>
+      </Stack>
       <div style={{ height: "100%", width: "100%" }}>
         <DataGrid rows={rowsWithIndex} columns={columns} slots={{ toolbar: GridToolbar }}
           disableColumnFilter
@@ -151,4 +198,4 @@ const DataTeachers = () => {
   );
 };
 
-export default DataTeachers;
+export default DataAdmins;
