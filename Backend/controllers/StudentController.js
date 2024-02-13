@@ -17,18 +17,18 @@ const createStudent = async (req, res) => {
         name,
         surname,
         telephone,
-        email,
-        username,
-        password,
         groupID
     } = req.body;
 
     try {
+        // Check user roles
+        if (req.user.role !== 'superAdmin' && req.user.role !== 'teacher') {
+            return res.status(401).json({ message: 'Unauthorized' });
+        }
+
         const alreadyExistsNumber = await Student.findOne({ where: { stuNumber } });
         const alreadyExistsIdCard = await Student.findOne({ where: { stuIdCard } });
-        const alreadyExistsEmail = await Student.findOne({ where: { email } });
-        const alreadyExistsUsername = await Student.findOne({ where: { username } });
-        const alreadyExistsTelephone = await Student.findOne({ where: { telephone } });
+        const alreadyExistsTelephone = await Student.findOne({ where: { telephone } })
 
         if (alreadyExistsNumber) {
             return res.json({ message: 'Student number already exists' });
@@ -36,17 +36,9 @@ const createStudent = async (req, res) => {
         if (alreadyExistsIdCard) {
             return res.json({ message: 'ID card number already exists' });
         }
-        if (alreadyExistsEmail) {
-            return res.json({ message: 'Email already exists' });
-        }
-        if (alreadyExistsUsername) {
-            return res.json({ message: 'Username already exists' });
-        }
         if (alreadyExistsTelephone) {
-            return res.json({ message: 'Telephone number already exists' });
+            return res.json({ message: "Telephone number already exists" })
         }
-
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
 
         const newStudents = new Student({
             title,
@@ -55,9 +47,6 @@ const createStudent = async (req, res) => {
             name,
             surname,
             telephone,
-            email,
-            username,
-            password: hashedPassword,
             role: 'Student',
             groupID
         });
@@ -73,6 +62,11 @@ const createStudent = async (req, res) => {
 // Info student
 const getInfoStudent = async (req, res) => {
     try {
+        // Check user roles
+        if (req.user.role !== 'superAdmin' && req.user.role !== 'teacher') {
+            return res.status(401).json({ message: 'Unauthorized' });
+        }
+
         const student = await Student.findOne({
             where: { id: req.user.id }
         });
@@ -92,7 +86,7 @@ const getInfoStudent = async (req, res) => {
 const getAllStudent = async (req, res) => {
     try {
         // Check user roles
-        if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin' && req.user.role !== 'teacher') {
+        if (req.user.role !== 'superAdmin' && req.user.role !== 'teacher') {
             return res.status(401).json({ message: 'Unauthorized' });
         }
 
@@ -114,11 +108,11 @@ const getAllStudent = async (req, res) => {
 const getStudentWithAllParams = async (req, res) => {
     try {
         // Check user roles
-        if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin' && req.user.role !== 'teacher') {
+        if (req.user.role !== 'superAdmin' && req.user.role !== 'teacher') {
             return res.status(401).json({ message: 'Unauthorized' });
         }
 
-        const { id, stuNumber, name, email, username } = req.query;
+        const { id, stuNumber, name } = req.query;
 
         const whereClause = {};
         if (id) {
@@ -129,12 +123,6 @@ const getStudentWithAllParams = async (req, res) => {
         }
         if (name) {
             whereClause.name = name;
-        }
-        if (email) {
-            whereClause.email = email;
-        }
-        if (username) {
-            whereClause.username = username;
         }
 
         const students = await Student.findAll({
@@ -162,9 +150,6 @@ const updateStudent = async (req, res) => {
             name,
             surname,
             telephone,
-            email,
-            username,
-            password,
             groupID
         } = req.body;
 
@@ -173,8 +158,7 @@ const updateStudent = async (req, res) => {
         // Check user roles
         if (req.user.role !== 'Admin' &&
             req.user.role !== 'superAdmin' &&
-            req.user.role !== 'teacher' &&
-            req.user.role !== 'student'
+            req.user.role !== 'teacher'
         ) {
             return res.status(401).json({ message: 'Unauthorized' });
         }
@@ -187,19 +171,11 @@ const updateStudent = async (req, res) => {
             return res.status(404).json({ message: "Student not found" });
         }
 
-        if (username !== student.username) {
-            const alreadyExistsUsername = await Student.findOne({ where: { username } });
+        if (telephone !== student.telephone) {
+            const alreadyExistsTelephone = await Student.findOne({ where: { telephone } })
 
-            if (alreadyExistsUsername) {
-                return res.status(400).json({ message: "Username already exists" });
-            }
-        }
-
-        if (email !== student.email) {
-            const alreadyExistsEmail = await Student.findOne({ where: { email } });
-
-            if (alreadyExistsEmail) {
-                return res.status(400).json({ message: "Email already exists" });
+            if (alreadyExistsTelephone) {
+                return res.status(400).json({ message: "Telephone already exists" })
             }
         }
 
@@ -209,14 +185,7 @@ const updateStudent = async (req, res) => {
         student.name = name || student.name;
         student.surname = surname || student.surname;
         student.telephone = telephone || student.telephone;
-        student.email = email || student.email;
-        student.username = username || student.username;
         student.groupID = groupID || student.groupID;
-
-        if (password) {
-            const hashedPassword = await bcrypt.hash(password, saltRounds);
-            student.password = hashedPassword;
-        }
 
         const updatedStudent = await student.save();
 
@@ -234,7 +203,7 @@ const updateStudent = async (req, res) => {
 // Delete student
 const deleteStudent = async (req, res) => {
     try {
-        if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
+        if (req.user.role !== 'superAdmin') {
             return res.status(401).json({ message: 'Unauthorized' });
         }
 
