@@ -9,13 +9,13 @@ const createCake = async (req, res) => {
             return res.status(401).json({ message: 'Unauthorized' });
         }
 
-        const { cakeName, poundID, size } = req.body;
+        const { cakeName, pound, price } = req.body;
 
-        if (!cakeName || !poundID || !size) {
+        if (!cakeName || !pound || !price) {
             return res.status(400).json({ message: 'Please fill in all fields' });
         }
 
-        const newCake = new Cake({ cakeName, poundID, size });
+        const newCake = new Cake({ cakeName, pound, price });
         const saveCake = await newCake.save();
 
         return res.status(200).json({
@@ -102,7 +102,7 @@ const updateCake = async (req, res) => {
             return res.status(401).json({ message: 'Unauthorized' });
         }
 
-        const { cakeName, poundID, size } = req.body;
+        const { cakeName, pound, price } = req.body;
 
         const cake = await Cake.findOne({ where: { id: req.params.id } });
 
@@ -111,8 +111,8 @@ const updateCake = async (req, res) => {
         }
 
         cake.cakeName = cakeName || cake.cakeName;
-        cake.poundID = poundID || cake.poundID;
-        cake.size = size || cake.size;
+        cake.pound = pound || cake.pound;
+        cake.price = price || cake.price;
 
         const updateCake = await cake.save();
 

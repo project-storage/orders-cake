@@ -4,12 +4,12 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING(100),
             allowNull: false
         },
-        poundID: {
-            type: DataTypes.INTEGER,
+        pound: {
+            type: DataTypes.DECIMAL(10, 2),
             allowNull: false
         },
-        size: {
-            type: DataTypes.INTEGER,
+        price: {
+            type: DataTypes.DECIMAL(10, 2),
             allowNull: false
         },
         // image: {
