@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -9,12 +10,12 @@ import Paper from "@mui/material/Paper";
 import DeleteIcon from "@mui/icons-material/Delete";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import Swal from "sweetalert2";
-import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
-// import IconButton from "@mui/material/IconButton";
+import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import { Button, Box, Stack } from "@mui/material";
+import { renderToString } from "react-dom/server";
 
-//furnction start
 
+// Functions
 function deleteCake(id) {
   Swal.fire({
     title: "คุณต้องการลบ " + id + " ใช่ไหม?",
@@ -24,63 +25,66 @@ function deleteCake(id) {
     cancelButtonColor: "#d33",
     confirmButtonText: "ยืนยัน",
     cancelButtonText: "ยกเลิก",
-  }).then(() => {
-    Swal.fire({
-      title: "เสร็จสิ้น",
-      showConfirmButton: false,
-      icon: "success",
-      timer: 800,
-    });
-    // .then((result) => {
-    //   window.location.reload();
-    // });
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire({
+        title: "เสร็จสิ้น",
+        showConfirmButton: false,
+        icon: "success",
+        timer: 800,
+      });
+    }
   });
-
-  // Swal.fire("SweetAlert2 is working!" + id);
-  // alert("hi" + id);
 }
 
-// end
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: "gray",
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
+// Main Component
+const TableCake = () => {
+  const [productName, setProductName] = useState("");
+  const [productPrice, setProductPrice] = useState("");
+  function createData(id, name, price) {
+    return { id, name, price };
+  }
 
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-}));
+  const handleAddProduct = () => {
+    Swal.fire({
+      title: "เพิ่มสินค้า",
+      html: renderToString(<div></div>),
+      showCancelButton: true,
+      confirmButtonText: "ยืนยัน",
+      cancelButtonText: "ยกเลิก",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Validate input
+        if (!productName || !productPrice) {
+          Swal.fire("กรุณากรอกข้อมูลให้ครบถ้วน", "", "error");
+          return;
+        }
 
-function createData(id, name, price) {
-  return { id, name, price };
-}
+        // Add product to the list
+        const newProduct = createData(
+          rows.length + 1,
+          productName,
+          parseInt(productPrice)
+        );
+        setProductName("");
+        setProductPrice("");
+        rows.push(newProduct);
+        Swal.fire("เพิ่มสินค้าเรียบร้อยแล้ว", "", "success");
+      }
+    });
+  };
 
-const rows = [
-  createData(1, "ช็อคโกแลต", 159),
-  createData(2, "เนยสด", 237),
-  createData(3, "นมเนย", 262),
-  createData(4, "เเยม", 305),
-  createData(5, "กาแฟ", 356),
-];
+  const rows = [
+    createData(1, "ช็อคโกแลต", 159),
+    createData(2, "เนยสด", 237),
+    createData(3, "นมเนย", 262),
+    createData(4, "เเยม", 305),
+    createData(5, "กาแฟ", 356),
+  ];
 
-export default function CustomizedTables() {
   return (
     <>
-      <Box
-        sx={{
-          position: "relative",
-        }}
-      >
+      <Box sx={{ position: "relative" }}>
         <div
           style={{
             position: "absolute",
@@ -103,6 +107,7 @@ export default function CustomizedTables() {
               color="success"
               variant="contained"
               startIcon={<InsertDriveFileIcon />}
+              onClick={handleAddProduct}
             >
               เพิ่มสินค้า
             </Button>
@@ -138,7 +143,6 @@ export default function CustomizedTables() {
                         >
                           ลบ
                         </Button>
-
                         <Button
                           variant="outlined"
                           startIcon={<BorderColorIcon />}
@@ -156,4 +160,25 @@ export default function CustomizedTables() {
       </Box>
     </>
   );
-}
+};
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: "gray",
+      color: theme.palette.common.white,
+    },
+    [`&.${tableCellClasses.body}`]: {
+      fontSize: 14,
+    },
+  }));
+  
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    "&:nth-of-type(odd)": {
+      backgroundColor: theme.palette.action.hover,
+    },
+    // hide last border
+    "&:last-child td, &:last-child th": {
+      border: 0,
+    },
+  }));
+  
+export default TableCake;
