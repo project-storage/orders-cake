@@ -4,8 +4,8 @@ const OrderDetails = db.orderMaster
 
 const createOrder = async (req, res) => {
     try {
-        const { bookNumber, orderNumber, stuID, teamID, dateBuy, timeBuy, pickupDate, pickupTime, price, statusID, depositPrice, remainingPrice } = req.body;
-        const order = await Order.create({ bookNumber, orderNumber, stuID, teamID, dateBuy, timeBuy, pickupDate, pickupTime, price, statusID, depositPrice, remainingPrice });
+        const { bookNumber, orderNumber, stuID, teamID, dateBuy, timeBuy, pickupDate, pickupTime, price, statusID, depositPrice, remainingPrice, teachID } = req.body;
+        const order = await Order.create({ bookNumber, orderNumber, stuID, teamID, dateBuy, timeBuy, pickupDate, pickupTime, price, statusID, depositPrice, remainingPrice, teachID });
         const orderDetails = req.body.orderDetails;
         for (let i = 0; i < orderDetails.length; i++) {
             const { cakeID, totalCake, totalPoundsAmount, totalPrice } = orderDetails[i];

@@ -2,15 +2,15 @@ module.exports = (sequelize, DataTypes) => {
     const Order = sequelize.define('orders', {
         bookNumber: {
             type: DataTypes.INTEGER,
-            allowNull: true
+            allowNull: false
         },
         orderNumber: {
             type: DataTypes.INTEGER,
-            allowNull: true
+            allowNull: false
         },
         stuID: {
             type: DataTypes.INTEGER,
-            allowNull: true
+            allowNull: false
         },
         teamID: {
             type: DataTypes.INTEGER,
@@ -48,6 +48,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             allowNull: true
         },
+        teachID: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        }
     })
     return Order
 }
