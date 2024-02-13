@@ -12,16 +12,17 @@ export const REPORT_TITLE = 'Report'
 export const SETTING_TITLE = 'Setting'
 
 // Backend Routes
-const BASE_PATH = '/admin/'
+const BASE_PATH = '/superadmin/'
 export const DASHBOARD_PATH = BASE_PATH +'dashboard'
 export const PRODUCT_PATH = BASE_PATH + 'products'
 export const REPORT_PATH = BASE_PATH + 'report'
 export const SETTING_PATH = BASE_PATH + 'setting'
 export const USER_PATH = BASE_PATH + 'users'
-export const STUDNET_PATH = BASE_PATH + 'students'
+export const STUDENT_PATH = BASE_PATH + 'students'
 export const TEACHER_PATH = BASE_PATH + 'teachers'
 export const VIEWDATA_PATH = BASE_PATH + 'viewdata'
 export const MANAGE_PATH = BASE_PATH + 'manage'
+export const DEPARTMENTSTU_PATH = BASE_PATH + 'departmentstu'
 
 // User Routes
 const BASE_USER = '/user/'

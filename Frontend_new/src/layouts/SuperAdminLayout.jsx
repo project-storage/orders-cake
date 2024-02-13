@@ -1,7 +1,7 @@
 import { CssBaseline, Box } from "@mui/material";
 import MainLayout from '../components/layouts/MainLayout';
-import HeaderBar from '../components/layouts/Admin/HeaderBar';
-import SideBar from '../components/layouts/Admin/SideBar';
+import HeaderBar from '../components/layouts/SuperAdmin/HeaderBar';
+import SideBar from '../components/layouts/SuperAdmin/SideBar';
 import { Outlet } from "react-router-dom";
 const AdminLayout = () => {
   return (

@@ -1,5 +1,5 @@
 import { Box } from "@mui/material"
-import DataTeachers from '../../components/layouts/Admin/DataTeachers';
+import DataTeachers from '../../components/layouts/SuperAdmin/DataTeachers';
 
 
 const Teachers = () => {

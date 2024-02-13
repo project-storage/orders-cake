@@ -89,10 +89,10 @@ const SideBar = () => {
                 </Box>
               )} */}
 
-              <Link to="/admin/dashboard" className="menu-bars">
+              <Link to="/superadmin/dashboard" className="menu-bars">
                 <MenuItem icon={<HomeOutlinedIcon />}>Dashboard</MenuItem>
               </Link>
-              <Link to="/admin/products" className="menu-bars">
+              <Link to="/superadmin/products" className="menu-bars">
                 <MenuItem icon={<HomeOutlinedIcon />}>จัดการเค้ก</MenuItem>
               </Link>
 
@@ -110,10 +110,10 @@ const SideBar = () => {
               </SubMenu> */}
 
               <SubMenu label="บุคคล" icon={<PeopleOutlinedIcon />}>
-                <Link to={"/admin/students"} className="menu-bars">
+                <Link to={"/superadmin/departmentstu"} className="menu-bars">
                   <MenuItem>นักเรียน นักศึกษา</MenuItem>
                 </Link>
-                <Link to={"/admin/teachers"} className="menu-bars">
+                <Link to={"/superadmin/teachers"} className="menu-bars">
                   <MenuItem>ครู อาจารย์</MenuItem>
                 </Link>
                 {/* <Link to={"/admin/admin"} className="menu-bars">
