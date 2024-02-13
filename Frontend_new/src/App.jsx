@@ -14,8 +14,10 @@ import {
   LOGIN_PATH,
   MANAGE_PATH,
   PRODUCT_PATH,
+  SINGLE_PATH,
   STUDENT_PATH,
   TEACHER_PATH,
+  TEAM_PATH,
   VIEWDATA_PATH,
 } from "./config/constants";
 import SuperAdminLayout from "./layouts/SuperAdminLayout";
@@ -25,6 +27,8 @@ import Teachers from "./pages/SuperAdmin/Teachers";
 import DepartmentStu from "./pages/SuperAdmin/DepartmentStu";
 import Admins from "./pages/SuperAdmin/Admins";
 import Finances from './pages/SuperAdmin/Finances';
+import Teams from "./pages/SuperAdmin/Teams";
+import Singles from "./pages/SuperAdmin/Singles";
 
 const defaultTheme = createTheme({
   typography: {
@@ -51,6 +55,8 @@ function App() {
                 <Route path={DEPARTMENTSTU_PATH} element={<DepartmentStu />} />
                 <Route path={ADMIN_PATH} element={<Admins />} />
                 <Route path={FINANECE_PATH} element={<Finances />} />
+                <Route path={TEAM_PATH} element={< Teams/>} />
+                <Route path={SINGLE_PATH} element={< Singles/>} />
               </Route>
           </Routes>
         </BrowserRouter>

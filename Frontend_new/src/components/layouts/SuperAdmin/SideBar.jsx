@@ -18,6 +18,8 @@ import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 // import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 // import TableViewIcon from '@mui/icons-material/TableView';
+import CakeIcon from '@mui/icons-material/Cake';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import { useState } from "react";
 const SideBar = () => {
   const [isCollapsed, setisCollapsed] = useState(false);
@@ -60,7 +62,7 @@ const SideBar = () => {
                     alignItems="center"
                     ml="15px"
                   >
-                    <Typography>Admin</Typography>
+                    <Typography>SuperAdmin</Typography>
                     <IconButton onClick={() => setisCollapsed(!isCollapsed)}>
                       <MenuOutlinedIcon />
                     </IconButton>
@@ -93,7 +95,7 @@ const SideBar = () => {
                 <MenuItem icon={<HomeOutlinedIcon />}>Dashboard</MenuItem>
               </Link>
               <Link to="/superadmin/products" className="menu-bars">
-                <MenuItem icon={<HomeOutlinedIcon />}>จัดการเค้ก</MenuItem>
+                <MenuItem icon={<CakeIcon />}>จัดการเค้ก</MenuItem>
               </Link>
 
               {/* <SubMenu icon={<MapOutlinedIcon />} label="Data">
@@ -126,6 +128,14 @@ const SideBar = () => {
                   <MenuItem>ผู้ดูแล ระบบ</MenuItem>
                 </Link> */}
                 {/* <MenuItem> Admin</MenuItem> */}
+              </SubMenu>
+              <SubMenu label="การเเข่งขัน" icon={<EmojiEventsIcon />}>
+                <Link to={"/superadmin/singles"} className="menu-bars">
+                  <MenuItem>เดี่ยว</MenuItem>
+                </Link>
+                <Link to={"/superadmin/teams"} className="menu-bars">
+                  <MenuItem>ทีม</MenuItem>
+                </Link>
               </SubMenu>
             </Menu>
 

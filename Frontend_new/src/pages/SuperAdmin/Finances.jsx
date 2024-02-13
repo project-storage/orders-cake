@@ -1,9 +1,10 @@
+import DataFinaces from "../../components/layouts/SuperAdmin/DataFinaces"
 
 
 const Finance = () => {
   return (
     <>
-      <h1>ฝ่ายการเงิน</h1>
+      <DataFinaces/>
     </>
   )
 }

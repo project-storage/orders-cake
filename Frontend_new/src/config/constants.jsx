@@ -25,6 +25,8 @@ export const MANAGE_PATH = BASE_PATH + 'manage'
 export const DEPARTMENTSTU_PATH = BASE_PATH + 'departmentstu'
 export const ADMIN_PATH = BASE_PATH + 'admins'
 export const FINANECE_PATH = BASE_PATH + 'finances'
+export const TEAM_PATH = BASE_PATH + 'teams'
+export const SINGLE_PATH = BASE_PATH + 'singles'
 
 // User Routes
 const BASE_USER = '/user/'
