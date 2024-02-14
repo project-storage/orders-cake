@@ -40,7 +40,6 @@ db.department = require('./departmentModel')(sequelize, DataTypes);
 db.group = require('./groupModel')(sequelize, DataTypes)
 
 db.cake = require('./cakeModel')(sequelize, DataTypes);
-db.poundType = require('./poundTypeModel')(sequelize, DataTypes)
 db.orderDetail = require('./orderDetail')(sequelize, DataTypes);
 db.order = require('./orderModel')(sequelize, DataTypes);
 db.status = require('./statusModel')(sequelize, DataTypes)
@@ -140,6 +139,15 @@ db.order.belongsTo(db.team, {
   as: 'team'
 })
 
+db.teacher.hasMany(db.order, {
+  foreignKey: 'teachID',
+  as: 'orders'
+})
+db.order.belongsTo(db.teacher, {
+  foreignKey: 'teachID',
+  as: 'teachers'
+})
+
 db.status.hasMany(db.order, {
   foreignKey: 'statusID',
   as: 'orders'
@@ -148,17 +156,6 @@ db.order.belongsTo(db.status, {
   foreignKey: 'statusID',
   as: 'statuses'
 })
-
-// ----------- table cake  -----------//
-db.poundType.hasMany(db.cake, {
-  foreignKey: 'poundID',
-  as: 'cakes'
-});
-db.cake.belongsTo(db.poundType, {
-  foreignKey: 'orderID',
-  as: 'poundTypes'
-});
-
 
 db.sequelize.sync({ alter: true }).then(() => {
   console.log('Yes re-sync done!!');
