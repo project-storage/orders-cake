@@ -77,9 +77,10 @@ const Responsive = styled("div")(() => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    minHeight: "90vh",
+    minHeight: "100vh",
     // color: purple[500],
 }));
+
 const Login = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -137,7 +138,7 @@ const Login = () => {
                 required
                 fullWidth
                 id="codeStudent"
-                label="รหัสนักศึกษา"
+                label="ชื่อผู้ใช้งาน"
                 name="codeStudent"
                 autoComplete="codeStudent"
                 autoFocus

@@ -28,6 +28,21 @@ export const FINANECE_PATH = BASE_PATH + 'finances'
 export const TEAM_PATH = BASE_PATH + 'teams'
 export const SINGLE_PATH = BASE_PATH + 'singles'
 
+const BASEADMIN_PATH = '/admin/'
+export const ORDERALL_ADMINPATH = BASEADMIN_PATH + 'orders'
+export const SETTING_ADMINPATH = BASEADMIN_PATH + 'settingadmin'
+
+const BASETEACHER_PATH = '/teacher/'
+export const ROOM_TEACHERPATH = BASETEACHER_PATH + 'rooms'
+export const ROOMSTU_TEACHERPATH = BASETEACHER_PATH + 'roomstu'
+export const ORDERSTU_TEACHERPATH = BASETEACHER_PATH + 'orderstu'
+
+const  BASEFINANCE_PATH = '/finance/'
+export const ORDER_FINANCEPATH = BASEFINANCE_PATH + 'orders'
+
+const  BASEGIVING_PATH = '/giving/'
+export const ORDER_GIVINGPATH = BASEGIVING_PATH + 'orders'
+
 // User Routes
 const BASE_USER = '/user/'
 export const DASHBOARD_USER = BASE_USER +'dashboard'
