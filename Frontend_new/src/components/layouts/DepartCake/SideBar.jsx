@@ -21,10 +21,17 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import CakeIcon from '@mui/icons-material/Cake';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import { useState } from "react";
+import { ORDER_GIVINGPATH } from "../../../config/constants";
 const SideBar = () => {
   const [isCollapsed, setisCollapsed] = useState(false);
   const [toggled, setToggled] = useState(false);
   const [broken, setBroken] = useState(false);
+  const [activeMenuItem, setActiveMenuItem] = useState("Dashboard");
+
+  const handleMenuClick = (menuItem) => {
+    setActiveMenuItem(menuItem);
+  };
+
 
   return (
     <div
@@ -69,62 +76,20 @@ const SideBar = () => {
                   </Box>
                 )}
               </MenuItem>
-              {/* {!isCollapsed && (
-                <Box mb="25px">
-                  <Box
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                  >
-                    <img
-                      alt="profile-user"
-                      width="100px"
-                      height="100px"
-                      src={'../../assets/001.jpg'}
-                      style={{ cursor: "pointer", borderRadius: "50%" }}
-                    />
-                  </Box>
-                  <Box textAlign="center">
-                    <Typography sx={{ m: "10px 0 0 0" }}>ROITAI</Typography>
-                    <Typography>DEV </Typography>
-                  </Box>
-                </Box>
-              )} */}
 
-              <Link to="/admin/orders" className="menu-bars">
-                <MenuItem icon={<HomeOutlinedIcon />}>ออเดอร์ทั้งหมด</MenuItem>
-              </Link>
-              {/* <Link to="/superadmin/products" className="menu-bars">
-                <MenuItem icon={<CakeIcon />}>จัดการเค้ก</MenuItem>
-              </Link> */}
-
-              
-              
-            </Menu>
-
-            {/* <div
-              style={{
-                padding: "0 24px",
-                marginBottom: "8px",
-                marginTop: "32px",
-              }}
-            >
-              <Typography
-                variant="body2"
-                fontWeight={600}
-                style={{
-                  opacity: isCollapsed ? 0 : 0.5,
-                  letterSpacing: "0.5px",
-                }}
+              <MenuItem
+                active={activeMenuItem === ORDER_GIVINGPATH}
+                component={<Link to={ORDER_GIVINGPATH} />}
+                icon={<HomeOutlinedIcon />}
+                onClick={() => handleMenuClick(ORDER_GIVINGPATH)}
               >
-                Extra
-              </Typography>
-            </div>
-
-            <Menu>
-              {/* <MenuItem icon={<CalendarTodayOutlinedIcon />}>Calendar</MenuItem> 
-              <MenuItem icon={<ReceiptOutlinedIcon />}>ตั้งค่า</MenuItem>
-            </Menu> */}
+                <Typography variant="body2">ออเดอร์ทั้งหมด</Typography>
+              </MenuItem>
+            
+              {/* <Link to="/admin/orders" className="menu-bars">
+                <MenuItem icon={<HomeOutlinedIcon />}>ออเดอร์ทั้งหมด</MenuItem>
+              </Link> */}
+            </Menu>
           </div>
         </div>
       </Sidebar>

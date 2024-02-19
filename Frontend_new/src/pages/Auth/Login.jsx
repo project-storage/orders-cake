@@ -1,8 +1,6 @@
-// import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-// import Checkbox from '@mui/material/Checkbox';
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -10,109 +8,108 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import NVC from "../../assets/nvc.png";
 import { ImageList } from "@mui/material";
-// import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
-// import { green } from "@mui/material/colors";
-// import { green, purple, red } from "@mui/material/colors";
-
-// import { createTheme, ThemeProvider } from "@mui/material/styles";
-
-// function Copyright(props) {
-//   return (
-//     <Typography variant="body2" color="text.secondary" align="center" {...props}>
-//       {'Copyright © '}
-//       <Link color="inherit" href="https://mui.com/">
-//         Your Website
-//       </Link>{' '}
-//       {new Date().getFullYear()}
-//       {'.'}
-//     </Typography>
-//   );
-// }
-
-// TODO remove, this demo shouldn't need to reset the theme.
-
-// const defaultTheme = createTheme({
-//   typography: {
-//     fontFamily: [
-//       'Prompt',
-//       'sans-serif'
-//     ].join(',')
-//   }
-// });
-
-// const Responsive = styled("div")(({ theme }) => ({
-//   [theme.breakpoints.up(0)]: {
-//     display: "flex",
-//     justifyContent: "center",
-//     alignItems: "center",
-//     minHeight: "90vh",
-//     // color: green[500],
-//   },
-//   [theme.breakpoints.up(768)]: {
-//     display: "flex",
-//     justifyContent: "center",
-//     alignItems: "center",
-//     minHeight: "90vh",
-//     // color: green[500],
-//   },
-//   [theme.breakpoints.up(1024)]: {
-//     marginTop: 8,
-//     display: "flex",
-//     justifyContent: "center",
-//     alignItems: "center",
-//     minHeight: "90vh",
-//     // color: red[500],
-//   },
-//   [theme.breakpoints.up(1200)]: {
-//     display: "flex",
-//     justifyContent: "center",
-//     alignItems: "center",
-//     minHeight: "90vh",
-//     // color: purple[500],
-//   },
-// }));
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import LoginService from "../../services/LoginService";
+import {
+  DASHBOARD_PATH,
+  DASHBOARD_USER,
+  ORDERALL_ADMINPATH,
+  ORDER_FINANCEPATH,
+  ORDER_GIVINGPATH,
+  ROOM_TEACHERPATH,
+} from "../../config/constants";
+import Swal from "sweetalert2";
 
 const Responsive = styled("div")(() => ({
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    minHeight: "100vh",
-    // color: purple[500],
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  minHeight: "100vh",
+  // color: purple[500],
 }));
 
 const Login = () => {
-  const handleSubmit = (event) => {
+  const [formData, setFormData] = useState({ username: "", password: "" });
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      codeStudent: data.get("codeStudent"),
-      password: data.get("password"),
-    });
+
+    if (formData.username === "" || formData.password === "") {
+      setError("Error: กรุณากรอกข้อมูลให้ครบถ้วน");
+      return;
+    }
+
+    try {
+      const res = await LoginService.postLogin(formData);
+      const userRole = res.data.data.role;
+      localStorage.setItem("token", res.data.data.token);
+
+      switch (userRole) {
+        case "superAdmin":
+          navigate(DASHBOARD_PATH);
+          Swal.fire(
+            "ยินดีต้อนรับเข้าสู่ระบบ",
+            `${formData.username}`,
+            "success"
+          );
+          break;
+        case "Admin":
+          navigate("/admin/orders");
+          Swal.fire(
+            "ยินดีต้อนรับเข้าสู่ระบบ",
+            `${formData.username}`,
+            "success"
+          );
+          break;
+        case "DepartCake":
+          navigate(ORDER_GIVINGPATH);
+          Swal.fire(
+            "ยินดีต้อนรับเข้าสู่ระบบ",
+            `${formData.username}`,
+            "success"
+          );
+          break;
+        case "DepartMoney":
+          navigate(ORDER_FINANCEPATH);
+          Swal.fire(
+            "ยินดีต้อนรับเข้าสู่ระบบ",
+            `${formData.username}`,
+            "success"
+          );
+          break;
+        case "teacher":
+          Swal.fire(
+            "ยินดีต้อนรับเข้าสู่ระบบ",
+            `${formData.username}`,
+            "success"
+          );
+          navigate(ROOM_TEACHERPATH);
+          break;
+        default:
+          // Handle other roles or unknown roles
+          break;
+      }
+    } catch (error) {
+      console.error("Login failed", error);
+      // Show error message with SweetAlert
+      Swal.fire({
+        icon: "error",
+        title: "เกิดข้อผิดพลาด!",
+        text: "ไม่สามารถเข้าสู่ระบบได้ กรุณาลองอีกครั้ง",
+      });
+    }
   };
 
-  // const [w, setW] = useState(window.innerWidth);
-
-  // useEffect(() => {
-  //   const handleResize = () => {
-  //     setW(window.innerWidth);
-  //   };
-
-  //   window.addEventListener("resize", handleResize);
-
-  //   return () => {
-  //     window.removeEventListener("resize", handleResize);
-  //   };
-  // }, []);
-
   return (
-    // <ThemeProvider theme={defaultTheme}>
     <div className="container">
       <Responsive>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <Box>
-            {/* <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}></Avatar> */}
             <ImageList
               sx={{
                 m: 1,
@@ -126,7 +123,6 @@ const Login = () => {
             <Typography component="h1" variant="h5" align="center">
               ระบบสั่งจองเค้กออนไลน์
             </Typography>
-            {/* <Typography align="center">{w}</Typography> */}
             <Box
               component="form"
               onSubmit={handleSubmit}
@@ -142,6 +138,10 @@ const Login = () => {
                 name="codeStudent"
                 autoComplete="codeStudent"
                 autoFocus
+                value={formData.username}
+                onChange={(e) =>
+                  setFormData({ ...formData, username: e.target.value })
+                }
               />
               <TextField
                 margin="normal"
@@ -152,6 +152,10 @@ const Login = () => {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                value={formData.password}
+                onChange={(e) =>
+                  setFormData({ ...formData, password: e.target.value })
+                }
               />
 
               <Button
@@ -162,25 +166,11 @@ const Login = () => {
               >
                 เข้าสู่ระบบ
               </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    ลืมรหัสผ่าน?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="#" variant="body2">
-                    {"ไม่มีบัญชีใช่หรือไม่? สมัครสมาชิก"}
-                  </Link>
-                </Grid>
-              </Grid>
             </Box>
           </Box>
-          {/* <Copyright sx={{ mt: 8, mb: 4 }} /> */}
         </Container>
       </Responsive>
     </div>
-    // </ThemeProvider>
   );
 };
 

@@ -1,4 +1,3 @@
-
 import {
   Sidebar,
   Menu,
@@ -6,16 +5,28 @@ import {
   SubMenu,
   // SidebarFooter,
 } from "react-pro-sidebar";
-import { Box, IconButton, Typography} from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import { useState } from "react";
+import { ClassOutlined } from "@mui/icons-material";
+import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
+import {
+  ORDERSTU_TEACHERPATH,
+  ROOMSTU_TEACHERPATH,
+  ROOM_TEACHERPATH,
+} from "../../../config/constants";
 const SideBar = () => {
   const [isCollapsed, setisCollapsed] = useState(false);
   const [toggled, setToggled] = useState(false);
   const [broken, setBroken] = useState(false);
+  const [activeMenuItem, setActiveMenuItem] = useState("Dashboard");
+
+  const handleMenuClick = (menuItem) => {
+    setActiveMenuItem(menuItem);
+  };
 
   return (
     <div
@@ -31,7 +42,11 @@ const SideBar = () => {
         onBreakPoint={setBroken}
         // image="/assets/17372.jpg"
         breakPoint="md"
-        style={{ height: "100%", border: "none",backgroundColor:"rgb(255, 255, 255)"}}
+        style={{
+          height: "100%",
+          border: "none",
+          backgroundColor: "rgb(255, 255, 255)",
+        }}
       >
         <div
           style={{ display: "flex", flexDirection: "column", height: "100%" }}
@@ -60,72 +75,50 @@ const SideBar = () => {
                   </Box>
                 )}
               </MenuItem>
-              {/* {!isCollapsed && (
-                <Box mb="25px">
-                  <Box
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                  >
-                    <img
-                      alt="profile-user"
-                      width="100px"
-                      height="100px"
-                      src={'../../assets/001.jpg'}
-                      style={{ cursor: "pointer", borderRadius: "50%" }}
-                    />
-                  </Box>
-                  <Box textAlign="center">
-                    <Typography sx={{ m: "10px 0 0 0" }}>ROITAI</Typography>
-                    <Typography>DEV </Typography>
-                  </Box>
-                </Box>
-              )} */}
-              <Link to="/teacher/roomstu" className="menu-bars">
-                <MenuItem icon={<HomeOutlinedIcon />}>ออเดอร์นักเรียน </MenuItem>
-              </Link>
-              <Link to="/teacher/rooms" className="menu-bars">
-                <MenuItem icon={<HomeOutlinedIcon />}>จัดการห้องเรียน</MenuItem>
-              </Link>
-              {/* <Link to="/superadmin/products" className="menu-bars">
-                <MenuItem icon={<CakeIcon />}>จัดการเค้ก</MenuItem>
-              </Link> */}
-              {/* <SubMenu label="ห้องเรียน" icon={<HomeOutlinedIcon />}>
-                <Link to={"#"} className="menu-bars">
-                  <MenuItem>ห้องเรียนทั้งหมด</MenuItem>
-                </Link>
-                <Link to={"#"} className="menu-bars">
-                  <MenuItem>จัดการห้องเรียน</MenuItem>
-                </Link>
-              </SubMenu> */}
 
-              
-              
-            </Menu>
-
-            {/* <div
-              style={{
-                padding: "0 24px",
-                marginBottom: "8px",
-                marginTop: "32px",
-              }}
-            >
-              <Typography
-                variant="body2"
-                fontWeight={600}
-                style={{
-                  opacity: isCollapsed ? 0 : 0.5,
-                  letterSpacing: "0.5px",
-                }}
+              <MenuItem
+                active={activeMenuItem === ROOM_TEACHERPATH}
+                component={<Link to={ROOM_TEACHERPATH} />}
+                icon={<HomeOutlinedIcon />}
+                onClick={() => handleMenuClick(ROOM_TEACHERPATH)}
               >
-                Extra
-              </Typography>
-            </div>
+                <Typography variant="body2">
+                  ระดับชั้นที่อยู่ในการดูแล
+                </Typography>
+              </MenuItem>
+              {/* 
+              <Link to="/teacher/roomstu" className="menu-bars">
+                <MenuItem icon={<HomeOutlinedIcon />}>
+                  ระดับชั้นที่อยู่ในการดูแล
+                </MenuItem>
+              </Link> */}
 
-            <Menu>
-              {/* <MenuItem icon={<CalendarTodayOutlinedIcon />}>Calendar</MenuItem> 
-              <MenuItem icon={<ReceiptOutlinedIcon />}>ตั้งค่า</MenuItem>
-            </Menu> */}
+              <MenuItem
+                active={activeMenuItem === ROOMSTU_TEACHERPATH}
+                component={<Link to={ROOMSTU_TEACHERPATH} />}
+                icon={<ClassOutlined />}
+                onClick={() => handleMenuClick(ROOMSTU_TEACHERPATH)}
+              >
+                <Typography variant="body2">จัดการห้องเรียน</Typography>
+              </MenuItem>
+              {/* <Link to="/teacher/rooms" className="menu-bars">
+                <MenuItem icon={<ClassOutlined />}>จัดการห้องเรียน</MenuItem>
+              </Link> */}
+
+              <MenuItem
+                active={activeMenuItem === ORDERSTU_TEACHERPATH}
+                component={<Link to={ORDERSTU_TEACHERPATH} />}
+                icon={<BorderColorOutlinedIcon />}
+                onClick={() => handleMenuClick(ORDERSTU_TEACHERPATH)}
+              >
+                <Typography variant="body2"> ออร์เดอร์นักเรียน</Typography>
+              </MenuItem>
+              {/* <Link to="/teacher/orders" className="menu-bars">
+                <MenuItem icon={<BorderColorOutlinedIcon />}>
+                  ออร์เดอร์นักเรียน
+                </MenuItem>
+              </Link> */}
+            </Menu>
           </div>
         </div>
       </Sidebar>

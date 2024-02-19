@@ -1,67 +1,58 @@
-import { Box, IconButton, Menu, MenuItem } from "@mui/material";
-// import InputBase from "@mui/material/InputBase";
+import { Box, Button, IconButton, Menu, MenuItem } from "@mui/material";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-// import SearchIcon from "@mui/icons-material/Search";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { Logout } from "@mui/icons-material";
+import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined";
 
 const HeaderBar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const navigete = useNavigate();
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigete("/");
   };
+
+  const handleProfile = () => {};
   return (
     <Box display="flex" justifyContent="end" p={2}>
-      {/* search  */}
-      {/* <Box display="flex" borderRadius="3px" backgroundColor="#F5EFE7">
-        <InputBase sx={{ ml: 2, flex: 1 }} placeholder="Search" />
-        <IconButton type="button" sx={{ p: 1 }}>
-          <SearchIcon />
-        </IconButton>
-      </Box> */}
-
-      {/* icons */}
       <Box display="flex">
-        <IconButton>
-          <NotificationsOutlinedIcon />
+        <IconButton
+          id="basic-button"
+          aria-controls={open ? "basic-menu" : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? "true" : undefined}
+          onClick={handleClick}
+        >
+          <ManageAccountsOutlinedIcon />
         </IconButton>
-        <IconButton>
-          <Link to="/admin/settingadmin" className="menu-bars">
-            <SettingsOutlinedIcon />
-          </Link>
-        </IconButton>
-        <IconButton>
-          <PersonOutlinedIcon onClick={handleMenu} />
-          <Menu
-            id="menu-appbar"
-            anchorEl={anchorEl}
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-          >
-            <Link to="#" className="menu-bars">
-              <MenuItem onClick={handleClose}>Profile</MenuItem>
-            </Link>
-            <Link to="#" className="menu-bars">
-              <MenuItem onClick={handleClose}>My account</MenuItem>
-            </Link>
-          </Menu>
-        </IconButton>
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          MenuListProps={{
+            "aria-labelledby": "basic-button",
+          }}
+        >
+          <MenuItem onClick={handleProfile}>Profile</MenuItem>
+          <MenuItem onClick={handleLogout}>Logout</MenuItem>
+        </Menu>
       </Box>
     </Box>
   );

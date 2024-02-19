@@ -1,6 +1,5 @@
 import DataOrder from "../../components/layouts/Finance/DataOrder"
 
-
 const Orders = () => {
   return (
     <>

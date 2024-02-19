@@ -1,22 +1,27 @@
-import React, { useState } from "react";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
-import {
-  Avatar,
-  Box,
-  Button,
-  Checkbox,
-  Container,
-  CssBaseline,
-  FormControlLabel,
-  Grid,
-  Link,
-  Paper,
-  TextField,
-  Typography,
-} from "@mui/material";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import UserService from "../../services/UserService";
-import { REGISTER_PATH } from "../../config/constants";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import NVC from "../../assets/nvc.png";
+import { ImageList } from "@mui/material";
+import styled from "@emotion/styled";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import LoginService from "../../services/LoginService";
+import { DASHBOARD_PATH } from "../../config//constants";
+import Swal from "sweetalert2";
+
+const Responsive = styled("div")(() => ({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  minHeight: "100vh",
+  // color: purple[500],
+}));
 
 const Login = () => {
   const [formData, setFormData] = useState({ username: "", password: "" });
@@ -27,31 +32,30 @@ const Login = () => {
     event.preventDefault();
 
     if (formData.username === "" || formData.password === "") {
-      setError("Error: Please fill in all fields");
+      setError("Error: กรุณากรอกข้อมูลให้ครบถ้วน");
       return;
     }
 
     try {
-      const response = await UserService.postLogin(formData);
-      const userRole = response.data.role;
+      const res = await LoginService.postLogin(formData);
+      const userRole = res.data.data.role;
+      localStorage.setItem("token", res.data.data.token);
 
       switch (userRole) {
         case "superAdmin":
-          localStorage.setItem("token", response.data.token);
-          navigate("/backend/dashboard");
+          navigate(DASHBOARD_PATH);
+          Swal.fire(
+            "ยินดีต้อนรับเข้าสู่ระบบ",
+            `${formData.username}`,
+            "success"
+          );
           break;
         case "Admin":
         case "DeparCake":
         case "DepartMoney":
-          localStorage.setItem("token", response.data.token);
           navigate("/user/dashboard");
           break;
-        case "student":
-          localStorage.setItem("token", response.data.token);
-          navigate("/student/dashboard");
-          break;
         case "teacher":
-          localStorage.setItem("token", response.data.token);
           navigate("/teacher/dashboard");
           break;
         default:
@@ -60,93 +64,82 @@ const Login = () => {
       }
     } catch (error) {
       console.error("Login failed", error);
+      // Show error message with SweetAlert
+      Swal.fire({
+        icon: "error",
+        title: "เกิดข้อผิดพลาด!",
+        text: "ไม่สามารถเข้าสู่ระบบได้ กรุณาลองอีกครั้ง",
+      });
     }
   };
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <Box
-        sx={{
-          marginTop: 8,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <Paper
-          elevation={3}
-          sx={{
-            padding: 4,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            เข้าสู่ระบบ
-          </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1, width: "100%" }}
-          >
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="username"
-              label="Username"
-              name="username"
-              autoComplete="username"
-              autoFocus
-              value={formData.username}
-              onChange={(e) =>
-                setFormData({ ...formData, username: e.target.value })
-              }
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              value={formData.password}
-              onChange={(e) =>
-                setFormData({ ...formData, password: e.target.value })
-              }
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            {error && <Typography color="error">{error}</Typography>}
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+    <div className="container">
+      <Responsive>
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <Box>
+            <ImageList
+              sx={{
+                m: 1,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
             >
-              Sign In
-            </Button>
-            <Grid container>
-              <Grid item>
-                <Link href={REGISTER_PATH}>
-                  โปรดสมัครการใช้งานเพื่อเข้าสู่ระบบ
-                </Link>
-              </Grid>
-            </Grid>
+              <img src={NVC} loading="lazy" width={150} height={150} />
+            </ImageList>
+            <Typography component="h1" variant="h5" align="center">
+              ระบบสั่งจองเค้กออนไลน์
+            </Typography>
+            <Box
+              component="form"
+              onSubmit={handleSubmit}
+              noValidate
+              sx={{ mt: 1 }}
+            >
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="codeStudent"
+                label="ชื่อผู้ใช้งาน"
+                name="codeStudent"
+                autoComplete="codeStudent"
+                autoFocus
+                value={formData.username}
+                onChange={(e) =>
+                  setFormData({ ...formData, username: e.target.value })
+                }
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="รหัสผ่าน"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                value={formData.password}
+                onChange={(e) =>
+                  setFormData({ ...formData, password: e.target.value })
+                }
+              />
+
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                เข้าสู่ระบบ
+              </Button>
+            </Box>
           </Box>
-        </Paper>
-      </Box>
-    </Container>
+        </Container>
+      </Responsive>
+    </div>
   );
 };
 

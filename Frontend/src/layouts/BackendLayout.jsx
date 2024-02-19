@@ -1,23 +1,23 @@
-import { Outlet } from "react-router-dom"
-import { Box } from "@mui/material"
-import CssBaseline from "@mui/material/CssBaseline"
-import SideNav from "../components/Layouts/Admin/SideNav"
-import AppHeader from "../components/Layouts/AppHearder"
+import { Outlet } from "react-router-dom";
+import { Box } from "@mui/material";
+import CssBaseline from "@mui/material/CssBaseline";
+import SideNav from "../components/Layouts/Admin/SideNav";
+import AppHeader from "../components/Layouts/AppHearder";
 
 const BackendLayout = () => {
   return (
     <>
-        <CssBaseline />
- 
-        <Box sx={styles.container}>
-          <SideNav />
-          <Box component={"main"} sx={styles.mainSection}>
-            <Outlet />
-          </Box>
+      <CssBaseline />
+      <AppHeader />
+      <Box sx={styles.container}>
+        <SideNav />
+        <Box component={"main"} sx={styles.mainSection}>
+          <Outlet />
         </Box>
+      </Box>
     </>
-  )
-}
+  );
+};
 
 const styles = {
   container: {
@@ -30,7 +30,6 @@ const styles = {
     height: "100%",
     overflow: "auto",
   },
-}
+};
 
-export default BackendLayout
-
+export default BackendLayout;

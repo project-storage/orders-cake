@@ -49,6 +49,7 @@ import FinanceLayout from "./layouts/FinanceLayout";
 import OrdersFi from './pages/Finance/OrdersFi';
 import GivingLayout from "./layouts/GivingLaout";
 import OrderGiv from "./pages/Giving/OrderGiv";
+import Spinner from "./components/Spinner";
 
 const defaultTheme = createTheme({
   typography: {
@@ -63,6 +64,7 @@ function App() {
           <Routes>
             <Route element={<AuthLayout />}>
               <Route path={LOGIN_PATH} element={<Login />} />
+              <Route path="/loading" element={<Spinner />} />
               <Route path={REGISTER_PATH} element={<Register />} />
             </Route>
 

@@ -1,7 +1,7 @@
 import { CssBaseline, Box } from "@mui/material";
 import MainLayout from '../components/layouts/MainLayout';
-import HeaderBar from '../components/layouts/Giving/HeaderBar';
-import SideBar from '../components/layouts/Giving/SideBar';
+import HeaderBar from '../components/layouts/DepartCake/HeaderBar';
+import SideBar from '../components/layouts/DepartCake/SideBar';
 import { Outlet } from "react-router-dom";
 const GivingLayout = () => {
   return (

@@ -1,4 +1,4 @@
-import DataOrder from "../../components/layouts/Giving/DataOrder"
+import DataOrder from "../../components/layouts/DepartCake/DataOrder"
 
 
 const OrderGiv = () => {

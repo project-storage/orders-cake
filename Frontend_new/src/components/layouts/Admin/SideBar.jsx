@@ -1,4 +1,3 @@
-
 import {
   Sidebar,
   Menu,
@@ -6,25 +5,25 @@ import {
   SubMenu,
   // SidebarFooter,
 } from "react-pro-sidebar";
-import { Box, IconButton, Typography} from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
-// import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
-// import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
-// import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
-// import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-// import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
-// import TableViewIcon from '@mui/icons-material/TableView';
-import CakeIcon from '@mui/icons-material/Cake';
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import CakeIcon from "@mui/icons-material/Cake";
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import { useState } from "react";
+import { ORDERALL_ADMINPATH } from "../../../config/constants";
 const SideBar = () => {
   const [isCollapsed, setisCollapsed] = useState(false);
   const [toggled, setToggled] = useState(false);
   const [broken, setBroken] = useState(false);
+  const [activeMenuItem, setActiveMenuItem] = useState("Dashboard");
+
+  const handleMenuClick = (menuItem) => {
+    setActiveMenuItem(menuItem);
+  };
 
   return (
     <div
@@ -40,7 +39,11 @@ const SideBar = () => {
         onBreakPoint={setBroken}
         // image="/assets/17372.jpg"
         breakPoint="md"
-        style={{ height: "100%", border: "none",backgroundColor:"rgb(255, 255, 255)"}}
+        style={{
+          height: "100%",
+          border: "none",
+          backgroundColor: "rgb(255, 255, 255)",
+        }}
       >
         <div
           style={{ display: "flex", flexDirection: "column", height: "100%" }}
@@ -69,62 +72,16 @@ const SideBar = () => {
                   </Box>
                 )}
               </MenuItem>
-              {/* {!isCollapsed && (
-                <Box mb="25px">
-                  <Box
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                  >
-                    <img
-                      alt="profile-user"
-                      width="100px"
-                      height="100px"
-                      src={'../../assets/001.jpg'}
-                      style={{ cursor: "pointer", borderRadius: "50%" }}
-                    />
-                  </Box>
-                  <Box textAlign="center">
-                    <Typography sx={{ m: "10px 0 0 0" }}>ROITAI</Typography>
-                    <Typography>DEV </Typography>
-                  </Box>
-                </Box>
-              )} */}
 
-              <Link to="/admin/orders" className="menu-bars">
-                <MenuItem icon={<HomeOutlinedIcon />}>ออเดอร์ทั้งหมด</MenuItem>
-              </Link>
-              {/* <Link to="/superadmin/products" className="menu-bars">
-                <MenuItem icon={<CakeIcon />}>จัดการเค้ก</MenuItem>
-              </Link> */}
-
-              
-              
-            </Menu>
-
-            {/* <div
-              style={{
-                padding: "0 24px",
-                marginBottom: "8px",
-                marginTop: "32px",
-              }}
-            >
-              <Typography
-                variant="body2"
-                fontWeight={600}
-                style={{
-                  opacity: isCollapsed ? 0 : 0.5,
-                  letterSpacing: "0.5px",
-                }}
+              <MenuItem
+                active={activeMenuItem === ORDERALL_ADMINPATH}
+                component={<Link to={ORDERALL_ADMINPATH} />}
+                icon={<HomeOutlinedIcon />}
+                onClick={() => handleMenuClick(ORDERALL_ADMINPATH)}
               >
-                Extra
-              </Typography>
-            </div>
-
-            <Menu>
-              {/* <MenuItem icon={<CalendarTodayOutlinedIcon />}>Calendar</MenuItem> 
-              <MenuItem icon={<ReceiptOutlinedIcon />}>ตั้งค่า</MenuItem>
-            </Menu> */}
+                <Typography variant="body2">ออเดอร์ทั้งหมด</Typography>
+              </MenuItem>
+            </Menu>
           </div>
         </div>
       </Sidebar>

@@ -1,30 +1,33 @@
-
-import {
-  Sidebar,
-  Menu,
-  MenuItem,
-  SubMenu,
-  // SidebarFooter,
-} from "react-pro-sidebar";
-import { Box, IconButton, Typography} from "@mui/material";
+import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
+import { Box, IconButton, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
-// import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
-// import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
-// import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
-// import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-// import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
-// import TableViewIcon from '@mui/icons-material/TableView';
-import CakeIcon from '@mui/icons-material/Cake';
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import CakeIcon from "@mui/icons-material/Cake";
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import { useState } from "react";
+import {
+  ADMIN_PATH,
+  DASHBOARD_PATH,
+  DEPARTMENTSTU_PATH,
+  FINANECE_PATH,
+  PRODUCT_PATH,
+  SINGLE_PATH,
+  TEACHER_PATH,
+  TEAM_PATH,
+} from "../../../config/constants";
+
 const SideBar = () => {
   const [isCollapsed, setisCollapsed] = useState(false);
   const [toggled, setToggled] = useState(false);
   const [broken, setBroken] = useState(false);
+  const [activeMenuItem, setActiveMenuItem] = useState("Dashboard");
+
+  const handleMenuClick = (menuItem) => {
+    setActiveMenuItem(menuItem);
+  };
 
   return (
     <div
@@ -40,7 +43,11 @@ const SideBar = () => {
         onBreakPoint={setBroken}
         // image="/assets/17372.jpg"
         breakPoint="md"
-        style={{ height: "100%", border: "none",backgroundColor:"rgb(255, 255, 255)"}}
+        style={{
+          height: "100%",
+          border: "none",
+          backgroundColor: "rgb(255, 255, 255)",
+        }}
       >
         <div
           style={{ display: "flex", flexDirection: "column", height: "100%" }}
@@ -69,99 +76,119 @@ const SideBar = () => {
                   </Box>
                 )}
               </MenuItem>
-              {/* {!isCollapsed && (
-                <Box mb="25px">
-                  <Box
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                  >
-                    <img
-                      alt="profile-user"
-                      width="100px"
-                      height="100px"
-                      src={'../../assets/001.jpg'}
-                      style={{ cursor: "pointer", borderRadius: "50%" }}
-                    />
-                  </Box>
-                  <Box textAlign="center">
-                    <Typography sx={{ m: "10px 0 0 0" }}>ROITAI</Typography>
-                    <Typography>DEV </Typography>
-                  </Box>
-                </Box>
-              )} */}
+              <MenuItem
+                active={activeMenuItem === DASHBOARD_PATH}
+                component={<Link to={DASHBOARD_PATH} />}
+                icon={<HomeOutlinedIcon />}
+                onClick={() => handleMenuClick(DASHBOARD_PATH)}
+              >
+                <Typography variant="body2">Dashboard</Typography>
+              </MenuItem>
 
-              <Link to="/superadmin/dashboard" className="menu-bars">
-                <MenuItem icon={<HomeOutlinedIcon />}>Dashboard</MenuItem>
-              </Link>
-              <Link to="/superadmin/products" className="menu-bars">
-                <MenuItem icon={<CakeIcon />}>จัดการเค้ก</MenuItem>
-              </Link>
-
-              {/* <SubMenu icon={<MapOutlinedIcon />} label="Data">
-                <Link to={"/admin/viewtable"} className="menu-bars">
-                  <MenuItem icon={<TableViewIcon />}>
-                    {" "}
-                    Table 
-                  </MenuItem>
-                </Link>
-                <MenuItem icon={<BarChartOutlinedIcon />}>
-                  {" "}
-                  Line charts
+              {/* <Link to="/superadmin/dashboard" className="menu-bars">
+                <MenuItem
+                  active={activeMenuItem === "Dashboard"}
+                  icon={<HomeOutlinedIcon />}
+                >
+                  Dashboard
                 </MenuItem>
-              </SubMenu> */}
+              </Link> */}
+              <MenuItem
+                active={activeMenuItem === PRODUCT_PATH}
+                component={<Link to={PRODUCT_PATH} />}
+                icon={<CakeIcon />}
+                onClick={() => handleMenuClick(PRODUCT_PATH)}
+              >
+                <Typography variant="body2">จัดการเค้ก</Typography>
+              </MenuItem>
 
+              {/* <Link to="/superadmin/products" className="menu-bars">
+                <MenuItem
+                  active={activeMenuItem === "Products"}
+                  icon={<CakeIcon />}
+                >
+                  จัดการเค้ก
+                </MenuItem>
+              </Link> */}
               <SubMenu label="บุคคล" icon={<PeopleOutlinedIcon />}>
-                <Link to={"/superadmin/departmentstu"} className="menu-bars">
-                  <MenuItem>นักเรียน นักศึกษา</MenuItem>
-                </Link>
-                <Link to={"/superadmin/teachers"} className="menu-bars">
-                  <MenuItem>ครู อาจารย์</MenuItem>
-                </Link>
-                <Link to={"/superadmin/admins"} className="menu-bars">
-                  <MenuItem>ผู้ดูแลระบบ</MenuItem>
-                </Link>
-                <Link to={"/superadmin/finances"} className="menu-bars">
-                  <MenuItem>ฝ่ายการเงิน</MenuItem>
-                </Link>
-                {/* <Link to={"/admin/admin"} className="menu-bars">
-                  <MenuItem>ผู้ดูแล ระบบ</MenuItem>
+                <MenuItem
+                  active={activeMenuItem === DEPARTMENTSTU_PATH}
+                  component={<Link to={DEPARTMENTSTU_PATH} />}
+                  onClick={() => handleMenuClick(DEPARTMENTSTU_PATH)}
+                >
+                  <Typography variant="body2"> นักเรียน นักศึกษา </Typography>
+                </MenuItem>
+                {/* <Link to={"/superadmin/departmentstu"} className="menu-bars">
+                  <MenuItem active={activeMenuItem === "Departmentstu"}>
+                    นักเรียน นักศึกษา
+                  </MenuItem>
                 </Link> */}
-                {/* <MenuItem> Admin</MenuItem> */}
+
+                <MenuItem
+                  active={activeMenuItem === TEACHER_PATH}
+                  component={<Link to={TEACHER_PATH} />}
+                  onClick={() => handleMenuClick(TEACHER_PATH)}
+                >
+                  <Typography variant="body2"> ครู อาจารย์ </Typography>
+                </MenuItem>
+                {/* <Link to={"/superadmin/teachers"} className="menu-bars">
+                  <MenuItem active={activeMenuItem === "Teachers"}>
+                    ครู อาจารย์
+                  </MenuItem>
+                </Link> */}
+
+                <MenuItem
+                  active={activeMenuItem === ADMIN_PATH}
+                  component={<Link to={ADMIN_PATH} />}
+                  onClick={() => handleMenuClick(ADMIN_PATH)}
+                >
+                  <Typography variant="body2"> ผู้ดูแลระบบ </Typography>
+                </MenuItem>
+                {/* <Link to={"/superadmin/admins"} className="menu-bars">
+                  <MenuItem active={activeMenuItem === "Admins"}>
+                    ผู้ดูแลระบบ
+                  </MenuItem>
+                </Link> */}
+
+                <MenuItem
+                  active={activeMenuItem === FINANECE_PATH}
+                  component={<Link to={FINANECE_PATH} />}
+                  onClick={() => handleMenuClick(FINANECE_PATH)}
+                >
+                  <Typography variant="body2">ฝ่ายการเงิน</Typography>
+                </MenuItem>
+                {/* <Link to={"/superadmin/finances"} className="menu-bars">
+                  <MenuItem active={activeMenuItem === "Finances"}>
+                    ฝ่ายการเงิน
+                  </MenuItem>
+                </Link> */}
               </SubMenu>
-              <SubMenu label="การเเข่งขัน" icon={<EmojiEventsIcon />}>
-                <Link to={"/superadmin/singles"} className="menu-bars">
-                  <MenuItem>เดี่ยว</MenuItem>
-                </Link>
-                <Link to={"/superadmin/teams"} className="menu-bars">
-                  <MenuItem>ทีม</MenuItem>
-                </Link>
+              <SubMenu label="การแข่งขัน" icon={<EmojiEventsIcon />}>
+                <MenuItem
+                  active={activeMenuItem === TEAM_PATH}
+                  component={<Link to={TEAM_PATH} />}
+                  onClick={() => handleMenuClick(TEAM_PATH)}
+                >
+                  <Typography variant="body2">เดี่ยว</Typography>
+                </MenuItem>
+                {/* <Link to={"/superadmin/singles"} className="menu-bars">
+                  <MenuItem active={activeMenuItem === "Singles"}>
+                    เดี่ยว
+                  </MenuItem>
+                </Link> */}
+
+                <MenuItem
+                  active={activeMenuItem === SINGLE_PATH}
+                  component={<Link to={SINGLE_PATH} />}
+                  onClick={() => handleMenuClick(SINGLE_PATH)}
+                >
+                  <Typography variant="body2">ทีม </Typography>
+                </MenuItem>
+                {/* <Link to={"/superadmin/teams"} className="menu-bars">
+                  <MenuItem active={activeMenuItem === "Teams"}>ทีม</MenuItem>
+                </Link> */}
               </SubMenu>
             </Menu>
-
-            {/* <div
-              style={{
-                padding: "0 24px",
-                marginBottom: "8px",
-                marginTop: "32px",
-              }}
-            >
-              <Typography
-                variant="body2"
-                fontWeight={600}
-                style={{
-                  opacity: isCollapsed ? 0 : 0.5,
-                  letterSpacing: "0.5px",
-                }}
-              >
-                Extra
-              </Typography>
-            </div>
-
-            <Menu>
-              {/* <MenuItem icon={<CalendarTodayOutlinedIcon />}>Calendar</MenuItem> 
-              <MenuItem icon={<ReceiptOutlinedIcon />}>ตั้งค่า</MenuItem>
-            </Menu> */}
           </div>
         </div>
       </Sidebar>
