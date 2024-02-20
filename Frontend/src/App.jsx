@@ -1,34 +1,32 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AuthLayout from "./layouts/AuthLayout";
 import Login from "./pages/Auth/Login";
-import BackendLayout from "./layouts/BackendLayout";
-import Dashboard from "./pages/Admin/Dashboard";
-import Product from "./pages/Admin/Product";
-import Report from "./pages/Admin/Report";
-import Setting from "./pages/Admin/Setting";
+import DashboardSuper from "./pages/SuperAdmin/DashboardSuper";
 import {
+  ADMIN_PATH,
   DASHBOARD_PATH,
-  DASHBOARD_USER,
+  DEPARTMENT_PATH,
+  DEPART_CAKE_PATH,
+  DEPART_FINANECE_PATH,
+  DEPART_PRODUCT_CAKE_PATH,
   LOGIN_PATH,
   PRODUCT_PATH,
-  PRODUCT_USER,
-  REGISTER_PATH,
-  REPORT_PATH,
-  REPORT_USER,
-  SETTING_PATH,
-  STUDNET_PATH,
+  SINGLE_PATH,
+  STUDENT_PATH,
   TEACHER_PATH,
-  USER_PATH,
+  TEAM_PATH,
 } from "./config/constants";
-import User from "./pages/Admin/User";
-import Studnet from "./pages/Admin/Studnet";
-import Teacher from "./pages/Admin/Teacher";
-import UserLayout from "./layouts/UserLayout";
-import DashboardUser from "./pages/User/DashboardUser";
-import ProductUser from "./pages/User/ProductUser";
-import ReportUser from "./pages/User/ReportUser";
-import Spinner from "./components/Spinner";
-import Register from "./pages/Auth/Register";
+import SuperAdminLayout from "./layouts/SuperAdminLayout";
+import CakeSuper from "./pages/SuperAdmin/CakeSuper";
+import StudentSuper from "./pages/SuperAdmin/StudentSuper";
+import DepartmentsSuper from "./pages/SuperAdmin/DepartmentsSuper";
+import TeacherSuper from "./pages/SuperAdmin/TeacherSuper";
+import DepartFinacesSuper from "./pages/SuperAdmin/DepartFinacesSuper";
+import DepartCakeSuper from "./pages/SuperAdmin/DepartCakeSuper";
+import DepartProductCakeSuper from "./pages/SuperAdmin/DepartProductCakeSuper";
+import AdminSuper from "./pages/SuperAdmin/AdminSuper";
+import TeamSuper from "./pages/SuperAdmin/TeamSuper";
+import SingleSuper from "./pages/SuperAdmin/SingleSuper";
 
 function App() {
   return (
@@ -36,24 +34,23 @@ function App() {
       <Routes>
         <Route element={<AuthLayout />}>
           <Route path={LOGIN_PATH} element={<Login />} />
-          <Route path="/loading" element={<Spinner />} />
-          <Route path={REGISTER_PATH} element={<Register />} />
-        </Route>
-        
-        <Route element={<BackendLayout />}>
-          <Route path={DASHBOARD_PATH} element={<Dashboard />} />
-          <Route path={PRODUCT_PATH} element={<Product />} />
-          <Route path={REPORT_PATH} element={<Report />} />
-          <Route path={SETTING_PATH} element={<Setting />} />
-          <Route path={USER_PATH} element={<User />} />
-          <Route path={STUDNET_PATH} element={<Studnet />} />
-          <Route path={TEACHER_PATH} element={<Teacher />} />
         </Route>
 
-        <Route element={<UserLayout />}>
-          <Route path={DASHBOARD_USER} element={<DashboardUser />} />
-          <Route path={PRODUCT_USER} element={<ProductUser />} />
-          <Route path={REPORT_USER} element={<ReportUser />} />
+        <Route element={<SuperAdminLayout />}>
+          <Route path={DASHBOARD_PATH} element={<DashboardSuper />} />
+          <Route path={PRODUCT_PATH} element={<CakeSuper />} />
+          <Route path={STUDENT_PATH} element={<StudentSuper />} />
+          <Route path={DEPARTMENT_PATH} element={<DepartmentsSuper />} />
+          <Route path={TEACHER_PATH} element={<TeacherSuper />} />
+          <Route path={DEPART_FINANECE_PATH} element={<DepartFinacesSuper />} />
+          <Route path={DEPART_CAKE_PATH} element={<DepartCakeSuper />} />
+          <Route path={ADMIN_PATH} element={<AdminSuper />} />
+          <Route
+            path={DEPART_PRODUCT_CAKE_PATH}
+            element={<DepartProductCakeSuper />}
+          />
+          <Route path={TEAM_PATH} element={<TeamSuper />} />
+          <Route path={SINGLE_PATH} element={<SingleSuper />} />
         </Route>
       </Routes>
     </BrowserRouter>

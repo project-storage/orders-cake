@@ -1,4 +1,4 @@
-import { Box, Typography,Grid } from "@mui/material";
+import { Box, Typography, Grid } from "@mui/material";
 import {
   BarChart,
   Bar,
@@ -10,7 +10,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const ChartSuperAdmin = () => {
+const Card = () => {
   const cakeData = [
     { name: "Page A", จำนวนเค้ก: 2400 },
     {
@@ -65,7 +65,7 @@ const ChartSuperAdmin = () => {
   ];
   return (
     <>
-      <Grid container justifyContent="center" >
+      <Grid container justifyContent="center">
         <Grid item sx={{ width: "100%" }}>
           {/* แสดง Component กราฟ */}
           <Box sx={{ display: "flex", justifyContent: "center" }}>
@@ -77,7 +77,6 @@ const ChartSuperAdmin = () => {
             height={400}
             style={{
               marginTop: 20,
-              
             }}
           >
             <BarChart data={cakeData}>
@@ -95,4 +94,4 @@ const ChartSuperAdmin = () => {
   );
 };
 
-export default ChartSuperAdmin;
+export default Card;

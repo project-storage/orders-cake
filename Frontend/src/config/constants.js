@@ -1,5 +1,6 @@
 // System Constants
 export const SYSTEM_NAME = 'ระบบสั่งจองเค้กออนไลน์ '
+export const FOOTTER = "DevelopedBy. สาขาเทคโนโลยีสารสนเทศ"
 
 // Authentication
 export const LOGIN_PATH = '/'
@@ -12,22 +13,39 @@ export const REPORT_TITLE = 'Report'
 export const SETTING_TITLE = 'Setting'
 
 // Backend Routes
-const BASE_PATH = '/backend/'
-export const DASHBOARD_PATH = BASE_PATH +'dashboard'
-export const PRODUCT_PATH = BASE_PATH + 'product'
-export const REPORT_PATH = BASE_PATH + 'report'
-export const SETTING_PATH = BASE_PATH + 'setting'
-export const USER_PATH = BASE_PATH + 'users'
-export const STUDNET_PATH = BASE_PATH + 'studnets'
-export const TEACHER_PATH = BASE_PATH + 'teachers'
+const BASE_SUPERADMIN_PATH = '/superAdmin/'
+export const DASHBOARD_PATH = BASE_SUPERADMIN_PATH + 'dashboard'
+export const PRODUCT_PATH = BASE_SUPERADMIN_PATH + 'products'
+export const STUDENT_PATH = BASE_SUPERADMIN_PATH + 'students'
+export const TEACHER_PATH = BASE_SUPERADMIN_PATH + 'teachers'
+export const USER_PATH = BASE_SUPERADMIN_PATH + 'users'
+export const VIEWDATA_PATH = BASE_SUPERADMIN_PATH + 'viewdata'
+export const MANAGE_PATH = BASE_SUPERADMIN_PATH + 'manage'
+export const DEPARTMENT_PATH = BASE_SUPERADMIN_PATH + 'department'
+export const ADMIN_PATH = BASE_SUPERADMIN_PATH + 'admins'
+export const DEPART_FINANECE_PATH = BASE_SUPERADMIN_PATH + 'depart-finances'
+export const DEPART_CAKE_PATH = BASE_SUPERADMIN_PATH + 'depart-dake'
+export const DEPART_PRODUCT_CAKE_PATH = BASE_SUPERADMIN_PATH + 'depart-product-cake'
+export const TEAM_PATH = BASE_SUPERADMIN_PATH + 'teams'
+export const SINGLE_PATH = BASE_SUPERADMIN_PATH + 'singles'
+
+const BASEADMIN_PATH = '/admin/'
+export const ORDERALL_ADMINPATH = BASEADMIN_PATH + 'orders'
+export const SETTING_ADMINPATH = BASEADMIN_PATH + 'settingadmin'
+
+const BASETEACHER_PATH = '/teacher/'
+export const ROOM_TEACHERPATH = BASETEACHER_PATH + 'rooms'
+export const ROOMSTU_TEACHERPATH = BASETEACHER_PATH + 'roomstu'
+export const ORDERSTU_TEACHERPATH = BASETEACHER_PATH + 'orderstu'
+
+const BASEFINANCE_PATH = '/finance/'
+export const ORDER_FINANCEPATH = BASEFINANCE_PATH + 'orders'
+
+const BASEGIVING_PATH = '/giving/'
+export const ORDER_GIVINGPATH = BASEGIVING_PATH + 'orders'
 
 // User Routes
 const BASE_USER = '/user/'
-export const DASHBOARD_USER = BASE_USER +'dashboard'
+export const DASHBOARD_USER = BASE_USER + 'dashboard'
 export const PRODUCT_USER = BASE_USER + 'product'
 export const REPORT_USER = BASE_USER + 'report'
-
-
-
-// Footter 
-export const FOOTTER =  'Devalop By Department Information Technology'

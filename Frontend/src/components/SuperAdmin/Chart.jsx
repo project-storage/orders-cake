@@ -1,8 +1,8 @@
+import React from "react";
 import { Card, Box, Typography, Grid } from "@mui/material";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 
-
-const DashboardSuperAdmin = () => {
+const Chart = () => {
   const userData = [
     { title: "จำนวนผู้ใช้งาน", value: 200, icon: <HomeOutlinedIcon /> },
     { title: "จำนวนผู้ใช้งาน", value: 200 },
@@ -64,4 +64,4 @@ const cardStyle = {
   // width:200
 };
 
-export default DashboardSuperAdmin;
+export default Chart;

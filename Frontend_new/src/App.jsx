@@ -46,64 +46,55 @@ import Rooms from "./pages/Teacher/Rooms";
 import RoomStu from "./pages/Teacher/RoomStu";
 import OrderStu from "./pages/Teacher/OrderStus";
 import FinanceLayout from "./layouts/FinanceLayout";
-import OrdersFi from './pages/Finance/OrdersFi';
+import OrdersFi from "./pages/Finance/OrdersFi";
 import GivingLayout from "./layouts/GivingLaout";
 import OrderGiv from "./pages/Giving/OrderGiv";
 import Spinner from "./components/Spinner";
 
-const defaultTheme = createTheme({
-  typography: {
-    fontFamily: ["Prompt", "sans-serif"].join(","),
-  },
-});
 function App() {
   return (
-    <>
-      <ThemeProvider theme={defaultTheme}>
-        <BrowserRouter>
-          <Routes>
-            <Route element={<AuthLayout />}>
-              <Route path={LOGIN_PATH} element={<Login />} />
-              <Route path="/loading" element={<Spinner />} />
-              <Route path={REGISTER_PATH} element={<Register />} />
-            </Route>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<AuthLayout />}>
+          <Route path={LOGIN_PATH} element={<Login />} />
+          <Route path="/loading" element={<Spinner />} />
+          <Route path={REGISTER_PATH} element={<Register />} />
+        </Route>
 
-            <Route element={<SuperAdminLayout />}>
-              <Route path={DASHBOARD_PATH} element={<Dashboard />} />
-              <Route path={MANAGE_PATH} element={<Manage />} />
-              <Route path={VIEWDATA_PATH} element={<ViewData />} />
-              <Route path={PRODUCT_PATH} element={<Products />} />
-              <Route path={`${STUDENT_PATH}/:id`} element={<Students />} />
-              <Route path={TEACHER_PATH} element={<Teachers />} />
-              <Route path={DEPARTMENTSTU_PATH} element={<DepartmentStu />} />
-              <Route path={ADMIN_PATH} element={<Admins />} />
-              <Route path={FINANECE_PATH} element={<Finances />} />
-              <Route path={TEAM_PATH} element={<Teams />} />
-              <Route path={SINGLE_PATH} element={<Singles />} />
-            </Route>
+        <Route element={<SuperAdminLayout />}>
+          <Route path={DASHBOARD_PATH} element={<Dashboard />} />
+          <Route path={MANAGE_PATH} element={<Manage />} />
+          <Route path={VIEWDATA_PATH} element={<ViewData />} />
+          <Route path={PRODUCT_PATH} element={<Products />} />
+          <Route path={`${STUDENT_PATH}/:id`} element={<Students />} />
+          <Route path={TEACHER_PATH} element={<Teachers />} />
+          <Route path={DEPARTMENTSTU_PATH} element={<DepartmentStu />} />
+          <Route path={ADMIN_PATH} element={<Admins />} />
+          <Route path={FINANECE_PATH} element={<Finances />} />
+          <Route path={TEAM_PATH} element={<Teams />} />
+          <Route path={SINGLE_PATH} element={<Singles />} />
+        </Route>
 
-            <Route element={<AdminLayout />}>
-              <Route path={ORDERALL_ADMINPATH} element={<Orders />} />
-              <Route path={SETTING_ADMINPATH} element={<SettingAdmin />} />
-            </Route>
+        <Route element={<AdminLayout />}>
+          <Route path={ORDERALL_ADMINPATH} element={<Orders />} />
+          <Route path={SETTING_ADMINPATH} element={<SettingAdmin />} />
+        </Route>
 
-            <Route element={<TeacherLayout />}>
-              <Route path={ROOMSTU_TEACHERPATH} element={<RoomStu />} />
-              <Route path={ROOM_TEACHERPATH} element={<Rooms />} />
-              <Route path={ORDERSTU_TEACHERPATH} element={<OrderStu />} />
-            </Route>
+        <Route element={<TeacherLayout />}>
+          <Route path={ROOMSTU_TEACHERPATH} element={<RoomStu />} />
+          <Route path={ROOM_TEACHERPATH} element={<Rooms />} />
+          <Route path={ORDERSTU_TEACHERPATH} element={<OrderStu />} />
+        </Route>
 
-            <Route element={<FinanceLayout />}>
-              <Route path={ORDER_FINANCEPATH} element={<OrdersFi />} />
-            </Route>
+        <Route element={<FinanceLayout />}>
+          <Route path={ORDER_FINANCEPATH} element={<OrdersFi />} />
+        </Route>
 
-            <Route element={<GivingLayout />}>
-              <Route path={ORDER_GIVINGPATH} element={<OrderGiv />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </ThemeProvider>
-    </>
+        <Route element={<GivingLayout />}>
+          <Route path={ORDER_GIVINGPATH} element={<OrderGiv />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
