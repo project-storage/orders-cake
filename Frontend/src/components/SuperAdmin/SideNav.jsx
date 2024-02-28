@@ -207,9 +207,9 @@ const SideNav = () => {
           </MenuItem>
 
           <MenuItem
-            active={activeMenuItem === TEAM_PATH}
-            component={<Link to={TEAM_PATH} />}
-            onClick={() => handleMenuClick(TEAM_PATH)}
+            active={activeMenuItem === DEPARTMENT_PATH}
+            component={<Link to={DEPARTMENT_PATH} />}
+            onClick={() => handleMenuClick(DEPARTMENT_PATH)}
             icon={<SettingsOutlinedIcon />}
           >
             <Typography variant="body2">แผนก</Typography>

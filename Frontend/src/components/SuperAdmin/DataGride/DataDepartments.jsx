@@ -1,60 +1,113 @@
-import { Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import SearchIcon from "@mui/icons-material/Search";
+import DeleteIcon from "@mui/icons-material/Delete";
+import BorderColorIcon from "@mui/icons-material/BorderColor";
 import { Link } from "react-router-dom";
-
-const rows = [
-  { id: 1, name: "คอมพิวเตอร์ธุรกิจ" },
-  { id: 2, name: "บัญชี" },
-  { id: 3, name: "เทคโนโลยีสารสนเทศ" },
-];
-
-const rowsWithIndex = rows.map((row, index) => ({ ...row, index: index + 1 }));
-
-const columns = [
-  { field: "id", headerName: "#", width: 100 },
-  { field: "name", headerName: "ชื่อแผนก", width: 400 },
-  {
-    field: "action",
-    headerName: "action",
-    width: 200,
-    renderCell: (params) => (
-      <div>
-        <Link
-          to={`{/superadmin/students/}${params.row.id}`}
-          className="menu-bars"
-        >
-          <Button variant="outlined" startIcon={<SearchIcon />}>
-            ดูรายละเอียด
-          </Button>
-        </Link>
-      </div>
-    ),
-  },
-];
+import { useEffect, useState } from "react";
+import DepartmentService from "../../../services/DepartmentService";
+import FlexBetween from "../../../components/FlexBetween";
+import { Stack } from "@mui/system";
 
 const DataDepartments = () => {
+  const [allDepartMent, setAllDepartment] = useState([]);
+  const [selectionModel, setSelectionModel] = useState([]);
+  const [pageSize, setPageSize] = useState(10);
+  const [error, setError] = useState(null);
+
+  const fetchData = async () => {
+    try {
+      const res = await DepartmentService.getAllDepartment();
+      setAllDepartment(res.data.data);
+    } catch (error) {
+      console.error("Error Fetching Data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const getRowId = (row) => row.id;
+
+  const handlePageSizeChange = (params) => {
+    setPageSize(params.pageSize);
+  };
+
+  const handleSelectionModelChange = (newSelection) => {
+    setSelectionModel(newSelection);
+  };
+
+  const handleUpdate = async () => {};
+  const handleDeleteButtonClick = async () => {};
+
+  const columns = [
+    { field: "id", headerName: "#" },
+    { field: "departCode", headerName: "ชื่อแผนก", flex: 0.1 },
+    { field: "departName", headerName: "ชื่อแผนก", flex: 0.1 },
+    {
+      field: "actions",
+      headerName: "Actions",
+      flex: 0.1,
+      renderCell: (params) => (
+        <div>
+          <Stack direction="row" spacing={2}>
+            <Button
+              variant="outlined"
+              color="warning"
+              startIcon={<BorderColorIcon />}
+              onClick={handleUpdate}
+            >
+              แก้ไข
+            </Button>
+            <Button
+              variant="outlined"
+              color="error"
+              startIcon={<DeleteIcon />}
+              onClick={handleDeleteButtonClick}
+            >
+              ลบข้อมูล
+            </Button>
+          </Stack>
+        </div>
+      ),
+    },
+  ];
   return (
-    <>
-      <div style={{ height: "100%", width: "100%" }}>
-        <DataGrid
-          rows={rowsWithIndex}
-          columns={columns}
-          slots={{ toolbar: GridToolbar }}
-          disableColumnFilter
-          disableColumnSelector
-          disableDensitySelector
-          slotProps={{
-            toolbar: {
-              showQuickFilter: true,
-              printOptions: { disableToolbarButton: true },
-              csvOptions: { disableToolbarButton: true },
-            },
-          }}
-          headerClassName="custom-header-class"
-        />
-      </div>
-    </>
+    <Box m="1.5rem 2.5rem">
+      <FlexBetween>
+        <h1>ข้อมูลแผนกทั้งหมด</h1>
+      </FlexBetween>
+
+      <Box>
+        {error ? (
+          <div>Error fetching cakes: {error.message}</div>
+        ) : (
+          <DataGrid
+            rows={allDepartMent}
+            getRowId={getRowId}
+            columns={columns}
+            checkboxSelection
+            rowsPerPageOptions={[10, 25, 50]}
+            pageSize={pageSize}
+            onPageSizeChange={handlePageSizeChange}
+            selectionModel={selectionModel}
+            onSelectionModelChange={handleSelectionModelChange}
+            components={{
+              Toolbar: GridToolbar,
+            }}
+            componentsProps={{
+              toolbar: {
+                csvOptions: { disableToolbarButton: true },
+                printOptions: { disableToolbarButton: true },
+                showQuickFilter: true,
+                quickFilterProps: { debounceMs: 250 },
+              },
+            }}
+            experimentalFeatures={{ newEditingApi: true }}
+          />
+        )}
+      </Box>
+    </Box>
   );
 };
 
