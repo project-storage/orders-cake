@@ -1,16 +1,16 @@
 import { Outlet } from "react-router-dom";
 import { Box } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
-import AppHeader from "../components/SuperAdmin/AppHearderSuper";
-import UserSideNav from "../components/Layouts/User/UserSideNav";
+import SideNavTeach from "../components/Teacher/SideNavTeach";
+import AppHearderTeach from "../components/Teacher/AppHearderTeach";
 
-const UserLayout = () => {
+const TeacherLayout = () => {
   return (
     <>
       <CssBaseline />
-      <AppHeader />
+      <AppHearderTeach />
       <Box sx={styles.container}>
-        <UserSideNav />
+        <SideNavTeach />
         <Box component={"main"} sx={styles.mainSection}>
           <Outlet />
         </Box>
@@ -32,4 +32,4 @@ const styles = {
   },
 };
 
-export default UserLayout;
+export default TeacherLayout;

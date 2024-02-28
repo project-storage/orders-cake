@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom";
 import { Box } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import SideNav from "../components/SuperAdmin/SideNav";
-import AppHeader from "../components/AppHearder";
+import AppHeader from "../components/SuperAdmin/AppHearderSuper";
 
 const SuperAdminLayout = () => {
   return (

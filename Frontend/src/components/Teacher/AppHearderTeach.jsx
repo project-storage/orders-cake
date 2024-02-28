@@ -14,10 +14,14 @@ import { Logout, Money, Settings, Person } from "@mui/icons-material";
 import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
 import { useProSidebar } from "react-pro-sidebar";
 import { useState } from "react";
-import { PROFILE_SUPERADMIN_PATH, SYSTEM_NAME } from "../config/constants";
+import {
+  PROFILE_SUPERADMIN_PATH,
+  PROFILE_TEACHER_PATH,
+  SYSTEM_NAME,
+} from "../../config/constants";
 import { useNavigate } from "react-router-dom";
 
-const AppHeader = () => {
+const AppHearderTeach = () => {
   const navigate = useNavigate();
   // useProSidebar hook to control the sidebar
   const { collapseSidebar, toggleSidebar, broken } = useProSidebar();
@@ -33,7 +37,7 @@ const AppHeader = () => {
   };
 
   const handleProfile = () => {
-    navigate(PROFILE_SUPERADMIN_PATH)
+    navigate(PROFILE_TEACHER_PATH);
   };
 
   const handleLogout = () => {
@@ -49,7 +53,7 @@ const AppHeader = () => {
           color="inherit"
         >
           <MenuIcon />
-        </IconButton> 
+        </IconButton>
         {!collapseSidebar ? (
           <Box sx={{ ml: "20px", fontSize: "20px" }}>{SYSTEM_NAME}</Box>
         ) : (
@@ -97,4 +101,4 @@ const styles = {
   },
 };
 
-export default AppHeader;
+export default AppHearderTeach;

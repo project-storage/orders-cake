@@ -4,6 +4,7 @@ import Login from "./pages/Auth/Login";
 import DashboardSuper from "./pages/SuperAdmin/DashboardSuper";
 import {
   ADMIN_PATH,
+  DASHBOARDTEACH_PATH,
   DASHBOARD_PATH,
   DEGREE_PATH,
   DEPARTMENT_PATH,
@@ -13,6 +14,7 @@ import {
   LOGIN_PATH,
   PRODUCT_PATH,
   PROFILE_SUPERADMIN_PATH,
+  PROFILE_TEACHER_PATH,
   SINGLE_PATH,
   STUDENT_PATH,
   TEACHER_PATH,
@@ -31,6 +33,9 @@ import TeamSuper from "./pages/SuperAdmin/TeamSuper";
 import SingleSuper from "./pages/SuperAdmin/SingleSuper";
 import DegreeSuper from "./pages/SuperAdmin/DegreeSuper";
 import ProfileSuper from "./pages/SuperAdmin/ProfileSuper";
+import TeacherLayout from "./layouts/TeacherLayout";
+import DashboardTeach from "./pages/Teacher/DashboardTeach";
+import ProfileTeach from "./components/Teacher/ProfileTeach";
 
 function App() {
   return (
@@ -57,6 +62,11 @@ function App() {
           />
           <Route path={TEAM_PATH} element={<TeamSuper />} />
           <Route path={SINGLE_PATH} element={<SingleSuper />} />
+        </Route>
+
+        <Route element={<TeacherLayout />}>
+          <Route path={DASHBOARDTEACH_PATH} element={<DashboardTeach />} />
+          <Route path={PROFILE_TEACHER_PATH} element={<ProfileTeach />} />
         </Route>
       </Routes>
     </BrowserRouter>
