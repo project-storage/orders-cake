@@ -29,6 +29,7 @@ export const DEPART_CAKE_PATH = BASE_SUPERADMIN_PATH + 'depart-dake'
 export const DEPART_PRODUCT_CAKE_PATH = BASE_SUPERADMIN_PATH + 'depart-product-cake'
 export const TEAM_PATH = BASE_SUPERADMIN_PATH + 'teams'
 export const SINGLE_PATH = BASE_SUPERADMIN_PATH + 'singles'
+export const PROFILE_SUPERADMIN_PATH = BASE_SUPERADMIN_PATH + 'profile-superAdmin'
 
 const BASEADMIN_PATH = '/admin/'
 export const ORDERALL_ADMINPATH = BASEADMIN_PATH + 'orders'

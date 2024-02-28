@@ -350,7 +350,7 @@ const updateUser = async (req, res) => {
       return res.status(400).json({ message: 'Error updating user' });
     }
 
-    return res.status(200).json({ status_code: 200, message: `User updated successfully ID: ${req.user.id}`, updated: updatedUser });
+    return res.status(200).json({ status_code: 200, message: `User updated successfully ID: ${req.user.id}`, data: updatedUser });
   } catch (error) {
     console.error('Error', error);
     return res
@@ -358,6 +358,74 @@ const updateUser = async (req, res) => {
       .json({ message: 'Error updating user data' });
   }
 };
+
+// // update profile
+// const updateProfile = async (req, res) => {
+//   try {
+//     // Check user role
+//     if (
+//       req.user.role !== 'Admin' &&
+//       req.user.role !== 'superAdmin' &&
+//       req.user.role !== 'DepatMoney' &&
+//       req.user.role !== 'DepatCake'
+//     ) {
+//       return res.status(401).json({ message: 'Unauthorized' });
+//     }
+//     const { title, name, surname, username, email, password, telephone } = req.body;
+//     const userId = req.user.id; // เพิ่มบรรทัดนี้เพื่อรับ id ของผู้ใช้จาก req.user
+
+//     let user = await User.findByPk(userId); // ใช้ findByPk เพื่อค้นหาผู้ใช้โดยใช้ id
+
+//     if (!user) {
+//       return res.status(404).json({ message: 'User not found' });
+//     }
+
+//     // ตรวจสอบว่ามีการเปลี่ยนแปลง username หรือไม่
+//     if (username !== user.username) {
+//       const alreadyExistsUser = await User.findOne({ where: { username } });
+
+//       if (alreadyExistsUser) {
+//         return res.status(400).json({ message: 'Username already exists' });
+//       }
+//     }
+
+//     // ตรวจสอบว่ามีการเปลี่ยนแปลง email หรือไม่
+//     if (email !== user.email) {
+//       const alreadyExistsEmail = await User.findOne({ where: { email } });
+
+//       if (alreadyExistsEmail) {
+//         return res.status(400).json({ message: 'Email already exists' });
+//       }
+//     }
+
+//     // อัปเดตข้อมูลโปรไฟล์
+//     user.title = title || user.title;
+//     user.name = name || user.name;
+//     user.surname = surname || user.surname;
+//     user.email = email || user.email;
+//     user.telephone = telephone || user.telephone;
+//     user.username = username || user.username;
+
+//     // ถ้ามีการระบุ password ให้เข้ารหัส password ใหม่
+//     if (password) {
+//       const hashedPassword = await bcrypt.hash(password, saltRounds);
+//       user.password = hashedPassword;
+//     }
+
+//     // บันทึกการเปลี่ยนแปลงลงในฐานข้อมูล
+//     const updatedUser = await user.save();
+
+//     if (!updatedUser) {
+//       return res.status(400).json({ message: 'Error updating profile' });
+//     }
+
+//     // ส่งข้อมูลโปรไฟล์ที่อัปเดตกลับไปยังผู้ใช้
+//     return res.status(200).json({ status_code: 200, message: 'Profile updated successfully', data: updatedUser });
+//   } catch (error) {
+//     console.error('Error', error);
+//     return res.status(500).json({ message: 'Error updating profile' });
+//   }
+// };
 
 // delete user
 const deleteUser = async (req, res) => {
@@ -393,5 +461,6 @@ module.exports = {
   getAllUser,
   getUserWithAllParams,
   updateUser,
+  // updateProfile,
   deleteUser,
 };

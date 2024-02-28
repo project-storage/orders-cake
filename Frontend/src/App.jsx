@@ -12,6 +12,7 @@ import {
   DEPART_PRODUCT_CAKE_PATH,
   LOGIN_PATH,
   PRODUCT_PATH,
+  PROFILE_SUPERADMIN_PATH,
   SINGLE_PATH,
   STUDENT_PATH,
   TEACHER_PATH,
@@ -29,6 +30,7 @@ import AdminSuper from "./pages/SuperAdmin/AdminSuper";
 import TeamSuper from "./pages/SuperAdmin/TeamSuper";
 import SingleSuper from "./pages/SuperAdmin/SingleSuper";
 import DegreeSuper from "./pages/SuperAdmin/DegreeSuper";
+import ProfileSuper from "./pages/SuperAdmin/ProfileSuper";
 
 function App() {
   return (
@@ -40,6 +42,7 @@ function App() {
 
         <Route element={<SuperAdminLayout />}>
           <Route path={DASHBOARD_PATH} element={<DashboardSuper />} />
+          <Route path={PROFILE_SUPERADMIN_PATH} element={<ProfileSuper />} />
           <Route path={PRODUCT_PATH} element={<CakeSuper />} />
           <Route path={STUDENT_PATH} element={<StudentSuper />} />
           <Route path={DEGREE_PATH} element={<DegreeSuper />} />

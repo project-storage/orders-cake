@@ -28,6 +28,13 @@ userRouter.put(
   userController.updateUser
 );
 
+// // Method: PUT
+// userRouter.put(
+//   '/update/profile',
+//   passport.authenticate('jwt', { session: false }),
+//   userController.updateProfile
+// );
+
 // Method: POST
 userRouter.post('/admin/create-admin', userController.createAdminUser);
 userRouter.post('/admin/create-super-admin', userController.createSuperAdminUser);

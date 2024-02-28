@@ -14,7 +14,7 @@ import { Logout, Money, Settings, Person } from "@mui/icons-material";
 import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
 import { useProSidebar } from "react-pro-sidebar";
 import { useState } from "react";
-import { SYSTEM_NAME } from "../config/constants";
+import { PROFILE_SUPERADMIN_PATH, SYSTEM_NAME } from "../config/constants";
 import { useNavigate } from "react-router-dom";
 
 const AppHeader = () => {
@@ -30,6 +30,10 @@ const AppHeader = () => {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleProfile = () => {
+    navigate(PROFILE_SUPERADMIN_PATH)
   };
 
   const handleLogout = () => {
@@ -69,7 +73,7 @@ const AppHeader = () => {
           open={Boolean(anchorEl)}
           onClose={handleMenuClose}
         >
-          <MenuItem onClick={handleMenuClose} sx={{ px: "30px" }}>
+          <MenuItem onClick={handleProfile} sx={{ px: "30px" }}>
             <Person sx={{ fontSize: "16px", mr: "20px" }} /> Profile
           </MenuItem>
           <MenuItem onClick={handleLogout} sx={{ px: "30px" }}>

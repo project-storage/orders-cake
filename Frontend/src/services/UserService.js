@@ -15,12 +15,15 @@ const getAllUser = () => {
     return http.post(`/api/users/all`)
 }
 
-
+const updateUser = (id, updateUser) => {
+    return http.post(`/api/users/update/${id}`, updateUser)
+}
 
 const UserService = {
     postLogin,
     getUserInfo,
-    getAllUser
+    getAllUser,
+    updateUser
 }
 
 export default UserService
