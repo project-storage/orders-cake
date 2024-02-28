@@ -11,6 +11,7 @@ import { useState } from "react";
 import {
   ADMIN_PATH,
   DASHBOARD_PATH,
+  DEGREE_PATH,
   DEPARTMENT_PATH,
   DEPART_CAKE_PATH,
   DEPART_FINANECE_PATH,
@@ -198,9 +199,9 @@ const SideNav = () => {
           </MenuItem>
 
           <MenuItem
-            active={activeMenuItem === SINGLE_PATH}
-            component={<Link to={SINGLE_PATH} />}
-            onClick={() => handleMenuClick(SINGLE_PATH)}
+            active={activeMenuItem === DEGREE_PATH}
+            component={<Link to={DEGREE_PATH} />}
+            onClick={() => handleMenuClick(DEGREE_PATH)}
             icon={<ClassOutlinedIcon />}
           >
             <Typography variant="body2">ระดับชั้น </Typography>

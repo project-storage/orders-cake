@@ -5,6 +5,7 @@ import DashboardSuper from "./pages/SuperAdmin/DashboardSuper";
 import {
   ADMIN_PATH,
   DASHBOARD_PATH,
+  DEGREE_PATH,
   DEPARTMENT_PATH,
   DEPART_CAKE_PATH,
   DEPART_FINANECE_PATH,
@@ -27,6 +28,7 @@ import DepartProductCakeSuper from "./pages/SuperAdmin/DepartProductCakeSuper";
 import AdminSuper from "./pages/SuperAdmin/AdminSuper";
 import TeamSuper from "./pages/SuperAdmin/TeamSuper";
 import SingleSuper from "./pages/SuperAdmin/SingleSuper";
+import DegreeSuper from "./pages/SuperAdmin/DegreeSuper";
 
 function App() {
   return (
@@ -40,6 +42,7 @@ function App() {
           <Route path={DASHBOARD_PATH} element={<DashboardSuper />} />
           <Route path={PRODUCT_PATH} element={<CakeSuper />} />
           <Route path={STUDENT_PATH} element={<StudentSuper />} />
+          <Route path={DEGREE_PATH} element={<DegreeSuper />} />
           <Route path={DEPARTMENT_PATH} element={<DepartmentsSuper />} />
           <Route path={TEACHER_PATH} element={<TeacherSuper />} />
           <Route path={DEPART_FINANECE_PATH} element={<DepartFinacesSuper />} />
