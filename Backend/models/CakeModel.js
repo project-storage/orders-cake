@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         pound: {
             type: DataTypes.DECIMAL(10, 2),
-            allowNull: false
+            allowNull: true
         },
         price: {
             type: DataTypes.DECIMAL(10, 2),

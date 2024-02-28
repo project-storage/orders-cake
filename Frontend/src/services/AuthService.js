@@ -4,8 +4,8 @@ const postLogin = (loginData) => {
     return http.post(`/api/users/login`, loginData)
 }
 
-const LosginService = {
+const AuthService = {
     postLogin,
 }
 
-export default LosginService
+export default AuthService

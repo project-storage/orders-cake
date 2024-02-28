@@ -142,27 +142,29 @@ const findUser = async (whereClause) => {
 
 const loginUser = async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { login, password } = req.body;
 
-    if (!username || !password) {
+    if (!login || !password) {
       return res.status(400).json({ message: 'Please provide both username and password' });
     }
 
+    let user;
+
     let whereClause;
 
-    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(username)) {
-      whereClause = { email: username };
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(login)) {
+      whereClause = { email: login };
     } else {
-      whereClause = { username: username };
+      whereClause = { username: login };
     }
 
     let userWithIdentifier = await findUser(whereClause)
       || await Teacher.findOne({ where: whereClause })
       || await Team.findOne({ where: whereClause })
-      || await Student.findOne({ where: whereClause });
 
-    if (!userWithIdentifier) {
-      return res.status(401).json({ message: 'Invalid username or email' });
+    // Check if user exists
+    if (!userWithIdentifier) { // เปลี่ยน user เป็น userWithIdentifier
+      return res.status(401).json({ message: 'Invalid username/email' });
     }
 
     const passwordMatch = await bcrypt.compare(password, userWithIdentifier.password);
@@ -185,7 +187,7 @@ const loginUser = async (req, res) => {
       status_code: 200,
       message: 'Welcome',
       data: {
-        username: username,
+        username: userWithIdentifier.username,
         email: userWithIdentifier.email,
         role: userWithIdentifier.role,
         token: jwtToken,

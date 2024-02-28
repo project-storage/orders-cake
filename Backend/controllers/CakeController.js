@@ -11,9 +11,9 @@ const createCake = async (req, res) => {
 
         const { cakeName, pound, price } = req.body;
 
-        if (!cakeName || !pound || !price) {
-            return res.status(400).json({ message: 'Please fill in all fields' });
-        }
+        // if (!cakeName || !pound || !price) {
+        //     return res.status(400).json({ message: 'Please fill in all fields' });
+        // }
 
         const newCake = new Cake({ cakeName, pound, price });
         const saveCake = await newCake.save();
@@ -49,7 +49,7 @@ const getInfoCake = async (req, res) => {
 };
 
 // Get all cakes
-const getAllCake = async (req, res) => {
+const getAllCakes = async (req, res) => {
     try {
         // Check user roles
         if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
@@ -161,7 +161,7 @@ const deleteCake = async (req, res) => {
 module.exports = {
     createCake,
     getInfoCake,
-    getAllCake,
+    getAllCakes,
     getCakeWithAllParams,
     updateCake,
     deleteCake

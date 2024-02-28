@@ -131,10 +131,7 @@ const SideNav = () => {
           <Typography variant="body2">ข้อมูลเค้ก</Typography>
         </MenuItem>
         {/* student */}
-        <SubMenu
-          label="ผู้ใช้งาน"
-          icon={<SupervisedUserCircleOutlinedIcon />}
-        >
+        <SubMenu label="ผู้ใช้งาน" icon={<SupervisedUserCircleOutlinedIcon />}>
           <MenuItem
             active={activeMenuItem === DEPARTMENT_PATH}
             component={<Link to={DEPARTMENT_PATH} />}

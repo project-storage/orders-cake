@@ -1,4 +1,4 @@
-const cakeController = require('../controllers/cakeController');
+const cakeController = require('../controllers/CakeController');
 const cakeRouter = require('express').Router();
 const passport = require('passport');
 
@@ -10,33 +10,33 @@ cakeRouter.post(
 );
 
 cakeRouter.post(
-    '/cakes/update/:id',
+    '/update/:id',
     passport.authenticate('jwt', { session: false }),
     cakeController.updateCake
 );
 
 // Method: GET
 cakeRouter.get(
-    '/cakes/info/:id',
+    '/info/:id',
     passport.authenticate('jwt', { session: false }),
     cakeController.getInfoCake
 );
 
 cakeRouter.get(
-    '/cakes/all',
+    '/all',
     passport.authenticate('jwt', { session: false }),
-    cakeController.getAllCake
+    cakeController.getAllCakes
 );
 
 cakeRouter.get(
-    '/cakes/search',
+    '/search',
     passport.authenticate('jwt', { session: false }),
     cakeController.getCakeWithAllParams
 );
 
 // Method: DELETE 
 cakeRouter.delete(
-    '/cakes/delete/:id',
+    '/delete/:id',
     passport.authenticate('jwt', { session: false }),
     cakeController.deleteCake
 );

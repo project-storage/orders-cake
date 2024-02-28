@@ -11,11 +11,16 @@ const postLogin = (loginData) => {
     return http.post(`/api/user/login`, loginData)
 }
 
+const getAllUser = () => {
+    return http.post(`/api/users/all`)
+}
+
 
 
 const UserService = {
     postLogin,
-    getUserInfo
+    getUserInfo,
+    getAllUser
 }
 
 export default UserService

@@ -4,6 +4,8 @@ import { Box, Button, Stack } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Swal from "sweetalert2";
 import FlexBetween from "../../FlexBetween";
+import { useEffect, useState } from "react";
+import UserService from "../../../services/UserService";
 const rows = [
   {
     id: 1,
@@ -175,6 +177,15 @@ function insertCake() {
 }
 
 const DataAdmins = () => {
+  const [users,setUsers]=useState([])
+  const fetchData = async()=>{
+    const response = await UserService.getAllUser()
+    setUsers(response.data.data)
+  }
+
+  useEffect(()=>{
+    fetchData()
+  },[])
   return (
     <Box m="1.5rem 2.5rem">
       <FlexBetween>

@@ -11,7 +11,7 @@ import { ImageList } from "@mui/material";
 import styled from "@emotion/styled";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import LoginService from "../../services/LoginService";
+import LoginService from "../../services/AuthService";
 import { DASHBOARD_PATH } from "../../config//constants";
 import Swal from "sweetalert2";
 
@@ -24,14 +24,14 @@ const Responsive = styled("div")(() => ({
 }));
 
 const Login = () => {
-  const [formData, setFormData] = useState({ username: "", password: "" });
+  const [formData, setFormData] = useState({ login: "", password: "" });
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (formData.username === "" || formData.password === "") {
+    if (formData.login === "" || formData.password === "") {
       setError("Error: กรุณากรอกข้อมูลให้ครบถ้วน");
       return;
     }
@@ -46,7 +46,7 @@ const Login = () => {
           navigate(DASHBOARD_PATH);
           Swal.fire(
             "ยินดีต้อนรับเข้าสู่ระบบ",
-            `${formData.username}`,
+            `${formData.login}`,
             "success"
           );
           break;
@@ -107,9 +107,9 @@ const Login = () => {
                 name="codeStudent"
                 autoComplete="codeStudent"
                 autoFocus
-                value={formData.username}
+                value={formData.login}
                 onChange={(e) =>
-                  setFormData({ ...formData, username: e.target.value })
+                  setFormData({ ...formData, login: e.target.value })
                 }
               />
               <TextField
