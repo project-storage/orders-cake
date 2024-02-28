@@ -7,7 +7,7 @@ import {
   useProSidebar,
 } from "react-pro-sidebar";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ADMIN_PATH,
   DASHBOARD_PATH,
@@ -33,7 +33,10 @@ import Groups2OutlinedIcon from "@mui/icons-material/Groups2Outlined";
 import CakeOutlinedIcon from "@mui/icons-material/CakeOutlined";
 import EmojiEventsOutlinedIcon from "@mui/icons-material/EmojiEventsOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import UserService from "../../services/UserService";
+
 const SideNav = () => {
+  const [name, setName] = useState([]);
   // useProSidebar hook to control the sidebar
   const { collapsed, toggleSidebar } = useProSidebar();
 
@@ -46,6 +49,18 @@ const SideNav = () => {
     toggleSidebar();
   };
 
+  const fetchData = async () => {
+    const res = await UserService.getUserInfo();
+    setName(res.data.data);
+    try {
+    } catch (error) {
+      console.error("Error Fetching data", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
   return (
     <Sidebar
       style={{ height: "100%", top: "auto" }}
@@ -53,7 +68,13 @@ const SideNav = () => {
       backgroundColor={"white"}
     >
       <Box sx={styles.yourChannel}>
-        {!collapsed ? <Typography variant="h6">Samit Koyom</Typography> : null}
+        {!collapsed ? (
+          <Box>
+            <Typography variant="h6">
+              {name.name} {name.surname}
+            </Typography>
+          </Box>
+        ) : null}
       </Box>
 
       <Menu

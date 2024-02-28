@@ -4,7 +4,7 @@ const getUserInfo = () => {
     const token = localStorage.getItem("token");
     http.defaults.headers.common["Authorization"] = token;
 
-    return http.get("/api/user/user-info");
+    return http.get("/api/users/info");
 };
 
 const postLogin = (loginData) => {
