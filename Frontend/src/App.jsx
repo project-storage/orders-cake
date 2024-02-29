@@ -11,6 +11,7 @@ import {
   DEPART_CAKE_PATH,
   DEPART_FINANECE_PATH,
   DEPART_PRODUCT_CAKE_PATH,
+  GROUP_TEACHER_PATH,
   LOGIN_PATH,
   PRODUCT_PATH,
   PROFILE_SUPERADMIN_PATH,
@@ -36,6 +37,7 @@ import ProfileSuper from "./pages/SuperAdmin/ProfileSuper";
 import TeacherLayout from "./layouts/TeacherLayout";
 import DashboardTeach from "./pages/Teacher/DashboardTeach";
 import ProfileTeach from "./components/Teacher/ProfileTeach";
+import GroupTeach from "./pages/Teacher/GroupTeach";
 
 function App() {
   return (
@@ -66,6 +68,7 @@ function App() {
 
         <Route element={<TeacherLayout />}>
           <Route path={DASHBOARDTEACH_PATH} element={<DashboardTeach />} />
+          <Route path={GROUP_TEACHER_PATH} element={<GroupTeach />} />
           <Route path={PROFILE_TEACHER_PATH} element={<ProfileTeach />} />
         </Route>
       </Routes>

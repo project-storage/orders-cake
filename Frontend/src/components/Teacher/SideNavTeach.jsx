@@ -17,8 +17,10 @@ import {
   DEPART_CAKE_PATH,
   DEPART_FINANECE_PATH,
   DEPART_PRODUCT_CAKE_PATH,
+  GROUP_TEACHER_PATH,
   PRODUCT_PATH,
   SINGLE_PATH,
+  STUDENT_TEACHER_PATH,
   TEACHER_PATH,
   TEAM_PATH,
 } from "../../config/constants";
@@ -97,21 +99,21 @@ const SideNavTeach = () => {
         </MenuItem>
         <SubMenu label="ผู้ใช้งาน" icon={<SupervisedUserCircleOutlinedIcon />}>
           <MenuItem
-            active={activeMenuItem === DEPARTMENT_PATH}
-            component={<Link to={DEPARTMENT_PATH} />}
-            onClick={() => handleMenuClick(DEPARTMENT_PATH)}
+            active={activeMenuItem === STUDENT_TEACHER_PATH}
+            component={<Link to={STUDENT_TEACHER_PATH} />}
+            onClick={() => handleMenuClick(STUDENT_TEACHER_PATH)}
             icon={<PeopleOutlinedIcon />}
           >
             <Typography variant="body2"> นักเรียน/นักศึกษา </Typography>
           </MenuItem>
 
           <MenuItem
-            active={activeMenuItem === DEGREE_PATH}
-            component={<Link to={DEGREE_PATH} />}
-            onClick={() => handleMenuClick(DEGREE_PATH)}
+            active={activeMenuItem === GROUP_TEACHER_PATH}
+            component={<Link to={GROUP_TEACHER_PATH} />}
+            onClick={() => handleMenuClick(GROUP_TEACHER_PATH)}
             icon={<ClassOutlinedIcon />}
           >
-            <Typography variant="body2">ระดับชั้น </Typography>
+            <Typography variant="body2">ห้องเรียน </Typography>
           </MenuItem>
         </SubMenu>
       </Menu>

@@ -9,7 +9,6 @@ const createGroup = async (req, res) => {
     try {
         // Check user roles
         if (
-            req.user.role !== 'Admin' &&
             req.user.role !== 'superAdmin' &&
             req.user.role !== 'tearcher'
         ) {

@@ -12,7 +12,7 @@ import styled from "@emotion/styled";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LoginService from "../../services/AuthService";
-import { DASHBOARD_PATH } from "../../config//constants";
+import { DASHBOARDTEACH_PATH, DASHBOARD_PATH } from "../../config//constants";
 import Swal from "sweetalert2";
 
 const Responsive = styled("div")(() => ({
@@ -44,11 +44,7 @@ const Login = () => {
       switch (userRole) {
         case "superAdmin":
           navigate(DASHBOARD_PATH);
-          Swal.fire(
-            "ยินดีต้อนรับเข้าสู่ระบบ",
-            `${formData.login}`,
-            "success"
-          );
+          Swal.fire("ยินดีต้อนรับเข้าสู่ระบบ", `${formData.login}`, "success");
           break;
         case "Admin":
         case "DeparCake":
@@ -56,7 +52,8 @@ const Login = () => {
           navigate("/user/dashboard");
           break;
         case "teacher":
-          navigate("/teacher/dashboard");
+          navigate(DASHBOARDTEACH_PATH);
+          Swal.fire("ยินดีต้อนรับเข้าสู่ระบบ", `${formData.login}`, "success");
           break;
         default:
           // Handle other roles or unknown roles
