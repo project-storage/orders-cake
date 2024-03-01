@@ -9,11 +9,11 @@ const getAllCakes = () => {
 }
 
 const deleteCake = (id) => {
-    return http.delete(`/api/cakes/delete/${id}`)
+    return http.delete(`/api/cakes/delete/${id.toString()}`)
 }
 
-const updateCake = (id) => {
-    return http.post(`/api/cakes/update/${id}`, cakeData)
+const updateCake = (id,updateCake) => {
+    return http.post(`/api/cakes/update/${id}`, updateCake)
 }
 
 const CakeService = {

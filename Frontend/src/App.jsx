@@ -38,6 +38,7 @@ import TeacherLayout from "./layouts/TeacherLayout";
 import DashboardTeach from "./pages/Teacher/DashboardTeach";
 import ProfileTeach from "./components/Teacher/ProfileTeach";
 import GroupTeach from "./pages/Teacher/GroupTeach";
+import Spinner from "./components/Spinner";
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
       <Routes>
         <Route element={<AuthLayout />}>
           <Route path={LOGIN_PATH} element={<Login />} />
+          <Route path="/loading" element={<Spinner />} />
         </Route>
 
         <Route element={<SuperAdminLayout />}>

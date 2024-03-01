@@ -41,7 +41,31 @@ const DataCake = () => {
   };
 
   const handleUpdate = async () => {};
-  const handleDeleteButtonClick = async () => {};
+
+  const handleDeleteButtonClick = async (id) => {
+    try {
+      const response = await Swal.fire({
+        title: "คุณแน่ใจ吗?",
+        text: "คุณต้องการลบข้อมูลเค้กนี้หรือไม่",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "ลบ",
+        cancelButtonText: "ยกเลิก",
+      });
+
+      if (response.isConfirmed) {
+        await CakeService.deleteCake(id);
+        const updatedCakes = cakes.filter((cake) => cake.id !== id);
+        setCakes(updatedCakes);
+        Swal.fire("สำเร็จ!", "ข้อมูลเค้กถูกลบเรียบร้อย", "success");
+      }
+    } catch (error) {
+      console.error("Error deleting cake:", error);
+      Swal.fire("เกิดข้อผิดพลาด!", "ไม่สามารถลบข้อมูลเค้กได้", "error");
+    }
+  };
 
   const columns = [
     {
@@ -74,7 +98,7 @@ const DataCake = () => {
               variant="outlined"
               color="error"
               startIcon={<DeleteIcon />}
-              onClick={handleDeleteButtonClick}
+              onClick={() => handleDeleteButtonClick(params.row.id)}
             >
               ลบข้อมูล
             </Button>

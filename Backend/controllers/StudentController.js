@@ -10,25 +10,25 @@ require('dotenv').config({ path: './config.env' });
 
 // Register student
 const createStudent = async (req, res) => {
-    const {
-        stuNumber,
-        stuIdCard,
-        title,
-        name,
-        surname,
-        telephone,
-        groupID
-    } = req.body;
-
     try {
-        // Check user roles
-        if (req.user.role !== 'superAdmin' && req.user.role !== 'teacher') {
+        // Check if req.user exists and has the correct role
+        if (!req.user || (req.user.role !== 'superAdmin' && req.user.role !== 'teacher')) {
             return res.status(401).json({ message: 'Unauthorized' });
         }
 
+        const {
+            stuNumber,
+            stuIdCard,
+            title,
+            name,
+            surname,
+            telephone,
+            groupID
+        } = req.body;
+
         const alreadyExistsNumber = await Student.findOne({ where: { stuNumber } });
         const alreadyExistsIdCard = await Student.findOne({ where: { stuIdCard } });
-        const alreadyExistsTelephone = await Student.findOne({ where: { telephone } })
+        const alreadyExistsTelephone = await Student.findOne({ where: { telephone } });
 
         if (alreadyExistsNumber) {
             return res.json({ message: 'Student number already exists' });
@@ -37,17 +37,16 @@ const createStudent = async (req, res) => {
             return res.json({ message: 'ID card number already exists' });
         }
         if (alreadyExistsTelephone) {
-            return res.json({ message: "Telephone number already exists" })
+            return res.json({ message: "Telephone number already exists" });
         }
 
         const newStudents = new Student({
-            title,
             stuNumber,
-            stuIdCard,
+            stuIdCard,     
+            title,
             name,
             surname,
             telephone,
-            role: 'Student',
             groupID
         });
 

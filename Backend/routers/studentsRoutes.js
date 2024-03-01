@@ -3,7 +3,10 @@ const StudentRouter = require('express').Router();
 const passport = require('passport');
 
 // Method: POST
-StudentRouter.post('/register', StudentController.createStudent);
+StudentRouter.post(
+    '/create',
+    passport.authenticate('jwt', { session: false }),
+    StudentController.createStudent);
 
 // Method: GET
 StudentRouter.get(

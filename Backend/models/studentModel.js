@@ -24,10 +24,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(10),
       allowNull: false
     },
-    role: {
-      type: DataTypes.ENUM('student'),
-      allowNull: true
-    },
     groupID: {
       type: DataTypes.INTEGER,
       allowNull: false
