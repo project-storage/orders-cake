@@ -8,12 +8,15 @@ import FlexBetween from "../../FlexBetween";
 import { useEffect, useState } from "react";
 import CakeService from "../../../services/CakeService";
 import swal from "sweetalert";
+import { useNavigate } from "react-router-dom";
+import { UPDATE_CAKEA_PATH } from "../../../config/constants";
 
 const DataCake = () => {
   const [cakes, setCakes] = useState([]);
   const [selectionModel, setSelectionModel] = useState([]);
   const [pageSize, setPageSize] = useState(10);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const fetchData = async () => {
     try {
@@ -40,7 +43,9 @@ const DataCake = () => {
     setSelectionModel(newSelection);
   };
 
-  const handleUpdate = async () => {};
+  const handleUpdate = async (id) => {
+    navigate(`${UPDATE_CAKEA_PATH}/${id}`);
+  };
 
   const handleDeleteButtonClick = async (id) => {
     try {
@@ -90,7 +95,7 @@ const DataCake = () => {
               variant="outlined"
               color="warning"
               startIcon={<BorderColorIcon />}
-              onClick={handleUpdate}
+              onClick={() => handleUpdate(params.id)}
             >
               แก้ไข
             </Button>

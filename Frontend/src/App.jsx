@@ -20,6 +20,7 @@ import {
   STUDENT_PATH,
   TEACHER_PATH,
   TEAM_PATH,
+  UPDATE_CAKEA_PATH,
 } from "./config/constants";
 import SuperAdminLayout from "./layouts/SuperAdminLayout";
 import CakeSuper from "./pages/SuperAdmin/CakeSuper";
@@ -39,6 +40,7 @@ import DashboardTeach from "./pages/Teacher/DashboardTeach";
 import ProfileTeach from "./components/Teacher/ProfileTeach";
 import GroupTeach from "./pages/Teacher/GroupTeach";
 import Spinner from "./components/Spinner";
+import UpdateCakeSuper from "./pages/SuperAdmin/Update/UpdateCakeSuper";
 
 function App() {
   return (
@@ -53,6 +55,7 @@ function App() {
           <Route path={DASHBOARD_PATH} element={<DashboardSuper />} />
           <Route path={PROFILE_SUPERADMIN_PATH} element={<ProfileSuper />} />
           <Route path={PRODUCT_PATH} element={<CakeSuper />} />
+          <Route path={`${UPDATE_CAKEA_PATH}/:id`} element={<UpdateCakeSuper />} />
           <Route path={STUDENT_PATH} element={<StudentSuper />} />
           <Route path={DEGREE_PATH} element={<DegreeSuper />} />
           <Route path={DEPARTMENT_PATH} element={<DepartmentsSuper />} />
