@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
   ADMIN_PATH,
+  ALL_DATA_USER_PATH,
   DASHBOARD_PATH,
   DEGREE_PATH,
   DEPARTMENT_PATH,
@@ -152,62 +153,15 @@ const SideNav = () => {
         >
           <Typography variant="body2">ข้อมูลเค้ก</Typography>
         </MenuItem>
-        {/* student */}
-        <SubMenu label="ผู้ใช้งาน" icon={<SupervisedUserCircleOutlinedIcon />}>
-          <MenuItem
-            active={activeMenuItem === DEPARTMENT_PATH}
-            component={<Link to={DEPARTMENT_PATH} />}
-            onClick={() => handleMenuClick(DEPARTMENT_PATH)}
-            icon={<PeopleOutlinedIcon />}
-          >
-            <Typography variant="body2"> นักเรียน/นักศึกษา </Typography>
-          </MenuItem>
-
-          <MenuItem
-            active={activeMenuItem === TEACHER_PATH}
-            component={<Link to={TEACHER_PATH} />}
-            onClick={() => handleMenuClick(TEACHER_PATH)}
-            icon={<PeopleOutlinedIcon />}
-          >
-            <Typography variant="body2"> ครู/อาจารย์ </Typography>
-          </MenuItem>
-
-          <MenuItem
-            active={activeMenuItem === DEPART_FINANCE_PATH}
-            component={<Link to={DEPART_FINANCE_PATH} />}
-            onClick={() => handleMenuClick(DEPART_FINANCE_PATH)}
-            icon={<PeopleOutlinedIcon />}
-          >
-            <Typography variant="body2">ฝ่ายการเงิน</Typography>
-          </MenuItem>
-
-          <MenuItem
-            active={activeMenuItem === DEPART_CAKE_PATH}
-            component={<Link to={DEPART_CAKE_PATH} />}
-            onClick={() => handleMenuClick(DEPART_CAKE_PATH)}
-            icon={<PeopleOutlinedIcon />}
-          >
-            <Typography variant="body2">ฝ่ายจ่ายเค้ก</Typography>
-          </MenuItem>
-
-          <MenuItem
-            active={activeMenuItem === DEPART_PRODUCT_CAKE_PATH}
-            component={<Link to={DEPART_PRODUCT_CAKE_PATH} />}
-            onClick={() => handleMenuClick(DEPART_PRODUCT_CAKE_PATH)}
-            icon={<PeopleOutlinedIcon />}
-          >
-            <Typography variant="body2">ฝ่ายผลิตเค้ก</Typography>
-          </MenuItem>
-
-          <MenuItem
-            active={activeMenuItem === ADMIN_PATH}
-            component={<Link to={ADMIN_PATH} />}
-            onClick={() => handleMenuClick(ADMIN_PATH)}
-            icon={<PeopleOutlinedIcon />}
-          >
-            <Typography variant="body2"> ผู้ดูแลระบบ </Typography>
-          </MenuItem>
-        </SubMenu>
+        {/* user */}
+        <MenuItem
+          active={activeMenuItem === ALL_DATA_USER_PATH}
+          component={<Link to={ALL_DATA_USER_PATH} />}
+          onClick={() => handleMenuClick(ALL_DATA_USER_PATH)}
+          icon={<SupervisedUserCircleOutlinedIcon />}
+        >
+          <Typography variant="body2"> ข้อมูลผู้ใช้งาน </Typography>
+        </MenuItem>
 
         <SubMenu label="กลุ่มเรียน" icon={<StorageOutlinedIcon />}>
           <MenuItem

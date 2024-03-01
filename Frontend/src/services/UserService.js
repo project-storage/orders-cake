@@ -7,23 +7,42 @@ const getUserInfo = () => {
     return http.get("/api/users/info");
 };
 
+const getUserById = (id) => {
+    return http.get(`/api/users/search?id=${id}`)
+}
+
+const getAllUser = () => {
+    return http.get(`/api/users/all`)
+}
+
+const getSearchAdmin = () => {
+    return http.get(`/api/users/search?role=admin`);
+}
+
 const postLogin = (loginData) => {
     return http.post(`/api/user/login`, loginData)
 }
 
-const getAllUser = () => {
-    return http.post(`/api/users/all`)
+const createUser = (userData) => {
+    return http.post("/api/users/register", userData);
+}
+const updateUser = (id, updateUser) => {
+    return http.put(`/api/users/update/${id}`, updateUser)
 }
 
-const updateUser = (id, updateUser) => {
-    return http.post(`/api/users/update/${id}`, updateUser)
+const deleteUser = (id) => {
+    return http.delete(`/api/users/delete/${id.toString()}`)
 }
 
 const UserService = {
+    createUser,
     postLogin,
     getUserInfo,
+    getUserById,
+    getSearchAdmin,
     getAllUser,
-    updateUser
+    updateUser,
+    deleteUser
 }
 
 export default UserService

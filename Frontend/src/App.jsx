@@ -4,6 +4,8 @@ import Login from "./pages/Auth/Login";
 import DashboardSuper from "./pages/SuperAdmin/DashboardSuper";
 import {
   ADMIN_PATH,
+  ALL_DATA_USER_PATH,
+  CREATE_USER_PATH,
   DASHBOARDTEACH_PATH,
   DASHBOARD_PATH,
   DEGREE_PATH,
@@ -11,6 +13,7 @@ import {
   DEPART_CAKE_PATH,
   DEPART_FINANCE_PATH,
   DEPART_PRODUCT_CAKE_PATH,
+  DETAIL_USER_DATA_PATH,
   GROUP_TEACHER_PATH,
   LOGIN_PATH,
   PRODUCT_PATH,
@@ -20,6 +23,7 @@ import {
   STUDENT_PATH,
   TEACHER_PATH,
   TEAM_PATH,
+  UPDATE_ADMIN_PATH,
   UPDATE_CAKEA_PATH,
   UPDATE_DEGREE_PATH,
   UPDATE_DEPARTMENT_PATH,
@@ -45,6 +49,10 @@ import Spinner from "./components/Spinner";
 import UpdateCakeSuper from "./pages/SuperAdmin/Update/UpdateCakeSuper";
 import UpdateDepartmentSuper from "./pages/SuperAdmin/Update/UpdateDepartmentSuper";
 import UpdateDegreeSuper from "./pages/SuperAdmin/Update/UpdateDegreeSuper";
+import AllUserSuper from "./pages/SuperAdmin/AllUserSuper";
+import UserDetailSuper from "./pages/SuperAdmin/DataDetails/UserDetailSuper";
+import UpdateUserSuper from "./pages/SuperAdmin/Update/UpdateUserSuper";
+import CreateUserSuper from "./pages/SuperAdmin/FormCreate/CreateUserSuper";
 
 function App() {
   return (
@@ -58,6 +66,10 @@ function App() {
         <Route element={<SuperAdminLayout />}>
           <Route path={DASHBOARD_PATH} element={<DashboardSuper />} />
           <Route path={PROFILE_SUPERADMIN_PATH} element={<ProfileSuper />} />
+          <Route path={CREATE_USER_PATH} element={<CreateUserSuper />} />
+          <Route path={ALL_DATA_USER_PATH} element={<AllUserSuper />} />
+          <Route path={`${DETAIL_USER_DATA_PATH}/:id`} element={<UserDetailSuper />} />
+          <Route path={`${UPDATE_ADMIN_PATH}/:id`} element={<UpdateUserSuper />} />
           <Route path={PRODUCT_PATH} element={<CakeSuper />} />
           <Route path={`${UPDATE_CAKEA_PATH}/:id`} element={<UpdateCakeSuper />} />
           <Route path={STUDENT_PATH} element={<StudentSuper />} />

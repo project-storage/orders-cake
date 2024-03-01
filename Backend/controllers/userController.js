@@ -53,9 +53,9 @@ const createSuperAdminUser = async (req, res) => {
 // create Admin
 const createAdminUser = async (req, res) => {
   try {
-    const { title, name, surname, username, password } = req.body;
+    const { title, name, surname, email, telephone, username, password } = req.body;
 
-    if (!name || !surname || !username || !password) {
+    if (!name || !surname || !email || !username || !password) {
       return res.status(400).status({ message: "Please fill in all fields" });
     }
 
@@ -67,6 +67,8 @@ const createAdminUser = async (req, res) => {
       title,
       name,
       surname,
+      telephone,
+      email,
       username,
       password: hashedPassword,
       role: 'Admin',

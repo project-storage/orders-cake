@@ -22,7 +22,6 @@ const DataCake = () => {
     try {
       const response = await CakeService.getAllCakes();
       setCakes(response.data.data);
-      console.log(response.data.data);
     } catch (error) {
       console.error("Error fetching cakes:", error);
       setError(error);
@@ -89,7 +88,7 @@ const DataCake = () => {
       headerName: "Actions",
       flex: 0.1,
       renderCell: (params) => (
-        <div>
+        <Box>
           <Stack direction="row" spacing={2}>
             <Button
               variant="outlined"
@@ -108,7 +107,7 @@ const DataCake = () => {
               ลบข้อมูล
             </Button>
           </Stack>
-        </div>
+        </Box>
       ),
     },
   ];
