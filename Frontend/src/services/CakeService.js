@@ -18,7 +18,7 @@ const deleteCake = (id) => {
 }
 
 const updateCake = (id, updateCake) => {
-    return http.post(`/api/cakes/update/${id}`, updateCake)
+    return http.put(`/api/cakes/update/${id}`, updateCake)
 }
 
 const CakeService = {

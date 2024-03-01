@@ -10,6 +10,12 @@ degreeRouter.get(
 )
 
 degreeRouter.get(
+    '/info/:id',
+    passport.authenticate('jwt', { session: false }),
+    degreeController.getInfoDegree
+)
+
+degreeRouter.get(
     '/search',
     passport.authenticate('jwt', { session: false }),
     degreeController.searchDegree

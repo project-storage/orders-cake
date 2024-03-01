@@ -9,7 +9,7 @@ cakeRouter.post(
     cakeController.createCake
 );
 
-cakeRouter.post(
+cakeRouter.put(
     '/update/:id',
     passport.authenticate('jwt', { session: false }),
     cakeController.updateCake

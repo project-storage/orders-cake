@@ -1,36 +1,32 @@
 // System Constants
-export const SYSTEM_NAME = 'ระบบสั่งจองเค้กออนไลน์ '
+export const SYSTEM_NAME = 'ระบบสั่งจองเค้ก'
 export const FOOTTER = "DevelopedBy. สาขาเทคโนโลยีสารสนเทศ"
 
 // Authentication
 export const LOGIN_PATH = '/'
 export const REGISTER_PATH = '/register'
 
-// Backend Page Title
-export const DASHBOARD_TITLE = 'Dashboard'
-export const PRODUCT_TITLE = 'Product'
-export const REPORT_TITLE = 'Report'
-export const SETTING_TITLE = 'Setting'
-
 // Backend Routes
 const BASE_SUPERADMIN_PATH = '/superAdmin/'
 export const DASHBOARD_PATH = BASE_SUPERADMIN_PATH + 'dashboard'
-export const PRODUCT_PATH = BASE_SUPERADMIN_PATH + 'cakes'
-export const UPDATE_CAKEA_PATH = BASE_SUPERADMIN_PATH + 'update/cakes'
+export const PROFILE_SUPERADMIN_PATH = BASE_SUPERADMIN_PATH + 'profile-superAdmin'
+// path user
+export const ADMIN_PATH = BASE_SUPERADMIN_PATH + 'admins'
+export const DEPART_CAKE_PATH = BASE_SUPERADMIN_PATH + 'depart-cake'
+export const DEPART_FINANCE_PATH = BASE_SUPERADMIN_PATH + 'depart-finance'
+export const DEPART_PRODUCT_CAKE_PATH = BASE_SUPERADMIN_PATH + 'depart-product-cake'
 export const STUDENT_PATH = BASE_SUPERADMIN_PATH + 'students'
 export const TEACHER_PATH = BASE_SUPERADMIN_PATH + 'teachers'
-export const USER_PATH = BASE_SUPERADMIN_PATH + 'users'
-export const VIEWDATA_PATH = BASE_SUPERADMIN_PATH + 'viewdata'
-export const MANAGE_PATH = BASE_SUPERADMIN_PATH + 'manage'
-export const DEPARTMENT_PATH = BASE_SUPERADMIN_PATH + 'department'
-export const DEGREE_PATH = BASE_SUPERADMIN_PATH + 'degree'
-export const ADMIN_PATH = BASE_SUPERADMIN_PATH + 'admins'
-export const DEPART_FINANECE_PATH = BASE_SUPERADMIN_PATH + 'depart-finances'
-export const DEPART_CAKE_PATH = BASE_SUPERADMIN_PATH + 'depart-dake'
-export const DEPART_PRODUCT_CAKE_PATH = BASE_SUPERADMIN_PATH + 'depart-product-cake'
 export const TEAM_PATH = BASE_SUPERADMIN_PATH + 'teams'
-export const SINGLE_PATH = BASE_SUPERADMIN_PATH + 'singles'
-export const PROFILE_SUPERADMIN_PATH = BASE_SUPERADMIN_PATH + 'profile-superAdmin'
+export const SINGLE_PATH = BASE_SUPERADMIN_PATH + 'singel'
+export const USER_PATH = BASE_SUPERADMIN_PATH + 'users'
+// path data all 
+export const PRODUCT_PATH = BASE_SUPERADMIN_PATH + 'cakes'
+export const UPDATE_CAKEA_PATH = BASE_SUPERADMIN_PATH + 'update/cakes'
+export const DEPARTMENT_PATH = BASE_SUPERADMIN_PATH + 'department'
+export const UPDATE_DEPARTMENT_PATH = BASE_SUPERADMIN_PATH + 'department/update'
+export const DEGREE_PATH = BASE_SUPERADMIN_PATH + 'degree'
+export const UPDATE_DEGREE_PATH = BASE_SUPERADMIN_PATH + 'degree/update'
 
 const BASEADMIN_PATH = '/admin/'
 export const ORDERALL_ADMINPATH = BASEADMIN_PATH + 'orders'

@@ -9,7 +9,7 @@ import {
   DEGREE_PATH,
   DEPARTMENT_PATH,
   DEPART_CAKE_PATH,
-  DEPART_FINANECE_PATH,
+  DEPART_FINANCE_PATH,
   DEPART_PRODUCT_CAKE_PATH,
   GROUP_TEACHER_PATH,
   LOGIN_PATH,
@@ -21,6 +21,8 @@ import {
   TEACHER_PATH,
   TEAM_PATH,
   UPDATE_CAKEA_PATH,
+  UPDATE_DEGREE_PATH,
+  UPDATE_DEPARTMENT_PATH,
 } from "./config/constants";
 import SuperAdminLayout from "./layouts/SuperAdminLayout";
 import CakeSuper from "./pages/SuperAdmin/CakeSuper";
@@ -41,6 +43,8 @@ import ProfileTeach from "./components/Teacher/ProfileTeach";
 import GroupTeach from "./pages/Teacher/GroupTeach";
 import Spinner from "./components/Spinner";
 import UpdateCakeSuper from "./pages/SuperAdmin/Update/UpdateCakeSuper";
+import UpdateDepartmentSuper from "./pages/SuperAdmin/Update/UpdateDepartmentSuper";
+import UpdateDegreeSuper from "./pages/SuperAdmin/Update/UpdateDegreeSuper";
 
 function App() {
   return (
@@ -58,9 +62,11 @@ function App() {
           <Route path={`${UPDATE_CAKEA_PATH}/:id`} element={<UpdateCakeSuper />} />
           <Route path={STUDENT_PATH} element={<StudentSuper />} />
           <Route path={DEGREE_PATH} element={<DegreeSuper />} />
+          <Route path={`${UPDATE_DEGREE_PATH}/:id`} element={<UpdateDegreeSuper />} />
           <Route path={DEPARTMENT_PATH} element={<DepartmentsSuper />} />
+          <Route path={`${UPDATE_DEPARTMENT_PATH}/:id`} element={<UpdateDepartmentSuper />} />
           <Route path={TEACHER_PATH} element={<TeacherSuper />} />
-          <Route path={DEPART_FINANECE_PATH} element={<DepartFinacesSuper />} />
+          <Route path={DEPART_FINANCE_PATH} element={<DepartFinacesSuper />} />
           <Route path={DEPART_CAKE_PATH} element={<DepartCakeSuper />} />
           <Route path={ADMIN_PATH} element={<AdminSuper />} />
           <Route

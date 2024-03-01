@@ -9,20 +9,9 @@ import {
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
-  ADMIN_PATH,
   DASHBOARDTEACH_PATH,
-  DASHBOARD_PATH,
-  DEGREE_PATH,
-  DEPARTMENT_PATH,
-  DEPART_CAKE_PATH,
-  DEPART_FINANECE_PATH,
-  DEPART_PRODUCT_CAKE_PATH,
   GROUP_TEACHER_PATH,
-  PRODUCT_PATH,
-  SINGLE_PATH,
   STUDENT_TEACHER_PATH,
-  TEACHER_PATH,
-  TEAM_PATH,
 } from "../../config/constants";
 import Footter from "../Footter";
 

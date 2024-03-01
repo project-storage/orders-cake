@@ -1,15 +1,22 @@
-import { Box } from '@mui/material'
-import UpdateCake from '../../../components/SuperAdmin/FormUpdate/UpdateCake'
-import React from 'react'
-import DataCake from '../../../components/SuperAdmin/DataGride/DataCake'
+import { Box, Grid } from "@mui/material";
+import UpdateCake from "../../../components/SuperAdmin/FormUpdate/UpdateCake";
+import React from "react";
+import DataCake from "../../../components/SuperAdmin/DataGride/DataCake";
 
 const UpdateCakeSuper = () => {
   return (
     <Box>
-        <DataCake/>
-        <UpdateCake/>
-    </Box>
-  )
-}
+      <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 1, md: 1 }}>
+        <Grid item xs={12}>
+          <DataCake />
+        </Grid>
 
-export default UpdateCakeSuper
+        <Grid item xs={12}>
+          <UpdateCake />
+        </Grid>
+      </Grid>
+    </Box>
+  );
+};
+
+export default UpdateCakeSuper;

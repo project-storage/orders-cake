@@ -151,7 +151,7 @@ const updateDepartment = async (req, res) => {
     return res.status(200).json({
       status_code: 200,
       message: 'Department updated successfully!',
-      updatedDepartment: updatedDepartment
+      data: updatedDepartment
     });
   } catch (error) {
     console.error("Error", error);

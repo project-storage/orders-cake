@@ -1,12 +1,12 @@
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import CakeService from "../../../services/CakeService";
 import { useNavigate, useParams } from "react-router-dom";
-import { PRODUCT_PATH } from "../../../config/constants";
+import { DEPARTMENT_PATH } from "../../../config/constants";
+import DepartmentService from "../../../services/DepartmentService";
 
-const UpdateCake = () => {
-  const [cakeName, setCakeName] = useState("");
-  const [price, setPrice] = useState("");
+const UpdateDepartment = () => {
+  const [departName, setDepartName] = useState("");
+  const [departCode, setDepartCode] = useState("");
   const [error, setError] = useState("");
   const { id } = useParams();
   const navigate = useNavigate();
@@ -14,10 +14,10 @@ const UpdateCake = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await CakeService.getCakeById(id);
+        const response = await DepartmentService.getDepartmentById(id);
         if (response.status === 200) {
-          setCakeName(response.data.data[0].cakeName);
-          setPrice(response.data.data[0].price);
+          setDepartCode(response.data.data[0].departCode);
+          setDepartName(response.data.data[0].departName);
         }
       } catch (error) {
         console.error("Error", error);
@@ -30,9 +30,9 @@ const UpdateCake = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await CakeService.updateCake(id, {
-        cakeName: cakeName,
-        price: price,
+      const response = await DepartmentService.updateDepartment(id, {
+        departCode: departCode,
+        departName: departName,
       });
       if (response.status === 200) {
         window.location.reload();
@@ -44,14 +44,15 @@ const UpdateCake = () => {
   };
 
   const handleCancelClick = () => {
-    navigate(PRODUCT_PATH);
+    navigate(DEPARTMENT_PATH);
   };
+  
   return (
     <Box m="1.5rem 2.5rem">
       <Box>
         <form onSubmit={handleSubmit}>
           <Typography variant="h4" fontWeight="bold" mb="1rem">
-            อัพเดทข้อมูลเค้ก
+            อัพเดทข้อมูลแผนก
           </Typography>
           <Grid
             container
@@ -59,22 +60,22 @@ const UpdateCake = () => {
             columnSpacing={{ xs: 1, sm: 2, md: 3 }}
           >
             <Grid item xs={6}>
-              <Typography>ชื่อเค้ก</Typography>
+              <Typography>รหัสแผนก</Typography>
               <TextField
                 fullWidth
                 margin="normal"
-                value={cakeName}
-                onChange={(e) => setCakeName(e.target.value)}
+                value={departCode}
+                onChange={(e) => setDepartCode(e.target.value)}
               />
             </Grid>
 
             <Grid item xs={6}>
-              <Typography>ราคา</Typography>
+              <Typography>แผนก</Typography>
               <TextField
                 fullWidth
                 margin="normal"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
+                value={departName}
+                onChange={(e) => setDepartName(e.target.value)}
               />
             </Grid>
 
@@ -102,4 +103,4 @@ const UpdateCake = () => {
   );
 };
 
-export default UpdateCake;
+export default UpdateDepartment;

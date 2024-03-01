@@ -8,17 +8,24 @@ const getAllDepartment = () => {
     return http.get(`/api/departments/all`)
 }
 
-const deleteDepartment = (id) => {
-    return http.delete(`/api/departments/delete/${id}`)
+const getDepartmentById = (id) => {
+    return http.get(`/api/departments/info/${id}`).then((response) => {
+        return response;
+    });
 }
 
-const updateDepartment = (id, updateData) => {
-    return http.post(`/api/departments/update/${id.toString()}`, updateData)
+const deleteDepartment = (id) => {
+    return http.delete(`/api/departments/delete/${id.toString()}`)
+}
+
+const updateDepartment = (id, updateDepartment) => {
+    return http.put(`/api/departments/update/${id}`, updateDepartment)
 }
 
 const DepartmentService = {
     createDepartment,
     getAllDepartment,
+    getDepartmentById,
     deleteDepartment,
     updateDepartment
 

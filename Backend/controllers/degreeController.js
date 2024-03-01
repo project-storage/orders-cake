@@ -30,6 +30,28 @@ const createDegree = async (req, res) => {
     }
 };
 
+const getInfoDegree = async (req, res) => {
+    try {
+        // Check user roles
+        if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
+            return res.status(401).json({ message: 'Unauthorized' });
+        }
+
+        const degree = await Degree.findAll({where:{id:req.params.id}});
+        return res.status(200).json({
+            status_code: 200,
+            message: "Get Info data success",
+            data: degree
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            status_code: 500,
+            message: `An error occurred getting all data: ${error}`
+        });
+    }
+};
+
 const getAllDegree = async (req, res) => {
     try {
         // Check user roles
@@ -165,6 +187,7 @@ const deleteDegree = async (req, res) => {
 
 module.exports = {
     createDegree,
+    getInfoDegree,
     getAllDegree,
     searchDegree,
     updateDegree,

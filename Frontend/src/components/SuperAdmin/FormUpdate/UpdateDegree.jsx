@@ -1,12 +1,11 @@
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import CakeService from "../../../services/CakeService";
 import { useNavigate, useParams } from "react-router-dom";
-import { PRODUCT_PATH } from "../../../config/constants";
+import { DEGREE_PATH } from "../../../config/constants";
+import DegreeService from "../../../services/DegreeService";
 
-const UpdateCake = () => {
-  const [cakeName, setCakeName] = useState("");
-  const [price, setPrice] = useState("");
+const UpdateDegree = () => {
+  const [degreeName, setDegreeName] = useState("");
   const [error, setError] = useState("");
   const { id } = useParams();
   const navigate = useNavigate();
@@ -14,10 +13,9 @@ const UpdateCake = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await CakeService.getCakeById(id);
+        const response = await DegreeService.getDegreeById(id);
         if (response.status === 200) {
-          setCakeName(response.data.data[0].cakeName);
-          setPrice(response.data.data[0].price);
+          setDegreeName(response.data.data[0].degreeName);
         }
       } catch (error) {
         console.error("Error", error);
@@ -30,9 +28,8 @@ const UpdateCake = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await CakeService.updateCake(id, {
-        cakeName: cakeName,
-        price: price,
+      const response = await DegreeService.updateDegree(id, {
+        degreeName: degreeName,
       });
       if (response.status === 200) {
         window.location.reload();
@@ -44,37 +41,27 @@ const UpdateCake = () => {
   };
 
   const handleCancelClick = () => {
-    navigate(PRODUCT_PATH);
+    navigate(DEGREE_PATH);
   };
   return (
     <Box m="1.5rem 2.5rem">
       <Box>
         <form onSubmit={handleSubmit}>
           <Typography variant="h4" fontWeight="bold" mb="1rem">
-            อัพเดทข้อมูลเค้ก
+            อัพเดทข้อมูลระดับชั้น
           </Typography>
           <Grid
             container
             rowSpacing={1}
             columnSpacing={{ xs: 1, sm: 2, md: 3 }}
           >
-            <Grid item xs={6}>
-              <Typography>ชื่อเค้ก</Typography>
+            <Grid item xs={12}>
+              <Typography>ระดับชั้น</Typography>
               <TextField
                 fullWidth
                 margin="normal"
-                value={cakeName}
-                onChange={(e) => setCakeName(e.target.value)}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <Typography>ราคา</Typography>
-              <TextField
-                fullWidth
-                margin="normal"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
+                value={degreeName}
+                onChange={(e) => setDegreeName(e.target.value)}
               />
             </Grid>
 
@@ -102,4 +89,4 @@ const UpdateCake = () => {
   );
 };
 
-export default UpdateCake;
+export default UpdateDegree;

@@ -14,7 +14,7 @@ import {
   DEGREE_PATH,
   DEPARTMENT_PATH,
   DEPART_CAKE_PATH,
-  DEPART_FINANECE_PATH,
+  DEPART_FINANCE_PATH,
   DEPART_PRODUCT_CAKE_PATH,
   PRODUCT_PATH,
   SINGLE_PATH,
@@ -173,9 +173,9 @@ const SideNav = () => {
           </MenuItem>
 
           <MenuItem
-            active={activeMenuItem === DEPART_FINANECE_PATH}
-            component={<Link to={DEPART_FINANECE_PATH} />}
-            onClick={() => handleMenuClick(DEPART_FINANECE_PATH)}
+            active={activeMenuItem === DEPART_FINANCE_PATH}
+            component={<Link to={DEPART_FINANCE_PATH} />}
+            onClick={() => handleMenuClick(DEPART_FINANCE_PATH)}
             icon={<PeopleOutlinedIcon />}
           >
             <Typography variant="body2">ฝ่ายการเงิน</Typography>
