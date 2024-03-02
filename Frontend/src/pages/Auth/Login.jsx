@@ -12,7 +12,7 @@ import styled from "@emotion/styled";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LoginService from "../../services/AuthService";
-import { DASHBOARDTEACH_PATH, DASHBOARD_PATH } from "../../config//constants";
+import { DASHBOARDTEACH_PATH, DASHBOARD_PATH, REGISTER_PATH } from "../../config//constants";
 import Swal from "sweetalert2";
 
 const Responsive = styled("div")(() => ({
@@ -51,7 +51,7 @@ const Login = () => {
         case "DepartMoney":
           navigate("/user/dashboard");
           break;
-        case "teacher":
+        case "ครูที่ปรึกษา":
           navigate(DASHBOARDTEACH_PATH);
           Swal.fire("ยินดีต้อนรับเข้าสู่ระบบ", `${formData.login}`, "success");
           break;
@@ -132,6 +132,13 @@ const Login = () => {
               >
                 เข้าสู่ระบบ
               </Button>
+              <Grid container>
+                <Grid item>
+                  <Link href={REGISTER_PATH}>
+                    โปรดสมัครการใช้งานเพื่อเข้าสู่ระบบ
+                  </Link>
+                </Grid>
+              </Grid>
             </Box>
           </Box>
         </Container>

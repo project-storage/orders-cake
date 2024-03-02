@@ -53,16 +53,16 @@ const DataAllUser = () => {
 
   const options = [
     { value: "", label: "------- เลือกผู้ใช้งาน -------" },
-    { value: "admin", label: "ผู้ดูแลระบบ" },
+    // { value: "admin", label: "ผู้ดูแลระบบ" },
     { value: "teacher", label: "ครู", linkTo: TEACHER_PATH },
-    { value: "student", label: "นักศึกษา", linkTo: STUDENT_PATH },
-    { value: "finance", label: "ฝ่ายการเงิน", linkTo: DEPART_FINANCE_PATH },
-    { value: "cake", label: "ฝ่ายจ่ายเค้ก", linkTo: DEPART_CAKE_PATH },
-    {
-      value: "product_cake",
-      label: "ฝ่ายจ่ายผลิต",
-      linkTo: DEPART_PRODUCT_CAKE_PATH,
-    },
+    // { value: "student", label: "นักศึกษา", linkTo: STUDENT_PATH },
+    // { value: "finance", label: "ฝ่ายการเงิน", linkTo: DEPART_FINANCE_PATH },
+    // { value: "cake", label: "ฝ่ายจ่ายเค้ก", linkTo: DEPART_CAKE_PATH },
+    // {
+    //   value: "product_cake",
+    //   label: "ฝ่ายจ่ายผลิต",
+    //   linkTo: DEPART_PRODUCT_CAKE_PATH,
+    // },
   ];
 
   useEffect(() => {

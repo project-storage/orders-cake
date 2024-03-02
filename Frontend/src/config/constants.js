@@ -37,7 +37,7 @@ export const ORDERALL_ADMINPATH = BASEADMIN_PATH + 'orders'
 export const SETTING_ADMINPATH = BASEADMIN_PATH + 'settingadmin'
 
 const BASE_TEACHER_PATH = '/teacher/'
-export const PROFILE_TEACHER_PATH = BASE_TEACHER_PATH + 'profile-superAdmin'
+export const PROFILE_TEACHER_PATH = BASE_TEACHER_PATH + 'profile'
 export const STUDENT_TEACHER_PATH = BASE_TEACHER_PATH + 'teacher-student'
 export const GROUP_TEACHER_PATH = BASE_TEACHER_PATH + 'teacher-group'
 export const DASHBOARDTEACH_PATH = BASE_TEACHER_PATH + 'dashboard'

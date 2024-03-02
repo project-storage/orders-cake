@@ -3,6 +3,7 @@ const Teacher = db.teacher
 const Department = db.department
 const Degree = db.degree
 const Group = db.group
+const User = db.user
 
 // Create group
 const createGroup = async (req, res) => {
@@ -49,8 +50,8 @@ const getInfoGroup = async (req, res) => {
             where: { teachID: req.user.id },
             include: [
                 {
-                    model: Teacher,
-                    as: 'teachers',
+                    model: User,
+                    as: 'users',
                 },
                 {
                     model: Department,
@@ -94,8 +95,8 @@ const getAllGroup = async (req, res) => {
         const groups = await Group.findAll({
             include: [
                 {
-                    model: Teacher,
-                    as: 'teachers',
+                    model: User,
+                    as: 'users',
                 },
                 {
                     model: Department,

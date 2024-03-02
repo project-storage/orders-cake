@@ -26,6 +26,7 @@ import CakeOutlinedIcon from "@mui/icons-material/CakeOutlined";
 import EmojiEventsOutlinedIcon from "@mui/icons-material/EmojiEventsOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import TeacherService from "../../services/TeacherService";
+import UserService from "../../services/UserService";
 
 const SideNavTeach = () => {
   const [name, setName] = useState([]);
@@ -42,7 +43,7 @@ const SideNavTeach = () => {
   };
 
   const fetchData = async () => {
-    const res = await TeacherService.getTeacherInfo();
+    const res = await UserService.getUserInfo();
     setName(res.data.data);
     try {
     } catch (error) {

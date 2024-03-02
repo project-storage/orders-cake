@@ -9,7 +9,7 @@ const ProfileTeach = () => {
   const [isEditing, setIsEditing] = useState(false);
 
   const fetchData = async () => {
-    const res = await TeacherService.getTeacherInfo();
+    const res = await UserService.getUserInfo();
     setProFile(res.data.data);
     console.log(setProFile);
     try {

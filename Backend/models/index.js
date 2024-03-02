@@ -30,7 +30,7 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 db.student = require('./studentModel')(sequelize, DataTypes);
-db.teacher = require('./teacherModel')(sequelize, DataTypes);
+// db.teacher = require('./teacherModel')(sequelize, DataTypes);
 db.team = require('./teamModel')(sequelize, DataTypes);
 db.user = require('./userModel')(sequelize, DataTypes);
 db.memberTeam = require('./memberTeamModel')(sequelize, DataTypes)
@@ -62,13 +62,13 @@ db.group.belongsTo(db.degree, {
   foreignKey: 'degreeID',
   as: 'degrees'
 });
-db.teacher.hasMany(db.group, {
+db.user.hasMany(db.group, {
   foreignKey: 'teachID',
   as: 'groups'
 });
-db.group.belongsTo(db.teacher, {
+db.group.belongsTo(db.user, {
   foreignKey: 'teachID',
-  as: 'teachers'
+  as: 'users'
 });
 
 // // ----------- table student -----------//
@@ -139,13 +139,13 @@ db.order.belongsTo(db.team, {
   as: 'team'
 })
 
-db.teacher.hasMany(db.order, {
+db.user.hasMany(db.order, {
   foreignKey: 'teachID',
   as: 'orders'
 })
-db.order.belongsTo(db.teacher, {
+db.order.belongsTo(db.user, {
   foreignKey: 'teachID',
-  as: 'teachers'
+  as: 'users'
 })
 
 db.status.hasMany(db.order, {

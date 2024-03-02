@@ -97,7 +97,7 @@ const SideNav = () => {
         </MenuItem>
         {/* order */}
         <SubMenu label="ออร์เดอร์" icon={<StorageOutlinedIcon />}>
-          <MenuItem
+          {/* <MenuItem
             active={activeMenuItem === TEAM_PATH}
             component={<Link to={TEAM_PATH} />}
             onClick={() => handleMenuClick(TEAM_PATH)}
@@ -122,10 +122,10 @@ const SideNav = () => {
             icon={<SettingsOutlinedIcon />}
           >
             <Typography variant="body2">แผนก</Typography>
-          </MenuItem>
+          </MenuItem> */}
         </SubMenu>
 
-        <SubMenu label="การแข่งขัน" icon={<EmojiEventsOutlinedIcon />}>
+        {/* <SubMenu label="การแข่งขัน" icon={<EmojiEventsOutlinedIcon />}>
           <MenuItem
             active={activeMenuItem === TEAM_PATH}
             component={<Link to={TEAM_PATH} />}
@@ -143,7 +143,7 @@ const SideNav = () => {
           >
             <Typography variant="body2">ประเภทเดี่ยว</Typography>
           </MenuItem>
-        </SubMenu>
+        </SubMenu> */}
         {/* cake */}
         <MenuItem
           active={activeMenuItem === PRODUCT_PATH}

@@ -19,6 +19,7 @@ import {
   PRODUCT_PATH,
   PROFILE_SUPERADMIN_PATH,
   PROFILE_TEACHER_PATH,
+  REGISTER_PATH,
   SINGLE_PATH,
   STUDENT_PATH,
   TEACHER_PATH,
@@ -53,6 +54,7 @@ import AllUserSuper from "./pages/SuperAdmin/AllUserSuper";
 import UserDetailSuper from "./pages/SuperAdmin/DataDetails/UserDetailSuper";
 import UpdateUserSuper from "./pages/SuperAdmin/Update/UpdateUserSuper";
 import CreateUserSuper from "./pages/SuperAdmin/FormCreate/CreateUserSuper";
+import Register from "./pages/Auth/Register";
 
 function App() {
   return (
@@ -60,6 +62,7 @@ function App() {
       <Routes>
         <Route element={<AuthLayout />}>
           <Route path={LOGIN_PATH} element={<Login />} />
+          <Route path={REGISTER_PATH} element={<Register />} />
           <Route path="/loading" element={<Spinner />} />
         </Route>
 
