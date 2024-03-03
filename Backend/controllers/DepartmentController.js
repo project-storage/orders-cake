@@ -55,7 +55,7 @@ const createDepartment = async (req, res) => {
 const getInfoDepartment = async (req, res) => {
   try {
     // Check user roles
-    if (req.user.role !== 'superAdmin') {
+    if (req.user.role !== 'superAdmin' && req.user.role !== 'ครูที่ปรึกษา') {
       return res.status(401).json({ message: 'Unauthorized' });
     }
 
@@ -74,7 +74,7 @@ const getInfoDepartment = async (req, res) => {
 const getAllDepartment = async (req, res) => {
   try {
     // Check user roles
-    if (req.user.role !== 'superAdmin') {
+    if (req.user.role !== 'superAdmin' && req.user.role !== 'ครูที่ปรึกษา') {
       return res.status(401).json({ message: 'Unauthorized' });
     }
 

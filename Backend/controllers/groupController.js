@@ -1,5 +1,5 @@
 const db = require('../models')
-const Teacher = db.teacher
+const ครูที่ปรึกษา = db.ครูที่ปรึกษา
 const Department = db.department
 const Degree = db.degree
 const Group = db.group
@@ -11,7 +11,7 @@ const createGroup = async (req, res) => {
         // Check user roles
         if (
             req.user.role !== 'superAdmin' &&
-            req.user.role !== 'tearcher'
+            req.user.role !== 'ครูที่ปรึกษา'
         ) {
             return res.status(401).json({ message: 'Unauthorized' });
         }
@@ -41,7 +41,7 @@ const getInfoGroup = async (req, res) => {
         if (
             req.user.role !== 'Admin' &&
             req.user.role !== 'superAdmin' &&
-            req.user.role !== 'teacher'
+            req.user.role !== 'ครูที่ปรึกษา'
         ) {
             return res.status(401).json({ message: 'Unauthorized' });
         }
@@ -124,7 +124,7 @@ const getGroupWithAllParams = async (req, res) => {
         if (
             req.user.role !== 'Admin' &&
             req.user.role !== 'superAdmin' &&
-            req.user.role !== 'teacher'
+            req.user.role !== 'ครูที่ปรึกษา'
         ) {
             return res.status(401).json({ message: 'Unauthorized' });
         }
@@ -169,7 +169,7 @@ const updateGroup = async (req, res) => {
         if (
             req.user.role !== 'Admin' &&
             req.user.role !== 'superAdmin' &&
-            req.user.role !== 'teacher'
+            req.user.role !== 'ครูที่ปรึกษา'
         ) {
             return res.status(401).json({ message: 'Unauthorized' });
         }
@@ -211,7 +211,7 @@ const deleteGroup = async (req, res) => {
         if (
             req.user.role !== 'Admin' &&
             req.user.role !== 'superAdmin' &&
-            req.user.role !== 'teacher'
+            req.user.role !== 'ครูที่ปรึกษา'
         ) {
             return res.status(401).json({ message: 'Unauthorized' });
         }

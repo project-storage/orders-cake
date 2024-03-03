@@ -7,7 +7,8 @@ const DashboardTeach = () => {
   return (
     <Box>
       <h1>Dashboard</h1>
-    
+    <Chart/>
+    <Card/>
     </Box>
   );
 };

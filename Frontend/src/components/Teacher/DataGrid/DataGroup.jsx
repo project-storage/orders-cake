@@ -33,6 +33,7 @@ const DataGroup = () => {
 
   useEffect(() => {
     fetchData();
+    console.log(fetchData())
   }, []);
 
   const getRowId = (row) => row.id;

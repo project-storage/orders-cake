@@ -4,10 +4,9 @@ const Degree = db.degree;
 const createDegree = async (req, res) => {
     try {
         // Check user roles
-        if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
+        if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin' && req.user.role !== 'ครูที่ปรึกษา') {
             return res.status(401).json({ message: 'Unauthorized' });
         }
-
         const { degreeName } = req.body;
 
         const newDegree = new Degree({ degreeName: degreeName });
@@ -33,11 +32,11 @@ const createDegree = async (req, res) => {
 const getInfoDegree = async (req, res) => {
     try {
         // Check user roles
-        if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
+        if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin' && req.user.role !== 'ครูที่ปรึกษา') {
             return res.status(401).json({ message: 'Unauthorized' });
         }
 
-        const degree = await Degree.findAll({where:{id:req.params.id}});
+        const degree = await Degree.findAll({ where: { id: req.params.id } });
         return res.status(200).json({
             status_code: 200,
             message: "Get Info data success",
@@ -55,7 +54,7 @@ const getInfoDegree = async (req, res) => {
 const getAllDegree = async (req, res) => {
     try {
         // Check user roles
-        if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
+        if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin' && req.user.role !== 'ครูที่ปรึกษา') {
             return res.status(401).json({ message: 'Unauthorized' });
         }
 
@@ -77,7 +76,7 @@ const getAllDegree = async (req, res) => {
 const searchDegree = async (req, res) => {
     try {
         // Check user roles
-        if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
+        if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin' && req.user.role !== 'ครูที่ปรึกษา') {
             return res.status(401).json({ message: 'Unauthorized' });
         }
 
@@ -110,10 +109,9 @@ const searchDegree = async (req, res) => {
 const updateDegree = async (req, res) => {
     try {
         // Check user roles
-        if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
+        if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin' && req.user.role !== 'ครูที่ปรึกษา') {
             return res.status(401).json({ message: 'Unauthorized' });
         }
-
         const { degreeName } = req.body;
 
         const degree = await Degree.findOne({ where: { id: req.params.id } });
@@ -146,10 +144,9 @@ const updateDegree = async (req, res) => {
 const deleteDegree = async (req, res) => {
     try {
         // Check user roles
-        if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin') {
+        if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin' && req.user.role !== 'ครูที่ปรึกษา') {
             return res.status(401).json({ message: 'Unauthorized' });
         }
-
         const degree = await Degree.findOne({
             where: { id: req.params.id }
         });

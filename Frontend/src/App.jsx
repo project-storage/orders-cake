@@ -22,6 +22,7 @@ import {
   REGISTER_PATH,
   SINGLE_PATH,
   STUDENT_PATH,
+  STUDENT_TEACHER_PATH,
   TEACHER_PATH,
   TEAM_PATH,
   UPDATE_ADMIN_PATH,
@@ -55,6 +56,7 @@ import UserDetailSuper from "./pages/SuperAdmin/DataDetails/UserDetailSuper";
 import UpdateUserSuper from "./pages/SuperAdmin/Update/UpdateUserSuper";
 import CreateUserSuper from "./pages/SuperAdmin/FormCreate/CreateUserSuper";
 import Register from "./pages/Auth/Register";
+import StudentTeach from "./pages/Teacher/StudentTeach";
 
 function App() {
   return (
@@ -71,15 +73,30 @@ function App() {
           <Route path={PROFILE_SUPERADMIN_PATH} element={<ProfileSuper />} />
           <Route path={CREATE_USER_PATH} element={<CreateUserSuper />} />
           <Route path={ALL_DATA_USER_PATH} element={<AllUserSuper />} />
-          <Route path={`${DETAIL_USER_DATA_PATH}/:id`} element={<UserDetailSuper />} />
-          <Route path={`${UPDATE_ADMIN_PATH}/:id`} element={<UpdateUserSuper />} />
+          <Route
+            path={`${DETAIL_USER_DATA_PATH}/:id`}
+            element={<UserDetailSuper />}
+          />
+          <Route
+            path={`${UPDATE_ADMIN_PATH}/:id`}
+            element={<UpdateUserSuper />}
+          />
           <Route path={PRODUCT_PATH} element={<CakeSuper />} />
-          <Route path={`${UPDATE_CAKEA_PATH}/:id`} element={<UpdateCakeSuper />} />
+          <Route
+            path={`${UPDATE_CAKEA_PATH}/:id`}
+            element={<UpdateCakeSuper />}
+          />
           <Route path={STUDENT_PATH} element={<StudentSuper />} />
           <Route path={DEGREE_PATH} element={<DegreeSuper />} />
-          <Route path={`${UPDATE_DEGREE_PATH}/:id`} element={<UpdateDegreeSuper />} />
+          <Route
+            path={`${UPDATE_DEGREE_PATH}/:id`}
+            element={<UpdateDegreeSuper />}
+          />
           <Route path={DEPARTMENT_PATH} element={<DepartmentsSuper />} />
-          <Route path={`${UPDATE_DEPARTMENT_PATH}/:id`} element={<UpdateDepartmentSuper />} />
+          <Route
+            path={`${UPDATE_DEPARTMENT_PATH}/:id`}
+            element={<UpdateDepartmentSuper />}
+          />
           <Route path={TEACHER_PATH} element={<TeacherSuper />} />
           <Route path={DEPART_FINANCE_PATH} element={<DepartFinacesSuper />} />
           <Route path={DEPART_CAKE_PATH} element={<DepartCakeSuper />} />
@@ -96,6 +113,7 @@ function App() {
           <Route path={DASHBOARDTEACH_PATH} element={<DashboardTeach />} />
           <Route path={GROUP_TEACHER_PATH} element={<GroupTeach />} />
           <Route path={PROFILE_TEACHER_PATH} element={<ProfileTeach />} />
+          <Route path={STUDENT_TEACHER_PATH} element={<StudentTeach />} />
         </Route>
       </Routes>
     </BrowserRouter>
