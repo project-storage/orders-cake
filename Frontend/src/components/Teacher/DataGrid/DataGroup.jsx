@@ -7,7 +7,9 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import DegreeService from "../../../services/DegreeService";
 import TeacherService from "../../../services/TeacherService";
+import BookOutlinedIcon from "@mui/icons-material/BookOutlined";
 import DepartmentService from "../../../services/DepartmentService";
+import Swal from "sweetalert2";
 
 const DataGroup = () => {
   const [allGroup, setAllGroup] = useState([]);
@@ -33,7 +35,7 @@ const DataGroup = () => {
 
   useEffect(() => {
     fetchData();
-    console.log(fetchData())
+    console.log(fetchData());
   }, []);
 
   const getRowId = (row) => row.id;
@@ -46,8 +48,34 @@ const DataGroup = () => {
     setSelectionModel(newSelection);
   };
 
+  
+  const handleDetailGroup = () => {};
   const handleUpdate = async () => {};
-  const handleDeleteButtonClick = async () => {};
+
+  const handleDeleteButtonClick = async (id) => {
+    try {
+      const response = await Swal.fire({
+        title: "คุณแน่ใจ吗?",
+        text: "คุณต้องการลบข้อมูลเค้กนี้หรือไม่",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "ลบ",
+        cancelButtonText: "ยกเลิก",
+      });
+
+      if (response.isConfirmed) {
+        await GroupService.deleteGroup(id);
+        const updateGroups = allGroup.filter((group) => group.id !== id);
+        setAllGroup(updateGroups);
+        Swal.fire("สำเร็จ!", "ข้อมูลเค้กถูกลบเรียบร้อย", "success");
+      }
+    } catch (error) {
+      console.error("Error deleting cake:", error);
+      Swal.fire("เกิดข้อผิดพลาด!", "ไม่สามารถลบข้อมูลเค้กได้", "error");
+    }
+  };
 
   const columns = [
     {
@@ -86,6 +114,14 @@ const DataGroup = () => {
           <Stack direction="row" spacing={2}>
             <Button
               variant="outlined"
+              color="primary"
+              startIcon={<BookOutlinedIcon />}
+              onClick={handleDetailGroup}
+            >
+              รายละเอียดห้องเรียน
+            </Button>
+            <Button
+              variant="outlined"
               color="warning"
               startIcon={<BorderColorIcon />}
               onClick={handleUpdate}
@@ -96,7 +132,7 @@ const DataGroup = () => {
               variant="outlined"
               color="error"
               startIcon={<DeleteIcon />}
-              onClick={handleDeleteButtonClick}
+              onClick={() => handleDeleteButtonClick(params.row.id)}
             >
               ลบข้อมูล
             </Button>

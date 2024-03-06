@@ -57,6 +57,7 @@ import UpdateUserSuper from "./pages/SuperAdmin/Update/UpdateUserSuper";
 import CreateUserSuper from "./pages/SuperAdmin/FormCreate/CreateUserSuper";
 import Register from "./pages/Auth/Register";
 import StudentTeach from "./pages/Teacher/StudentTeach";
+import StudentDetails from "./pages/Teacher/DataDetails/StudentDetails";
 
 function App() {
   return (
@@ -113,7 +114,7 @@ function App() {
           <Route path={DASHBOARDTEACH_PATH} element={<DashboardTeach />} />
           <Route path={GROUP_TEACHER_PATH} element={<GroupTeach />} />
           <Route path={PROFILE_TEACHER_PATH} element={<ProfileTeach />} />
-          <Route path={STUDENT_TEACHER_PATH} element={<StudentTeach />} />
+          <Route path={STUDENT_TEACHER_PATH} element={<StudentDetails />} />
         </Route>
       </Routes>
     </BrowserRouter>
