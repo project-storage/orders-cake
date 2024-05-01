@@ -42,15 +42,10 @@ const CreateDegree = () => {
                 onChange={(e) => setDegreeName(e.target.value)}
               />
             </Grid>
-            <Button
-              sx={{ m: 3 }}
-              color="success"
-              variant="contained"
-              type="submit"
-            >
-              เพิ่มข้อระดับชั้น
-            </Button>
           </Grid>
+          <Button color="success" variant="outlined" type="submit">
+            <Typography variant="h6">เพิ่มข้อระดับชั้น</Typography>
+          </Button>
         </form>
       </Box>
     </Box>

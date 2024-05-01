@@ -14,6 +14,7 @@ import {
   DEPART_FINANCE_PATH,
   DEPART_PRODUCT_CAKE_PATH,
   DETAIL_USER_DATA_PATH,
+  GROUP_PATH,
   GROUP_TEACHER_PATH,
   LOGIN_PATH,
   PRODUCT_PATH,
@@ -58,6 +59,7 @@ import CreateUserSuper from "./pages/SuperAdmin/FormCreate/CreateUserSuper";
 import Register from "./pages/Auth/Register";
 import StudentTeach from "./pages/Teacher/StudentTeach";
 import StudentDetails from "./pages/Teacher/DataDetails/StudentDetails";
+import GroupSuper from "./pages/SuperAdmin/GroupSuper";
 
 function App() {
   return (
@@ -106,7 +108,7 @@ function App() {
             path={DEPART_PRODUCT_CAKE_PATH}
             element={<DepartProductCakeSuper />}
           />
-          <Route path={TEAM_PATH} element={<TeamSuper />} />
+          <Route path={GROUP_PATH} element={<GroupSuper />} />
           <Route path={SINGLE_PATH} element={<SingleSuper />} />
         </Route>
 

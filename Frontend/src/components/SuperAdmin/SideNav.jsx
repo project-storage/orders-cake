@@ -17,6 +17,7 @@ import {
   DEPART_CAKE_PATH,
   DEPART_FINANCE_PATH,
   DEPART_PRODUCT_CAKE_PATH,
+  GROUP_PATH,
   PRODUCT_PATH,
   SINGLE_PATH,
   TEACHER_PATH,
@@ -165,9 +166,9 @@ const SideNav = () => {
 
         <SubMenu label="กลุ่มเรียน" icon={<StorageOutlinedIcon />}>
           <MenuItem
-            active={activeMenuItem === TEAM_PATH}
-            component={<Link to={TEAM_PATH} />}
-            onClick={() => handleMenuClick(TEAM_PATH)}
+            active={activeMenuItem === GROUP_PATH}
+            component={<Link to={GROUP_PATH} />}
+            onClick={() => handleMenuClick(GROUP_PATH)}
             icon={<Groups2OutlinedIcon />}
           >
             <Typography variant="body2">กลุ่มเรียน</Typography>

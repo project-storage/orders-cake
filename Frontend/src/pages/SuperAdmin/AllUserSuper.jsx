@@ -1,5 +1,5 @@
 import { Box, Grid } from "@mui/material";
-import DataAllUser from "../../components/SuperAdmin/DataGride/DataAllUser";
+import DataAllUser from "../../components/SuperAdmin/DataGrid/DataAllUser";
 import React from "react";
 
 const AllUserSuper = () => {

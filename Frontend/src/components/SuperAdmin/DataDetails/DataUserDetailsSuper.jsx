@@ -41,106 +41,37 @@ const DataUserDetailsSuper = () => {
     navigate(ALL_DATA_USER_PATH);
   };
 
-  const handleUpdate = async (id) => {
-    navigate(`${UPDATE_ADMIN_PATH}/${id}`);
-  };
   return (
     <Box m="1.5rem 2.5rem">
-      <Box>
-        {selectedUser && (
-          <form>
-            <Typography variant="h4" fontWeight="bold" mb="1rem">
-              ข้อมูลส่วนตัว {selectedUser.title}
-              {selectedUser.name} {selectedUser.surname}
-            </Typography>
-            <Grid
-              container
-              rowSpacing={1}
-              columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-            >
-              <Grid item xs={2}>
-                <Typography>คำนำหน้า</Typography>
-                <TextField
-                  fullWidth
-                  margin="normal"
-                  value={selectedUser.title}
-                  onChange={(e) => setSelectedUser(e.target.value)}
-                  disabled
-                />
-              </Grid>
-              <Grid item xs={5}>
-                <Typography>ชื่อ</Typography>
-                <TextField
-                  fullWidth
-                  margin="normal"
-                  value={selectedUser.name}
-                  onChange={(e) => setSelectedUser(e.target.value)}
-                  disabled
-                />
-              </Grid>
-              <Grid item xs={5}>
-                <Typography>นามสกุล</Typography>
-                <TextField
-                  fullWidth
-                  margin="normal"
-                  value={selectedUser.surname}
-                  onChange={(e) => setSelectedUser(e.target.value)}
-                  disabled
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <Typography>เบอร์โทรศัพท์</Typography>
-                <TextField
-                  fullWidth
-                  margin="normal"
-                  value={selectedUser.telephone}
-                  onChange={(e) => setSelectedUser(e.target.value)}
-                  disabled
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <Typography>สถานะผู้ใช้งาน</Typography>
-                <TextField
-                  fullWidth
-                  margin="normal"
-                  value={selectedUser.role}
-                  onChange={(e) => setSelectedUser(e.target.value)}
-                  disabled
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <Typography>Email</Typography>
-                <TextField
-                  fullWidth
-                  margin="normal"
-                  value={selectedUser.email}
-                  onChange={(e) => setSelectedUser(e.target.value)}
-                  disabled
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <Typography>ชื่อผู้ใช้งาน</Typography>
-                <TextField
-                  fullWidth
-                  margin="normal"
-                  value={selectedUser.username}
-                  onChange={(e) => setSelectedUser(e.target.value)}
-                  disabled
-                />
-              </Grid>
-              <Button
-                sx={{ m: 3 }}
-                color="primary"
-                variant="outlined"
-                onClick={handlePreVious}
-                type="button"
-              >
-                กลับไปหน้าข้อมูลผู้ใช้งาน
-              </Button>
-            </Grid>
-          </form>
-        )}
-      </Box>
+      <Card sx={{ width: "100%", maxWidth: 600 }}>
+        <CardContent>
+          {selectedUser && (
+            <form>
+              <Typography variant="h4" fontWeight="bold" mb="1rem">
+                ข้อมูลส่วนตัว
+              </Typography>
+              <Typography variant="h6">
+                ชื่อ-นามสกุล : {selectedUser.title}
+                {selectedUser.name} {selectedUser.surname}
+              </Typography>
+
+              <Typography variant="h6">
+                เบอร์โทรศัพท์ : {selectedUser.telephone}
+              </Typography>
+
+              <Typography variant="h6">
+                อีเมลล์ : {selectedUser.email}
+              </Typography>
+              <Typography variant="h6">
+                ชื่อผู้ใช้งาน : {selectedUser.username}
+              </Typography>
+              <Typography variant="h6">
+                สถานะผู้ใช้งาน : {selectedUser.role}
+              </Typography>
+            </form>
+          )}
+        </CardContent>
+      </Card>
     </Box>
   );
 };

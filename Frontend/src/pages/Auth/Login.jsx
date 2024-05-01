@@ -12,7 +12,11 @@ import styled from "@emotion/styled";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LoginService from "../../services/AuthService";
-import { DASHBOARDTEACH_PATH, DASHBOARD_PATH, REGISTER_PATH } from "../../config//constants";
+import {
+  DASHBOARDTEACH_PATH,
+  DASHBOARD_PATH,
+  REGISTER_PATH,
+} from "../../config//constants";
 import Swal from "sweetalert2";
 
 const Responsive = styled("div")(() => ({
@@ -26,13 +30,16 @@ const Responsive = styled("div")(() => ({
 const Login = () => {
   const [formData, setFormData] = useState({ login: "", password: "" });
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false); // เพิ่มตัวแปร loading
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true); // กำหนด loading เป็น true เมื่อกดปุ่มเข้าสู่ระบบ
 
     if (formData.login === "" || formData.password === "") {
       setError("Error: กรุณากรอกข้อมูลให้ครบถ้วน");
+      setLoading(false); // กำหนด loading เป็น false เมื่อข้อมูลไม่ครบ
       return;
     }
 
@@ -65,8 +72,10 @@ const Login = () => {
       Swal.fire({
         icon: "error",
         title: "เกิดข้อผิดพลาด!",
-        text: "ไม่สามารถเข้าสู่ระบบได้ กรุณาลองอีกครั้ง",
+        text: "ชื่อผู้ใช้งานหรืออีเมมล์ และ รหัสผ่าน ไม่ถูกค้อง",
       });
+    } finally {
+      setLoading(false); // กำหนด loading เป็น false เมื่อสิ้นสุดการส่งคำขอ
     }
   };
 
@@ -123,14 +132,15 @@ const Login = () => {
                   setFormData({ ...formData, password: e.target.value })
                 }
               />
-
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                disabled={loading} // กำหนด disabled ตามค่าของ loading
               >
-                เข้าสู่ระบบ
+                {loading ? "กำลังเข้าสู่ระบบ..." : "เข้าสู่ระบบ"}{" "}
+                {/* เปลี่ยนข้อความของปุ่มให้ตรงกับสถานะของ loading */}
               </Button>
               <Grid container>
                 <Grid item>

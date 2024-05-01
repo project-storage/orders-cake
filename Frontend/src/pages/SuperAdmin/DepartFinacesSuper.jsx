@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import DataDepartFinaces from "../../components/SuperAdmin/DataGride/DataDepartFinaces";
+import DataDepartFinaces from "../../components/SuperAdmin/DataGrid/DataDepartFinaces";
 import React from "react";
 
 const DepartFinacesSuper = () => {

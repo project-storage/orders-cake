@@ -1,5 +1,5 @@
 import { Box } from '@mui/material'
-import DataTeachers from '../../components/SuperAdmin/DataGride/DataTeachers'
+import DataTeachers from '../../components/SuperAdmin/DataGrid/DataTeachers'
 import React from 'react'
 
 const TeacherSuper = () => {

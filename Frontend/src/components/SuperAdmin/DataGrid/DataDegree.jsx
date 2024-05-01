@@ -1,6 +1,12 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
-import { Box, Button, Stack } from "@mui/material";
+import {
+  Box,
+  Button,
+  Stack,
+  Typography,
+  CircularProgress,
+} from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import FlexBetween from "../../FlexBetween";
 import { useEffect, useState } from "react";
@@ -14,20 +20,26 @@ const DataDegree = () => {
   const [selectionModel, setSelectionModel] = useState([]);
   const [pageSize, setPageSize] = useState(10);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   const fetchData = async () => {
+    setLoading(true);
     try {
       const response = await DegreeService.getAllDegree();
       setAllDegree(response.data.data);
     } catch (error) {
       console.error("Error fetching cakes:", error);
       setError(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchData();
+    setTimeout(() => {
+      fetchData();
+    }, 1000);
   }, []);
 
   const getRowId = (row) => row.id;
@@ -47,8 +59,8 @@ const DataDegree = () => {
   const handleDeleteButtonClick = async (id) => {
     try {
       const response = await Swal.fire({
-        title: "คุณแน่ใจ吗?",
-        text: "คุณต้องการลบข้อมูลระดับชั้นนี้หรือไม่",
+        title: "คุณแน่ใจ",
+        text: "คุณต้องการลบข้อมูลนี้หรือไม่",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -61,11 +73,11 @@ const DataDegree = () => {
         await DegreeService.deleteDegree(id);
         const updateDegree = allDegree.filter((degree) => degree.id !== id);
         setAllDegree(updateDegree);
-        Swal.fire("สำเร็จ!", "ข้อมูลระดับชั้นถูกลบเรียบร้อย", "success");
+        Swal.fire("สำเร็จ!", "ข้อมูลถูกลบเรียบร้อย", "success");
       }
     } catch (error) {
       console.error("Error deleting cake:", error);
-      Swal.fire("เกิดข้อผิดพลาด!", "ไม่สามารถลบข้อมูลระดับชั้นได้", "error");
+      Swal.fire("เกิดข้อผิดพลาด!", "ไม่สามารถลบข้อมูลได้", "error");
     }
   };
 
@@ -73,12 +85,12 @@ const DataDegree = () => {
     {
       field: "id",
       headerName: "#",
-      flex: 0.1,
+      width: 1,
     },
     {
       field: "degreeName",
       headerName: "ระดับชั้น",
-      flex: 0.1,
+      width: 85,
     },
     {
       field: "actions",
@@ -86,7 +98,7 @@ const DataDegree = () => {
       flex: 0.1,
       renderCell: (params) => (
         <Box>
-         <Stack direction="row" spacing={2}>
+          <Stack direction="row" spacing={2}>
             <Button
               variant="outlined"
               color="warning"
@@ -112,12 +124,25 @@ const DataDegree = () => {
   return (
     <Box m="1.5rem 2.5rem">
       <FlexBetween>
-        <h1>ข้อมูลระดับชั้นทั้งหมด</h1>
+        <Typography variant="h4" fontWeight="bold" mb="1rem">
+          ข้อมูลระดับชั้นทั้งหมด
+        </Typography>
       </FlexBetween>
 
       <Box>
-        {error ? (
-          <div>Error fetching cakes: {error.message}</div>
+        {loading ? (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "50vh",
+            }}
+          >
+            <div>
+              <CircularProgress />
+            </div>
+          </Box>
         ) : (
           <DataGrid
             rows={allDegree}

@@ -84,6 +84,7 @@ const CreateUser = () => {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 fullWidth
+                required
               >
                 <MenuItem value="" disabled>
                   --------------เลือกคำนำหน้า--------------
@@ -103,6 +104,7 @@ const CreateUser = () => {
                 fullWidth
                 margin="normal"
                 value={name}
+                required
                 onChange={(e) => setName(e.target.value)}
               />
             </Grid>
@@ -112,6 +114,7 @@ const CreateUser = () => {
                 fullWidth
                 margin="normal"
                 value={surname}
+                required
                 onChange={(e) => setSurname(e.target.value)}
               />
             </Grid>
@@ -121,16 +124,13 @@ const CreateUser = () => {
                 fullWidth
                 margin="normal"
                 value={telephone}
+                required
                 onChange={(e) => setTelephone(e.target.value)}
               />
             </Grid>
             <Grid item xs={6}>
               <InputLabel sx={{ mb: 2 }}>สถานะผู้ใช้งาน</InputLabel>
-              <Select
-                value={role}
-                onChange={handleChange}
-                fullWidth
-              >
+              <Select value={role} onChange={handleChange} fullWidth required>
                 <MenuItem value="" disabled>
                   --------------สถานะผู้ใช้งาน--------------
                 </MenuItem>
@@ -145,6 +145,7 @@ const CreateUser = () => {
                 fullWidth
                 margin="normal"
                 value={email}
+                required
                 onChange={(e) => setEmail(e.target.value)}
               />
             </Grid>
@@ -154,6 +155,7 @@ const CreateUser = () => {
                 fullWidth
                 margin="normal"
                 value={username}
+                required
                 onChange={(e) => setUsername(e.target.value)}
               />
             </Grid>
@@ -163,27 +165,29 @@ const CreateUser = () => {
                 fullWidth
                 margin="normal"
                 value={password}
+                required
                 onChange={(e) => setPassword(e.target.value)}
               />
             </Grid>
+          </Grid>
+          <Box sx={{ mt: 1 }}>
             <Button
-              sx={{ m: 3 }}
               color="success"
               variant="outlined"
               type="submit"
+              sx={{ mr: 1 }}
             >
-              ยืนยัน
+              <Typography variant="h6">ยืนยัน</Typography>
             </Button>
             <Button
-              sx={{ m: 3 }}
               color="error"
               variant="outlined"
               onClick={handleCancelClick}
               type="button"
             >
-              ยกเลิก
+              <Typography variant="h6">ยกเลิก</Typography>
             </Button>
-          </Grid>
+          </Box>
         </form>
       </Box>
     </Box>

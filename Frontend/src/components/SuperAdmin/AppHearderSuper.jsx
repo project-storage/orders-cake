@@ -51,9 +51,9 @@ const AppHeader = () => {
           <MenuIcon />
         </IconButton> 
         {!collapseSidebar ? (
-          <Box sx={{ ml: "20px", fontSize: "20px" }}>{SYSTEM_NAME}</Box>
+          <Box sx={{ ml: "20px", fontSize: "50px" }}>{SYSTEM_NAME}</Box>
         ) : (
-          <Box sx={{ ml: "16px", fontSize: "16px" }}>{SYSTEM_NAME}</Box>
+          <Box sx={{ ml: "16px", fontSize: "25px" }}>{SYSTEM_NAME}</Box>
         )}
 
         <Box sx={{ flexGrow: 1 }} />

@@ -54,16 +54,10 @@ const CreateDepartMent = () => {
                 onChange={(e) => setDepartName(e.target.value)}
               />
             </Grid>
-
-            <Button
-              sx={{ m: 3 }}
-              color="success"
-              variant="contained"
-              type="submit"
-            >
-              เพิ่มข้อแผนก
-            </Button>
           </Grid>
+          <Button color="success" variant="outlined" type="submit">
+            <Typography variant="h6">เพิ่มข้อแผนก</Typography>
+          </Button>
         </form>
       </Box>
     </Box>

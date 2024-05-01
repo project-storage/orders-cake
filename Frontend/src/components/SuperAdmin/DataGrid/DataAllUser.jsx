@@ -1,5 +1,4 @@
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import FindInPageOutlinedIcon from "@mui/icons-material/FindInPageOutlined";
 import {
   Box,
@@ -10,6 +9,8 @@ import {
   MenuItem,
   Select,
   Stack,
+  Typography,
+  CircularProgress,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Swal from "sweetalert2";
@@ -17,6 +18,7 @@ import FlexBetween from "../../FlexBetween";
 import { useEffect, useState } from "react";
 import UserService from "../../../services/UserService";
 import {
+  ALL_DATA_USER_PATH,
   CREATE_USER_PATH,
   DEPART_CAKE_PATH,
   DEPART_FINANCE_PATH,
@@ -33,7 +35,7 @@ const DataAllUser = () => {
   const [selectedValue, setSelectedValue] = useState(""); // กำหนดค่าเริ่มต้นเป็น ""
   const [selectionModel, setSelectionModel] = useState([]);
   const [pageSize, setPageSize] = useState(10);
-  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   const handleChange = (event) => {
@@ -43,17 +45,20 @@ const DataAllUser = () => {
     if (selectedValue === "teacher") {
       navigate(TEACHER_PATH); // เปลี่ยนเส้นทางไปยัง URL /user/teachers
     }
+    if (selectedValue === "all-user") {
+      navigate(ALL_DATA_USER_PATH); // เปลี่ยนเส้นทางไปยัง URL /user/teachers
+    }
 
     setSelectedValue(selectedValue);
-  };
-  const fetchData = async () => {
-    const response = await UserService.getAllUser();
-    setUsers(response.data.data);
   };
 
   const options = [
     { value: "", label: "------- เลือกผู้ใช้งาน -------" },
-    // { value: "admin", label: "ผู้ดูแลระบบ" },
+    {
+      value: "all-user",
+      label: "ผู้ใช้งานทั้งหมด",
+      linkTo: ALL_DATA_USER_PATH,
+    },
     { value: "teacher", label: "ครู", linkTo: TEACHER_PATH },
     // { value: "student", label: "นักศึกษา", linkTo: STUDENT_PATH },
     // { value: "finance", label: "ฝ่ายการเงิน", linkTo: DEPART_FINANCE_PATH },
@@ -65,8 +70,22 @@ const DataAllUser = () => {
     // },
   ];
 
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const response = await UserService.getAllUser();
+      setUsers(response.data.data);
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    fetchData();
+    setTimeout(() => {
+      fetchData();
+    }, 1000);
   }, []);
 
   const getRowId = (row) => row.id;
@@ -94,8 +113,8 @@ const DataAllUser = () => {
   const handleDeleteButtonClick = async (id) => {
     try {
       const response = await Swal.fire({
-        title: "คุณแน่ใจ吗?",
-        text: "คุณต้องการลบข้อมูลเค้กนี้หรือไม่",
+        title: "คุณแน่ใจ",
+        text: "คุณต้องการลบข้อมูลนี้หรือไม่",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -136,7 +155,7 @@ const DataAllUser = () => {
       headerName: "นามสกุล",
       width: 150,
     },
-    { field: "telephone", headerName: "เบอร์โทร", width: 100 },
+
     { field: "role", headerName: "สถานะ", width: 100 },
     {
       field: "actions",
@@ -153,14 +172,7 @@ const DataAllUser = () => {
             >
               รายละเอียดข้อมูล
             </Button>
-            <Button
-              variant="outlined"
-              color="warning"
-              startIcon={<EditOutlinedIcon />}
-              onClick={() => handleUpdate(params.id)}
-            >
-              แก้ไข
-            </Button>
+
             <Button
               variant="outlined"
               color="error"
@@ -208,18 +220,37 @@ const DataAllUser = () => {
         <Box>
           <FlexBetween gap="1rem">
             <Button variant="outlined" color="success" onClick={handleCreate}>
-              เพิ่มผู้ดูแลระบบ
+              <Typography variant="h5">เพิ่มผู้ดูแลระบบ</Typography>
             </Button>
           </FlexBetween>
         </Box>
       </FlexBetween>
-      <Box>
+
+      {loading ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "50vh",
+          }}
+        >
+          <div>
+            <CircularProgress />
+          </div>
+        </Box>
+      ) : (
         <DataGrid
           rows={users}
           getRowId={getRowId}
           columns={columns}
           checkboxSelection
-          rowsPerPageOptions={[10, 25, 50]}
+          pageSizeOptions={[5, 10, 20, 50, 100, 200, 300, 500]}
+          initialState={{
+            pagination: {
+              paginationModel: { page: 0, pageSize: 5 },
+            },
+          }}
           pageSize={pageSize}
           onPageSizeChange={handlePageSizeChange}
           selectionModel={selectionModel}
@@ -237,7 +268,7 @@ const DataAllUser = () => {
           }}
           experimentalFeatures={{ newEditingApi: true }}
         />
-      </Box>
+      )}
     </Box>
   );
 };

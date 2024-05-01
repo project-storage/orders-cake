@@ -1,5 +1,5 @@
 import { Box } from '@mui/material'
-import DataDepartProducCakes from '../../components/SuperAdmin/DataGride/DataDepartProducCakes'
+import DataDepartProducCakes from '../../components/SuperAdmin/DataGrid/DataDepartProducCakes'
 import React from 'react'
 
 const DepartProductCakeSuper = () => {

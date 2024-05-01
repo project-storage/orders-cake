@@ -1,7 +1,7 @@
 import { Box, Grid } from "@mui/material";
 import UpdateCake from "../../../components/SuperAdmin/FormUpdate/UpdateCake";
 import React from "react";
-import DataCake from "../../../components/SuperAdmin/DataGride/DataCake";
+import DataCake from "../../../components/SuperAdmin/DataGrid/DataCake";
 
 const UpdateCakeSuper = () => {
   return (

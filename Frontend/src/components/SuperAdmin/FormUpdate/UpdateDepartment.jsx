@@ -46,7 +46,7 @@ const UpdateDepartment = () => {
   const handleCancelClick = () => {
     navigate(DEPARTMENT_PATH);
   };
-  
+
   return (
     <Box m="1.5rem 2.5rem">
       <Box>
@@ -78,25 +78,25 @@ const UpdateDepartment = () => {
                 onChange={(e) => setDepartName(e.target.value)}
               />
             </Grid>
-
+          </Grid>
+          <Box>
             <Button
-              sx={{ m: 3 }}
               color="success"
-              variant="contained"
+              variant="outlined"
               type="submit"
+              sx={{ mr: 1 }}
             >
-              ยืนยัน
+              <Typography variant="h6">ยืนยัน</Typography>
             </Button>
             <Button
-              sx={{ m: 3 }}
               color="error"
-              variant="contained"
+              variant="outlined"
               onClick={handleCancelClick}
               type="button"
             >
-              ยกเลิก
+              <Typography variant="h6">ยกเลิก</Typography>
             </Button>
-          </Grid>
+          </Box>
         </form>
       </Box>
     </Box>

@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import DataStudents from "../../components/SuperAdmin/DataGride/DataStudents";
+import DataStudents from "../../components/SuperAdmin/DataGrid/DataStudents";
 import React from "react";
 
 const StudentSuper = () => {

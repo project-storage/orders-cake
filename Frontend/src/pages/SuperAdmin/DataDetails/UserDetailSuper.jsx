@@ -7,9 +7,12 @@ import { Grid } from "@mui/material";
 const UserDetailSuper = () => {
   return (
     <Box>
-      <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 1, md: 1 }}>
-        <Grid item xs={12}>
+      <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 1, lg: 1 }}>
+        <Grid item lg={6}>
           <DataUserDetailsSuper />
+        </Grid>
+        <Grid item lg={6}>
+          <UpdateUser />
         </Grid>
       </Grid>
     </Box>

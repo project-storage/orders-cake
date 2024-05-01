@@ -1,5 +1,5 @@
 import { Box, Grid } from '@mui/material'
-import DataDepartments from '../../../components/SuperAdmin/DataGride/DataDepartments'
+import DataDepartments from '../../../components/SuperAdmin/DataGrid/DataDepartments'
 import React from 'react'
 import UpdateDepartment from '../../../components/SuperAdmin/FormUpdate/UpdateDepartment'
 

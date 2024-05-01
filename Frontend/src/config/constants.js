@@ -31,6 +31,9 @@ export const DEPARTMENT_PATH = BASE_SUPERADMIN_PATH + 'department'
 export const UPDATE_DEPARTMENT_PATH = BASE_SUPERADMIN_PATH + 'department/update'
 export const DEGREE_PATH = BASE_SUPERADMIN_PATH + 'degree'
 export const UPDATE_DEGREE_PATH = BASE_SUPERADMIN_PATH + 'degree/update'
+export const GROUP_PATH = BASE_SUPERADMIN_PATH + 'groups'
+export const UPDATE_GROUP_PATH = BASE_SUPERADMIN_PATH + 'groups/update'
+
 
 const BASEADMIN_PATH = '/admin/'
 export const ORDERALL_ADMINPATH = BASEADMIN_PATH + 'orders'

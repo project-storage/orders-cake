@@ -1,5 +1,5 @@
 import { Box } from '@mui/material'
-import DataTypeTeams from '../../components/SuperAdmin/DataGride/DataTypeTeams'
+import DataTypeTeams from '../../components/SuperAdmin/DataGrid/DataTypeTeams'
 import React from 'react'
 
 const TeamSuper = () => {

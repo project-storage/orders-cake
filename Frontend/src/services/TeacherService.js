@@ -7,8 +7,12 @@ import http from './http-common'
 //     return http.get("/api/teachers/info");
 // };
 
+const getAllTeacher = ()=>{
+    return http.get('/api/teachers/all')
+}
 const TeacherService = {
     // getTeacherInfo,
+    getAllTeacher
   
 }
 

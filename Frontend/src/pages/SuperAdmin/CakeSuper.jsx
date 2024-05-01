@@ -1,5 +1,5 @@
 import { Box, Grid } from '@mui/material'
-import DataCake from '../../components/SuperAdmin/DataGride/DataCake'
+import DataCake from '../../components/SuperAdmin/DataGrid/DataCake'
 import React from 'react'
 import CreateCake from '../../components/SuperAdmin/FormCreate/CreateCake'
 

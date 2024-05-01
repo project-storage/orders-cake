@@ -11,6 +11,10 @@ const getUserById = (id) => {
     return http.get(`/api/users/search?id=${id}`)
 }
 
+const getUseTeacher = () => {
+    return http.get(`/api/users/search?role=ครูที่ปรึกษา`)
+}
+
 const getAllUser = () => {
     return http.get(`/api/users/all`)
 }
@@ -39,6 +43,7 @@ const UserService = {
     postLogin,
     getUserInfo,
     getUserById,
+    getUseTeacher,
     getSearchAdmin,
     getAllUser,
     updateUser,

@@ -63,8 +63,14 @@ const SideNavTeach = () => {
       <Box sx={styles.yourChannel}>
         {!collapsed ? (
           <Box>
+        <Box>
+          <Avatar/>
+        </Box>
             <Typography variant="h6">
              {name.title}{name.name} {name.surname}
+             <Typography textAlign={"center"}>
+             {name.role}
+             </Typography>
             </Typography>
           </Box>
         ) : null}
