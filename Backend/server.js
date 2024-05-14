@@ -1,59 +1,58 @@
-const express = require('express');
-const cors = require('cors');
-const morgan = require('morgan');
+const express = require("express")
+const cors = require("cors")
+const morgan = require("morgan")
 require('dotenv').config({ path: './config.env' });
-require('./auth/passport');
+require('./configs/passport');
 
-const app = express();
+const app = express()
 
-// Middleware
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(morgan('combined')); // Use Morgan for logging
+// midleware
+app.use(cors())
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+app.use(morgan('combined'))
 
-// Routers
-const userRouter = require('./routers/userRoutes');
-const teamRouter = require('./routers/teamRoutes')
-const departmentRouter = require('./routers/departmentRoutes');
-const groupRouter = require('./routers/groupRoutes')
-const degreeRouter = require('./routers/degreeRoutes')
-const studentRouter = require('./routers/studentsRoutes');
-const cakeRouter = require('./routers/CakeRoutes');
-// const orderMasterRouter = require('./routers/orderDetailsRouters')
-const orderRouter = require('./routers/ordersRoutes')
-const statusRouter = require('./routers/statusesRoutes')
+// router
+const authRouter = require('./routers/auth.router');
+const userRouter = require("./routers/user.router");
+const statusRouter = require("./routers/status.router");
+const studentRouter = require("./routers/student.router");
+const teamRouter = require("./routers/team.router");
+const cakeRouter = require("./routers/cake.router");
+const degreeRouter = require("./routers/degree.router");
+const departmentRouter = require("./routers/department.router");
+const groupRouter = require("./routers/group.router");
+const orderRouter = require("./routers/order.router");
 
-// API Routes with Prefixes and Versioning
-app.use('/api/users', userRouter);
+//static Images Folder
+app.use('/Images/users', express.static('./Images/users'))
+
+// api router with prefixes and versioning
+app.use('/api/auth', authRouter)
+app.use('/api/users', userRouter)
+app.use('/api/students', studentRouter)
 app.use('/api/teams', teamRouter)
-app.use('/api/groups', groupRouter)
-app.use('/api/departments', departmentRouter);
 app.use('/api/degrees', degreeRouter)
-app.use('/api/students', studentRouter);
-app.use('/api/cakes', cakeRouter);
-// app.use('/api/order-masters', orderMasterRouter)
+app.use('/api/departments', departmentRouter)
+app.use('/api/group', groupRouter)
+app.use('/api/cakes', cakeRouter)
 app.use('/api/orders', orderRouter)
 app.use('/api/status', statusRouter)
 
 // Test Routes
 app.get('/api', (req, res) => {
-  res.send('Hello from the backend');
-});
-
-app.get('/api/user-test', (req, res) => {
-  res.send('Hello User');
+    res.send('Hello from the backend');
 });
 
 // Global Error Handling Middleware
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('Something went wrong!');
+    console.error(err.stack);
+    res.status(500).send('Something went wrong!');
 });
 
-// Port
-const PORT = process.env.PORT || 8080;
+//   port
+const PORT = process.env.PORT || 8080
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+    console.log(`Server is running on port ${PORT}`)
+})
