@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import DepartmentService from '../../../../../services/DepartmentService';
+import React, { useEffect } from 'react';
 import { Box, Button, CircularProgress, Typography } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import Swal from 'sweetalert2';
@@ -7,34 +6,19 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import { useNavigate } from 'react-router-dom';
 import { UPDATE_DEPARTMENT_PATH } from '../../../../../configs/constrants';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchDepartments, deleteDepartment } from '../../../../../slices/departmentSlice'
 
 const DepartSuperAdmin = () => {
-  const [departs, setDeparts] = useState([]);
-  // const [error, setError] = useState(null);
-  // const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const dispatch = useDispatch()
-  const {departments,loading,error}= useSelector((state)=>state.departments)
-  const fetchData = async () => {
-    setLoading(true);
-    try {
-      const res = await DepartmentService.getAll();
-      setDeparts(res.data.data);
-    } catch (error) {
-      console.error("Error fetching: ", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { departments, loading, error } = useSelector((state) => state.departments);
 
   useEffect(() => {
-    setTimeout(() => {
-      fetchData();
-    }, 500);
-  }, []);
+    dispatch(fetchDepartments());
+  }, [dispatch]);
 
-  const handleUpdate = async (id) => {
+  const handleUpdate = (id) => {
     navigate(`${UPDATE_DEPARTMENT_PATH}/${id}`);
   };
 
@@ -52,9 +36,7 @@ const DepartSuperAdmin = () => {
       });
 
       if (response.isConfirmed) {
-        await DepartmentService.deleteById(id);
-        const updatedDeparts = departs.filter((depart) => depart.id !== id);
-        setDeparts(updatedDeparts);
+        await dispatch(deleteDepartment(id));
         Swal.fire({
           position: "center",
           icon: "success",
@@ -125,7 +107,7 @@ const DepartSuperAdmin = () => {
       ) : (
         <Box sx={{ height: 410, width: '100%' }}>
           <DataGrid
-            rows={departs}
+            rows={departments}
             columns={columns}
             sortModel={[
               {

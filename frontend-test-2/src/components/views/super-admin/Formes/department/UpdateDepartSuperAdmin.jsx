@@ -1,43 +1,40 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import DepartmentService from '../../../../../services/DepartmentService';
 import Swal from 'sweetalert2';
 import { DEPARTMENT_PATH } from '../../../../../configs/constrants';
 import { Box, Button, Grid, TextField, Typography } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { departmentGetById, updateDepartment } from '../../../../../slices/departmentSlice';
 
 const UpdateDepartSuperAdmin = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { department, loading, error } = useSelector((state) => state.departments);
+
   const [departName, setDepartName] = useState("");
   const [departCode, setDepartCode] = useState("");
-  const [updatedDepart, setUpdatedDepart] = useState(false)
-  const { id } = useParams()
-  const navigate = useNavigate()
-
-  const fetchData = async () => {
-    try {
-      const res = await DepartmentService.getById(id)
-      if (res.status === 200) {
-        setDepartName(res.data.data[0].departName)
-        setDepartCode(res.data.data[0].departCode)
-      }
-    } catch (error) {
-      console.error("Error fetching: ", error);
-    }
-  }
+  const [updatedDepart, setUpdatedDepart] = useState(false);
 
   useEffect(() => {
-    fetchData()
-  }, [id])
+    if (id) {
+      dispatch(departmentGetById(id));
+    }
+  }, [id, dispatch]);
+
+  useEffect(() => {
+    if (department) {
+      setDepartName(department.departName);
+      setDepartCode(department.departCode);
+    }
+  }, [department]);
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      const res = await DepartmentService.updateById(id, {
-        departName: departName,
-        departCode: departCode
-      })
-
-      if (res.status === 200) {
-        setUpdatedDepart(true)
+      const res = await dispatch(updateDepartment({ id, departName, departCode })).unwrap();
+      if (res) {
+        setUpdatedDepart(true);
         Swal.fire({
           position: "center",
           icon: "success",
@@ -49,19 +46,19 @@ const UpdateDepartSuperAdmin = () => {
     } catch (error) {
       console.error("Error updated", error);
     }
-  }
+  };
 
   const handleCancelClick = () => {
-    navigate(DEPARTMENT_PATH)
-  }
+    navigate(DEPARTMENT_PATH);
+  };
 
   useEffect(() => {
     if (updatedDepart) {
       setTimeout(() => {
         window.location.reload()
-      }, 100);
+      }, 500);
     }
-  }, [updatedDepart])
+  }, [updatedDepart, navigate]);
 
   return (
     <Box className="update-department" sx={{ mt: 3 }}>
@@ -104,7 +101,6 @@ const UpdateDepartSuperAdmin = () => {
         </Grid>
         <Box sx={{ mt: 2 }}>
           <Button
-            // sx={{ ml: 2 }}
             color="success"
             variant="contained"
             type="submit"
@@ -122,7 +118,7 @@ const UpdateDepartSuperAdmin = () => {
         </Box>
       </form>
     </Box>
-  )
+  );
 }
 
-export default UpdateDepartSuperAdmin
+export default UpdateDepartSuperAdmin;

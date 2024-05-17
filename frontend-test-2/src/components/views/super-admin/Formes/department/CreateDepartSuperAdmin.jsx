@@ -45,7 +45,7 @@ const CreateDepartSuperAdmin = () => {
         if (departCreated) {
             setTimeout(() => {
                 window.location.reload()
-            }, 100);
+            }, 1500);
         }
     }, [departCreated]);
 
