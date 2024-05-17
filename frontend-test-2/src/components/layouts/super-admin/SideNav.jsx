@@ -48,7 +48,7 @@ const SideNav = () => {
             <Box sx={styles.avatarContainer}>
                 <Avatar alt="Masoud" src="/assets/samit.jpg" />
                 {!collapsed ? <Typography variant="body2" sx={styles.yourChannel}>{userInfo.title}{userInfo.name}{userInfo.surname}</Typography> : null}
-                {!collapsed ? <Typography variant="body2">{userInfo.role}</Typography> : null}
+                {!collapsed ? <Typography variant="body2">สถานะ {userInfo.role}</Typography> : null}
             </Box>
 
             <Menu

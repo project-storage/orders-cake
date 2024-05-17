@@ -10,6 +10,12 @@ groupRouter.get(
 )
 
 groupRouter.get(
+    '/info/:id',
+    passport.authenticate('jwt', { session: false }),
+    groupController.getGroupById
+)
+
+groupRouter.get(
     '/all',
     passport.authenticate('jwt', { session: false }),
     groupController.getGroupAll

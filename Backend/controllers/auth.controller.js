@@ -12,7 +12,7 @@ const path = require('path')
 // register
 const register = async (req, res) => {
     try {
-        const { path: image } = req.file; // แก้ไขตรงนี้
+        // const { path: image } = req.file; // แก้ไขตรงนี้
         const { title, name, surname, tel, email, username, password, role } = req.body;
 
         if (!title || !name || !surname || !tel || !email || !username || !password || !role) {
@@ -46,7 +46,7 @@ const register = async (req, res) => {
         const hashedPassword = await hashPassword(password);
 
         const newUser = new tb_user({
-            image,
+            // image,
             title,
             name,
             surname,
@@ -155,7 +155,7 @@ const login = async (req, res) => {
 // create super Admin
 const createSuperAdmin = async (req, res) => {
     try {
-        // const { path: image } = req.file; // แก้ไขตรงนี้
+        const { path: image } = req.file; 
         const { title, name, surname, email, username, password } = req.body;
 
         if (!name || !surname || !username || !password) {
@@ -173,7 +173,7 @@ const createSuperAdmin = async (req, res) => {
 
         // create the Admin user
         const newSuperAdminUser = new tb_user({
-            // image,
+            image,
             title,
             name,
             surname,

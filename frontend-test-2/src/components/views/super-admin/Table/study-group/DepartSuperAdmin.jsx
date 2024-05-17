@@ -1,39 +1,39 @@
-import React, { useEffect, useState } from 'react'
-import DepartmentService from '../../../../../services/DepartmentService'
-import { Box, Button, CircularProgress, Typography } from '@mui/material'
-import { DataGrid, GridToolbar } from '@mui/x-data-grid'
-import Swal from 'sweetalert2'
+import React, { useEffect, useState } from 'react';
+import DepartmentService from '../../../../../services/DepartmentService';
+import { Box, Button, CircularProgress, Typography } from '@mui/material';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import Swal from 'sweetalert2';
 import DeleteIcon from "@mui/icons-material/Delete";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
+import { UPDATE_DEPARTMENT_PATH } from '../../../../../configs/constrants';
 
 const DepartSuperAdmin = () => {
-  const [departs, setDeparts] = useState([])
+  const [departs, setDeparts] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const fetchData = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
-      const res = await DepartmentService.getAll()
-      setDeparts(res.data.data)
-    } catch (error) { 
+      const res = await DepartmentService.getAll();
+      setDeparts(res.data.data);
+    } catch (error) {
       console.error("Error fetching: ", error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
     setTimeout(() => {
       fetchData();
-    }, 1000);
+    }, 500);
   }, []);
 
-
   const handleUpdate = async (id) => {
-    navigate(`${UPDATE_DEGREE_PATH}/${id}`);
+    navigate(`${UPDATE_DEPARTMENT_PATH}/${id}`);
   };
 
   const handleDeleteButtonClick = async (id) => {
@@ -51,8 +51,8 @@ const DepartSuperAdmin = () => {
 
       if (response.isConfirmed) {
         await DepartmentService.deleteById(id);
-        const updatedDepart = departs.filter((depart) => depart.id !== id);
-        setDeparts(updatedDepart);
+        const updatedDeparts = departs.filter((depart) => depart.id !== id);
+        setDeparts(updatedDeparts);
         Swal.fire({
           position: "center",
           icon: "success",
@@ -63,7 +63,7 @@ const DepartSuperAdmin = () => {
         });
       }
     } catch (error) {
-      Swal.fire("เกิดข้อผิดพลาด!", "ไม่สามารถลบข้อมูลเค้กได้", "error");
+      Swal.fire("เกิดข้อผิดพลาด!", "ไม่สามารถลบข้อมูลได้", "error");
     }
   };
 
@@ -72,8 +72,8 @@ const DepartSuperAdmin = () => {
     { field: "departName", headerName: "ชื่อสาขา", width: 200 },
     { field: "departCode", headerName: "รหัสสาขา", width: 200 },
     {
-      field: 'Action',
-      headerName: 'Action',
+      field: 'actions',
+      headerName: 'Actions',
       description: 'This column has a value getter and is not sortable.',
       sortable: false,
       width: 250,
@@ -84,7 +84,7 @@ const DepartSuperAdmin = () => {
               variant="outlined"
               color="warning"
               startIcon={<BorderColorIcon />}
-              onClick={() => handleUpdate(params.id)}
+              onClick={() => handleUpdate(params.row.id)}
             >
               แก้ไข
             </Button>
@@ -102,55 +102,59 @@ const DepartSuperAdmin = () => {
       }
     },
   ];
+
   return (
     <Box className="table-department">
-      {
-        loading ? (
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "50vh",
-              textAlign: 'center'
-            }}
-          >
-            <Box>
-              <CircularProgress />
-              <Typography>กำลังโหลดข้อมูลโปรดรอสักครู่....</Typography>
-            </Box>
-          </Box >
-        ) : (
-          <Box sx={{ height: 370, width: '100%' }}>
-            <DataGrid
-              rows={departs}
-              columns={columns}
-              sortModel={[
-                {
-                  field: 'id',
-                  sort: 'desc',
-                },
-              ]}
-              initialState={{
-                pagination: {
-                  paginationModel: { page: 0, pageSize: 5 },
-                },
-              }}
-              pageSizeOptions={[5, 10]}
-              checkboxSelection
-              components={{
-                Toolbar: GridToolbar
-              }}
-              componentsProps={{
-                toolbar: {
-                  filterVisible: true,
-                }
-              }}
-            />
+      {loading ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "50vh",
+            textAlign: 'center'
+          }}
+        >
+          <Box>
+            <CircularProgress />
+            <Typography>กำลังโหลดข้อมูลโปรดรอสักครู่....</Typography>
           </Box>
-        )}
+        </Box>
+      ) : (
+        <Box sx={{ height: 410, width: '100%' }}>
+          <DataGrid
+            rows={departs}
+            columns={columns}
+            sortModel={[
+              {
+                field: 'id',
+                sort: 'desc',
+              },
+            ]}
+            initialState={{
+              pagination: {
+                paginationModel: { page: 0, pageSize: 5 },
+              },
+            }}
+            pageSizeOptions={[5, 10]}
+            checkboxSelection
+            slots={{ toolbar: GridToolbar }}
+            disableColumnFilter
+            disableColumnSelector
+            disableDensitySelector
+            disableExportSelector
+            slotProps={{
+              toolbar: {
+                showQuickFilter: true,
+                printOptions: { disableToolbarButton: true },
+                csvOptions: { disableToolbarButton: true },
+              },
+            }}
+          />
+        </Box>
+      )}
     </Box>
-  )
-}
+  );
+};
 
-export default DepartSuperAdmin  
+export default DepartSuperAdmin;

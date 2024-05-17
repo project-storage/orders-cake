@@ -7,9 +7,9 @@ import { DEGREE_PATH } from '../../../../../configs/constrants';
 const UpdateDegree = () => {
     const [degreeName, setDegreeName] = useState("")
     const [error, setError] = useState("");
+    const [updatedDegree, setUpdatedDegree] = useState(false)
     const { id } = useParams();
     const navigate = useNavigate();
-
 
     const fetchData = async () => {
         try {
@@ -34,11 +34,11 @@ const UpdateDegree = () => {
             })
 
             if (res.status === 200) {
-                navigate(DEGREE_PATH)
+                setUpdatedDegree(true)
                 Swal.fire({
                     position: "center",
                     icon: "success",
-                    title: "สร้างข้อมูลสำเร็จ!",
+                    title: "อัพเดทข้อมูลสำเร็จ!",
                     showConfirmButton: false,
                     timer: 1500
                 });
@@ -51,6 +51,15 @@ const UpdateDegree = () => {
     const handleCancelClick = () => {
         navigate(DEGREE_PATH)
     }
+
+    useEffect(() => {
+        if (updatedDegree) {
+            setTimeout(() => {
+                window.location.reload()
+            }, 100);
+        }
+
+    }, [updatedDegree])
     return (
         <Box className="update-degree" sx={{ mt: 3 }}>
             <form onSubmit={handleSubmit}>
@@ -69,7 +78,7 @@ const UpdateDegree = () => {
                     value={degreeName}
                     onChange={(e) => setDegreeName(e.target.value)}
                 />
-                <Box sx={{mt:2}}>
+                <Box sx={{ mt: 2 }}>
                     <Button
                         // sx={{ ml: 2 }}
                         color="success"

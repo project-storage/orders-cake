@@ -84,6 +84,55 @@ const getGroupInfo = async (req, res) => {
     }
 };
 
+// Get info group
+const getGroupById = async (req, res) => {
+    try {
+        // Check user roles
+        if (req.user.role !== 'superAdmin' && req.user.role !== 'ครูที่ปรึกษา') {
+            return res.status(401).json({
+                status_code: 401,
+                msg: 'Unauthorized'
+            });
+        }
+
+        const groupByID = await tb_group.findAll({
+            where: { id: req.params.id },
+            include: [
+                {
+                    model: tb_user,
+                    as: 'teacher',
+                },
+                {
+                    model: tb_department,
+                    as: 'department',
+                },
+                {
+                    model: tb_degree,
+                    as: 'degree',
+                },
+            ],
+        });
+
+        if (groupByID.length === 0) {
+            return res.status(404).json({
+                status_code: 404,
+                msg: "Group data not found"
+            });
+        }
+
+        return res.status(200).json({
+            status_code: 200,
+            msg: 'Get info data group',
+            data: groupByID,
+        });
+    } catch (error) {
+        console.error('Error', error);
+        return res.status(500).json({
+            status_code: 500,
+            msg: 'Internal Server Error'
+        });
+    }
+};
 const getGroupAll = async (req, res) => {
     try {
         // Check user roles
@@ -277,6 +326,7 @@ const deleteGroup = async (req, res) => {
 module.exports = {
     createGroup,
     getGroupInfo,
+    getGroupById,
     getGroupAll,
     searchGroup,
     updateGroup,

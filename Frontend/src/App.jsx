@@ -84,7 +84,7 @@ function App() {
             path={`${UPDATE_ADMIN_PATH}/:id`}
             element={<UpdateUserSuper />}
           />
-          <Route path={PRODUCT_PATH} element={<CakeSuper />} />
+          <Route path={PRODUCT_PATH} element={<DepartFinacesSuper />} />
           <Route
             path={`${UPDATE_CAKEA_PATH}/:id`}
             element={<UpdateCakeSuper />}

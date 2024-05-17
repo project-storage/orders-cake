@@ -12,14 +12,14 @@ const createCake = async (req, res) => {
             });
         }
 
-        const { cakeName, pound, price } = req.body;
+        const { cakeName, price } = req.body;
 
-        const newCake = new tb_cake({ cakeName, pound, price });
+        const newCake = new tb_cake({ cakeName, price });
 
         const saveCake = await newCake.save();
 
-        return res.status(200).json({
-            status_code: 200,
+        return res.status(201).json({
+            status_code: 201,
             msg: 'Cake created successfully',
             data: saveCake
         });
@@ -134,7 +134,7 @@ const updateCake = async (req, res) => {
             });
         }
 
-        const { cakeName, pound, price } = req.body;
+        const { cakeName, price } = req.body;
 
         const cake = await tb_cake.findOne({ where: { id: req.params.id } });
 
@@ -146,7 +146,6 @@ const updateCake = async (req, res) => {
         }
 
         cake.cakeName = cakeName || cake.cakeName;
-        cake.pound = pound || cake.pound;
         cake.price = price || cake.price;
 
         const updateCake = await cake.save();

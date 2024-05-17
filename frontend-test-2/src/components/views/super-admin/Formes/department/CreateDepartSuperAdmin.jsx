@@ -17,7 +17,7 @@ const CreateDepartSuperAdmin = () => {
                 departCode: departCode
             });
 
-            if (create.status === 200) {
+            if (create.status === 201) {
                 setDepartCreated(true);
                 setOpen(false); // Close the dialog after submission
                 Swal.fire({
@@ -45,7 +45,7 @@ const CreateDepartSuperAdmin = () => {
         if (departCreated) {
             setTimeout(() => {
                 window.location.reload()
-            }, 550);
+            }, 100);
         }
     }, [departCreated]);
 

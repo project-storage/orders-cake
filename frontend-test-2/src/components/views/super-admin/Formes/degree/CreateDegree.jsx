@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import DegreeService from '../../../../../services/DegreeService'
-import { Box, Button, Grid, TextField, Typography } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, Typography } from "@mui/material";
 import Swal from 'sweetalert2';
 
 const degreeCreated = () => {
     const [degreeName, setDegreeName] = useState("")
     const [error, setError] = useState("");
     const [degreeCreated, setDegreeCreated] = useState(false)
+    const [open, setOpen] = useState(false)
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -15,8 +16,9 @@ const degreeCreated = () => {
                 degreeName: degreeName,
             });
 
-            if (create.status === 200) {
+            if (create.status === 201) {
                 setDegreeCreated(true)
+                setOpen(false)
                 Swal.fire({
                     position: "center",
                     icon: "success",
@@ -31,46 +33,54 @@ const degreeCreated = () => {
         }
     };
 
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     useEffect(() => {
         if (degreeCreated) {
             setTimeout(() => {
-                window.location.reload()
-            }, 550);
+                window.location.reload();
+            }, 100);
         }
     }, [degreeCreated])
     return (
-        <div className='form-creat-degree'>
-            <Box sx={{ mt: 3 }}>
-                <form onSubmit={handleSubmit}>
-                    <Typography variant="h4" fontWeight="bold" >
-                        เพิ่มข้อมูลระดับชั้น
-                    </Typography>
-                    <Grid
-                        container
-                        rowSpacing={1}
-                        columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-                    >
-                        <Grid item xs={12}>
-                            <TextField
-                                autoFocus
-                                required
-                                margin="dense"
-                                id="degree"
-                                name="name"
-                                label="ระดับชั้น"
-                                type="name"
-                                fullWidth
-                                value={degreeName}
-                                onChange={(e) => setDegreeName(e.target.value)}
-                            />
-                        </Grid>
-                    </Grid>
-                    <Button color="success" variant="contained" type="submit" sx={{mt:1}}>
-                        <Typography variant="h6">เพิ่มข้อมูลระดับชั้น</Typography>
-                    </Button>
-                </form>
-            </Box>
-        </div>
+        <Box className="form-create-degree">
+            <Button variant="contained" onClick={handleClickOpen}>
+                สร้างข้อมูล
+            </Button>
+            <Dialog
+                open={open}
+                onClose={handleClose}
+            >
+                <DialogTitle>สร้างข้อมูลระดับชั้น</DialogTitle>
+                <DialogContent>
+                    <form onSubmit={handleSubmit}>
+                        <TextField
+                            autoFocus
+                            required
+                            margin="dense"
+                            id="degreeName"
+                            name="degreeName"
+                            label="ระดับชั้น"
+                            type="text"
+                            fullWidth
+                            variant="standard"
+                            value={degreeName}
+                            onChange={(e) => setDegreeName(e.target.value)}
+                        />
+                    </form>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose} variant="outlined" color='error'>ยกเลิก</Button>
+                    <Button type="submit" onClick={handleSubmit} color='success' variant="contained" >ยืนยัน</Button>
+                </DialogActions>
+            </Dialog>
+        </Box>
     )
 }
 

@@ -15,6 +15,10 @@ const getAll = () => {
     return http.get(`/api/groups/all`)
 }
 
+const getById = (id) => {
+    return http.get(`/api/groups/info/${id}`)
+}
+
 const deleteById = (id) => {
     return http.delete(`/api/groups/delete/${id}`)
 }
@@ -27,6 +31,7 @@ const GroupService = {
     create,
     getGroupInfo,
     getAll,
+    getById,
     updateById,
     deleteById
 }

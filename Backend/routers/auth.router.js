@@ -3,7 +3,7 @@ const authRouter = require('express').Router()
 
 authRouter.post(
     '/register',
-    authController.upload,
+    // authController.upload,
     authController.register
 )
 
@@ -14,7 +14,7 @@ authRouter.post(
 
 authRouter.post(
     '/register/super-admin',
-    // authController.upload,
+    authController.upload,
     authController.createSuperAdmin
 )
 

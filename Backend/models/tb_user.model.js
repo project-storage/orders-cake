@@ -1,7 +1,8 @@
 module.exports = (sequelize, DataTypes) => {
     const tb_user = sequelize.define('tb_user', {
         image: {
-            type: DataTypes.STRING
+            type: DataTypes.STRING,
+            allowNull: true
         },
         title: {
             type: DataTypes.STRING(5),

@@ -10,8 +10,11 @@ const DegreePageSuperAdmin = () => {
         <Typography variant='h3' sx={{ fontWeight: 'bold' }}>Degree</Typography>
         <Typography >Super-Admin / <span style={{ color: '#2196f3' }}>Degree</span></Typography>
       </Box>
-          <DegreeSuperAdmin />
-          <CreateDegree />
+      <Box sx={{ m: 1 }}>
+        <CreateDegree />
+      </Box>
+      <DegreeSuperAdmin />
+
     </Box>
   )
 }

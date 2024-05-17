@@ -228,15 +228,15 @@ const deleteDepartment = async (req, res) => {
             });
         }
 
-        const department = await Department.findOne({
+        const department = await tb_department.findOne({
             where: { id: req.params.id }
         });
 
         if (!department) {
-            return res.status(404).json({ msg: 'Department not found' });
+            return res.status(404).json({ msg: 'department not found' });
         }
 
-        const deleteDepartment = await Department.destroy({
+        const deleteDepartment = await tb_department.destroy({
             where: { id: req.params.id }
         });
 

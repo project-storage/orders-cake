@@ -1,5 +1,5 @@
 import React from 'react'
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { Box, Typography } from '@mui/material';
 
 const columns = [
@@ -64,6 +64,18 @@ const OrderSuperAdmin = () => {
                 pageSizeOptions={[5]}
                 checkboxSelection
                 disableRowSelectionOnClick
+                slots={{ toolbar: GridToolbar }}
+                disableColumnFilter
+                disableColumnSelector
+                disableDensitySelector
+                disableExportSelector
+                slotProps={{
+                    toolbar: {
+                        showQuickFilter: true,
+                        printOptions: { disableToolbarButton: true },
+                        csvOptions: { disableToolbarButton: true },
+                    },
+                }}
             />
         </Box>
     )

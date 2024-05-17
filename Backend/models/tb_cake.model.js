@@ -4,10 +4,6 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING(100),
             allowNull: false
         },
-        pound: {
-            type: DataTypes.DECIMAL(10, 2),
-            allowNull: true
-        },
         price: {
             type: DataTypes.DECIMAL(10, 2),
             allowNull: false

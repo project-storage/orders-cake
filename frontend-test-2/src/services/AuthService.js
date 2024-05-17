@@ -1,7 +1,7 @@
 import http from './http-common'
 
 const Login = (loginData) => {
-    return http.post(`/api/users/login`, loginData)
+    return http.post(`/api/auth/login`, loginData)
 }
 
 const Register = (userData) => {

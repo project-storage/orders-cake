@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import CakeService from '../../../../../services/CakeService';
-import { CAKE_PATH } from '../../../../../configs/constrants';
+import { CAKE_PATH, UPDATE_CAKEA_PATH } from '../../../../../configs/constrants';
 import { Box, Button, Grid, TextField, Typography } from '@mui/material';
 import Swal from 'sweetalert2';
 
 const UpdateCake = () => {
     const [cakeName, setCakeName] = useState("");
     const [price, setPrice] = useState("");
-    const [pound, setPound] = useState("")
     const [error, setError] = useState("");
+    const [updatedCake, setUpdatedCake] = useState(false)
     const { id } = useParams();
     const navigate = useNavigate();
 
@@ -19,7 +19,6 @@ const UpdateCake = () => {
                 const response = await CakeService.getById(id);
                 if (response.status === 200) {
                     setCakeName(response.data.data[0].cakeName);
-                    setPound(response.data.data[0].pound);
                     setPrice(response.data.data[0].price);
                 }
             } catch (error) {
@@ -35,21 +34,21 @@ const UpdateCake = () => {
         try {
             const response = await CakeService.updateById(id, {
                 cakeName: cakeName,
-                pound: pound,
                 price: price,
             });
 
             if (response.status === 200) {
-                navigate(CAKE_PATH)
+                setUpdatedCake(true)
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "อัพเดทข้อมูลสำเร็จ!",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
             }
 
-            Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "อัพเดทข้อมูลสำเร็จ!",
-                showConfirmButton: false,
-                timer: 1500
-            });
+
         } catch (error) {
             console.error("Error:", error.response);
             setError(error);
@@ -60,6 +59,15 @@ const UpdateCake = () => {
     const handleCancelClick = () => {
         navigate(CAKE_PATH);
     };
+
+    useEffect(() => {
+        if (updatedCake) {
+            setTimeout(() => {
+                window.location.reload()
+            }, 100);
+        }
+
+    }, [updatedCake])
 
     return (
         <Box className="update-cake" sx={{ mt: 3 }}>
@@ -72,7 +80,7 @@ const UpdateCake = () => {
                     rowSpacing={1}
                     columnSpacing={{ xs: 1, sm: 2, md: 3 }}
                 >
-                    <Grid item md={4} xs={12}>
+                    <Grid item md={6} xs={12}>
                         <TextField
                             autoFocus
                             required
@@ -86,21 +94,7 @@ const UpdateCake = () => {
                             onChange={(e) => setCakeName(e.target.value)}
                         />
                     </Grid>
-                    <Grid item md={4} xs={12}>
-                        <TextField
-                            autoFocus
-                            required
-                            margin="dense"
-                            id="pound"
-                            name="pound"
-                            label="จำนวนปอนด์"
-                            type="number"
-                            fullWidth
-                            value={pound}
-                            onChange={(e) => setPound(e.target.value)}
-                        />
-                    </Grid>
-                    <Grid item md={4} xs={12}>
+                    <Grid item md={6} xs={12}>
                         <TextField
                             autoFocus
                             required
