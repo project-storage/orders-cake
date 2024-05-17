@@ -49,7 +49,7 @@ const CreateCake = () => {
         if (cakeCreated) {
             setTimeout(() => {
                 window.location.reload();
-            }, 100)
+            }, 1500)
         }
     }, [cakeCreated]);
     return (

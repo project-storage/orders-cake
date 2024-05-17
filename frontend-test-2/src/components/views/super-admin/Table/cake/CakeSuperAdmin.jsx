@@ -18,6 +18,7 @@ const CakeSuperAdmin = () => {
         dispatch(fetchCakes());
     }, [dispatch]);
 
+
     const handleUpdate = (id) => {
         navigate(`${UPDATE_CAKEA_PATH}/${id}`);
     };

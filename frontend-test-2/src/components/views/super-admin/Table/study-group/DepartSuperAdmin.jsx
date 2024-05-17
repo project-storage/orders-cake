@@ -7,13 +7,15 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import { useNavigate } from 'react-router-dom';
 import { UPDATE_DEPARTMENT_PATH } from '../../../../../configs/constrants';
+import { useSelector } from 'react-redux';
 
 const DepartSuperAdmin = () => {
   const [departs, setDeparts] = useState([]);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
+  // const [error, setError] = useState(null);
+  // const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-
+  const dispatch = useDispatch()
+  const {departments,loading,error}= useSelector((state)=>state.departments)
   const fetchData = async () => {
     setLoading(true);
     try {
