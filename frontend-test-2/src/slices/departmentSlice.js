@@ -59,6 +59,7 @@ const departmentSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
+            // get all
             .addCase(fetchDepartments.pending, (state) => {
                 state.loading = true;
             })
@@ -70,6 +71,8 @@ const departmentSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
+
+            // get by id
             .addCase(departmentGetById.pending, (state) => {
                 state.loading = true;
             })
@@ -81,6 +84,8 @@ const departmentSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
+
+            // create
             .addCase(createDepartment.pending, (state) => {
                 state.loading = true;
             })
@@ -92,13 +97,15 @@ const departmentSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
+
+            // update
             .addCase(updateDepartment.pending, (state) => {
                 state.loading = true;
             })
             .addCase(updateDepartment.fulfilled, (state, action) => {
                 state.loading = false;
                 state.department = action.payload;
-                state.departments = state.departments.map(department => 
+                state.departments = state.departments.map(department =>
                     department.id === action.payload.id ? action.payload : department
                 );
             })
@@ -106,6 +113,8 @@ const departmentSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
+
+            // delete
             .addCase(deleteDepartment.pending, (state) => {
                 state.loading = true;
             })
