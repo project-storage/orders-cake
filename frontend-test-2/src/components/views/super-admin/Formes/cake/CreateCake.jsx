@@ -16,7 +16,7 @@ const CreateCake = () => {
         try {
             const res = await CakeService.create({
                 cakeName: cakeName,
-                price: price,
+                price: parseFloat(price), // Ensure price is sent as a number
             });
 
             if (res.status === 201) {

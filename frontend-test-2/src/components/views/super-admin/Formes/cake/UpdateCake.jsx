@@ -10,13 +10,12 @@ import { cakeGetById, updateCake } from '../../../../../slices/cakeSlice';
 const UpdateCake = () => {
     const [cakeName, setCakeName] = useState("");
     const [price, setPrice] = useState("");
-    const [error, setError] = useState("");
-    const [updatedCake, setUpdatedCake] = useState(false)
+    const [error, setError] = useState(null);
 
     const { id } = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch()
-    const { cake } = useSelector((state) => state.cakes)
+    const { cake, loading, error: fetchError } = useSelector((state) => state.cakes)
 
     useEffect(() => {
         if (id) {
@@ -36,7 +35,6 @@ const UpdateCake = () => {
         try {
             const res = await dispatch(updateCake({ id, cakeName, price })).unwrap();
             if (res) {
-                setUpdatedCake(true)
                 Swal.fire({
                     position: "center",
                     icon: "success",
@@ -56,21 +54,14 @@ const UpdateCake = () => {
         navigate(CAKE_PATH);
     };
 
-    useEffect(() => {
-        if (updatedCake) {
-            setTimeout(() => {
-                window.location.reload()
-            }, 500);
-        }
-
-    }, [updatedCake])
-
     return (
         <Box className="update-cake" sx={{ mt: 3 }}>
             <form onSubmit={handleSubmit}>
                 <Typography variant="h4" fontWeight="bold" mb="1rem">
                     อัพเดทข้อมูล
                 </Typography>
+                {fetchError && <Typography color="error">{fetchError}</Typography>}
+                {error && <Typography color="error">{error}</Typography>}
                 <Grid
                     container
                     rowSpacing={1}

@@ -10,11 +10,11 @@ const UpdateDepartSuperAdmin = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { department, loading, error } = useSelector((state) => state.departments);
+  const { department, loading, error: fetchError } = useSelector((state) => state.departments);
+  const [error, setError] = useState(null);
 
   const [departName, setDepartName] = useState("");
   const [departCode, setDepartCode] = useState("");
-  const [updatedDepart, setUpdatedDepart] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -34,7 +34,6 @@ const UpdateDepartSuperAdmin = () => {
     try {
       const res = await dispatch(updateDepartment({ id, departName, departCode })).unwrap();
       if (res) {
-        setUpdatedDepart(true);
         Swal.fire({
           position: "center",
           icon: "success",
@@ -52,20 +51,14 @@ const UpdateDepartSuperAdmin = () => {
     navigate(DEPARTMENT_PATH);
   };
 
-  useEffect(() => {
-    if (updatedDepart) {
-      setTimeout(() => {
-        window.location.reload()
-      }, 500);
-    }
-  }, [updatedDepart, navigate]);
-
   return (
     <Box className="update-department" sx={{ mt: 3 }}>
       <form onSubmit={handleSubmit}>
         <Typography variant="h4" fontWeight="bold">
           อัพเดทข้อมูล
         </Typography>
+        {fetchError && <Typography color="error">{fetchError}</Typography>}
+        {error && <Typography color="error">{error}</Typography>}
         <Grid
           container
           rowSpacing={1}

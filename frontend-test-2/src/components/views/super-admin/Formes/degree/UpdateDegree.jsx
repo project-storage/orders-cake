@@ -1,89 +1,81 @@
-import { Box, Button, TextField, Typography, } from '@mui/material';
-import React, { useEffect, useState } from 'react'
+import { Box, Button, TextField, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import DegreeService from '../../../../../services/DegreeService';
+import Swal from 'sweetalert2';
+import { useDispatch, useSelector } from 'react-redux';
+import { degreeById, updateDegree } from '../../../../../slices/degreeSlice';
 import { DEGREE_PATH } from '../../../../../configs/constrants';
 
 const UpdateDegree = () => {
-    const [degreeName, setDegreeName] = useState("")
-    const [error, setError] = useState("");
-    const [updatedDegree, setUpdatedDegree] = useState(false)
+    const [degreeName, setDegreeName] = useState("");
+    const [error, setError] = useState(null);
+
     const { id } = useParams();
     const navigate = useNavigate();
-
-    const fetchData = async () => {
-        try {
-            const res = await DegreeService.getById(id)
-            if (res.status === 200) {
-                setDegreeName(res.data.data[0].degreeName)
-            }
-        } catch (error) {
-            setError(error)
-        }
-    }
+    const dispatch = useDispatch();
+    const { degree, loading, error: fetchError } = useSelector((state) => state.degrees);
 
     useEffect(() => {
-        fetchData()
-    }, [id])
+        if (id) {
+            dispatch(degreeById(id));
+        }
+    }, [id, dispatch]);
+
+    useEffect(() => {
+        if (degree) {
+            setDegreeName(degree.degreeName);
+        }
+    }, [degree]);
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
         try {
-            const res = await DegreeService.updateById(id, {
-                degreeName: degreeName
-            })
-
-            if (res.status === 200) {
-                setUpdatedDegree(true)
+            const res = await dispatch(updateDegree({ id, degreeName }));
+            if (res.payload) {
                 Swal.fire({
                     position: "center",
                     icon: "success",
                     title: "อัพเดทข้อมูลสำเร็จ!",
                     showConfirmButton: false,
-                    timer: 1500
+                    timer: 1500,
                 });
             }
         } catch (error) {
-            setError(error.res.data.message);
+            setError(error.message);
         }
-    }
+    };
 
     const handleCancelClick = () => {
-        navigate(DEGREE_PATH)
-    }
+        navigate(DEGREE_PATH);
+    };
 
-    useEffect(() => {
-        if (updatedDegree) {
-            setTimeout(() => {
-                window.location.reload()
-            }, 100);
-        }
-
-    }, [updatedDegree])
     return (
         <Box className="update-degree" sx={{ mt: 3 }}>
             <form onSubmit={handleSubmit}>
                 <Typography variant="h4" fontWeight="bold">
                     อัพเดทข้อมูล
                 </Typography>
+                {fetchError && <Typography color="error">{fetchError}</Typography>}
+                {error && <Typography color="error">{error}</Typography>}
                 <TextField
                     autoFocus
                     required
                     margin="dense"
                     id="degreeName"
-                    name="name"
+                    name="degreeName"
                     label="ระดับชั้น"
-                    type="name"
+                    type="text"
                     fullWidth
                     value={degreeName}
                     onChange={(e) => setDegreeName(e.target.value)}
+                    disabled={loading}
                 />
                 <Box sx={{ mt: 2 }}>
                     <Button
-                        // sx={{ ml: 2 }}
                         color="success"
                         variant="contained"
                         type="submit"
+                        disabled={loading}
                     >
                         อัพเดทข้อมูล
                     </Button>
@@ -92,13 +84,14 @@ const UpdateDegree = () => {
                         color="error"
                         variant="contained"
                         onClick={handleCancelClick}
+                        disabled={loading}
                     >
                         ยกเลิก
                     </Button>
                 </Box>
             </form>
         </Box>
-    )
-}
+    );
+};
 
-export default UpdateDegree
+export default UpdateDegree;

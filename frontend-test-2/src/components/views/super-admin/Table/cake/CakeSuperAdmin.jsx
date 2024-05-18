@@ -18,7 +18,6 @@ const CakeSuperAdmin = () => {
         dispatch(fetchCakes());
     }, [dispatch]);
 
-
     const handleUpdate = (id) => {
         navigate(`${UPDATE_CAKEA_PATH}/${id}`);
     };
@@ -56,11 +55,14 @@ const CakeSuperAdmin = () => {
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
         { field: 'cakeName', headerName: 'ชื่อเค้ก', width: 150 },
-        { field: 'price', headerName: 'ราคา', width: 150 },
+        {
+            field: 'price',
+            headerName: 'ราคา',
+            width: 150,
+        },
         {
             field: 'Action',
             headerName: 'Action',
-            description: 'This column has a value getter and is not sortable.',
             sortable: false,
             width: 250,
             renderCell: (params) => (

@@ -58,7 +58,6 @@ const DepartSuperAdmin = () => {
     {
       field: 'actions',
       headerName: 'Actions',
-      description: 'This column has a value getter and is not sortable.',
       sortable: false,
       width: 250,
       renderCell: (params) => {

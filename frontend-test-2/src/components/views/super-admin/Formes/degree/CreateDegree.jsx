@@ -5,7 +5,6 @@ import Swal from 'sweetalert2';
 
 const degreeCreated = () => {
     const [degreeName, setDegreeName] = useState("")
-    const [error, setError] = useState("");
     const [degreeCreated, setDegreeCreated] = useState(false)
     const [open, setOpen] = useState(false)
 
@@ -45,7 +44,7 @@ const degreeCreated = () => {
         if (degreeCreated) {
             setTimeout(() => {
                 window.location.reload();
-            }, 100);
+            }, 1500);
         }
     }, [degreeCreated])
     return (
