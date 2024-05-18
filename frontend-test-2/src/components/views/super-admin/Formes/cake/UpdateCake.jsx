@@ -4,40 +4,38 @@ import CakeService from '../../../../../services/CakeService';
 import { CAKE_PATH, UPDATE_CAKEA_PATH } from '../../../../../configs/constrants';
 import { Box, Button, Grid, TextField, Typography } from '@mui/material';
 import Swal from 'sweetalert2';
+import { useDispatch, useSelector } from 'react-redux';
+import { cakeGetById, updateCake } from '../../../../../slices/cakeSlice';
 
 const UpdateCake = () => {
     const [cakeName, setCakeName] = useState("");
     const [price, setPrice] = useState("");
     const [error, setError] = useState("");
     const [updatedCake, setUpdatedCake] = useState(false)
+
     const { id } = useParams();
     const navigate = useNavigate();
+    const dispatch = useDispatch()
+    const { cake } = useSelector((state) => state.cakes)
 
     useEffect(() => {
-        async function fetchData() {
-            try {
-                const response = await CakeService.getById(id);
-                if (response.status === 200) {
-                    setCakeName(response.data.data[0].cakeName);
-                    setPrice(response.data.data[0].price);
-                }
-            } catch (error) {
-                console.error("Error", error);
-                setError(error);
-            }
+        if (id) {
+            dispatch(cakeGetById(id))
         }
-        fetchData();
-    }, [id]);
+    }, [id, dispatch]);
+
+    useEffect(() => {
+        if (cake) {
+            setCakeName(cake.cakeName)
+            setPrice(cake.price)
+        }
+    }, [cake])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await CakeService.updateById(id, {
-                cakeName: cakeName,
-                price: price,
-            });
-
-            if (response.status === 200) {
+            const res = await dispatch(updateCake({ id, cakeName, price })).unwrap();
+            if (res) {
                 setUpdatedCake(true)
                 Swal.fire({
                     position: "center",
@@ -48,13 +46,11 @@ const UpdateCake = () => {
                 });
             }
 
-
         } catch (error) {
             console.error("Error:", error.response);
             setError(error);
         }
     };
-
 
     const handleCancelClick = () => {
         navigate(CAKE_PATH);
@@ -64,7 +60,7 @@ const UpdateCake = () => {
         if (updatedCake) {
             setTimeout(() => {
                 window.location.reload()
-            }, 100);
+            }, 500);
         }
 
     }, [updatedCake])

@@ -3,6 +3,7 @@ import CakeService from '../services/CakeService';
 
 const initialState = {
   cakes: [],
+  cake: null,
   loading: false,
   error: null,
 };
@@ -77,7 +78,7 @@ const cakeSlice = createSlice({
       })
       .addCase(cakeGetById.fulfilled, (state, action) => {
         state.loading = false
-        state.error = action.payload
+        state.cake = action.payload
       })
       .addCase(cakeGetById.rejected, (state, action) => {
         state.loading = false
@@ -103,7 +104,7 @@ const cakeSlice = createSlice({
       })
       .addCase(updateCake.fulfilled, (state, action) => {
         state.loading = false
-        state.cakes = action.payload
+        state.cake = action.payload
         state.cakes = state.cakes.map(cake =>
           cake.id === action.payload.id ? action.payload : cake
         )
