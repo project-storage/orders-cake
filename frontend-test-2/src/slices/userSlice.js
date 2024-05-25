@@ -115,13 +115,12 @@ const userSlice = createSlice({
             })
             .addCase(fetchUseTeacher.fulfilled, (state, action) => {
                 state.loading = false;
-                state.users = action.payload;
+                state.users = action.payload; // Assign the entire array to state.users
             })
             .addCase(fetchUseTeacher.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             })
-
             // get all
             .addCase(fetchAllUsers.pending, (state) => {
                 state.loading = true;

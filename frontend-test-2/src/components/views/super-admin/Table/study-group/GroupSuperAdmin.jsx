@@ -1,8 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import GroupService from '../../../../../services/GroupService';
-import DepartmentService from '../../../../../services/DepartmentService';
-import DegreeService from '../../../../../services/DegreeService';
-import UserService from '../../../../../services/UserService';
+import React, { useEffect } from 'react';
 import { Box, Button, CircularProgress, Typography } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -11,60 +7,71 @@ import FolderIcon from '@mui/icons-material/Folder';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { UPDATE_GROUP_PATH } from '../../../../../configs/constrants';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchDegrees } from '../../../../../slices/degreeSlice';
+import { fetchDepartments } from '../../../../../slices/departmentSlice';
+import { deleteGroup, fetchGroups } from '../../../../../slices/groupSlice';
+import { fetchUseTeacher } from '../../../../../slices/userSlice';
 
 const GroupSuperAdmin = () => {
-  const [groups, setGroups] = useState([]);
-  const [departs, setDeparts] = useState([]);
-  const [degrees, setDegrees] = useState([]);
-  const [teachers, setTeachers] = useState([]);
-  const [error, setError] = useState("");
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
 
-  const fetchData = async () => {
-    try {
-      const resGroup = await GroupService.getAll();
-      const resDepart = await DepartmentService.getAll();
-      const resDegree = await DegreeService.getAll();
-      const resTeacher = await UserService.getUseTeacher();
-
-      setGroups(resGroup.data.data);
-      setDeparts(resDepart.data.data);
-      setDegrees(resDegree.data.data);
-      setTeachers(resTeacher.data.data);
-    } catch (error) {
-      setError(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { groups, loading: groupsLoading, error: groupsError } = useSelector((state) => state.groups);
+  const { departments, loading: departmentsLoading, error: departmentsError } = useSelector((state) => state.departments);
+  const { degrees, loading: degreesLoading, error: degreesError } = useSelector((state) => state.degrees);
+  const { users: teachers, loading: teachersLoading, error: teachersError } = useSelector((state) => state.users);
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    dispatch(fetchGroups());
+    dispatch(fetchDepartments());
+    dispatch(fetchDegrees());
+    dispatch(fetchUseTeacher());
+  }, [dispatch]);
 
-  useEffect(() => {
-    setTimeout(() => {
-      fetchData();
-    }, 500);
-  }, []);
+  if (groupsLoading || departmentsLoading || degreesLoading || teachersLoading) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "50vh",
+          textAlign: 'center'
+        }}
+      >
+        <Box>
+          <CircularProgress />
+          <Typography>กำลังโหลดข้อมูลโปรดรอสักครู่....</Typography>
+        </Box>
+      </Box>
+    );
+  }
 
-  const degreeMap = degrees.reduce((map, degree) => {
+  if (groupsError || departmentsError || degreesError || teachersError) {
+    return (
+      <Box sx={{ textAlign: 'center', mt: 2 }}>
+        <Typography variant="h6" color="error">เกิดข้อผิดพลาดในการโหลดข้อมูล</Typography>
+      </Box>
+    );
+  }
+
+  const degreeMap = (degrees || []).reduce((map, degree) => {
     map[degree.id] = degree.degreeName;
     return map;
   }, {});
 
-  const departmentMap = departs.reduce((map, department) => {
+  const departmentMap = (departments || []).reduce((map, department) => {
     map[department.id] = department.departName;
     return map;
   }, {});
 
-  const teacherMap = teachers.reduce((map, teacher) => {
+  const teacherMap = (teachers || []).reduce((map, teacher) => {
     map[teacher.id] = `${teacher.title}${teacher.name} ${teacher.surname}`;
     return map;
   }, {});
 
-  const transformedGroups = groups.map(group => ({
+  const transformedGroups = (groups || []).map(group => ({
     ...group,
     degreeID: degreeMap[group.degreeID] || group.degreeID,
     departID: departmentMap[group.departID] || group.departID,
@@ -89,9 +96,7 @@ const GroupSuperAdmin = () => {
       });
 
       if (response.isConfirmed) {
-        await GroupService.deleteById(id);
-        const updatedGroups = groups.filter((group) => group.id !== id);
-        setGroups(updatedGroups);
+        await dispatch(deleteGroup(id))
         Swal.fire({
           position: "center",
           icon: "success",
@@ -181,51 +186,32 @@ const GroupSuperAdmin = () => {
   ];
 
   return (
-    <Box className="table-group">
-      {loading ? (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "50vh",
-            textAlign: 'center'
-          }}
-        >
-          <Box>
-            <CircularProgress />
-            <Typography>กำลังโหลดข้อมูลโปรดรอสักครู่....</Typography>
-          </Box>
-        </Box>
-      ) : (
-        <Box sx={{ height: 400, width: '100%' }}>
-          <DataGrid
-            rows={transformedGroups}
-            columns={columns}
-            initialState={{
-              pagination: {
-                paginationModel: {
-                  pageSize: 5,
-                },
-              },
-            }}
-            pageSizeOptions={[5]}
-            checkboxSelection
-            slots={{ toolbar: GridToolbar }}
-            disableColumnFilter
-            disableColumnSelector
-            disableDensitySelector
-            disableExportSelector
-            slotProps={{
-              toolbar: {
-                showQuickFilter: true,
-                printOptions: { disableToolbarButton: true },
-                csvOptions: { disableToolbarButton: true },
-              },
-            }}
-          />
-        </Box>
-      )}
+    <Box className="table-group" sx={{ height: 400, width: '100%' }}>
+      <DataGrid
+        rows={transformedGroups}
+        columns={columns}
+        initialState={{
+          pagination: {
+            paginationModel: {
+              pageSize: 5,
+            },
+          },
+        }}
+        pageSizeOptions={[5]}
+        checkboxSelection
+        slots={{ toolbar: GridToolbar }}
+        disableColumnFilter
+        disableColumnSelector
+        disableDensitySelector
+        disableExportSelector
+        slotProps={{
+          toolbar: {
+            showQuickFilter: true,
+            printOptions: { disableToolbarButton: true },
+            csvOptions: { disableToolbarButton: true },
+          },
+        }}
+      />
     </Box>
   );
 };

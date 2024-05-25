@@ -16,15 +16,17 @@ const getAll = () => {
 }
 
 const getById = (id) => {
-    return http.get(`/api/groups/info/${id}`)
+    return http.get(`/api/groups/info/${id}`).then((response) => {
+        return response;
+    });
+}
+
+const updateById = (id, updateData) => {
+    return http.put(`/api/groups/update/${id.toString()}`, updateData)
 }
 
 const deleteById = (id) => {
     return http.delete(`/api/groups/delete/${id}`)
-}
-
-const updateById = (id, updateData) => {
-    return http.post(`/api/groups/update/${id.toString()}`, updateData)
 }
 
 const GroupService = {
