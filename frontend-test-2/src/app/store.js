@@ -4,6 +4,7 @@ import departmentReducer from '../slices/departmentSlice';
 import degreeReducer from '../slices/degreeSlice'
 import groupReducer from '../slices/groupSlice'
 import userReducer from '../slices/userSlice'
+import authReducer from '../slices/authSlice'
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
     departments: departmentReducer,
     degrees: degreeReducer,
     groups: groupReducer,
-    users: userReducer
+    users: userReducer,
+    auths: authReducer
   },
 });

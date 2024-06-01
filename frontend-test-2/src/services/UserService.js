@@ -27,9 +27,6 @@ const postLogin = (loginData) => {
     return http.post(`/api/user/login`, loginData)
 }
 
-const createUser = (userData) => {
-    return http.post("/api/users/register", userData);
-}
 const updateUser = (id, updateUser) => {
     return http.put(`/api/users/update/${id}`, updateUser)
 }
@@ -39,7 +36,6 @@ const deleteUser = (id) => {
 }
 
 const UserService = {
-    createUser,
     postLogin,
     getUserInfo,
     getUserById,

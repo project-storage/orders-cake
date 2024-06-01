@@ -47,7 +47,7 @@ const getUserAll = async (req, res) => {
                 msg: 'User not found'
             });
         }
-        
+
         return res.status(200).json({
             status_code: 200,
             msg: "Get user all success",
@@ -152,61 +152,6 @@ const updateUser = async (req, res) => {
                 return res.status(404).json({
                     status_code: 404,
                     msg: 'User not found'
-                });
-            }
-        }
-
-        if (name !== user.name) {
-            const alreadyExistsName = await tb_user.findOne({ where: { name } });
-
-            if (alreadyExistsName) {
-                return res.status(400).json({
-                    status_code: 400,
-                    msg: 'Name already exists'
-                });
-            }
-        }
-
-        if (surname !== user.surname) {
-            const alreadyExistsSurname = await tb_user.findOne({ where: { surname } });
-
-            if (alreadyExistsSurname) {
-                return res.status(400).json({
-                    status_code: 400,
-                    msg: 'Surname already exists'
-                });
-            }
-        }
-
-        if (username !== user.username) {
-            const alreadyExistsUsername = await tb_user.findOne({ where: { username } });
-
-            if (alreadyExistsUsername) {
-                return res.status(400).json({
-                    status_code: 400,
-                    msg: 'Username already exists'
-                });
-            }
-        }
-
-        if (email !== user.email) {
-            const alreadyExistsEmail = await tb_user.findOne({ where: { email } });
-
-            if (alreadyExistsEmail) {
-                return res.status(400).json({
-                    status_code: 400,
-                    msg: 'Email already exists'
-                });
-            }
-        }
-
-        if (tel !== user.tel) {
-            const alreadyExistsTelephone = await tb_user.findOne({ where: { tel } });
-
-            if (alreadyExistsTelephone) {
-                return res.status(400).json({
-                    status_code: 400,
-                    msg: 'Telephone already exists'
                 });
             }
         }

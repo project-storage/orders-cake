@@ -46,19 +46,10 @@ export const fetchAllUsers = createAsyncThunk('user/fetchAllUsers', async (_, { 
     }
 });
 
-export const createUser = createAsyncThunk('user/createUser', async (userData, { rejectWithValue }) => {
-    try {
-        const response = await UserService.createUser(userData);
-        return response.data.data
-    } catch (error) {
-        return rejectWithValue(error.response.data.data);
-    }
-});
-
-export const updateUser = createAsyncThunk('user/updateUser', async ({ id, userData }, { rejectWithValue }) => {
+export const updateUser = createAsyncThunk('user/updateUser', async ({ id, ...userData }, { rejectWithValue }) => {
     try {
         const response = await UserService.updateUser(id, userData);
-        return response.data.data
+        return response.data.data;  // Adjust this if your API response structure is different
     } catch (error) {
         return rejectWithValue(error.response.data.data);
     }
@@ -66,8 +57,8 @@ export const updateUser = createAsyncThunk('user/updateUser', async ({ id, userD
 
 export const deleteUser = createAsyncThunk('user/deleteUser', async (id, { rejectWithValue }) => {
     try {
-        const response = await UserService.deleteUser(id);
-        return response.data.data
+        await UserService.deleteUser(id)
+        return { id }
     } catch (error) {
         return rejectWithValue(error.response.data.data);
     }
@@ -134,19 +125,6 @@ const userSlice = createSlice({
                 state.error = action.payload;
             })
 
-            // create
-            .addCase(createUser.pending, (state) => {
-                state.loading = true;
-            })
-            .addCase(createUser.fulfilled, (state, action) => {
-                state.loading = false;
-                state.users.push(action.payload);
-            })
-            .addCase(createUser.rejected, (state, action) => {
-                state.loading = false;
-                state.error = action.payload;
-            })
-
             // update
             .addCase(updateUser.pending, (state) => {
                 state.loading = true;
@@ -156,6 +134,11 @@ const userSlice = createSlice({
                 const index = state.users.findIndex(user => user.id === action.payload.id);
                 if (index !== -1) {
                     state.users[index] = action.payload;
+                } else {
+                    state.users.push(action.payload);  // Optional: if the updated user is not in the list, add it
+                }
+                if (state.user && state.user.id === action.payload.id) {
+                    state.user = action.payload; // Update the single user object if it's being viewed
                 }
             })
             .addCase(updateUser.rejected, (state, action) => {

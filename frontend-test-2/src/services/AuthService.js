@@ -5,7 +5,7 @@ const Login = (loginData) => {
 }
 
 const Register = (userData) => {
-    return http.post("/api/users/register", userData);
+    return http.post("/api/auth/register", userData);
 }
 
 const AuthService = {

@@ -17,8 +17,9 @@ export const UPDATE_DEGREE_PATH = DEGREE_PATH + '/update'
 // department
 export const DEPARTMENT_PATH = BASE_PATH + 'department'
 export const UPDATE_DEPARTMENT_PATH = DEPARTMENT_PATH + '/update'
-
+// users
 export const ALL_USER_PATH = BASE_PATH + 'users'
+export const UPDATE_USER = ALL_USER_PATH + 'users'
 
 // Profile Name and Role
 export const PROFILE_NAME = 'Samit Koyom'
