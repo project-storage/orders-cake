@@ -95,8 +95,8 @@ const CreateUser = () => {
                     <MenuItem value="" disabled>
                       --------------เลือกคำนำหน้า--------------
                     </MenuItem>
-                    <MenuItem value="นาย">นาย</MenuItem>
-                    <MenuItem value="นาง">นาง</MenuItem>
+                    <MenuItem value="นาย.">นาย</MenuItem>
+                    <MenuItem value="นาง.">นาง</MenuItem>
                     <MenuItem value="น.ส.">น.ส.</MenuItem>
                     <MenuItem value="Mr.">Mr.</MenuItem>
                     <MenuItem value="Mrs.">Mrs.</MenuItem>
