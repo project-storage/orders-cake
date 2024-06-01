@@ -21,6 +21,6 @@ export const UPDATE_DEPARTMENT_PATH = DEPARTMENT_PATH + '/update'
 export const ALL_USER_PATH = BASE_PATH + 'users'
 export const UPDATE_USER = ALL_USER_PATH + 'users'
 
-// Profile Name and Role
-export const PROFILE_NAME = 'Samit Koyom'
-export const PROFILE_ROLE = 'Administrator'
+// tearcher routes
+const TEACHER_PATH = '/teacher/'
+export const DASHBOARD_TEACHERPATH = TEACHER_PATH + 'dashboard'

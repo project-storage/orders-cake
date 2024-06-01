@@ -47,7 +47,7 @@ const SideNav = () => {
         >
             <Box sx={styles.avatarContainer}>
                 <Avatar alt="Masoud" src="/assets/samit.jpg" />
-                {!collapsed ? <Typography variant="body2" sx={styles.yourChannel}>{userInfo.title}{userInfo.name}{userInfo.surname}</Typography> : null}
+                {!collapsed ? <Typography variant="body2" sx={styles.yourChannel}>{userInfo.title}{userInfo.name} {userInfo.surname}</Typography> : null}
                 {!collapsed ? <Typography variant="body2">สถานะ {userInfo.role}</Typography> : null}
             </Box>
 
@@ -79,45 +79,17 @@ const SideNav = () => {
                     active={activeMenuItem === CAKE_PATH}
                     component={<Link to={CAKE_PATH} />}
                     icon={<CakeOutlinedIcon />}
-                onClick={() => handleMenuClick(CAKE_PATH)}
+                    onClick={() => handleMenuClick(CAKE_PATH)}
                 >
-                    <Typography variant="body2">เค้ก</Typography>
+                    <Typography variant="body2">นักเรียน/นักศึกษา</Typography>
                 </MenuItem>
-                <SubMenu label="กลุ่มเรียน" icon={<StorageOutlinedIcon />}>
-                    <MenuItem
-                        active={activeMenuItem === GROUP_PATH}
-                        component={<Link to={GROUP_PATH} />}
-                        // onClick={() => handleMenuClick(GROUP_PATH)}
-                        icon={<Groups2OutlinedIcon />}
-                    >
-                        <Typography variant="body2">กลุ่มเรียน</Typography>
-                    </MenuItem>
-
-                    <MenuItem
-                        active={activeMenuItem === DEGREE_PATH}
-                        component={<Link to={DEGREE_PATH} />}
-                        onClick={() => handleMenuClick(DEGREE_PATH)}
-                        icon={<ClassOutlinedIcon />}
-                    >
-                        <Typography variant="body2">ระดับชั้น </Typography>
-                    </MenuItem>
-
-                    <MenuItem
-                        active={activeMenuItem === DEPARTMENT_PATH}
-                        component={<Link to={DEPARTMENT_PATH} />}
-                        onClick={() => handleMenuClick(DEPARTMENT_PATH)}
-                        icon={<SettingsOutlinedIcon />}
-                    >
-                        <Typography variant="body2">แผนก</Typography>
-                    </MenuItem>
-                </SubMenu>
                 <MenuItem
-                    active={activeMenuItem === ALL_USER_PATH}
-                    component={<Link to={ALL_USER_PATH} />}
-                    // onClick={() => handleMenuClick(ALL_DATA_USER_PATH)}
-                    icon={<SupervisedUserCircleOutlinedIcon />}
+                    active={activeMenuItem === GROUP_PATH}
+                    component={<Link to={GROUP_PATH} />}
+                    // onClick={() => handleMenuClick(GROUP_PATH)}
+                    icon={<Groups2OutlinedIcon />}
                 >
-                    <Typography variant="body2">ผู้ใช้งาน </Typography>
+                    <Typography variant="body2">ห้องเรียน </Typography>
                 </MenuItem>
             </Menu >
         </Sidebar >

@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import {
   // DASHBOARDTEACH_PATH,
   DASHBOARD_PATH,
+  DASHBOARD_TEACHERPATH,
   // REGISTER_PATH,
 } from "../../configs/constrants";
 import AuthService from "../../services/AuthService";
@@ -52,10 +53,17 @@ const Login = () => {
         //   navigate("/user/dashboard");
         //   Swal.fire("ยินดีต้อนรับเข้าสู่ระบบ", `${formData.login}`, "success");
         //   break;
-        // case "ครูที่ปรึกษา":
-        //   navigate(DASHBOARDTEACH_PATH);
-        //   Swal.fire("ยินดีต้อนรับเข้าสู่ระบบ", `${formData.login}`, "success");
-        //   break;
+        case "ครูที่ปรึกษา":
+          navigate(DASHBOARD_TEACHERPATH);
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "ยินดีต้อนรับเข้าสู่ระบบ!",
+            text: `คุณ ${formData.login}`,
+            showConfirmButton: false,
+            timer: 1500
+          });
+          break;
         default:
           // Handle other roles or unknown roles
           break;
