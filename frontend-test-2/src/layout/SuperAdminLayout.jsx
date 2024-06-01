@@ -3,7 +3,7 @@ import React from 'react'
 import { Outlet } from 'react-router-dom'
 import Footer from '../components/layouts/Footer'
 import SideNav from '../components/layouts/super-admin/SideNav'
-import Header from '../components/layouts/super-admin/Header'
+import Header from '../components/layouts/Header'
 
 const SuperAdminLayout = () => {
     return (

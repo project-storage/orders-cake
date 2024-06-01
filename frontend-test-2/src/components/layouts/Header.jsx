@@ -1,11 +1,9 @@
 import { AppBar, Avatar, Box, IconButton, Menu, MenuItem, Toolbar } from "@mui/material"
 import MenuIcon from "@mui/icons-material/Menu"
-import NotificationsOutlined from "@mui/icons-material/NotificationsOutlined"
-import LanguageOutlined from "@mui/icons-material/LanguageOutlined"
-import { Logout, Money, Settings, Person } from "@mui/icons-material"
+import { Logout, Person } from "@mui/icons-material"
 import { useProSidebar } from "react-pro-sidebar"
 import { useState } from "react"
-import { SYSTEM_NAME } from "../../../configs/constrants"
+import { SYSTEM_NAME } from "../../configs/constrants"
 import { useNavigate } from "react-router-dom"
 
 const Header = () => {
@@ -57,12 +55,6 @@ const Header = () => {
                 >
                     <MenuItem onClick={handleMenuClose} sx={{ px: '30px' }}>
                         <Person sx={{ fontSize: '16px', mr: '20px' }} /> Profile
-                    </MenuItem>
-                    <MenuItem onClick={handleMenuClose} sx={{ px: '30px' }}>
-                        <Settings sx={{ fontSize: '16px', mr: '20px' }} /> Settings
-                    </MenuItem>
-                    <MenuItem onClick={handleMenuClose} sx={{ px: '30px' }}>
-                        <Money sx={{ fontSize: '16px', mr: '20px' }} /> Billing
                     </MenuItem>
                     <MenuItem onClick={handleLogout} sx={{ px: '30px' }}>
                         <Logout sx={{ fontSize: '16px', mr: '20px' }} /> Logout
