@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import { Box, Button } from '@mui/material';
+import { Box, Button, Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Paper } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { useDispatch, useSelector } from 'react-redux';
@@ -52,75 +51,54 @@ const CakeSuperAdmin = () => {
         }
     };
 
-    const columns = [
-        { field: 'id', headerName: 'ID', width: 70 },
-        { field: 'cakeName', headerName: 'ชื่อเค้ก', width: 150 },
-        {
-            field: 'price',
-            headerName: 'ราคา',
-            width: 150,
-        },
-        {
-            field: 'Action',
-            headerName: 'Action',
-            sortable: false,
-            width: 250,
-            renderCell: (params) => (
-                <Box>
-                    <Button
-                        variant="outlined"
-                        color="warning"
-                        startIcon={<BorderColorIcon />}
-                        onClick={() => handleUpdate(params.id)}
-                    >
-                        แก้ไข
-                    </Button>
-                    <Button
-                        variant="outlined"
-                        color="error"
-                        startIcon={<DeleteIcon />}
-                        onClick={() => handleDeleteButtonClick(params.row.id)}
-                        sx={{ ml: 2 }}
-                    >
-                        ลบข้อมูล
-                    </Button>
-                </Box>
-            ),
-        },
-    ];
-
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error}</p>;
 
     return (
-        <Box className="table-cake">
-            <Box sx={{ height: 370, width: '100%' }}>
-                <DataGrid
-                    rows={cakes}
-                    columns={columns}
-                    sortModel={[{ field: 'id', sort: 'desc' }]}
-                    initialState={{
-                        pagination: {
-                            paginationModel: { page: 0, pageSize: 5 },
-                        },
-                    }}
-                    pageSizeOptions={[5, 10]}
-                    checkboxSelection
-                    slots={{ toolbar: GridToolbar }}
-                    disableColumnFilter
-                    disableColumnSelector
-                    disableDensitySelector
-                    disableExportSelector
-                    slotProps={{
-                        toolbar: {
-                            showQuickFilter: true,
-                            printOptions: { disableToolbarButton: true },
-                            csvOptions: { disableToolbarButton: true },
-                        },
-                    }}
-                />
-            </Box>
-        </Box>
+        <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 700 }} aria-label="cake table">
+                <TableHead>
+                    <TableRow>
+                        <TableCell>ID</TableCell>
+                        <TableCell align="left">ชื่อเค้ก</TableCell>
+                        <TableCell align="left">ราคา</TableCell>
+                        <TableCell align="center">Action</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {cakes.map((cake) => (
+                        <TableRow key={cake.id}>
+                            <TableCell component="th" scope="row">
+                                {cake.id}
+                            </TableCell>
+                            <TableCell align="left">{cake.cakeName}</TableCell>
+                            <TableCell align="left">{cake.price}</TableCell>
+                            <TableCell align="center">
+                                <Box>
+                                    <Button
+                                        variant="outlined"
+                                        color="warning"
+                                        startIcon={<BorderColorIcon />}
+                                        onClick={() => handleUpdate(cake.id)}
+                                    >
+                                        แก้ไข
+                                    </Button>
+                                    <Button
+                                        variant="outlined"
+                                        color="error"
+                                        startIcon={<DeleteIcon />}
+                                        onClick={() => handleDeleteButtonClick(cake.id)}
+                                        sx={{ ml: 2 }}
+                                    >
+                                        ลบข้อมูล
+                                    </Button>
+                                </Box>
+                            </TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+        </TableContainer>
     );
 };
 
