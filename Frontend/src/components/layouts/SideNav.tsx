@@ -18,6 +18,8 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserInfo } from "../../slices/userSlice";
 import { RootState } from "../../store/store";
+import SidebarFooter from "./SidebarFooter";
+
 
 const SideNav = () => {
   const { collapseSidebar, collapsed } = useProSidebar();
@@ -41,7 +43,7 @@ const SideNav = () => {
 
   return (
     <Sidebar
-      style={{ height: "100%", top: "auto" }}
+      style={{ height: "100%", top: "auto", position: "relative" }} // Add position relative to fit the footer
       breakPoint="md"
       backgroundColor={"white"}
     >
@@ -142,6 +144,8 @@ const SideNav = () => {
           </MenuItem>
         )}
       </Menu>
+
+      <SidebarFooter /> 
     </Sidebar>
   );
 };

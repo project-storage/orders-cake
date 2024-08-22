@@ -1,28 +1,34 @@
 import { Box, Typography, Breadcrumbs, Link } from "@mui/material";
 import { NavigateNext } from "@mui/icons-material";
 import Dashboard from "../../components/common/superAdmin/Dashboard";
+import FlexBetween from "../../configs/FlexBetween";
 
 const DashboardPage = () => {
   return (
-    <Box sx={{ p: 3 }}>
+    <Box
+      sx={{
+        p: { xs: 2, sm: 3 },
+      }}
+    >
       <Box sx={{ mb: 2 }}>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <Typography variant="h4" component="h1">
-            ประเภทสินค้า
+        <FlexBetween>
+          <Typography
+            variant="h4"
+            component="h1"
+            sx={{ fontSize: { xs: "1.5rem", sm: "2rem" } }}
+          >
+            Dashboard
           </Typography>
-          <Breadcrumbs separator={<NavigateNext fontSize="small" />}>
+          <Breadcrumbs
+            separator={<NavigateNext fontSize="small" />}
+            sx={{ mt: { xs: 1, sm: 0 } }}
+          >
             <Link href="#" color="inherit">
               admin
             </Link>
-            <Typography color="textPrimary">dashonard</Typography>
+            <Typography color="textPrimary">Dashboard</Typography>
           </Breadcrumbs>
-        </Box>
+        </FlexBetween>
       </Box>
       <Box>
         <Dashboard />
