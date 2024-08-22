@@ -43,8 +43,7 @@ const Header = () => {
         >
           <MenuIcon />
         </IconButton>
-        <Box component={"img"} sx={styles.appLogo} src={logo} />
-        <Box sx={{ ml: "20px", fontSize: "20px" }}>{SYSTEM_NAME}</Box>
+      
         <Box sx={{ flexGrow: 1 }} />
         <IconButton title="Notifications" color="secondary">
           <NotificationsOutlined />

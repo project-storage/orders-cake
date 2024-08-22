@@ -1,39 +1,43 @@
-import { Avatar, Box, Typography } from "@mui/material";
+import { Avatar, Box, IconButton, Typography } from "@mui/material";
 import { Menu, MenuItem, Sidebar, useProSidebar } from "react-pro-sidebar";
 import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
 import SourceOutlinedIcon from "@mui/icons-material/SourceOutlined";
 import Groups2OutlinedIcon from "@mui/icons-material/Groups2Outlined";
 import CakeOutlinedIcon from "@mui/icons-material/CakeOutlined";
+import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import { Link } from "react-router-dom";
 import {
   CAKE_PATH,
   DASHBOARD_PATH,
   GROUP_PATH,
   ORDER_PATH,
+  SYSTEM_NAME,
 } from "../../configs/constants";
+import logo from "../../assets/nvc.png";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserInfo } from "../../slices/userSlice";
 import { RootState } from "../../store/store";
 
 const SideNav = () => {
-  const { collapsed, toggleSidebar } = useProSidebar();
+  const { collapseSidebar, collapsed } = useProSidebar();
   const [activeMenuItem, setActiveMenuItem] = useState<string>("");
   const dispatch = useDispatch();
-  const { user, loading, error } = useSelector(
-    (state: RootState) => state.user
-  );
+  const { user } = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
     dispatch(fetchUserInfo());
   }, [dispatch]);
 
-  const userRole = user ? user.role : "";
+  const userRole = user?.role || "";
 
   const handleMenuClick = (menu: string) => {
     setActiveMenuItem(menu);
-    toggleSidebar();
   };
+
+  // const handleToggleSidebar = () => {
+  //   collapseSidebar();
+  // };
 
   return (
     <Sidebar
@@ -41,32 +45,52 @@ const SideNav = () => {
       breakPoint="md"
       backgroundColor={"white"}
     >
+      <Box>
+        {!collapsed && (
+          <Box sx={styles.headerContainer}>
+            <Typography variant="h6" sx={styles.systemName}>
+              {SYSTEM_NAME}
+            </Typography>
+            <Box component={"img"} sx={styles.appLogo} src={logo} />
+          </Box>
+        )}
+        {/* <IconButton onClick={handleToggleSidebar} sx={styles.toggleButton}>
+          <MenuOutlinedIcon />
+        </IconButton> */}
+      </Box>
+
       <Box sx={styles.avatarContainer}>
-        <Avatar sx={styles.avatar} alt="Masoud" src="/assets/samit.jpg" />
-        {!collapsed ? (
-          <Typography variant="body2" sx={styles.yourChannel}>
-            {user?.title}
-            {user?.name} {user?.surname}
-          </Typography>
-        ) : null}
-        {!collapsed ? (
-          <Typography
-            variant="body2"
-            sx={{
-              bgcolor: "primary.main",
-              borderRadius: "25px",
-              p: 1,
-            }}
-          >
-            สถานะ: {user?.role}
-          </Typography>
-        ) : null}
+        <Avatar sx={styles.avatar} alt={user?.name} src="/assets/samit.jpg" />
+        {!collapsed && (
+          <>
+            <Typography variant="body2" sx={styles.userName}>
+              {user?.title}
+              {user?.name} {user?.surname}
+            </Typography>
+            <Typography
+              variant="caption"
+              sx={{
+                bgcolor: "primary.main",
+                borderRadius: "25px",
+                p: 0.5,
+                mt: 1,
+                color: "white",
+              }}
+            >
+              สถานะ: {userRole}
+            </Typography>
+          </>
+        )}
       </Box>
 
       <Menu
         menuItemStyles={{
           button: ({ active }) => ({
-            backgroundColor: active ? "#EEEEEE" : "transparent",
+            backgroundColor: active ? "#1976D2" : "transparent",
+            color: active ? "white" : "inherit",
+            borderRadius: 5,
+            margin: "5px 0",
+            padding: "10px 15px",
           }),
         }}
       >
@@ -78,7 +102,7 @@ const SideNav = () => {
               icon={<DashboardOutlinedIcon />}
               onClick={() => handleMenuClick(DASHBOARD_PATH)}
             >
-              <Typography variant="body2">หน้าแรก</Typography>
+              {!collapsed && "หน้าแรก"}
             </MenuItem>
             <MenuItem
               active={activeMenuItem === ORDER_PATH}
@@ -86,7 +110,7 @@ const SideNav = () => {
               icon={<SourceOutlinedIcon />}
               onClick={() => handleMenuClick(ORDER_PATH)}
             >
-              <Typography variant="body2">ออร์เดอร์</Typography>
+              {!collapsed && "ออร์เดอร์"}
             </MenuItem>
             <MenuItem
               active={activeMenuItem === CAKE_PATH}
@@ -94,7 +118,7 @@ const SideNav = () => {
               icon={<CakeOutlinedIcon />}
               onClick={() => handleMenuClick(CAKE_PATH)}
             >
-              <Typography variant="body2">นักเรียน/นักศึกษา</Typography>
+              {!collapsed && "นักเรียน/นักศึกษา"}
             </MenuItem>
             <MenuItem
               active={activeMenuItem === GROUP_PATH}
@@ -102,7 +126,7 @@ const SideNav = () => {
               icon={<Groups2OutlinedIcon />}
               onClick={() => handleMenuClick(GROUP_PATH)}
             >
-              <Typography variant="body2">ห้องเรียน</Typography>
+              {!collapsed && "ห้องเรียน"}
             </MenuItem>
           </>
         )}
@@ -114,7 +138,7 @@ const SideNav = () => {
             icon={<CakeOutlinedIcon />}
             onClick={() => handleMenuClick(CAKE_PATH)}
           >
-            <Typography variant="body2">นักเรียน/นักศึกษา</Typography>
+            {!collapsed && "นักเรียน/นักศึกษา"}
           </MenuItem>
         )}
       </Menu>
@@ -123,18 +147,45 @@ const SideNav = () => {
 };
 
 const styles = {
+  headerContainer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: "10px 20px",
+    borderBottom: "1px solid #ddd",
+    bgcolor: "white",
+  },
+  toggleButton: {
+    color: "primary.main",
+  },
+  systemName: {
+    fontWeight: "bold",
+    flexGrow: 1,
+    textAlign: "center",
+  },
   avatarContainer: {
     display: "flex",
     alignItems: "center",
     flexDirection: "column",
-    my: 5,
+    padding: "20px 10px",
+    backgroundColor: "#ffffff",
+    borderBottom: "1px solid #ddd",
   },
   avatar: {
-    width: "40%",
-    height: "auto",
+    width: 80,
+    height: 80,
+    borderRadius: "50%",
   },
-  yourChannel: {
-    mt: 1,
+  userName: {
+    marginTop: 5,
+    fontWeight: "bold",
+    fontSize: "1rem",
+  },
+  appLogo: {
+    width: 40,
+    height: 40,
+    cursor: "pointer",
+    borderRadius: 2,
   },
 };
 

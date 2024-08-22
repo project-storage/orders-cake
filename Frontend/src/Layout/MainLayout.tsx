@@ -6,26 +6,40 @@ import SideNav from "../components/layouts/SideNav";
 
 const MainLayout = () => {
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-      <CssBaseline />
-      <Header />
-      <Box sx={{ display: "flex", flex: 1 }}>
+    <>
+      <CssBaseline /> {/* Ensure baseline styles are applied */}
+      <Box sx={styles.app}>
         <SideNav />
-        <Box
-          component="main"
-          sx={{
-            flex: 1,
-            overflow: "auto",
-            background: "#e9e9e9",
-          }}
-        >
-          <Box sx={{ m: "0px 60px", p: "64px 24px" }}>
-            <Outlet />
+        <Box sx={styles.content}>
+          <Header />
+          <Box sx={styles.content_body}>
+            <Box m="20px">
+              <Outlet />
+            </Box>
           </Box>
         </Box>
       </Box>
-    </Box>
+    </>
   );
+};
+
+const styles = {
+  app: {
+    display: "flex",
+    height: "100vh",
+  },
+  content: {
+    flex: 1,
+    display: "flex",
+    flexDirection: "column",
+    backgroundColor: "#f7fff7",
+  },
+  content_body: {
+    flex: 1,
+    backgroundColor: "#e9e9e9",
+    overflowY: "auto",
+    padding: "20px",
+  },
 };
 
 export default MainLayout;

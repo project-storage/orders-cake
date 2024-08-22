@@ -1,5 +1,5 @@
 // // System Constants
-export const SYSTEM_NAME = "ระบบสั่งจองเค้กออนไลน์";
+export const SYSTEM_NAME = "ระบบสั่งจองเค้ก";
 
 // super-admin Routes
 const BASE_PATH = "/super-admin/";
