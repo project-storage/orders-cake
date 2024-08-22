@@ -20,7 +20,6 @@ import { fetchUserInfo } from "../../slices/userSlice";
 import { RootState } from "../../store/store";
 import SidebarFooter from "./SidebarFooter";
 
-
 const SideNav = () => {
   const { collapseSidebar, collapsed } = useProSidebar();
   const [activeMenuItem, setActiveMenuItem] = useState<string>("");
@@ -43,7 +42,7 @@ const SideNav = () => {
 
   return (
     <Sidebar
-      style={{ height: "100%", top: "auto", position: "relative" }} // Add position relative to fit the footer
+      style={{ height: "100%", top: "auto" }}
       breakPoint="md"
       backgroundColor={"white"}
     >
@@ -144,8 +143,7 @@ const SideNav = () => {
           </MenuItem>
         )}
       </Menu>
-
-      <SidebarFooter /> 
+      <SidebarFooter/>
     </Sidebar>
   );
 };
