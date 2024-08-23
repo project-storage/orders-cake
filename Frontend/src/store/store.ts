@@ -8,7 +8,7 @@ export const store = configureStore({
   reducer: {
     auth: authReducer, // เพิ่ม slice reducer ที่นี่
     user: userReducer,
-    cake: cakeReducer,
+    cakes: cakeReducer,
   },
 });
 

@@ -1,11 +1,11 @@
 import React from "react";
-import CakeTable from "../../../components/common/superAdmin/table/CakeTable";
 import { Box, Typography, Breadcrumbs, Link } from "@mui/material";
 import { NavigateNext } from "@mui/icons-material";
 import FlexBetween from "../../../configs/FlexBetween";
-import CreateCake from "../../../components/common/superAdmin/From/cake/CreateCake";
+import UpdateCake from "../../../components/common/superAdmin/From/cake/UpdateCake";
+import CakeTable from "../../../components/common/superAdmin/table/CakeTable";
 
-const CakePage = () => {
+const UpdateCakePageSPAM = () => {
   return (
     <Box
       sx={{
@@ -19,7 +19,7 @@ const CakePage = () => {
             component="h1"
             sx={{ fontSize: { xs: "1.5rem", sm: "2rem" } }}
           >
-            Cakes
+            Update Cake
           </Typography>
           <Breadcrumbs
             separator={<NavigateNext fontSize="small" />}
@@ -29,15 +29,16 @@ const CakePage = () => {
               admin
             </Link>
             <Typography color="textPrimary">Cakes</Typography>
+            <Typography color="textPrimary">Update</Typography>
           </Breadcrumbs>
         </FlexBetween>
       </Box>
       <Box>
-        <CreateCake />
+        <UpdateCake />
         <CakeTable />
       </Box>
     </Box>
   );
 };
 
-export default CakePage;
+export default UpdateCakePageSPAM;
