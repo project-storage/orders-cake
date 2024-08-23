@@ -16,9 +16,10 @@ import {
   ClassOutlined as ClassIcon,
   StorageOutlined as StorageIcon,
   SettingsOutlined as SettingsIcon,
-  Person,
+  Person as PersonIcon,
+  ExitToAppOutlined as LogoutIcon,
 } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   CAKE_PATH,
   DASHBOARD_PATH,
@@ -36,12 +37,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchUserInfo } from "../../slices/userSlice";
 import { RootState } from "../../store/store";
 import SidebarFooter from "./SidebarFooter";
+import Swal from "sweetalert2";
 
 const SideNav: React.FC = () => {
   const { collapseSidebar, collapsed } = useProSidebar();
+
   const [activeMenuItem, setActiveMenuItem] = useState<string>("");
+
   const dispatch = useDispatch();
   const { user } = useSelector((state: RootState) => state.user);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(fetchUserInfo());
@@ -53,6 +59,29 @@ const SideNav: React.FC = () => {
     setActiveMenuItem(menu);
   };
 
+  const handleLogout = () => {
+    Swal.fire({
+      icon: "warning",
+      title: "แน่ใจแล้วหรอที่จะออกจากระบบ",
+      showCancelButton: true,
+      confirmButtonText: "กดเพื่อออกจากระบบ",
+      cancelButtonText: "กดยกเลิกยังไม่แน่ใจ",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        localStorage.removeItem("token");
+        Swal.fire({
+          icon: "success",
+          title: "ออกจากระบบสำเร็จ",
+          text: "แล้วเจอกันใหม่สวัสดี",
+          timer: 1000,
+          timerProgressBar: true,
+          showConfirmButton: false,
+        });
+        navigate("/");
+      }
+    });
+  };
+  
   return (
     <Sidebar
       style={{ height: "100%", top: "auto" }}
@@ -155,7 +184,7 @@ const SideNav: React.FC = () => {
                 onClick={() => handleMenuClick(DEGREE_PATH)}
                 icon={<ClassIcon />}
               >
-                {!collapsed && "ระดับชั้น"}
+                <Typography variant="body2">ระดับชั้น </Typography>
               </MenuItem>
 
               <MenuItem
@@ -177,9 +206,25 @@ const SideNav: React.FC = () => {
             <MenuItem
               active={activeMenuItem === USERINFO_PATH}
               component={<Link to={USERINFO_PATH} />}
-              icon={<Person />}
+              icon={<PersonIcon />}
             >
               {!collapsed && "ข้อมูลส่วนตัว"}
+            </MenuItem>
+            {!collapsed && (
+              <Typography
+                variant="body2"
+                fontWeight={600}
+                sx={styles.sectionTitle}
+              >
+                ออกจากระบบ
+              </Typography>
+            )}
+            <MenuItem
+              onClick={handleLogout}
+              icon={<LogoutIcon />}
+              style={styles.logoutColor}
+            >
+              {!collapsed && "ออกจากระบบ"}
             </MenuItem>
           </>
         )}
@@ -192,7 +237,7 @@ const SideNav: React.FC = () => {
               icon={<DashboardIcon />}
               onClick={() => handleMenuClick(DASHBOARD_TEACHERPATH)}
             >
-              <Typography variant="body2">หน้าแรก</Typography>
+              {!collapsed && "แดซบอร์ด"}
             </MenuItem>
             <MenuItem
               active={activeMenuItem === ORDER_PATH}
@@ -200,17 +245,18 @@ const SideNav: React.FC = () => {
               icon={<SourceIcon />}
               onClick={() => handleMenuClick(ORDER_PATH)}
             >
-              <Typography variant="body2">ออร์เดอร์</Typography>
+              {!collapsed && "ออร์เดอร์"}
             </MenuItem>
-            <MenuItem
-              active={activeMenuItem === CAKE_PATH}
-              component={<Link to={CAKE_PATH} />}
-              icon={<CakeIcon />}
-              onClick={() => handleMenuClick(CAKE_PATH)}
-            >
-              <Typography variant="body2">เค้ก</Typography>
-            </MenuItem>
-            <SubMenu label="กลุ่มเรียน" icon={<StorageIcon />}>
+            {!collapsed && (
+              <Typography
+                variant="body2"
+                fontWeight={600}
+                sx={styles.sectionTitle}
+              >
+                จัดการข้อมูล
+              </Typography>
+            )}
+            <SubMenu label={!collapsed && "กลุ่มเรียน"} icon={<StorageIcon />}>
               <MenuItem
                 active={activeMenuItem === GROUP_PATH}
                 component={<Link to={GROUP_PATH} />}
@@ -225,7 +271,7 @@ const SideNav: React.FC = () => {
                 onClick={() => handleMenuClick(DEGREE_PATH)}
                 icon={<ClassIcon />}
               >
-                <Typography variant="body2">ระดับชั้น</Typography>
+                <Typography variant="body2">ระดับชั้น </Typography>
               </MenuItem>
 
               <MenuItem
@@ -237,6 +283,29 @@ const SideNav: React.FC = () => {
                 <Typography variant="body2">แผนก</Typography>
               </MenuItem>
             </SubMenu>
+            <MenuItem
+              active={activeMenuItem === USERINFO_PATH}
+              component={<Link to={USERINFO_PATH} />}
+              icon={<PersonIcon />}
+            >
+              {!collapsed && "ข้อมูลส่วนตัว"}
+            </MenuItem>
+            {!collapsed && (
+              <Typography
+                variant="body2"
+                fontWeight={600}
+                sx={styles.sectionTitle}
+              >
+                ออกจากระบบ
+              </Typography>
+            )}
+            <MenuItem
+              onClick={handleLogout}
+              icon={<LogoutIcon />}
+              style={styles.logoutColor}
+            >
+              {!collapsed && "ออกจากระบบ"}
+            </MenuItem>
           </>
         )}
       </Menu>
@@ -294,6 +363,9 @@ const styles = {
     opacity: 0.5,
     letterSpacing: "0.5px",
     paddingLeft: "5%",
+  },
+  logoutColor: {
+    color: "red",
   },
 };
 
