@@ -3,7 +3,7 @@ import { NavigateNext } from "@mui/icons-material";
 import Dashboard from "../../components/common/superAdmin/Dashboard";
 import FlexBetween from "../../configs/FlexBetween";
 
-const DashboardPage = () => {
+const DashboardPageSPAM = () => {
   return (
     <Box
       sx={{
@@ -37,4 +37,4 @@ const DashboardPage = () => {
   );
 };
 
-export default DashboardPage;
+export default DashboardPageSPAM;
