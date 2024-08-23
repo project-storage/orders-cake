@@ -70,7 +70,7 @@ const CreateCake = () => {
   };
 
   return (
-    <Box className="form-create-cake" sx={{ margin: "20px" }}>
+    <Box id="form-create-cake">
       <Button variant="contained" onClick={handleClickOpen}>
         สร้างข้อมูล
       </Button>

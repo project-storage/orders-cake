@@ -59,7 +59,7 @@ const UpdateCake = () => {
   };
 
   return (
-    <Card className="update-cake" sx={{ padding: "20px" }}>
+    <Card id="update-cake" sx={{ padding: "20px" }}>
       <form onSubmit={handleSubmit}>
         {fetchError && <Typography color="error">{fetchError}</Typography>}
         {error && <Typography color="error">{error}</Typography>}

@@ -141,6 +141,7 @@ const CakeTable = () => {
     <TableContainer
       component={Paper}
       sx={{ marginTop: "20px", padding: "20px" }}
+      id="table-cakes"
     >
       <Grid container spacing={2} sx={{ marginBottom: "20px" }}>
         <Grid item xs={12} sm={4}>
