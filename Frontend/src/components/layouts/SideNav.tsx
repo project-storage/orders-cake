@@ -25,14 +25,12 @@ import {
   DASHBOARD_PATH,
   GROUP_PATH,
   ORDER_PATH,
-  SYSTEM_NAME,
   ALL_USER_PATH,
   DEGREE_PATH,
   DEPARTMENT_PATH,
   DASHBOARD_TEACHERPATH,
   USERINFO_PATH,
 } from "../../configs/constants";
-import logo from "../../assets/nvc.png";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserInfo } from "../../slices/userSlice";
 import { RootState } from "../../store/store";
@@ -88,17 +86,6 @@ const SideNav: React.FC = () => {
       breakPoint="md"
       backgroundColor={"white"}
     >
-      <Box>
-        {!collapsed && (
-          <Box sx={styles.headerContainer}>
-            <Typography variant="h6" sx={styles.systemName}>
-              {SYSTEM_NAME}
-            </Typography>
-            <Box component={"img"} sx={styles.appLogo} src={logo} />
-          </Box>
-        )}
-      </Box>
-
       <Box sx={styles.avatarContainer}>
         <Avatar sx={styles.avatar} alt={user?.name} src="/assets/samit.jpg" />
         {!collapsed && (

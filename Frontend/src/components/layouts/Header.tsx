@@ -6,6 +6,7 @@ import {
   Menu,
   MenuItem,
   Toolbar,
+  Typography,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsOutlined from "@mui/icons-material/NotificationsOutlined";
@@ -43,7 +44,14 @@ const Header = () => {
         >
           <MenuIcon />
         </IconButton>
-      
+
+        <Box sx={styles.headerContainer}>
+          <Typography variant="h6" sx={styles.systemName}>
+            {SYSTEM_NAME}
+          </Typography>
+          <Box component={"img"} sx={styles.appLogo} src={logo} />
+        </Box>
+
         <Box sx={{ flexGrow: 1 }} />
         <IconButton title="Notifications" color="secondary">
           <NotificationsOutlined />
@@ -90,13 +98,25 @@ const Header = () => {
 
 const styles = {
   appBar: {
-    bgcolor: "#00289d",
+    bgcolor: "#1976D2",
   },
   appLogo: {
-    borderRadius: 2,
     width: 40,
-    marginLeft: 2,
+    height: 40,
     cursor: "pointer",
+    borderRadius: 2,
+  },
+  headerContainer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: "10px 20px",
+  },
+  systemName: {
+    fontWeight: "bold",
+    flexGrow: 1,
+    textAlign: "center",
+    marginRight: " 20px",
   },
 };
 
