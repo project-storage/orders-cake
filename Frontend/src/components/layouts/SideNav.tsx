@@ -42,7 +42,7 @@ import Swal from "sweetalert2";
 const SideNav: React.FC = () => {
   const { collapseSidebar, collapsed } = useProSidebar();
 
-  const [activeMenuItem, setActiveMenuItem] = useState<string>("");
+  const [activeMenuItem, setActiveMenuItem] = useState<string>("Dashboard");
 
   const dispatch = useDispatch();
   const { user } = useSelector((state: RootState) => state.user);
@@ -81,7 +81,7 @@ const SideNav: React.FC = () => {
       }
     });
   };
-  
+
   return (
     <Sidebar
       style={{ height: "100%", top: "auto" }}
