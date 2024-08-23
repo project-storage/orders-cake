@@ -1,8 +1,13 @@
 import React from 'react'
+import Card from '../analytics/superAdmin/Card'
+import Chart from '../analytics/superAdmin/Chart'
 
 const Dashboard = () => {
   return (
-    <div>Dashboard</div>
+    <div>
+      <Card/>
+      <Chart/>
+    </div>
   )
 }
 
