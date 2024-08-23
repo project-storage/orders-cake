@@ -7,7 +7,7 @@ import { fetchCakeById, updateCake } from "../../../../../slices/cakeSlice";
 import { CAKE_PATH } from "../../../../../configs/constants";
 import { RootState } from "../../../../../store/store";
 
-const UpdateCake: React.FC = () => {
+const UpdateCake = () => {
   const [cakeName, setCakeName] = useState<string>("");
   const [price, setPrice] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
