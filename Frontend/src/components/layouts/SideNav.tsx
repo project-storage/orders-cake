@@ -156,13 +156,13 @@ const SideNav: React.FC = () => {
                 จัดการข้อมูล
               </Typography>
             )}
-            <SubMenu label="กลุ่มเรียน" icon={<StorageIcon />}>
+            <SubMenu label={!collapsed && "กลุ่มเรียน"} icon={<StorageIcon />}>
               <MenuItem
                 active={activeMenuItem === GROUP_PATH}
                 component={<Link to={GROUP_PATH} />}
                 icon={<GroupsIcon />}
               >
-                {!collapsed && "กลุ่มเรียน"}
+                <Typography variant="body2">กลุ่มเรียน </Typography>
               </MenuItem>
 
               <MenuItem
@@ -180,7 +180,7 @@ const SideNav: React.FC = () => {
                 onClick={() => handleMenuClick(DEPARTMENT_PATH)}
                 icon={<SettingsIcon />}
               >
-                {!collapsed && "แผนก"}
+                <Typography variant="body2">แผนก </Typography>
               </MenuItem>
             </SubMenu>
             <MenuItem
