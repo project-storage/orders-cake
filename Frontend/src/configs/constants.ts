@@ -20,6 +20,8 @@ export const UPDATE_DEPARTMENT_PATH = DEPARTMENT_PATH + "/update";
 // users
 export const ALL_USER_PATH = BASE_PATH + "users";
 export const UPDATE_USER = ALL_USER_PATH + "users";
+// user info
+export const USERINFO_PATH = BASE_PATH + "users";
 
 // tearcher routes
 const TEACHER_PATH = "/teacher/";

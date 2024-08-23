@@ -1,10 +1,23 @@
-import { Avatar, Box, IconButton, Typography } from "@mui/material";
-import { Menu, MenuItem, Sidebar, useProSidebar } from "react-pro-sidebar";
-import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
-import SourceOutlinedIcon from "@mui/icons-material/SourceOutlined";
-import Groups2OutlinedIcon from "@mui/icons-material/Groups2Outlined";
-import CakeOutlinedIcon from "@mui/icons-material/CakeOutlined";
-import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import React, { useState, useEffect } from "react";
+import { Avatar, Box, Typography } from "@mui/material";
+import {
+  Menu,
+  MenuItem,
+  Sidebar,
+  SubMenu,
+  useProSidebar,
+} from "react-pro-sidebar";
+import {
+  DashboardOutlined as DashboardIcon,
+  SourceOutlined as SourceIcon,
+  Groups2Outlined as GroupsIcon,
+  CakeOutlined as CakeIcon,
+  SupervisedUserCircleOutlined as UsersIcon,
+  ClassOutlined as ClassIcon,
+  StorageOutlined as StorageIcon,
+  SettingsOutlined as SettingsIcon,
+  Person,
+} from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import {
   CAKE_PATH,
@@ -12,15 +25,19 @@ import {
   GROUP_PATH,
   ORDER_PATH,
   SYSTEM_NAME,
+  ALL_USER_PATH,
+  DEGREE_PATH,
+  DEPARTMENT_PATH,
+  DASHBOARD_TEACHERPATH,
+  USERINFO_PATH,
 } from "../../configs/constants";
 import logo from "../../assets/nvc.png";
-import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserInfo } from "../../slices/userSlice";
 import { RootState } from "../../store/store";
 import SidebarFooter from "./SidebarFooter";
 
-const SideNav = () => {
+const SideNav: React.FC = () => {
   const { collapseSidebar, collapsed } = useProSidebar();
   const [activeMenuItem, setActiveMenuItem] = useState<string>("");
   const dispatch = useDispatch();
@@ -35,10 +52,6 @@ const SideNav = () => {
   const handleMenuClick = (menu: string) => {
     setActiveMenuItem(menu);
   };
-
-  // const handleToggleSidebar = () => {
-  //   collapseSidebar();
-  // };
 
   return (
     <Sidebar
@@ -55,9 +68,6 @@ const SideNav = () => {
             <Box component={"img"} sx={styles.appLogo} src={logo} />
           </Box>
         )}
-        {/* <IconButton onClick={handleToggleSidebar} sx={styles.toggleButton}>
-          <MenuOutlinedIcon />
-        </IconButton> */}
       </Box>
 
       <Box sx={styles.avatarContainer}>
@@ -68,16 +78,7 @@ const SideNav = () => {
               {user?.title}
               {user?.name} {user?.surname}
             </Typography>
-            <Typography
-              variant="caption"
-              sx={{
-                bgcolor: "primary.main",
-                borderRadius: "25px",
-                p: 0.5,
-                mt: 1,
-                color: "white",
-              }}
-            >
+            <Typography variant="caption" sx={styles.userRoleBadge}>
               สถานะ: {userRole}
             </Typography>
           </>
@@ -100,15 +101,24 @@ const SideNav = () => {
             <MenuItem
               active={activeMenuItem === DASHBOARD_PATH}
               component={<Link to={DASHBOARD_PATH} />}
-              icon={<DashboardOutlinedIcon />}
+              icon={<DashboardIcon />}
               onClick={() => handleMenuClick(DASHBOARD_PATH)}
             >
-              {!collapsed && "หน้าแรก"}
+              {!collapsed && "แดซบอร์ด"}
             </MenuItem>
+            {!collapsed && (
+              <Typography
+                variant="body2"
+                fontWeight={600}
+                sx={styles.sectionTitle}
+              >
+                จัดการระบบ
+              </Typography>
+            )}
             <MenuItem
               active={activeMenuItem === ORDER_PATH}
               component={<Link to={ORDER_PATH} />}
-              icon={<SourceOutlinedIcon />}
+              icon={<SourceIcon />}
               onClick={() => handleMenuClick(ORDER_PATH)}
             >
               {!collapsed && "ออร์เดอร์"}
@@ -116,34 +126,121 @@ const SideNav = () => {
             <MenuItem
               active={activeMenuItem === CAKE_PATH}
               component={<Link to={CAKE_PATH} />}
-              icon={<CakeOutlinedIcon />}
+              icon={<CakeIcon />}
               onClick={() => handleMenuClick(CAKE_PATH)}
             >
-              {!collapsed && "นักเรียน/นักศึกษา"}
+              {!collapsed && "เค้ก"}
+            </MenuItem>
+            {!collapsed && (
+              <Typography
+                variant="body2"
+                fontWeight={600}
+                sx={styles.sectionTitle}
+              >
+                จัดการข้อมูล
+              </Typography>
+            )}
+            <SubMenu label="กลุ่มเรียน" icon={<StorageIcon />}>
+              <MenuItem
+                active={activeMenuItem === GROUP_PATH}
+                component={<Link to={GROUP_PATH} />}
+                icon={<GroupsIcon />}
+              >
+                {!collapsed && "กลุ่มเรียน"}
+              </MenuItem>
+
+              <MenuItem
+                active={activeMenuItem === DEGREE_PATH}
+                component={<Link to={DEGREE_PATH} />}
+                onClick={() => handleMenuClick(DEGREE_PATH)}
+                icon={<ClassIcon />}
+              >
+                {!collapsed && "ระดับชั้น"}
+              </MenuItem>
+
+              <MenuItem
+                active={activeMenuItem === DEPARTMENT_PATH}
+                component={<Link to={DEPARTMENT_PATH} />}
+                onClick={() => handleMenuClick(DEPARTMENT_PATH)}
+                icon={<SettingsIcon />}
+              >
+                {!collapsed && "แผนก"}
+              </MenuItem>
+            </SubMenu>
+            <MenuItem
+              active={activeMenuItem === ALL_USER_PATH}
+              component={<Link to={ALL_USER_PATH} />}
+              icon={<UsersIcon />}
+            >
+              {!collapsed && "ผู้ใช้งาน"}
             </MenuItem>
             <MenuItem
-              active={activeMenuItem === GROUP_PATH}
-              component={<Link to={GROUP_PATH} />}
-              icon={<Groups2OutlinedIcon />}
-              onClick={() => handleMenuClick(GROUP_PATH)}
+              active={activeMenuItem === USERINFO_PATH}
+              component={<Link to={USERINFO_PATH} />}
+              icon={<Person />}
             >
-              {!collapsed && "ห้องเรียน"}
+              {!collapsed && "ข้อมูลส่วนตัว"}
             </MenuItem>
           </>
         )}
 
         {userRole === "ครูที่ปรึกษา" && (
-          <MenuItem
-            active={activeMenuItem === CAKE_PATH}
-            component={<Link to={CAKE_PATH} />}
-            icon={<CakeOutlinedIcon />}
-            onClick={() => handleMenuClick(CAKE_PATH)}
-          >
-            {!collapsed && "นักเรียน/นักศึกษา"}
-          </MenuItem>
+          <>
+            <MenuItem
+              active={activeMenuItem === DASHBOARD_TEACHERPATH}
+              component={<Link to={DASHBOARD_TEACHERPATH} />}
+              icon={<DashboardIcon />}
+              onClick={() => handleMenuClick(DASHBOARD_TEACHERPATH)}
+            >
+              <Typography variant="body2">หน้าแรก</Typography>
+            </MenuItem>
+            <MenuItem
+              active={activeMenuItem === ORDER_PATH}
+              component={<Link to={ORDER_PATH} />}
+              icon={<SourceIcon />}
+              onClick={() => handleMenuClick(ORDER_PATH)}
+            >
+              <Typography variant="body2">ออร์เดอร์</Typography>
+            </MenuItem>
+            <MenuItem
+              active={activeMenuItem === CAKE_PATH}
+              component={<Link to={CAKE_PATH} />}
+              icon={<CakeIcon />}
+              onClick={() => handleMenuClick(CAKE_PATH)}
+            >
+              <Typography variant="body2">เค้ก</Typography>
+            </MenuItem>
+            <SubMenu label="กลุ่มเรียน" icon={<StorageIcon />}>
+              <MenuItem
+                active={activeMenuItem === GROUP_PATH}
+                component={<Link to={GROUP_PATH} />}
+                icon={<GroupsIcon />}
+              >
+                <Typography variant="body2">กลุ่มเรียน</Typography>
+              </MenuItem>
+
+              <MenuItem
+                active={activeMenuItem === DEGREE_PATH}
+                component={<Link to={DEGREE_PATH} />}
+                onClick={() => handleMenuClick(DEGREE_PATH)}
+                icon={<ClassIcon />}
+              >
+                <Typography variant="body2">ระดับชั้น</Typography>
+              </MenuItem>
+
+              <MenuItem
+                active={activeMenuItem === DEPARTMENT_PATH}
+                component={<Link to={DEPARTMENT_PATH} />}
+                onClick={() => handleMenuClick(DEPARTMENT_PATH)}
+                icon={<SettingsIcon />}
+              >
+                <Typography variant="body2">แผนก</Typography>
+              </MenuItem>
+            </SubMenu>
+          </>
         )}
       </Menu>
-      <SidebarFooter/>
+      {!collapsed && <SidebarFooter />}
     </Sidebar>
   );
 };
@@ -156,9 +253,6 @@ const styles = {
     padding: "10px 20px",
     borderBottom: "1px solid #ddd",
     bgcolor: "white",
-  },
-  toggleButton: {
-    color: "primary.main",
   },
   systemName: {
     fontWeight: "bold",
@@ -183,11 +277,23 @@ const styles = {
     fontWeight: "bold",
     fontSize: "1rem",
   },
+  userRoleBadge: {
+    bgcolor: "primary.main",
+    borderRadius: "25px",
+    padding: "0.5em",
+    marginTop: 1,
+    color: "white",
+  },
   appLogo: {
     width: 40,
     height: 40,
     cursor: "pointer",
     borderRadius: 2,
+  },
+  sectionTitle: {
+    opacity: 0.5,
+    letterSpacing: "0.5px",
+    paddingLeft: "5%",
   },
 };
 
