@@ -19,12 +19,15 @@ import {
   TextField,
   Grid,
   Box,
+  Checkbox,
+  Button,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Swal from "sweetalert2";
 import { UPDATE_CAKEA_PATH } from "../../../../configs/constants";
 import { useNavigate } from "react-router-dom";
+import FlexBetween from "../../../../configs/FlexBetween";
 
 const CakeTable = () => {
   const dispatch = useDispatch();
@@ -37,6 +40,7 @@ const CakeTable = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [searchName, setSearchName] = useState("");
   const [searchPrice, setSearchPrice] = useState("");
+  const [selectedCakes, setSelectedCakes] = useState<string[]>([]);
 
   useEffect(() => {
     dispatch(fetchCakes());
@@ -70,6 +74,14 @@ const CakeTable = () => {
     setPage(0);
   };
 
+  const handleSelectCake = (id: string) => {
+    setSelectedCakes((prevSelected) =>
+      prevSelected.includes(id)
+        ? prevSelected.filter((cakeId) => cakeId !== id)
+        : [...prevSelected, id]
+    );
+  };
+
   const handleDelete = async (id: string) => {
     try {
       const response = await Swal.fire({
@@ -98,6 +110,43 @@ const CakeTable = () => {
       console.error("Error deleting cake:", error);
       Swal.fire("เกิดข้อผิดพลาด!", "ไม่สามารถลบข้อมูลเค้กได้", "error");
     }
+  };
+
+  const handleBulkDelete = async () => {
+    if (selectedCakes.length === 0) {
+      Swal.fire({
+        position: "center",
+        icon: "warning",
+        title: "กรุณาเลือกเค้กอย่างน้อยหนึ่งประเภทเพื่อลบ.",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      return;
+    }
+
+    Swal.fire({
+      title: "แน่ใจหรือไม่?",
+      text: "เมื่อลบแล้ว, ประเภทเค้กที่คุณเลือกไว้จะถูกลบหายไป!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "ใช่, ลบเลย!",
+      cancelButtonText: "ยกเลิก",
+      dangerMode: true,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await Promise.all(selectedCakes.map((id) => dispatch(deleteCake(id))));
+        setSelectedCakes([]);
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "ประเภทเค้กที่คุณเลือกไว้ถูกลบเรียบร้อย!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    });
   };
 
   const handleUpdate = (id: string) => {
@@ -140,11 +189,16 @@ const CakeTable = () => {
   return (
     <TableContainer
       component={Paper}
-      sx={{ marginTop: "20px", padding: "20px" }}
+      sx={{
+        marginTop: "20px",
+        padding: "20px",
+        borderRadius: "10px",
+        boxShadow: "0px 3px 6px rgba(0, 0, 0, 0.1)",
+      }}
       id="table-cakes"
     >
       <Grid container spacing={2} sx={{ marginBottom: "20px" }}>
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={6}>
           <TextField
             label="Search by Cake Name"
             variant="outlined"
@@ -153,7 +207,7 @@ const CakeTable = () => {
             onChange={handleSearchNameChange}
           />
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={6}>
           <TextField
             label="Search by Price"
             variant="outlined"
@@ -162,7 +216,20 @@ const CakeTable = () => {
             onChange={handleSearchPriceChange}
           />
         </Grid>
-        <Grid item xs={12} sm={4}>
+      </Grid>
+      <FlexBetween>
+        <Box>
+          <Button
+            variant="contained"
+            color="error"
+            onClick={handleBulkDelete}
+            disabled={selectedCakes.length === 0}
+            sx={{ marginBottom: "10px", padding: "8px 16px" }}
+          >
+            ลบที่เลือก
+          </Button>
+        </Box>
+        <Box>
           <TablePagination
             rowsPerPageOptions={[10, 25, 50]}
             component="div"
@@ -173,8 +240,8 @@ const CakeTable = () => {
             onRowsPerPageChange={handleChangeRowsPerPage}
             sx={{ marginBottom: "20px" }}
           />
-        </Grid>
-      </Grid>
+        </Box>
+      </FlexBetween>
       {filteredCakes.length === 0 ? (
         <Typography
           color="textSecondary"
@@ -184,20 +251,32 @@ const CakeTable = () => {
         </Typography>
       ) : (
         <Table sx={{ minWidth: 650 }}>
-          <TableHead>
+          <TableHead sx={{ bgcolor: "#1976D2" }}>
             <TableRow>
-              <TableCell>
-                <TableSortLabel>ID</TableSortLabel>
+              <TableCell padding="checkbox">
+                <Checkbox
+                  indeterminate={
+                    selectedCakes.length > 0 &&
+                    selectedCakes.length < filteredCakes.length
+                  }
+                  checked={
+                    filteredCakes.length > 0 &&
+                    selectedCakes.length === filteredCakes.length
+                  }
+                  onChange={(e) =>
+                    setSelectedCakes(
+                      e.target.checked
+                        ? filteredCakes.map((cake) => cake.id)
+                        : []
+                    )
+                  }
+                  sx={{ color: "white" }}
+                />
               </TableCell>
-              <TableCell>
-                <TableSortLabel>Cake Name</TableSortLabel>
-              </TableCell>
-              <TableCell>
-                <TableSortLabel>Price</TableSortLabel>
-              </TableCell>
-              <TableCell>
-                <TableSortLabel>Action</TableSortLabel>
-              </TableCell>
+              <TableCell sx={{ color: "white" }}>ID</TableCell>
+              <TableCell sx={{ color: "white" }}>Cake Name</TableCell>
+              <TableCell sx={{ color: "white" }}>Price</TableCell>
+              <TableCell sx={{ color: "white" }}>Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -206,16 +285,22 @@ const CakeTable = () => {
                 key={cake.id || cake.cakeName} // Ensure the key is unique
                 sx={{
                   "&:nth-of-type(odd)": {
-                    backgroundColor: "#f5f5f5",
+                    backgroundColor: "#f9f9f9",
                   },
                   "&:hover": {
                     backgroundColor: "#e0e0e0",
                   },
                 }}
               >
+                <TableCell padding="checkbox">
+                  <Checkbox
+                    checked={selectedCakes.includes(cake.id)}
+                    onChange={() => handleSelectCake(cake.id)}
+                  />
+                </TableCell>
                 <TableCell>{cake.id}</TableCell>
                 <TableCell>{cake.cakeName}</TableCell>
-                <TableCell>${cake.price}</TableCell>
+                <TableCell>฿{cake.price}</TableCell>
                 <TableCell>
                   <Tooltip title="Update">
                     <IconButton
@@ -223,14 +308,6 @@ const CakeTable = () => {
                       onClick={() => handleUpdate(cake.id)}
                     >
                       <EditIcon />
-                    </IconButton>
-                  </Tooltip>
-                  <Tooltip title="Delete">
-                    <IconButton
-                      color="error"
-                      onClick={() => handleDelete(cake.id)}
-                    >
-                      <DeleteIcon />
                     </IconButton>
                   </Tooltip>
                 </TableCell>
