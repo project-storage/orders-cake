@@ -36,18 +36,22 @@ const UpdateCake = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const formattedPrice = parseFloat(price).toFixed(2);
     try {
-      const res = await dispatch(updateCake({ id, cakeName, price })).unwrap();
-      if (res) {
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "อัพเดทข้อมูลสำเร็จ!",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        navigate(CAKE_PATH);
-      }
+      await dispatch(
+        updateCake({ id, data: { cakeName, price: formattedPrice } })
+      ).unwrap();
+      
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "อัพเดทข้อมูลสำเร็จ!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+
+      navigate(CAKE_PATH);
     } catch (error) {
       console.error("Error updating cake:", error);
       setError(error.message || "An error occurred while updating the cake.");
