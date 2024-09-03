@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "../slices/authSlice"; // นำเข้า slice reducer
 import userReducer from "../slices/userSlice"; // นำเข้า slice reducer
 import cakeReducer from "../slices/cakeSlice";
+import departmentReducer from "../slices/departmentSlice";
 
 // ตั้งค่า store
 export const store = configureStore({
@@ -9,6 +10,7 @@ export const store = configureStore({
     auth: authReducer, // เพิ่ม slice reducer ที่นี่
     user: userReducer,
     cakes: cakeReducer,
+    departments: departmentReducer,
   },
 });
 

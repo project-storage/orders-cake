@@ -2,10 +2,10 @@ import React from "react";
 import { Box, Typography, Breadcrumbs, Link } from "@mui/material";
 import { NavigateNext } from "@mui/icons-material";
 import FlexBetween from "../../../configs/FlexBetween";
-import Department from "../../../components/common/superAdmin/table/DepartmentTable";
-import CreateDepartment from "../../../components/common/superAdmin/From/department/CreateDepartment";
+import UpdateDepartment from "../../../components/common/superAdmin/From/department/UpdateDepartment";
+import DepartmentTable from "../../../components/common/superAdmin/table/DepartmentTable";
 
-const DepartmentPageSPAM = () => {
+const UpdateDepartmentSPAM = () => {
   return (
     <Box
       sx={{
@@ -19,7 +19,7 @@ const DepartmentPageSPAM = () => {
             component="h1"
             sx={{ fontSize: { xs: "1.5rem", sm: "2rem" } }}
           >
-            Departments
+            Update Department
           </Typography>
           <Breadcrumbs
             separator={<NavigateNext fontSize="small" />}
@@ -29,15 +29,16 @@ const DepartmentPageSPAM = () => {
               admin
             </Link>
             <Typography color="textPrimary">Departments</Typography>
+            <Typography color="textPrimary">Update</Typography>
           </Breadcrumbs>
         </FlexBetween>
       </Box>
       <Box>
-        <CreateDepartment/>
-        <Department />
+        <UpdateDepartment />
+        <DepartmentTable />
       </Box>
     </Box>
   );
 };
 
-export default DepartmentPageSPAM;
+export default UpdateDepartmentSPAM;
