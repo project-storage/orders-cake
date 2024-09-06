@@ -3,6 +3,7 @@ import authReducer from "../slices/authSlice"; // นำเข้า slice reduc
 import userReducer from "../slices/userSlice"; // นำเข้า slice reducer
 import cakeReducer from "../slices/cakeSlice";
 import departmentReducer from "../slices/departmentSlice";
+import degreeReducer from "../slices/degreeSlice";
 
 // ตั้งค่า store
 export const store = configureStore({
@@ -11,6 +12,7 @@ export const store = configureStore({
     user: userReducer,
     cakes: cakeReducer,
     departments: departmentReducer,
+    degrees: degreeReducer,
   },
 });
 

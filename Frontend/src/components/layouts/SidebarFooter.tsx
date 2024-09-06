@@ -9,7 +9,7 @@ const SidebarFooter = () => {
         borderTop: '1px solid #ddd',
         backgroundColor: '#f4f4f4',
         textAlign: 'center',
-        position: 'absolute',
+        // position: 'absolute',
         bottom: 0,
         width: '100%',
       }}

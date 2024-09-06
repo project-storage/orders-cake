@@ -5,6 +5,7 @@ import {
   CAKE_PATH,
   DASHBOARD_PATH,
   DASHBOARD_TEACHERPATH,
+  DEGREE_PATH,
   DEPARTMENT_PATH,
   UPDATE_CAKEA_PATH,
   UPDATE_DEPARTMENT_PATH,
@@ -16,6 +17,7 @@ import CakePage from "./pages/superAdmin/table/CakePage";
 import UpdateCakePageSPAM from "./pages/superAdmin/from/UpdateCakePageSPAM";
 import DepartmentPageSPAM from "./pages/superAdmin/table/DepartmentPageSPAM";
 import UpdateDepartmentSPAM from "./pages/superAdmin/from/UpdateDepartmentSPAM";
+import DegreePageSPAM from "./pages/superAdmin/table/DegreePageSPAM";
 
 const App = () => {
   return (
@@ -34,6 +36,7 @@ const App = () => {
             element={<UpdateDepartmentSPAM />}
           />
           <Route path={DEPARTMENT_PATH} element={<DepartmentPageSPAM />} />
+          <Route path={DEGREE_PATH} element={<DegreePageSPAM />} />
           <Route path={DASHBOARD_TEACHERPATH} element={<DashboardPageTC />} />
         </Route>
       </Routes>
