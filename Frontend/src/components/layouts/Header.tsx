@@ -16,9 +16,10 @@ import { useProSidebar } from "react-pro-sidebar";
 import { useState } from "react";
 import logo from "../../assets/nvc.png";
 import { SYSTEM_NAME } from "../../configs/constants";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
-  // useProSidebar hook to control the sidebar
+  const navigate = useNavigate();
   const { collapseSidebar, toggleSidebar, broken } = useProSidebar();
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -32,8 +33,8 @@ const Header = () => {
   };
 
   const handleLogout = () => {
-    // Perform logout action
-    // Example: clear authentication token, redirect to login page, etc.
+    navigate("/");
+    localStorage.removeItem("token");
   };
   return (
     <AppBar position="sticky" sx={styles.appBar}>

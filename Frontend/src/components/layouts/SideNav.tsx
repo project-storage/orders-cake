@@ -37,8 +37,8 @@ import { RootState } from "../../store/store";
 import SidebarFooter from "./SidebarFooter";
 import Swal from "sweetalert2";
 
-const SideNav: React.FC = () => {
-  const { collapseSidebar, collapsed } = useProSidebar();
+const SideNav = () => {
+  const { toggleSidebar, collapsed } = useProSidebar();
 
   const [activeMenuItem, setActiveMenuItem] = useState<string>("Dashboard");
 
@@ -55,6 +55,7 @@ const SideNav: React.FC = () => {
 
   const handleMenuClick = (menu: string) => {
     setActiveMenuItem(menu);
+    toggleSidebar()
   };
 
   const handleLogout = () => {
