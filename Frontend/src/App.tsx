@@ -8,6 +8,7 @@ import {
   DEGREE_PATH,
   DEPARTMENT_PATH,
   UPDATE_CAKEA_PATH,
+  UPDATE_DEGREE_PATH,
   UPDATE_DEPARTMENT_PATH,
 } from "./configs/constants";
 import MainLayout from "./Layout/MainLayout";
@@ -18,6 +19,7 @@ import UpdateCakePageSPAM from "./pages/superAdmin/from/UpdateCakePageSPAM";
 import DepartmentPageSPAM from "./pages/superAdmin/table/DepartmentPageSPAM";
 import UpdateDepartmentSPAM from "./pages/superAdmin/from/UpdateDepartmentSPAM";
 import DegreePageSPAM from "./pages/superAdmin/table/DegreePageSPAM";
+import UpdateDegreeSPAM from "./pages/superAdmin/from/UpdateDegreeSPAM";
 
 const App = () => {
   return (
@@ -37,6 +39,10 @@ const App = () => {
           />
           <Route path={DEPARTMENT_PATH} element={<DepartmentPageSPAM />} />
           <Route path={DEGREE_PATH} element={<DegreePageSPAM />} />
+          <Route
+            path={`${UPDATE_DEGREE_PATH}/:id`}
+            element={<UpdateDegreeSPAM />}
+          />
           <Route path={DASHBOARD_TEACHERPATH} element={<DashboardPageTC />} />
         </Route>
       </Routes>

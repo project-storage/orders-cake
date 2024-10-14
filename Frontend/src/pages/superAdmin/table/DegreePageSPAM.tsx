@@ -3,6 +3,7 @@ import { Box, Typography, Breadcrumbs, Link } from "@mui/material";
 import { NavigateNext } from "@mui/icons-material";
 import FlexBetween from "../../../configs/FlexBetween";
 import DegreeTable from "../../../components/common/superAdmin/table/DegreeTable";
+import CreateDegree from "../../../components/common/superAdmin/From/degree/CreateDegree";
 
 const DegreePageSPAM = () => {
   return (
@@ -32,7 +33,7 @@ const DegreePageSPAM = () => {
         </FlexBetween>
       </Box>
       <Box>
-        {/* <CreateDepartment/> */}
+        <CreateDegree/>
         <DegreeTable />
       </Box>
     </Box>
