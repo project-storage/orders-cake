@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
-import { createDepartment } from "../../../../../slices/departmentSlice";
+import { createDepartment, fetchDepartments } from "../../../../../slices/departmentSlice";
 import {
   Box,
   Button,
@@ -14,7 +14,6 @@ import {
 
 const CreateDepartment = () => {
   const dispatch = useDispatch();
-
   const [open, setOpen] = useState(false);
   const [departCode, setDepartCode] = useState("");
   const [departName, setDepartName] = useState("");
@@ -42,9 +41,10 @@ const CreateDepartment = () => {
     }
 
     try {
-      await dispatch(createDepartment({ departCode, departName }));
+      await dispatch(createDepartment({ departCode, departName })).unwrap();
       setDepartCode("");
       setDepartName("");
+      handleClose(); // ปิด Dialog หลังจากสร้างสำเร็จ
 
       Swal.fire({
         position: "center",
@@ -54,19 +54,18 @@ const CreateDepartment = () => {
         timer: 1500,
       });
 
-      setTimeout(() => {
-        window.location.reload();
-      }, 1500);
+      dispatch(fetchDepartments()); // ดึงข้อมูลใหม่หลังสร้างสำเร็จ
     } catch (error) {
       Swal.fire({
         position: "center",
         icon: "error",
-        title: "เกิดข้อผิดพลาดในการสร้างข้อมูล!",
+        title: error.message || "เกิดข้อผิดพลาดในการสร้างข้อมูล!",
         showConfirmButton: false,
         timer: 1500,
       });
     }
   };
+
   return (
     <Box id="form-create-department">
       <Button variant="contained" onClick={handleClickOpen}>

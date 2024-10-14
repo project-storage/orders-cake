@@ -101,15 +101,15 @@ const cakeSlice = createSlice({
       .addCase(
         fetchCakes.fulfilled,
         (state, action: PayloadAction<CakeData[]>) => {
-          state.cakes = action.payload;
           state.loading = false;
+          state.cakes = action.payload;
         }
       )
       .addCase(
         fetchCakes.rejected,
         (state, action: PayloadAction<string | undefined>) => {
           state.loading = false;
-          state.error = action.payload || "Failed to fetch cakes";
+          state.error = action.payload as string;
         }
       )
       // Fetch cake by id

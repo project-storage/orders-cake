@@ -177,7 +177,7 @@ const CakeTable = () => {
   // Filter cakes based on search criteria
   const filteredCakes = cakes.filter(
     (cake) =>
-      cake.cakeName.toLowerCase().includes(searchName.toLowerCase()) &&
+      cake.cakeName?.toLowerCase().includes(searchName.toLowerCase()) &&
       (searchPrice === "" || cake.price.toString().includes(searchPrice))
   );
 
@@ -185,6 +185,27 @@ const CakeTable = () => {
     page * rowsPerPage,
     page * rowsPerPage + rowsPerPage
   );
+
+  if (loading) {
+    return (
+      <div
+        style={{ display: "flex", justifyContent: "center", padding: "20px" }}
+      >
+        <CircularProgress />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <Typography
+        color="error"
+        style={{ textAlign: "center", padding: "20px" }}
+      >
+        Error: {error}
+      </Typography>
+    );
+  }
 
   return (
     <TableContainer

@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { createCake } from "../../../../../slices/cakeSlice";
 import Swal from "sweetalert2";
+import { fetchDegrees } from "../../../../../slices/degreeSlice";
 
 const CreateCake = () => {
   const dispatch = useDispatch();
@@ -42,7 +43,7 @@ const CreateCake = () => {
     }
 
     try {
-      await dispatch(createCake({ cakeName, price }));
+      await dispatch(createCake({ cakeName, price })).unwrap();
       setCakeName("");
       setPrice("");
       handleClose();
@@ -54,15 +55,15 @@ const CreateCake = () => {
         showConfirmButton: false,
         timer: 1500,
       });
-      
-      setTimeout(() => {
-        window.location.reload();
-      }, 1500);
+
+      // Call fetchDegrees directly after creating a cake
+      dispatch(fetchDegrees());
     } catch (error) {
+      console.error(error); // Log the error for debugging
       Swal.fire({
         position: "center",
         icon: "error",
-        title: "เกิดข้อผิดพลาดในการสร้างข้อมูล!",
+        title: error.message || "เกิดข้อผิดพลาดในการสร้างข้อมูล!",
         showConfirmButton: false,
         timer: 1500,
       });
