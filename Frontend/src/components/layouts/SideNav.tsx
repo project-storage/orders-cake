@@ -30,6 +30,7 @@ import {
   DEPARTMENT_PATH,
   DASHBOARD_TEACHERPATH,
   USERINFO_PATH,
+  GROUP_TEACHERPATH,
 } from "../../configs/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserInfo } from "../../slices/userSlice";
@@ -55,7 +56,7 @@ const SideNav = () => {
 
   const handleMenuClick = (menu: string) => {
     setActiveMenuItem(menu);
-    toggleSidebar()
+    toggleSidebar();
   };
 
   const handleLogout = () => {
@@ -244,33 +245,13 @@ const SideNav = () => {
                 จัดการข้อมูล
               </Typography>
             )}
-            <SubMenu label={!collapsed && "กลุ่มเรียน"} icon={<StorageIcon />}>
-              <MenuItem
-                active={activeMenuItem === GROUP_PATH}
-                component={<Link to={GROUP_PATH} />}
-                icon={<GroupsIcon />}
-              >
-                <Typography variant="body2">กลุ่มเรียน</Typography>
-              </MenuItem>
-
-              <MenuItem
-                active={activeMenuItem === DEGREE_PATH}
-                component={<Link to={DEGREE_PATH} />}
-                onClick={() => handleMenuClick(DEGREE_PATH)}
-                icon={<ClassIcon />}
-              >
-                <Typography variant="body2">ระดับชั้น </Typography>
-              </MenuItem>
-
-              <MenuItem
-                active={activeMenuItem === DEPARTMENT_PATH}
-                component={<Link to={DEPARTMENT_PATH} />}
-                onClick={() => handleMenuClick(DEPARTMENT_PATH)}
-                icon={<SettingsIcon />}
-              >
-                <Typography variant="body2">แผนก</Typography>
-              </MenuItem>
-            </SubMenu>
+            <MenuItem
+              active={activeMenuItem === GROUP_PATH}
+              component={<Link to={GROUP_TEACHERPATH} />}
+              icon={<GroupsIcon />}
+            >
+              <Typography variant="body2">กลุ่มเรียน</Typography>
+            </MenuItem>
             <MenuItem
               active={activeMenuItem === USERINFO_PATH}
               component={<Link to={USERINFO_PATH} />}

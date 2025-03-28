@@ -24,27 +24,27 @@ const getGroupInfo = async (): Promise<GroupInfo> => {
     }
 
     const response = await http.get<GroupInfo>("/api/groups/info");
-    return response.data;
+    return response.data.data;
 };
 
 const create = async (departmentData: DepartmentData): Promise<GroupInfo> => {
     const response = await http.post<GroupInfo>(`/api/groups/create`, departmentData);
-    return response.data;
+    return response.data.data;
 };
 
 const getAll = async (): Promise<GroupInfo[]> => {
     const response = await http.get<GroupInfo[]>(`/api/groups/all`);
-    return response.data;
+    return response.data.data;
 };
 
 const getById = async (id: number): Promise<GroupInfo> => {
     const response = await http.get<GroupInfo>(`/api/groups/info/${id}`);
-    return response.data;
+    return response.data.data;
 };
 
 const updateById = async (id: number, updateData: DepartmentData): Promise<GroupInfo> => {
     const response = await http.put<GroupInfo>(`/api/groups/update/${id}`, updateData);
-    return response.data;
+    return response.data.data;
 };
 
 const deleteById = async (id: number): Promise<void> => {

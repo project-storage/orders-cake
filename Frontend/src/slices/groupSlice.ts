@@ -135,10 +135,13 @@ const groupSlice = createSlice({
           state.groups[index] = action.payload;
         }
       })
-      .addCase(updateGroup.rejected, (state, action: PayloadAction<string | undefined>) => {
-        state.loading = false;
-        state.error = action.error.message || "Failed to update group";
-      })
+      .addCase(
+        updateGroup.rejected,
+        (state, action: PayloadAction<string | undefined>) => {
+          state.loading = false;
+          state.error = action.error.message || "Failed to update group";
+        }
+      )
       // delete
       .addCase(deleteGroup.pending, (state) => {
         state.loading = true;

@@ -7,19 +7,21 @@ import {
   DASHBOARD_TEACHERPATH,
   DEGREE_PATH,
   DEPARTMENT_PATH,
+  GROUP_TEACHERPATH,
   UPDATE_CAKEA_PATH,
   UPDATE_DEGREE_PATH,
   UPDATE_DEPARTMENT_PATH,
 } from "./configs/constants";
 import MainLayout from "./Layout/MainLayout";
 import DashboardPageSPAM from "./pages/superAdmin/DashboardPageSPAM";
-import DashboardPageTC from "./pages/Teacher/DashboardPageTC";
+import DashboardPageTC from "./pages/Teacher/DashboardPageTc";
 import CakePage from "./pages/superAdmin/table/CakePage";
 import UpdateCakePageSPAM from "./pages/superAdmin/from/UpdateCakePageSPAM";
 import DepartmentPageSPAM from "./pages/superAdmin/table/DepartmentPageSPAM";
 import UpdateDepartmentSPAM from "./pages/superAdmin/from/UpdateDepartmentSPAM";
 import DegreePageSPAM from "./pages/superAdmin/table/DegreePageSPAM";
 import UpdateDegreeSPAM from "./pages/superAdmin/from/UpdateDegreeSPAM";
+import GroupPageTc from './pages/Teacher/GroupPageTc';
 
 const App = () => {
   return (
@@ -44,6 +46,7 @@ const App = () => {
             element={<UpdateDegreeSPAM />}
           />
           <Route path={DASHBOARD_TEACHERPATH} element={<DashboardPageTC />} />
+          <Route path={GROUP_TEACHERPATH} element={<GroupPageTc />} />
         </Route>
       </Routes>
     </BrowserRouter>

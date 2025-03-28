@@ -26,4 +26,5 @@ export const USERINFO_PATH = BASE_PATH + "user-info";
 // tearcher routes
 const TEACHER_PATH = "/teacher/";
 export const DASHBOARD_TEACHERPATH = TEACHER_PATH + "dashboard";
+export const GROUP_TEACHERPATH = TEACHER_PATH + "groups";
 

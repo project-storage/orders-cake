@@ -3,7 +3,7 @@ import { NavigateNext } from "@mui/icons-material";
 import Dashboard from "../../components/common/superAdmin/Dashboard";
 import FlexBetween from "../../configs/FlexBetween";
 
-const DashboardPageTC = () => {
+const DashboardPageTc = () => {
   return (
     <Box
       sx={{
@@ -24,7 +24,7 @@ const DashboardPageTC = () => {
             sx={{ mt: { xs: 1, sm: 0 } }}
           >
             <Link href="#" color="inherit">
-              admin
+              techer
             </Link>
             <Typography color="textPrimary">Dashboard</Typography>
           </Breadcrumbs>
@@ -37,4 +37,4 @@ const DashboardPageTC = () => {
   );
 };
 
-export default DashboardPageTC;
+export default DashboardPageTc;
