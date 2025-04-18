@@ -14,13 +14,13 @@ authRouter.post(
 
 authRouter.post(
     '/register/super-admin',
-    authController.upload,
+    // authController.upload,
     authController.createSuperAdmin
 )
 
 authRouter.post(
     '/register/admin',
-    authController.upload,
+    // authController.upload,
     authController.createAdmin
 )
 

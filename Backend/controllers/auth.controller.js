@@ -155,7 +155,7 @@ const login = async (req, res) => {
 // create super Admin
 const createSuperAdmin = async (req, res) => {
     try {
-        const { path: image } = req.file; 
+        // const { path: image } = req.file; 
         const { title, name, surname, email, username, password } = req.body;
 
         if (!name || !surname || !username || !password) {
@@ -173,7 +173,7 @@ const createSuperAdmin = async (req, res) => {
 
         // create the Admin user
         const newSuperAdminUser = new tb_user({
-            image,
+            // image,
             title,
             name,
             surname,
@@ -202,7 +202,7 @@ const createSuperAdmin = async (req, res) => {
 // create Admin
 const createAdmin = async (req, res) => {
     try {
-        const { path: image } = req.file; // แก้ไขตรงนี้
+        // const { path: image } = req.file; // แก้ไขตรงนี้
         const { title, name, surname, email, tel, username, password } = req.body;
 
         if (!name || !surname || !email || !username || !password) {
@@ -214,7 +214,7 @@ const createAdmin = async (req, res) => {
 
         // create the Admin user
         const newAdminUser = new User({
-            image,
+            // image,
             title,
             name,
             surname,
