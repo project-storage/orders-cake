@@ -1,27 +1,16 @@
-const authController = require('../controllers/auth.controller')
-const authRouter = require('express').Router()
+const authController = require('../controllers/auth.controller');
+const authRouter = require('express').Router();
 
-authRouter.post(
-    '/register',
-    // authController.upload,
-    authController.register
-)
+// Register a new user
+authRouter.post('/register', authController.register);
 
-authRouter.post(
-    '/login',
-    authController.login
-)
+// User login
+authRouter.post('/login', authController.login);
 
-authRouter.post(
-    '/register/super-admin',
-    authController.upload,
-    authController.createSuperAdmin
-)
+// Create super admin (requires file upload middleware)
+authRouter.post('/register/super-admin', authController.upload, authController.createSuperAdmin);
 
-authRouter.post(
-    '/register/admin',
-    authController.upload,
-    authController.createAdmin
-)
+// Create admin (requires file upload middleware)
+authRouter.post('/register/admin', authController.upload, authController.createAdmin);
 
-module.exports = authRouter
+module.exports = authRouter;

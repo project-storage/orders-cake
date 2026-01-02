@@ -113,7 +113,7 @@ const getTeamAll = async (req, res) => {
 const searchTeam = async (req, res) => {
     try {
         // Check user roles
-        if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin' && req.user.role !== 'ครูที่ปรึกษา') {
+        if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin' && req.user.role !== 'advisor') {
             return res.status(401).json({
                 status_code: 401,
                 msg: 'Unauthorized'
@@ -162,6 +162,7 @@ const updateTeam = async (req, res) => {
         if (
             req.user.role !== 'Admin' &&
             req.user.role !== 'superAdmin' &&
+            req.user.role !== 'advisor' &&
             req.user.role !== 'team'
         ) {
             return res.status(401).json({
@@ -214,7 +215,7 @@ const updateTeam = async (req, res) => {
         team.username = username || team.username
 
         if (password) {
-            const hashedPassword = await bcrypt.hash(password, saltRounds);
+            const hashedPassword = await hashPassword(password);
             team.password = hashedPassword;
         }
 

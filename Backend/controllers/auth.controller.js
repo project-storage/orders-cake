@@ -12,11 +12,40 @@ const path = require('path')
 // register
 const register = async (req, res) => {
     try {
-        // const { path: image } = req.file; // แก้ไขตรงนี้
         const { title, name, surname, tel, email, username, password, role } = req.body;
 
+        // Input validation
         if (!title || !name || !surname || !tel || !email || !username || !password || !role) {
-            return res.status(400).json({ message: 'Please fill in all fields' });
+            return res.status(400).json({
+                status_code: 400,
+                msg: 'Please fill in all required fields'
+            });
+        }
+
+        // Validate email format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            return res.status(400).json({
+                status_code: 400,
+                msg: 'Invalid email format'
+            });
+        }
+
+        // Validate telephone format (10 digits)
+        const telRegex = /^\d{10}$/;
+        if (!telRegex.test(tel)) {
+            return res.status(400).json({
+                status_code: 400,
+                msg: 'Invalid telephone number format (must be 10 digits)'
+            });
+        }
+
+        // Validate password strength
+        if (password.length < 6) {
+            return res.status(400).json({
+                status_code: 400,
+                msg: 'Password must be at least 6 characters long'
+            });
         }
 
         // Check if email or username already exists
@@ -27,26 +56,25 @@ const register = async (req, res) => {
         if (alreadyExistsEmail) {
             return res.status(409).json({
                 status_code: 409,
-                message: 'Email already exists'
+                msg: 'Email already exists'
             });
         }
         if (alreadyExistsUsername) {
             return res.status(409).json({
                 status_code: 409,
-                message: 'Username already exists'
+                msg: 'Username already exists'
             });
         }
         if (alreadyExistsTelephone) {
             return res.status(409).json({
                 status_code: 409,
-                message: 'Telephone number already exists'
+                msg: 'Telephone number already exists'
             });
         }
 
         const hashedPassword = await hashPassword(password);
 
-        const newUser = new tb_user({
-            // image,
+        const newUser = await tb_user.create({
             title,
             name,
             surname,
@@ -57,19 +85,20 @@ const register = async (req, res) => {
             role,
         });
 
-        await newUser.save();
+        // Remove password from response
+        const { password: userPassword, ...userWithoutPassword } = newUser.toJSON();
 
         return res.status(201).json({
             status_code: 201,
             msg: 'User created successfully',
-            data: newUser
+            data: userWithoutPassword
         });
     } catch (error) {
-        console.error('Error', error)
+        console.error('Registration Error:', error);
         return res.status(500).json({
             status_code: 500,
             msg: 'Internal Server Error'
-        })
+        });
     }
 };
 
@@ -90,26 +119,36 @@ const login = async (req, res) => {
         if (!login || !password) {
             return res.status(400).json({
                 status_code: 400,
-                msg: 'Plese provide both email or username and password'
-            })
+                msg: 'Please provide both email/username and password'
+            });
+        }
+
+        // Validate input length
+        if (login.length > 100 || password.length > 100) {
+            return res.status(400).json({
+                status_code: 400,
+                msg: 'Invalid input length'
+            });
         }
 
         let whereClause;
 
-        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(login)) {
+        // Validate email format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (emailRegex.test(login)) {
             whereClause = { email: login };
         } else {
             whereClause = { username: login };
         }
 
         let userWithIdentifier = await findUser(whereClause)
-            || await tb_team.findOne({ where: whereClause })
+            || await tb_team.findOne({ where: whereClause });
 
         if (!userWithIdentifier) {
             return res.status(401).json({
                 status_code: 401,
-                msg: 'Invalid username/email'
-            })
+                msg: 'Invalid username/email or password'
+            });
         }
 
         const passwordMatch = await comparePassword(password, userWithIdentifier.password);
@@ -117,62 +156,96 @@ const login = async (req, res) => {
         if (!passwordMatch) {
             return res.status(401).json({
                 status_code: 401,
-                msg: 'Incorrect password'
-            })
+                msg: 'Invalid username/email or password'
+            });
         }
 
-
+        // Create JWT token without password
         const jwtToken = jwt.sign(
             {
                 id: userWithIdentifier.id,
                 email: userWithIdentifier.email,
                 username: userWithIdentifier.username,
-                password: userWithIdentifier.password,
                 role: userWithIdentifier.role,
             },
-            process.env.JWT_SECRET
+            process.env.JWT_SECRET,
+            { expiresIn: process.env.JWT_EXPIRES_IN || '24h' } // Use environment variable for token expiration
         );
+
+        // Remove password from response
+        const { password: userPassword, ...userWithoutPassword } = userWithIdentifier.toJSON();
 
         return res.status(200).json({
             status_code: 200,
-            msg: 'Welcome back!',
+            msg: 'Login successful',
             data: {
-                username: userWithIdentifier.username,
-                email: userWithIdentifier.email,
-                role: userWithIdentifier.role,
+                user: userWithoutPassword,
                 token: jwtToken,
             }
         });
     } catch (error) {
-        console.error('Error', error)
+        console.error('Login Error:', error);
         return res.status(500).json({
             status_code: 500,
             msg: 'Internal Server Error'
-        })
+        });
     }
 };
 
 // create super Admin
 const createSuperAdmin = async (req, res) => {
     try {
-        const { path: image } = req.file; 
         const { title, name, surname, email, username, password } = req.body;
+        const image = req.file ? req.file.path : null;
 
         if (!name || !surname || !username || !password) {
-            return res.status(400).status({ message: "Please fill in all fields" });
+            return res.status(400).json({
+                status_code: 400,
+                msg: "Please fill in all required fields"
+            });
         }
 
-        const superAdmin = await tb_user.findOne({ where: { role: "superAdmin" } })
+        // Validate email format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (email && !emailRegex.test(email)) {
+            return res.status(400).json({
+                status_code: 400,
+                msg: 'Invalid email format'
+            });
+        }
 
-        if (superAdmin) {
-            return res.status(400).json({ status: 400, message: "superAdmin user already exists" })
+        // Check if a super admin already exists
+        const existingSuperAdmin = await tb_user.findOne({ where: { role: "superAdmin" } });
+
+        if (existingSuperAdmin) {
+            return res.status(400).json({
+                status_code: 400,
+                msg: "Super admin user already exists"
+            });
+        }
+
+        // Check if username or email already exists
+        const existingUser = await tb_user.findOne({
+            where: {
+                [db.Sequelize.Op.or]: [
+                    { username: username },
+                    { email: email }
+                ]
+            }
+        });
+
+        if (existingUser) {
+            return res.status(409).json({
+                status_code: 409,
+                msg: 'Username or email already exists'
+            });
         }
 
         // hash the password
-        const hashedPassword = await hashPassword(password)
+        const hashedPassword = await hashPassword(password);
 
         // create the Admin user
-        const newSuperAdminUser = new tb_user({
+        const newSuperAdminUser = await tb_user.create({
             image,
             title,
             name,
@@ -183,37 +256,76 @@ const createSuperAdmin = async (req, res) => {
             role: 'superAdmin',
         });
 
-        await newSuperAdminUser.save();
+        // Remove password from response
+        const { password: userPassword, ...userWithoutPassword } = newSuperAdminUser.toJSON();
 
         return res.status(201).json({
             status_code: 201,
             msg: 'Super admin created successfully',
-            data: newSuperAdminUser
+            data: userWithoutPassword
         });
     } catch (error) {
-        console.error('Error', error)
+        console.error('Create Super Admin Error:', error);
         return res.status(500).json({
             status_code: 500,
             msg: 'Internal Server Error'
-        })
+        });
     }
 };
 
 // create Admin
 const createAdmin = async (req, res) => {
     try {
-        const { path: image } = req.file; // แก้ไขตรงนี้
         const { title, name, surname, email, tel, username, password } = req.body;
+        const image = req.file ? req.file.path : null;
 
         if (!name || !surname || !email || !username || !password) {
-            return res.status(400).status({ message: "Please fill in all fields" });
+            return res.status(400).json({
+                status_code: 400,
+                msg: "Please fill in all required fields"
+            });
+        }
+
+        // Validate email format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            return res.status(400).json({
+                status_code: 400,
+                msg: 'Invalid email format'
+            });
+        }
+
+        // Validate telephone format (10 digits)
+        const telRegex = /^\d{10}$/;
+        if (tel && !telRegex.test(tel)) {
+            return res.status(400).json({
+                status_code: 400,
+                msg: 'Invalid telephone number format (must be 10 digits)'
+            });
+        }
+
+        // Check if username or email already exists
+        const existingUser = await tb_user.findOne({
+            where: {
+                [db.Sequelize.Op.or]: [
+                    { username: username },
+                    { email: email }
+                ]
+            }
+        });
+
+        if (existingUser) {
+            return res.status(409).json({
+                status_code: 409,
+                msg: 'Username or email already exists'
+            });
         }
 
         // hash the password
-        const hashedPassword = await hashPassword(password)
+        const hashedPassword = await hashPassword(password);
 
         // create the Admin user
-        const newAdminUser = new User({
+        const newAdminUser = await tb_user.create({
             image,
             title,
             name,
@@ -225,18 +337,20 @@ const createAdmin = async (req, res) => {
             role: 'Admin',
         });
 
-        await newAdminUser.save();
+        // Remove password from response
+        const { password: userPassword, ...userWithoutPassword } = newAdminUser.toJSON();
 
         return res.status(201).json({
             status_code: 201,
             msg: 'Admin created successfully',
-            data: newAdminUser
+            data: userWithoutPassword
         });
     } catch (error) {
-        console.error(error);
-        return res
-            .status(500)
-            .json({ message: 'Error creating admin' });
+        console.error('Create Admin Error:', error);
+        return res.status(500).json({
+            status_code: 500,
+            msg: 'Internal Server Error'
+        });
     }
 };
 

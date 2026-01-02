@@ -65,7 +65,7 @@ const createDepartment = async (req, res) => {
 const getInfoDepartment = async (req, res) => {
     try {
         // Check user roles
-        if (req.user.role !== 'superAdmin' && req.user.role !== 'ครูที่ปรึกษา') {
+        if (req.user.role !== 'superAdmin' && req.user.role !== 'advisor') {
             return res.status(401).json({
                 status_code: 401,
                 msg: 'Unauthorized'
@@ -101,7 +101,7 @@ const getInfoDepartment = async (req, res) => {
 const getAllDepartment = async (req, res) => {
     try {
         // Check user roles
-        if (req.user.role !== 'superAdmin' && req.user.role !== 'ครูที่ปรึกษา') {
+        if (req.user.role !== 'superAdmin' && req.user.role !== 'advisor') {
             return res.status(401).json({
                 status_code: 401,
                 msg: 'Unauthorized'
@@ -128,7 +128,7 @@ const getAllDepartment = async (req, res) => {
 const searchDepartment = async (req, res) => {
     try {
         // Check user roles
-        if (req.user.role !== 'superAdmin' && req.user.role !== 'ครูที่ปรึกษา') {
+        if (req.user.role !== 'superAdmin' && req.user.role !== 'advisor') {
             return res.status(401).json({
                 status_code: 401,
                 msg: 'Unauthorized'

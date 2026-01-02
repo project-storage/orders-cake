@@ -8,7 +8,7 @@ const tb_group = db.tb_group;
 const createGroup = async (req, res) => {
     try {
         // Check user roles
-        if (req.user.role !== 'superAdmin' && req.user.role !== 'ครูที่ปรึกษา') {
+        if (req.user.role !== 'superAdmin' && req.user.role !== 'advisor') {
             return res.status(401).json({
                 status_code: 401,
                 msg: 'Unauthorized'
@@ -38,7 +38,7 @@ const createGroup = async (req, res) => {
 const getGroupInfo = async (req, res) => {
     try {
         // Check user roles
-        if (req.user.role !== 'superAdmin' && req.user.role !== 'ครูที่ปรึกษา') {
+        if (req.user.role !== 'superAdmin' && req.user.role !== 'advisor') {
             return res.status(401).json({
                 status_code: 401,
                 msg: 'Unauthorized'
@@ -88,7 +88,7 @@ const getGroupInfo = async (req, res) => {
 const getGroupById = async (req, res) => {
     try {
         // Check user roles
-        if (req.user.role !== 'superAdmin' && req.user.role !== 'ครูที่ปรึกษา') {
+        if (req.user.role !== 'superAdmin' && req.user.role !== 'advisor') {
             return res.status(401).json({
                 status_code: 401,
                 msg: 'Unauthorized'
@@ -177,7 +177,7 @@ const getGroupAll = async (req, res) => {
 const searchGroup = async (req, res) => {
     try {
         // Check user roles
-        if (req.user.role !== 'superAdmin' && req.user.role !== 'ครูที่ปรึกษา') {
+        if (req.user.role !== 'superAdmin' && req.user.role !== 'advisor') {
             return res.status(401).json({
                 status_code: 401,
                 msg: 'Unauthorized'
@@ -245,7 +245,7 @@ const updateGroup = async (req, res) => {
     const { roomName, teachID, departID, degreeID } = req.body;
     try {
         // Check user roles
-        if (req.user.role !== 'superAdmin' && req.user.role !== 'ครูที่ปรึกษา') {
+        if (req.user.role !== 'superAdmin' && req.user.role !== 'advisor') {
             return res.status(401).json({
                 status_code: 401,
                 msg: 'Unauthorized'
@@ -288,7 +288,7 @@ const updateGroup = async (req, res) => {
 const deleteGroup = async (req, res) => {
     try {
         // Check user roles
-        if (req.user.role !== 'superAdmin' && req.user.role !== 'ครูที่ปรึกษา') {
+        if (req.user.role !== 'superAdmin' && req.user.role !== 'advisor') {
             return res.status(401).json({
                 status_code: 401,
                 msg: 'Unauthorized'

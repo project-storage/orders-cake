@@ -5,7 +5,7 @@ const tb_student = db.tb_student
 const createStudent = async (req, res) => {
     try {
         // Check if req.user exists and has the correct role
-        if (req.user.role !== 'superAdmin' && req.user.role !== 'ครูที่ปรึกษา') {
+        if (req.user.role !== 'superAdmin' && req.user.role !== 'advisor') {
             return res.status(401).json({
                 status_code: 401,
                 msg: 'Unauthorized'
@@ -36,7 +36,7 @@ const createStudent = async (req, res) => {
             return res.json({ message: "Telephone number already exists" });
         }
 
-        const newStudents = new Student({
+        const newStudents = new tb_student({
             stuNumber,
             stuIdCard,
             title,
@@ -65,7 +65,7 @@ const createStudent = async (req, res) => {
 const getStudentInfo = async (req, res) => {
     try {
         // Check if req.user exists and has the correct role
-        if (req.user.role !== 'superAdmin' && req.user.role !== 'ครูที่ปรึกษา') {
+        if (req.user.role !== 'superAdmin' && req.user.role !== 'advisor') {
             return res.status(401).json({
                 status_code: 401,
                 msg: 'Unauthorized'
@@ -101,7 +101,7 @@ const getStudentInfo = async (req, res) => {
 const getStudentAll = async (req, res) => {
     try {
         // Check if req.user exists and has the correct role
-        if (req.user.role !== 'superAdmin' && req.user.role !== 'ครูที่ปรึกษา') {
+        if (req.user.role !== 'superAdmin' && req.user.role !== 'advisor') {
             return res.status(401).json({
                 status_code: 401,
                 msg: 'Unauthorized'
@@ -136,7 +136,7 @@ const getStudentAll = async (req, res) => {
 const searchStudent = async (req, res) => {
     try {
         // Check if req.user exists and has the correct role
-        if (req.user.role !== 'superAdmin' && req.user.role !== 'ครูที่ปรึกษา') {
+        if (req.user.role !== 'superAdmin' && req.user.role !== 'advisor') {
             return res.status(401).json({
                 status_code: 401,
                 msg: 'Unauthorized'
@@ -198,7 +198,7 @@ const updateStudent = async (req, res) => {
         let student;
 
         // Check if req.user exists and has the correct role
-        if (req.user.role !== 'superAdmin' && req.user.role !== 'ครูที่ปรึกษา') {
+        if (req.user.role !== 'superAdmin' && req.user.role !== 'advisor') {
             return res.status(401).json({
                 status_code: 401,
                 msg: 'Unauthorized'
@@ -262,7 +262,7 @@ const updateStudent = async (req, res) => {
 const deleteStudent = async (req, res) => {
     try {
         // Check if req.user exists and has the correct role
-        if (req.user.role !== 'superAdmin' && req.user.role !== 'ครูที่ปรึกษา') {
+        if (req.user.role !== 'superAdmin' && req.user.role !== 'advisor') {
             return res.status(401).json({
                 status_code: 401,
                 msg: 'Unauthorized'

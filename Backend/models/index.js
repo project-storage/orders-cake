@@ -166,8 +166,8 @@ db.tb_order.belongsTo(db.tb_status, {
     as: 'status'
 });
 
-db.sequelize.sync({ alter: true }).then(() => {
-    console.log('Yes re-sync done!!');
+db.sequelize.sync({ force: false }).then(() => {
+    console.log('Yes sync done!!');
 });
 
 module.exports = db;

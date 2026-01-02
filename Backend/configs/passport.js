@@ -1,24 +1,31 @@
-const passport = require('passport')
-const passportJwt = require('passport-jwt')
-const ExtractJwt = passportJwt.ExtractJwt
-const StrategyJwt = passportJwt.Strategy
-const db = require('../models')
-const user = db.tb_user
+const passport = require('passport');
+const passportJwt = require('passport-jwt');
+const ExtractJwt = passportJwt.ExtractJwt;
+const StrategyJwt = passportJwt.Strategy;
+const db = require('../models');
+const tb_user = db.tb_user;
 
 passport.use(
     new StrategyJwt({
         jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-        secretOrKey: process.env.JWT_SECRET
+        secretOrKey: process.env.JWT_SECRET || 'fallback_secret', // Provide fallback for security
+        passReqToCallback: false
     },
-        function (jwtPayload, done) {
-            return user
-                .findOne({ where: { id: jwtPayload.id } })
-                .then(user => {
-                    return done(null, user)
-                })
-                .catch(err => {
-                    return done(err)
-                })
+    async function (jwtPayload, done) {
+        try {
+            const user = await tb_user.findByPk(jwtPayload.id, {
+                attributes: { exclude: ['password'] } // Don't include password in the user object
+            });
+
+            if (user) {
+                return done(null, user);
+            } else {
+                return done(null, false);
+            }
+        } catch (error) {
+            return done(error, false);
         }
-    )
-)
+    }
+));
+
+module.exports = passport;

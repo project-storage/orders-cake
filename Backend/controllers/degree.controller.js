@@ -34,7 +34,7 @@ const createDegree = async (req, res) => {
 const getDegreeInfo = async (req, res) => {
     try {
         // Check user roles
-        if (req.user.role !== 'superAdmin' && req.user.role !== 'ครูที่ปรึกษา') {
+        if (req.user.role !== 'superAdmin' && req.user.role !== 'advisor') {
             return res.status(401).json({
                 status_code: 401,
                 msg: 'Unauthorized'
@@ -67,7 +67,7 @@ const getDegreeInfo = async (req, res) => {
 const getAllDegree = async (req, res) => {
     try {
         // Check user roles
-        if (req.user.role !== 'superAdmin' && req.user.role !== 'ครูที่ปรึกษา') {
+        if (req.user.role !== 'superAdmin' && req.user.role !== 'advisor') {
             return res.status(401).json({
                 status_code: 401,
                 msg: 'Unauthorized'
@@ -93,7 +93,7 @@ const getAllDegree = async (req, res) => {
 const searchDegree = async (req, res) => {
     try {
         // Check user roles
-        if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin' && req.user.role !== 'ครูที่ปรึกษา') {
+        if (req.user.role !== 'Admin' && req.user.role !== 'superAdmin' && req.user.role !== 'advisor') {
             return res.status(401).json({
                 status_code: 401,
                 msg: 'Unauthorized'

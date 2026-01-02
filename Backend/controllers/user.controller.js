@@ -128,30 +128,70 @@ const updateUser = async (req, res) => {
         const { title, name, surname, username, email, password, tel } = req.body;
         let { image } = req.body;
 
-        let user;
-
         // Check user role
-        if (req.user.role !== 'superAdmin' && req.user.role !== 'ครูที่ปรึกษา') {
+        if (req.user.role !== 'superAdmin' && req.user.role !== 'advisor') {
             return res.status(401).json({
                 status_code: 401,
                 msg: 'Unauthorized'
             });
         }
 
-        if (req.user.role === 'superAdmin' || req.user.role === 'ครูที่ปรึกษา') {
-            // Check if ID is provided
-            if (!req.params.id) {
+        // Check if ID is provided
+        if (!req.params.id) {
+            return res.status(400).json({
+                status_code: 400,
+                msg: 'Updating user requires specifying id'
+            });
+        }
+
+        // Find user by ID
+        const user = await tb_user.findByPk(req.params.id);
+        if (!user) {
+            return res.status(404).json({
+                status_code: 404,
+                msg: 'User not found'
+            });
+        }
+
+        // Validate email format if provided
+        if (email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
                 return res.status(400).json({
                     status_code: 400,
-                    msg: 'Updating user requires specifying id'
+                    msg: 'Invalid email format'
                 });
             }
-            // Find user by ID
-            user = await tb_user.findOne({ where: { id: req.params.id } });
-            if (!user) {
-                return res.status(404).json({
-                    status_code: 404,
-                    msg: 'User not found'
+        }
+
+        // Validate telephone format if provided
+        if (tel) {
+            const telRegex = /^\d{10}$/;
+            if (!telRegex.test(tel)) {
+                return res.status(400).json({
+                    status_code: 400,
+                    msg: 'Invalid telephone number format (must be 10 digits)'
+                });
+            }
+        }
+
+        // Check if email or username already exists (excluding current user)
+        if (email && email !== user.email) {
+            const existingEmail = await tb_user.findOne({ where: { email } });
+            if (existingEmail) {
+                return res.status(409).json({
+                    status_code: 409,
+                    msg: 'Email already exists'
+                });
+            }
+        }
+
+        if (username && username !== user.username) {
+            const existingUsername = await tb_user.findOne({ where: { username } });
+            if (existingUsername) {
+                return res.status(409).json({
+                    status_code: 409,
+                    msg: 'Username already exists'
                 });
             }
         }
@@ -159,19 +199,24 @@ const updateUser = async (req, res) => {
         // Check if image is provided and update image path
         if (req.file) {
             image = req.file.path;
-            // Delete old image
+            // Delete old image if exists
             if (user.image) {
-                fs.unlinkSync(user.image); // ลบรูปภาพเดิมออกจากโฟลเดอร์
+                try {
+                    fs.unlinkSync(user.image); // ลบรูปภาพเดิมออกจากโฟลเดอร์
+                } catch (unlinkError) {
+                    console.error('Error deleting old image:', unlinkError);
+                }
             }
         }
 
+        // Update user fields
         user.title = title || user.title;
         user.name = name || user.name;
         user.surname = surname || user.surname;
         user.email = email || user.email;
         user.tel = tel || user.tel;
         user.username = username || user.username;
-        user.image = image || user.image; // Update image path
+        if (image !== undefined) user.image = image; // Update image path if provided
 
         if (password) {
             const hashedPassword = await hashPassword(password);
@@ -180,24 +225,20 @@ const updateUser = async (req, res) => {
 
         const updatedUser = await user.save();
 
-        if (!updatedUser) {
-            return res.status(400).json({
-                status_code: 400,
-                msg: 'Error updating user'
-            });
-        }
+        // Remove password from response
+        const { password: userPassword, ...userWithoutPassword } = updatedUser.toJSON();
 
         return res.status(200).json({
             status_code: 200,
-            msg: `User updated successfully ID: ${req.user.id}`,
-            data: updatedUser
+            msg: `User updated successfully ID: ${req.params.id}`,
+            data: userWithoutPassword
         });
     } catch (error) {
-        console.error('Error', error)
+        console.error('Update User Error:', error);
         return res.status(500).json({
             status_code: 500,
             msg: 'Internal Server Error'
-        })
+        });
     }
 }
 
@@ -211,7 +252,7 @@ const deleteUser = async (req, res) => {
             });
         }
 
-        const user = await tb_user.findOne({ where: { id: req.params.id } });
+        const user = await tb_user.findByPk(req.params.id);
         if (!user) {
             return res.status(404).json({
                 status_code: 404,
@@ -222,28 +263,26 @@ const deleteUser = async (req, res) => {
         // Check if the user has an image
         if (user.image) {
             // Delete user's image
-            fs.unlinkSync(user.image);
+            try {
+                fs.unlinkSync(user.image);
+            } catch (unlinkError) {
+                console.error('Error deleting user image:', unlinkError);
+                // Continue with deletion even if image deletion fails
+            }
         }
 
-        const deletedUser = await user.destroy();
-
-        if (!deletedUser) {
-            return res.status(400).json({
-                status_code: 400,
-                msg: 'Error deleting user'
-            });
-        }
+        await user.destroy();
 
         return res.status(200).json({
             status_code: 200,
             msg: 'User deleted successfully'
         });
     } catch (error) {
-        console.error('Error', error)
+        console.error('Delete User Error:', error);
         return res.status(500).json({
             status_code: 500,
             msg: 'Internal Server Error'
-        })
+        });
     }
 }
 
