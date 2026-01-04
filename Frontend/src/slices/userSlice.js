@@ -15,7 +15,7 @@ export const getUserInfo = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await userService.getUserInfo();
-      return response.data;
+      return response.data.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
     }
@@ -91,8 +91,8 @@ const userSlice = createSlice({
       })
       .addCase(getUserInfo.fulfilled, (state, action) => {
         state.loading = false;
-        if (action.payload.data) {
-          state.user = action.payload.data;
+        if (action.payload) {
+          state.user = action.payload;
         }
       })
       .addCase(getUserInfo.rejected, (state, action) => {

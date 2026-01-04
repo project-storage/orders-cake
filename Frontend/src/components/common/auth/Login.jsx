@@ -17,6 +17,7 @@ import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
 import { DASHBOARD_PATH, DASHBOARD_TEACHERPATH } from "../../../configs/constants";
 import { login } from "../../../slices/authSlice";
+import { getUserInfo } from "../../../slices/userSlice";
 
 const Login = () => {
   const [loginData, setLoginData] = useState({
@@ -33,8 +34,11 @@ const Login = () => {
     event.preventDefault();
     try {
       const res = await dispatch(login(loginData)).unwrap();
-      const userRole = res.data.role;
+      const userRole = res.data.user.role;
       localStorage.setItem("token", res.data.token);
+      localStorage.setItem("role", userRole);
+      // Get user info to populate user state in Redux
+      await dispatch(getUserInfo()).unwrap();
 
       switch (userRole) {
         case "superAdmin":

@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Default options
 const defaultOptions = {
-  baseURL: "http://localhost:4000/", // Ensure this is correct
+  baseURL: "http://localhost:8080/", // Backend server runs on port 8080
   headers: {
     "Content-Type": "application/json",
   },

@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import authService from "../services/authService";
+import { getUserInfo } from "./userSlice";
 
 // กำหนดค่าเริ่มต้นของสถานะ
 const initialState = {
@@ -13,7 +14,7 @@ export const login = createAsyncThunk(
   "auth/login",
   async (loginData) => {
     const response = await authService.Login(loginData);
-    return response.data;
+    return response.data; // This returns { status_code: 200, msg: "Login successful", data: { user, token } }
   }
 );
 

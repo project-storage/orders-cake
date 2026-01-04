@@ -43,13 +43,23 @@ const SideNav = () => {
   const [activeMenuItem, setActiveMenuItem] = useState("Dashboard");
 
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.user);
+  const { user, loading } = useSelector((state) => state.user);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(getUserInfo());
-  }, [dispatch]);
+    const fetchUserInfo = async () => {
+      try {
+        await dispatch(getUserInfo()).unwrap();
+      } catch (error) {
+        console.error('Failed to fetch user info:', error);
+        // If user info fails to load, redirect to login
+        navigate("/");
+      }
+    };
+
+    fetchUserInfo();
+  }, [dispatch, navigate]);
 
   const userRole = user?.role || "";
 
@@ -113,7 +123,9 @@ const SideNav = () => {
           }),
         }}
       >
-        {userRole === "superAdmin" && (
+        {loading ? (
+          <MenuItem disabled>กำลังโหลดข้อมูล...</MenuItem>
+        ) : userRole === "superAdmin" ? (
           <>
             <MenuItem
               active={activeMenuItem === DASHBOARD_PATH}
@@ -215,9 +227,7 @@ const SideNav = () => {
               {!collapsed && "ออกจากระบบ"}
             </MenuItem>
           </>
-        )}
-
-        {userRole === "ครูที่ปรึกษา" && (
+        ) : userRole === "ครูที่ปรึกษา" ? (
           <>
             <MenuItem
               active={activeMenuItem === DASHBOARD_TEACHERPATH}
@@ -275,6 +285,8 @@ const SideNav = () => {
               {!collapsed && "ออกจากระบบ"}
             </MenuItem>
           </>
+        ) : (
+          <MenuItem disabled>ไม่พบข้อมูลผู้ใช้งาน</MenuItem>
         )}
       </Menu>
       {!collapsed && <SidebarFooter />}

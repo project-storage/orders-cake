@@ -46,7 +46,7 @@ app.use(morgan('combined'));
 // Log startup
 logger.info('Server starting up...', {
   env: process.env.NODE_ENV || 'development',
-  port: process.env.PORT || 8080
+  port: process.env.PORT || 8000
 });
 
 // Static files
