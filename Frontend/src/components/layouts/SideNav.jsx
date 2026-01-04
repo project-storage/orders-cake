@@ -101,13 +101,15 @@ const SideNav = () => {
         <Avatar sx={styles.avatar} alt={user?.name} src="/assets/samit.jpg" />
         {!collapsed && (
           <>
-            <Typography variant="body2" sx={styles.userName}>
+            <Typography variant="subtitle1" sx={styles.userName}>
               {user?.title}
               {user?.name} {user?.surname}
             </Typography>
-            <Typography variant="caption" sx={styles.userRoleBadge}>
-              สถานะ: {userRole}
-            </Typography>
+            <Box sx={styles.userRoleContainer}>
+              <Typography variant="caption" sx={styles.userRoleBadge}>
+                สถานะ: {userRole}
+              </Typography>
+            </Box>
           </>
         )}
       </Box>
@@ -313,25 +315,38 @@ const styles = {
     alignItems: "center",
     flexDirection: "column",
     padding: "20px 10px",
-    backgroundColor: "#ffffff",
+    backgroundColor: "#f0f8ff", // Light blue background
     borderBottom: "1px solid #ddd",
+    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
   },
   avatar: {
     width: 80,
     height: 80,
     borderRadius: "50%",
+    border: "3px solid #1976D2", // Blue border around avatar
+    marginBottom: 1,
   },
   userName: {
-    marginTop: 5,
+    marginTop: 1,
     fontWeight: "bold",
     fontSize: "1rem",
+    textAlign: "center",
+    color: "#333",
+  },
+  userRoleContainer: {
+    display: "flex",
+    justifyContent: "center",
+    width: "100%",
+    marginTop: 0.5,
   },
   userRoleBadge: {
-    bgcolor: "primary.main",
-    borderRadius: "25px",
-    padding: "0.5em",
-    marginTop: 1,
+    bgcolor: "#1976D2", // Blue background
+    borderRadius: "12px",
+    padding: "0.3em 0.8em",
+    fontSize: "0.75rem",
     color: "white",
+    fontWeight: "bold",
+    textTransform: "uppercase",
   },
   appLogo: {
     width: 40,
@@ -343,9 +358,13 @@ const styles = {
     opacity: 0.5,
     letterSpacing: "0.5px",
     paddingLeft: "5%",
+    textTransform: "uppercase",
+    fontSize: "0.75rem",
+    fontWeight: "bold",
+    color: "#666",
   },
   logoutColor: {
-    color: "red",
+    color: "#d32f2f", // Darker red
   },
 };
 

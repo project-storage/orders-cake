@@ -38,10 +38,10 @@ const Header = () => {
   };
   return (
     <AppBar position="sticky" sx={styles.appBar}>
-      <Toolbar>
+      <Toolbar sx={{ minHeight: 64 }}>
         <IconButton
           onClick={() => (broken ? toggleSidebar() : collapseSidebar())}
-          color="secondary"
+          color="inherit"
         >
           <MenuIcon />
         </IconButton>
@@ -53,26 +53,28 @@ const Header = () => {
           <Box component={"img"} sx={styles.appLogo} src={logo} />
         </Box>
 
-        <Box sx={{ flexGrow: 1 }} />
-        <IconButton title="Notifications" color="secondary">
-          <NotificationsOutlined />
-        </IconButton>
-        <IconButton title="Language" color="secondary">
-          <LanguageOutlined />
-        </IconButton>
-        <IconButton
-          size="large"
-          aria-controls="menu"
-          aria-haspopup="true"
-          color="inherit"
-          onClick={handleMenuOpen}
-        >
-          <Avatar
-            src="/assets/samit.jpg"
-            alt="Avatar"
-            sx={{ width: 28, height: 28 }}
-          />
-        </IconButton>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <IconButton title="Notifications" color="inherit">
+            <NotificationsOutlined />
+          </IconButton>
+          <IconButton title="Language" color="inherit">
+            <LanguageOutlined />
+          </IconButton>
+          <IconButton
+            size="large"
+            aria-controls="menu"
+            aria-haspopup="true"
+            color="inherit"
+            onClick={handleMenuOpen}
+            sx={{ padding: 0.5 }}
+          >
+            <Avatar
+              src="/assets/samit.jpg"
+              alt="Avatar"
+              sx={{ width: 32, height: 32, border: '2px solid rgba(255,255,255,0.3)' }}
+            />
+          </IconButton>
+        </Box>
         <Menu
           id="menu"
           anchorEl={anchorEl}
@@ -99,25 +101,32 @@ const Header = () => {
 
 const styles = {
   appBar: {
-    bgcolor: "#1976D2",
+    bgcolor: "#1565c0", // Darker blue
+    color: "white",
+    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
   },
   appLogo: {
-    width: 40,
-    height: 40,
+    width: 45,
+    height: 45,
     cursor: "pointer",
-    borderRadius: 2,
+    borderRadius: 3,
+    border: "1px solid rgba(255,255,255,0.2)",
   },
   headerContainer: {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    padding: "10px 20px",
+    padding: "5px 15px",
+    flex: 1,
+    marginLeft: 1,
   },
   systemName: {
     fontWeight: "bold",
+    fontSize: "1.2rem",
     flexGrow: 1,
     textAlign: "center",
-    marginRight: " 20px",
+    color: "white",
+    textShadow: "1px 1px 2px rgba(0,0,0,0.3)",
   },
 };
 
